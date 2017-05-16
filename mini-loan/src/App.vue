@@ -3,8 +3,8 @@
  
     <router-view></router-view>
     <div id="footNav">
-      <span class='nav-btn' :class='{active:activeI==="index"}' @click='goPage("index")'>首 页</span>
-      <span class='nav-btn' :class='{active:activeI==="descrip"}' @click='goPage("descrip")'>说 明</span>
+      <span class='nav-btn' :class='{active:activeI===0}' @click='goPage(0)'>首 页</span>
+      <span class='nav-btn' :class='{active:activeI===1}' @click='goPage(1)'>说 明</span>
      <!--  <router-link class='nav-btn' :class='{active:activeI===0}' to='/index' @click='goPage(0)'>首页</router-link>
      <router-link class='nav-btn' :class='{active:activeI===1}' to='/descrip' @click='goPage(1)'>说明</router-link> -->
    </div>
@@ -17,20 +17,24 @@
   export default {
     data:function() {
       return {
-        activeI:'index'
+        activeI: 0,
+        paths: [
+          '/index',
+          '/descrip'
+        ]
       }
     },
     methods:{
       goPage:function(index){
         this.activeI=index
-        router.push(index)
+        router.push(this.paths[index])
         // console.log('router',router)
         // console.log('this.activeI',this.activeI)
       }
     },
     created:function(){
       // console.log('ready')
-      router.push('index')
+      router.push(this.paths[0])
     },
     components: {}
   }

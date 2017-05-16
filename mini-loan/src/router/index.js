@@ -7,7 +7,7 @@ import Descrip from '../components/descrip.vue'
 Vue.use(Router)
 
 export default new Router({
-	mode: 'history',
+	// mode: 'history',
 	routes: [{
 		path: '/',
 		name: 'Index',
