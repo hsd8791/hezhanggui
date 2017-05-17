@@ -33,8 +33,10 @@
       }
     },
     created:function(){
-      // console.log('ready')
-      router.push(this.paths[0])
+      // console.log('ready',window.location.href)
+      // var parser = document.createElement('a');
+      // parser.href =window.location.href
+      // router.push(parser.pathname+parser.search+parser.hash)
     },
     components: {}
   }

@@ -13,8 +13,8 @@ new Vue({
 	router,
 	template: `	<app></app>`,
 	components: {
-		App,
-		test
+		app: App
+
 	},
 	methods: {
 

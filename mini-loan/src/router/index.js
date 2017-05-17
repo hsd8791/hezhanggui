@@ -3,16 +3,14 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Index from '../components/index.vue'
 import Descrip from '../components/descrip.vue'
+import Radio from '../components/tmpts/radio.vue'
+import Test from '../components/test.vue'
 
 Vue.use(Router)
 
 export default new Router({
-	// mode: 'history',
+	mode: 'history',
 	routes: [{
-		path: '/',
-		name: 'Index',
-		component: Index
-	}, {
 		path: '/index',
 		name: 'index',
 		component: Index
@@ -20,5 +18,17 @@ export default new Router({
 		path: '/descrip',
 		name: 'descrip',
 		component: Descrip
+	}, {
+		path: '/radio',
+		name: 'radio',
+		component: Radio
+	}, {
+		path: '/test',
+		name: 'tst',
+		component: Test
+	}, {
+		path: '/*',
+		name: 'Index',
+		component: Index
 	}]
 })
