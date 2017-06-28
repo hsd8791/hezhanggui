@@ -47,10 +47,10 @@ module.exports = {
       }
     }, {
       test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-      loader: 'url-loader',
+      loader: 'url-loader', //'file-loader'
       options: {
         limit: 10000,
-        name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+        name: utils.assetsPath('css/fonts/[name].[hash:7].[ext]')
       }
     }]
   }

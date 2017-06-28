@@ -1,3 +1,12 @@
+develop remind
+
+src/js/public.js export publicFun for some common function
+
+!! always use `bus.$emit('account_change',account,uniqueId)` for account change 
+	not `bus.account=phone; bus.uniqueId=res.body.uniqueId`
+
+publicFun.checkSession(this) //检查是否登录，未登录则跳转至登录
+
 # mini-loan-manage
 
 > 禾掌柜

@@ -1,0 +1,21 @@
+底部显示编号等。。。
+分数
+
+
+-use bus.$emit
+	logout
+	checksession
+	lgin
+	
+	
+	
+带uniqueId-> if firstEnter ==true : set it false && get by uniqueID (query by uniqueID) -> 全部显示 跳过queryByphone
+			else do nothing
+			
+
+不带taskId->	 	输入phone之后查 if firstEnter == false（query by phone）watch phoneValid
+
+
+is not active  height:
+
+getInfo的时候改变请求完成度

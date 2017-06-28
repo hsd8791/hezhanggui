@@ -1,28 +1,44 @@
 <template>
   <div class="">
-    <form method="get" action="index">
-
-      <h1>{{ msg }}11ww</h1>
-      <!-- :name='sex.name' -->
-      <app-radio class='test' v-for='item in sex.options' :id='item.id'  :value='item.value' :key='item.id' :name='sex.name' :default='formData.sex'></app-radio> 
-      <input type="submit" value="submit"> 
+    <form method="post" action="http://localhost:1337/upload" enctype="multipart/formData">
+      <!-- <app-radio  :infos='sex' :defaultV='formData.sex'></app-radio> -->
+      <hr>
+      <app-pic></app-pic>
+      <!-- <input type="file" name='test'> -->
+      <input type="submit" value="submit">
     </form>
-    <!-- <app-radio></app-radio>  -->
-  </div>
+    <!-- <el-radio class="radio" v-model="radio" label="1">备选项</el-radio> -->
+    <!-- <el-radio class="radio" v-model="radio" label="2">备选项</el-radio> -->
+
+   <!--  <el-upload
+    class="upload"
+    action="http://localhost:8080/upload"
+    :on-preview="handlePreview"
+    :on-remove="handleRemove"
+    :file-list="fileList">
+    <el-button size="small" type="primary">点击上传</el-button>
+    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+  </el-upload> -->
+  <!-- <el-radio class="radio" v-model="radio" label="2">备选项</el-radio> -->
+</div>
 </template>
 
 <script>
   import appRadio from './tmpts/radio.vue'
-  import bus from './bus.js'
+  import Pic from './tmpts/uploadSinglePic.vue'
+  import bus from '../bus.js'
 
   export default {
     name: 'tst',
     data () {
       return {
-        msg: 'this is a test template',
+        radio:0
+        ,
+        fileList:[],
         sex: {
           name: 'sex',
-          options: [{
+          options: [
+          {
             id: 'female',
             value: 'female'
           }, {
@@ -31,13 +47,32 @@
           }, {
             id: 'gay',
             value: 'gay'
-          }]
+          },{
+            id: '11',
+            value: '11'
+          },{
+            id: '22',
+            value: '22'
+          },{
+            id: '33',
+            value: '33'
+          }
+          ]
         },
         formData:{
           sex:'male'
         }
       }
     },
+    methods:{
+        handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      }
+    }
+    ,
     created:function(){
       var self_=this
       bus.$on(this.sex.name,function(val){
@@ -45,12 +80,11 @@
       })
     },
     watch:{
-      'formData.sex':function(val,oldV){
-        console.log('val',val, oldV)
-      }
+
     },
-    components:{
-      'app-radio':appRadio
+    components: {
+      'app-radio': appRadio,
+      'app-pic': Pic
     }
   }
 </script>
@@ -61,5 +95,14 @@
 	h1{
     font-size: 0.25rem;
     background: red
+  }
+  form{
+    /*height: auto;*/
+  }
+  input[type='submit']{
+    position: relative;
+  }
+  .radio{
+    /*height: 0.25rem;*/
   }
 </style>
