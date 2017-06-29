@@ -2,7 +2,7 @@
 	<div id="profileVue" class='input' v-loading='loading' element-loading-text='请稍后'>
 		<div class="container">
 			<h1 class="title">
-				个人信息
+				<app-back></app-back>个人信息
 				<span class="edit-input" v-if='!editing' @click='edit'>编辑</span>
 			</h1>
 			<div class="wraper">

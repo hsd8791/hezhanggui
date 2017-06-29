@@ -85,12 +85,12 @@
   	},
   	login(){
   		if(this.accountName==='请登录'){
-  			publicFun.goPage('/login')
+  			publicFun.goPage('/mine/login')
   		}
   	},
   	goPage(path){
   		if(path!==undefined){
-  			publicFun.goPage(path)
+  			publicFun.goPage('/mine'+path)
   		}
   	}
   },

@@ -1,5 +1,7 @@
 <template>
-	<div id="footNav" v-if='activeI!==-1'  class='foot-nav' :class='{"hide-foot":activeI===-1}'>
+  <!-- <transition name='back'> -->
+
+	<div id="footNav" class='foot-nav'>
 		<span class='nav-btn' :class='{active:activeI===0}' @click='goPage(0)'>
 			<div class="nav-icon"><i class="icon-home"></i></div>
 			<div class="nav-item">首页</div>
@@ -18,6 +20,7 @@
 		</span>
 
 	</div>
+	<!-- </transition> -->
 </template>
 
 <script>
@@ -34,23 +37,58 @@
 				'/coming',//paid_service
 				'/coming',
 				'/mine',
-				]
+				],
+				cmpntNames:[
+				'index',
+				'coming',
+				'coming',
+				'mine',
+				],
 			}
 		},
 		methods:{
 			goPage:function(index){
-				this.activeI=index
+				setTimeout(()=> {//incase same foot component
+					this.activeI=index
+				}, 50);
 				router.push(this.paths[index])
         // console.log('router',router)
         // console.log('this.activeI',this.activeI)
       }
     },
+    // props:['activeI'],
     created:function(){
+    	router.beforeEach((to, from, next) => {
+    		console.log('to', to.path)
+    		console.log('from', from.path)
+    		var depthTo=to.path.split('/').length
+    		var depthFrom=from.path.split('/').length
+    		console.log('depth',depthFrom,depthTo)
+    		var name= to.name
+    		var activeFoot=this.cmpntNames.indexOf(name)
+    		// console.log('activeFoot',activeFoot)
+    		this.activeI=activeFoot
+    		var action
+    		if(depthTo>depthFrom){
+    			action='forward'
+    		}else if(depthTo<depthFrom){
+    			action='back'
+    		}else{
+    			action='samelevel'
+    		}
+    		console.log('action',action)
+    		if(activeFoot<0){
+    			bus.$emit('foot_show_change',false,action)
+    		}else{
+    			bus.$emit('foot_show_change',true,action)
+    		}
+    		next()
 
-    	bus.$on('foot_index_change',(val)=>{
-    		console.log('get change footindex',val)
-    		this.activeI=val
     	})
+    	// bus.$on('foot_index_change',(val)=>{
+    		// console.log('get change footindex',val)
+    		// this.activeI=val
+    	// })
     	var self_=this
     	var url=location.href
     	var urlPath=location.pathnname
@@ -75,4 +113,9 @@
     components: {}
   }
 </script>
+<style lang='scss' scoped>
+	.hide-foot{
+		display: none;
+	}
+</style>
 

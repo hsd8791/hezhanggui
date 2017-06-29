@@ -44,7 +44,8 @@
 </template>
 
 <script>
-	import router from'../router'
+	// import router from'../router'
+	import publicFun from '../js/public.js'
 	export default {
 		data() {
 			return {
@@ -72,7 +73,7 @@
 				},
 				methods:{
 					goP(path){
-						router.push(path)
+						publicFun.goPage('/index'+path)
 					}
 				},
 				events: {},

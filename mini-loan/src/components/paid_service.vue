@@ -40,7 +40,7 @@ export default {
 			paths: [
 			'/paid_service/create',
 			'/paid_service/history',
-			'/paid_service/rslt',
+			'/paid_service/history/rslt',
 			]
 		}
 	},
@@ -60,9 +60,9 @@ export default {
 			
 		},
 		created() {
-			setTimeout(function() {
-				bus.$emit('foot_index_change', 1)
-			}, 100);
+			// setTimeout(function() {
+				// bus.$emit('foot_index_change', 1)
+			// }, 100);
 			//check inner tag
 			// console.log('paid_service route',this.$route.path)
 

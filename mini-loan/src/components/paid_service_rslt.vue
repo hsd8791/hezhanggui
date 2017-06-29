@@ -3,7 +3,7 @@
 
 	<div id="paidServiceRsltVue" v-loading='loading' element-loading-text='请稍后' class="">
 		<div class="input">
-			<h1 class="title">查询详情</h1>
+			<h1 class="title"><app-back></app-back>查询详情</h1>
 		</div>
 		<div class="rslt-identity"></div>
 		<div class="result-container" v-if='basicInfo'>

@@ -1,5 +1,6 @@
 <template>
 	<div id="zhimaVue" v-loading='loading' element-loading-text='请稍后' class="input">
+		<h1 class="title"><app-back></app-back>芝麻认证</h1>
 		<el-button type='success' @click='authorize' v-if='authorized.status!=="success"'>authrize</el-button>
 		<div v-if='authorized.status=="success"'>芝麻信用已绑定</div>
 		<div v-if='authorized.status=="success"'>绑定时间：{{authorized.time | timeParse}}</div>

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Index from '../components/index.vue'
-import Mine from '../components/mine.vue'
+import index from '../components/index.vue'
+import mine from '../components/mine.vue'
 import applyList from '../components/mine_apply_list.vue'
 import partner from '../components/mine_partner.vue'
 import Radio from '../components/tmpts/radio.vue'
@@ -16,11 +16,11 @@ import Debt from '../components/info_debt.vue'
 import Login from '../components/login.vue'
 import Login_code from '../components/login_code.vue'
 import Signup from '../components/signup.vue'
-import PaidServiceCreate from '../components/paid_service_create.vue'
+import paidServiceCreate from '../components/paid_service_create.vue'
 import Pwd from '../components/pwd.vue'
-import PaidServiceHistory from '../components/paid_service_history.vue'
-import PaidServiceRslt from '../components/paid_service_rslt.vue'
-import PaidService from '../components/paid_service.vue'
+import paidServiceHistory from '../components/paid_service_history.vue'
+import paidServiceRslt from '../components/paid_service_rslt.vue'
+import paidService from '../components/paid_service.vue'
 import ApplyBorrow from '../components/apply_borrow.vue'
 import ApplyLend from '../components/apply_lend.vue'
 import coming from '../components/coming.vue'
@@ -36,198 +36,205 @@ import bus from '../bus.js'
 Vue.use(Router)
 	// var rootPath = '/hezhanggui'
 var rootPath = ''
+var routes = [],
+	basicRoutes = [],
+	indexRoutes = []
+
+var createRoute = function(paths, name, component, options) {
+	// console.log('typeof paths', typeof paths)
+	if (typeof paths === 'string') {
+		paths = [paths]
+	}
+	if (options === undefined) {
+		options = {}
+	}
+	var l = paths.length,
+		routes = [],
+		newRoute, i
+	for (i = 0; i < l; i++) {
+		newRoute = new Object({
+			path: rootPath + paths[i],
+			name: name,
+			component: component,
+		})
+		Object.assign(newRoute, options)
+		routes.push(newRoute)
+	}
+	return routes
+}
+
+indexRoutes = [{
+	path: rootPath + '/apply_borrow',
+	name: 'ApplyBorrow',
+	component: ApplyBorrow,
+}, {
+	path: rootPath + '/login_code',
+	name: 'login&pwd&signup via code',
+	component: Login_code,
+}]
+
+basicRoutes = [{
+		path: rootPath + '/index',
+		name: 'index',
+		component: index,
+	}, {
+		path: rootPath + '/mine/login',
+		name: 'login',
+		component: Login,
+	}, {
+		path: rootPath + '/mine/login_code',
+		name: 'login&pwd&signup via code',
+		component: Login_code,
+	}, {
+		path: rootPath + '/coming',
+		name: 'coming',
+		component: coming,
+	}, {
+		path: rootPath + '/index/apply_borrow',
+		name: 'ApplyBorrow',
+		component: ApplyBorrow,
+		meta: {
+			// keepAlive: true,
+		},
+	}, {
+		path: rootPath + '/index/apply_lend',
+		name: 'ApplyLend',
+		component: ApplyLend,
+	}, {
+		path: rootPath + '/index/debt',
+		name: 'Debt',
+		component: Debt,
+	}, {
+		path: rootPath + '/paid_service',
+		// name: 'paidService',
+		component: paidService,
+		// beforeEnter: (to, from, next) => {
+		// 	console.log('emit foot index 1 from router')
+		// 	bus.$emit('foot_index_change', 1)
+		// 	next()
+		// },
+		children: [{
+			path: 'create',
+			name: 'create',
+			component: paidServiceCreate,
+			// beforeEnter: beforeEnterFoot,
+			// beforeEnter: (to, from, next) => {
+			// 	bus.$emit('foot_index_change', 1)
+			// 	next()
+			// },
+		}, {
+			path: '',
+			name: 'paidServiceCreate',
+			component: paidServiceCreate,
+			meta: {
+				keepAlive: true,
+			}
+		}, {
+			path: 'history',
+			name: 'paidServiceHistory',
+			component: paidServiceHistory,
+			meta: {
+				keepAlive: true,
+			}
+		}, {
+			path: 'history/rslt',
+			name: 'paidServiceRslt',
+			component: paidServiceRslt,
+			meta: {
+				// keepAlive: false,
+			}
+		}, ]
+	},
+	// {
+	// 	path: rootPath + '/paid_service_create',
+	// 	name: 'paidServiceCreate',
+	// 	component: paidServiceCreate,
+	// 	beforeEnter: (to, from, next) => {
+	// 		bus.$emit('foot_index_change', 1)
+	// 		next()
+	// 	},
+	// },
+	// {
+	// 	path: rootPath + '/paid_service_rslt',
+	// 	name: 'paidServiceRslt',
+	// 	component: paidServiceRslt,
+	// },
+	// {
+	// 	path: rootPath + '/paid_service_history',
+	// 	name: 'paidServi/indexceHistory',
+	// 	component: paidServiceHistory,
+	// }, 
+	{
+		path: rootPath + '/mine/pwd',
+		name: 'pwd',
+		component: Pwd,
+	}, {
+		path: rootPath + '/mine/signup',
+		name: 'signup',
+		component: Signup,
+	}, {
+		path: rootPath + '/radio', //test
+		name: 'radio',
+		component: Radio,
+	}, {
+		path: rootPath + '/mine',
+		name: 'mine',
+		component: mine,
+		// beforeEnter: (to, from, next) => {
+		// 	bus.$emit('foot_index_change', 3)
+		// 	next()
+		// },
+	}, {
+		path: rootPath + '/index/identity',
+		name: 'identity',
+		component: Identity,
+	}, {
+		path: rootPath + '/index/profile',
+		name: 'profile',
+		component: Profile,
+	}, {
+		path: rootPath + '/index/upload',
+		name: 'upload attachment and position',
+		component: Upload,
+	}, {
+		path: rootPath + '/index/zhima',
+		name: 'zhima',
+		component: Zhima,
+	}, {
+		path: rootPath + '/index/job_info',
+		name: 'job infomation',
+		component: JobInfo,
+	}, {
+		path: rootPath + '/index/contact_way',
+		name: 'contact way',
+		component: ContactWay,
+	}, {
+		path: rootPath + '/index/shujumohe',
+		name: 'shujumohe',
+		component: shujumohe
+	}, {
+		path: rootPath + '/mine/apply_list',
+		name: 'applyList',
+		component: applyList
+	}, {
+		path: rootPath + '/mine/partner',
+		name: 'partner',
+		component: partner
+	}, {
+		path: rootPath + '/',
+		name: 'index',
+		component: index,
+	}, {
+		path: rootPath + '/*',
+		name: 'errorPage',
+		component: errorPage
+	},
+]
+
+routes = routes.concat(indexRoutes, basicRoutes)
+
+console.log('routes', routes)
 export default new Router({
 	// mode: 'history',
-	routes: [{
-			path: rootPath + '/index',
-			name: 'index',
-			component: Index,
-			beforeEnter: (to, from, next) => {
-				bus.$emit('foot_index_change', 0)
-				next()
-			},
-		}, {
-			path: rootPath + '/login',
-			name: 'login',
-			component: Login,
-		}, {
-			path: rootPath + '/login_code',
-			name: 'login&pwd&signup via code',
-			component: Login_code,
-		}, {
-			path: rootPath + '/coming',
-			name: 'coming',
-			component: coming,
-		}, {
-			path: rootPath + '/apply_borrow',
-			name: 'ApplyBorrow',
-			component: ApplyBorrow,
-			meta: {
-				// keepAlive: true,
-			},
-		}, {
-			path: rootPath + '/apply_lend',
-			name: 'ApplyLend',
-			component: ApplyLend,
-		}, {
-			path: rootPath + '/debt',
-			name: 'Debt',
-			component: Debt,
-		}, {
-			path: rootPath + '/paid_service',
-			// name: 'PaidService',
-			component: PaidService,
-			beforeEnter: (to, from, next) => {
-				console.log('emit foot index 1 from router')
-				bus.$emit('foot_index_change', 1)
-				next()
-			},
-			children: [{
-				path: 'create',
-				name: 'create',
-				component: PaidServiceCreate,
-				// beforeEnter: beforeEnterFoot,
-				// beforeEnter: (to, from, next) => {
-				// 	bus.$emit('foot_index_change', 1)
-				// 	next()
-				// },
-			}, {
-				path: '',
-				name: 'PaidServiceCreate',
-				component: PaidServiceCreate,
-				meta: {
-					keepAlive: true,
-				}
-			}, {
-				path: 'history',
-				name: 'PaidServiceHistory',
-				component: PaidServiceHistory,
-				meta: {
-					keepAlive: true,
-				}
-			}, {
-				path: 'rslt',
-				name: 'PaidServiceRslt',
-				component: PaidServiceRslt,
-				meta: {
-					// keepAlive: false,
-				}
-			}, ]
-		},
-		// {
-		// 	path: rootPath + '/paid_service_create',
-		// 	name: 'PaidServiceCreate',
-		// 	component: PaidServiceCreate,
-		// 	beforeEnter: (to, from, next) => {
-		// 		bus.$emit('foot_index_change', 1)
-		// 		next()
-		// 	},
-		// },
-		// {
-		// 	path: rootPath + '/paid_service_rslt',
-		// 	name: 'PaidServiceRslt',
-		// 	component: PaidServiceRslt,
-		// },
-		// {
-		// 	path: rootPath + '/paid_service_history',
-		// 	name: 'PaidServiceHistory',
-		// 	component: PaidServiceHistory,
-		// }, 
-		{
-			path: rootPath + '/pwd',
-			name: 'pwd',
-			component: Pwd,
-		}, {
-			path: rootPath + '/signup',
-			name: 'signup',
-			component: Signup,
-		}, {
-			path: rootPath + '/radio', //test
-			name: 'radio',
-			component: Radio,
-		}, {
-			path: rootPath + '/mine',
-			name: 'mine',
-			component: Mine,
-			beforeEnter: (to, from, next) => {
-				bus.$emit('foot_index_change', 3)
-				next()
-			},
-		}, {
-			path: rootPath + '/identity',
-			name: 'identity',
-			component: Identity,
-		}, {
-			path: rootPath + '/profile',
-			name: 'profile',
-			component: Profile,
-		}, {
-			path: rootPath + '/upload',
-			name: 'upload attachment and position',
-			component: Upload,
-		}, {
-			path: rootPath + '/zhima',
-			name: 'zhima',
-			component: Zhima,
-		}, {
-			path: rootPath + '/job_info',
-			name: 'job infomation',
-			component: JobInfo,
-		}, {
-			path: rootPath + '/contact_way',
-			name: 'contact way',
-			component: ContactWay,
-		}, {
-			path: rootPath + '/shujumohe',
-			name: 'shujumohe',
-			component: shujumohe
-		}, {
-			path: rootPath + '/apply_list',
-			name: 'applyList',
-			component: applyList
-		}, {
-			path: rootPath + '/partner',
-			name: 'partner',
-			component: partner
-		}, {
-			path: rootPath + '/',
-			name: 'index',
-			component: Index
-		}, {
-			path: rootPath + '/*',
-			name: 'errorPage',
-			component: errorPage
-		},
-		// {
-		// 	path: rootPath + '/relatives',
-		// 	name: 'relatives',
-		// 	component: Relatives,
-		// },
-		//  {
-		// 	path: rootPath + '/add_info',
-		// 	name: 'additional infomation',
-		// 	component: AddInfo,
-		// },
-		// {
-		// 	path: rootPath + '/audit_borrow',
-		// 	name: 'AuditBorrow',
-		// 	component: AuditBorrow,
-		// },
-		// {
-		// 	path: rootPath + '/test', //test
-		// 	name: 'tst',
-		// 	component: Test,
-		// },
-		// {
-		// 	path: rootPath + '/descrip',
-		// 	name: 'descrip',
-		// 	component: Descrip,
-		// },
-	]
+	routes: routes
 })
-
-// var beforeEnterFoot = function(from, to, next) {
-// 	console.log('enter paid_service')
-// 	bus.$emit('foot_index_change', 1)
-// 	next()
-// }

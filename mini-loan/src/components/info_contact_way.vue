@@ -1,7 +1,7 @@
 <template>
 	<div id="contactWayVue" class="input" v-loading='loading' element-loading-text='请稍后'>
 		<h1 class="title">
-			联系方式
+			<app-back></app-back>联系方式
 			<span class="edit-input" v-if='!editing' @click='edit'>编辑</span>
 		</h1>
 		<h2 class="sub-title">个人联系方式</h2>

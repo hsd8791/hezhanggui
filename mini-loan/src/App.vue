@@ -1,14 +1,20 @@
 <template>
   <div id="app" v-loading='loading' element-loading-text='请稍后'>
 
-    <div class="router-view-container">
+    <div class="router-view-container" :class="{'show-foot':footNavShow}">
       <keep-alive>
-      <router-view v-if="$route.meta.keepAlive"></router-view>
+      <!-- <transition :name='enter'> -->
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      <!-- </transition> -->
     </keep-alive>
-    
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <!-- <transition :name='enter'> -->
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <!-- </transition> -->
+
   </div>
-  <foot-nav ></foot-nav>
+  <!-- <transition :name='enter'> -->
+    <foot-nav v-if='footNavShow' ></foot-nav>
+  <!-- </transition> -->
   <remind :remind='remind'></remind >
   </div>
 </template>
@@ -27,8 +33,11 @@
     // cmpt:/borrow/,
     data:function() {
       return {
+        enter:'',
+
         loading:false,
         vueName:'App',
+        footNavShow:true,
         // account:'请登录',
         response:null,
         editing:true,
@@ -47,6 +56,7 @@
      checkSession(){
       // console.log('checkSession')
       this.loading=true
+
       this.$http.get('account/checkSession').then(res=>{
         var data = res.body.data
         // console.log('session data',data)
@@ -88,6 +98,10 @@
 
   },
   created:function(){
+      bus.$on('foot_show_change',(footShow,action)=>{
+        this.footNavShow=footShow
+        this.enter=action
+      })
     this.checkSession()
 
   },
@@ -110,17 +124,22 @@
     
   }
   .router-view-container{
-    margin-bottom: 0.5rem;
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
     overflow: scroll;
+    overflow-x: hidden;
+  }
+  .show-foot{
+    margin-bottom: 0.5rem;
+
   }
   #app {
     position: absolute;
     top: 0;bottom: 0;
-
+    width: 100%;
+    overflow: hidden;
     left: 0;right: 0;
     /*height: 100%;*/ 
     /*height: 100%;*/
@@ -150,9 +169,7 @@
   /*$itemNameColor:#8f8e94;*/
   /*#323233;*/
   /*$itemIconColor:#8f8e94;*/
-  div.hide-foot{
-    /*display: none;*/
-  }
+
   .foot-nav{
     /*border-top:0.5px solid $navColor ;*/
     width: 100%;
@@ -201,4 +218,14 @@
       color:$activeColor;
     }
   }
+  
+  /*.back-enter-active{
+    transition: transform .5s
+  }
+  .back-enter,   {
+    transform: translateX(100%)
+  }
+  .back-leave-to{
+    transform: translateX(-100%);
+  }*/
 </style>

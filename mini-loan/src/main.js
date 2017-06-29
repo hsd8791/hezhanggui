@@ -7,8 +7,13 @@ import App from './App'
 import 'element-ui/lib/theme-default/index.css'
 import router from './router'
 import VueResource from 'vue-resource'
+import publicFun from './js/public.js'
+import remind from './components/tmpts/remind.vue'
+import back from './components/tmpts/route_back.vue'
 
 Vue.use(VueResource)
+Vue.component('remind', remind)
+Vue.component('app-back', back)
 
 Vue.config.productionTip = false
 Vue.http.options.credentials = true;

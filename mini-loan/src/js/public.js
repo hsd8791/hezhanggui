@@ -124,7 +124,7 @@ publicFun.checkSession = function(vm) {
 	var loginOpts = [{
 		msg: '确定',
 		callback: () => {
-			this.goPage('/login') // 与vm 中不同
+			this.goPage('/mine/login') // 与vm 中不同
 		}
 	}];
 	// if (bus.account === '请登录') {
@@ -210,7 +210,7 @@ publicFun.get = function(url, vm, sccssCall, errCall, callback) { //paras:  this
 				}]
 				vmRemind.remindMsg = '请登录'
 				vmRemind.remindOpts[0].callback = function() {
-					router.push('/login')
+					router.push('/mine/login')
 					vmRemind.isShow = true
 				}
 			}
@@ -290,7 +290,7 @@ publicFun.post = function(url, body, vm, sccssCall, errCall, callback) { //paras
 			if (resBody.error === 20002) {
 				console.log('未登录')
 				vm.remind.remindOpts[0].callback = function() {
-					router.push('/login')
+					router.push('/mine/login')
 				}
 			}
 		} else {

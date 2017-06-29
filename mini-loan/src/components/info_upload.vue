@@ -1,12 +1,12 @@
 <template>
 
 	<div id="upload-vue" class="input">
-    <h1 class="title">附件上传</h1>
+    <h1 class="title"><app-back></app-back>附件上传</h1>
     <h2 class="sub-title">身份证正面：</h2>
     <pic-load :uploadConfig='uploadConfig[0]'></pic-load>
     <h2 class="sub-title">手持身份证照片：</h2>
     <pic-load :uploadConfig='uploadConfig[1]'></pic-load>
-    <el-button type='success' @click='goBack'>返回</el-button>
+    <!-- <el-button type='success' @click='goBack'>返回</el-button> -->
     <!-- <div class="container"> -->
     <!-- </div> -->
   </div>

@@ -1,7 +1,7 @@
 <template>
 	<div id="debtVue" class="input" v-loading='loading' element-loading-text='请稍后'>
 		<h1 class="title">
-			负债调查
+			<app-back></app-back>负债调查
 			<span class="edit-input" v-if='!editing' @click='edit'>编辑</span>
 		</h1>
 		<div class="container">

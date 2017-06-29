@@ -1,6 +1,6 @@
 <template>
 	<div id="applyBorrowVue" class='input' v-loading='loading' element-loading-text='请稍后'>
-		<h1 class="title"><!-- 申请借款 -->分享到微信</h1>
+		<h1 class="title"><app-back></app-back><!-- 申请借款 -->分享到微信</h1>
 		<div class="checkFill"></div>
 		<div class="container phone-lender" v-if='!getById'>
 			<div class="wraper">
@@ -96,12 +96,12 @@
 
 					fillStatus: [{
 						status: 0,
-						url: '/identity',
+						url: '/index/identity',
 						label: '个人信息',
 						getUrl: 'userInfo/identity',
 					}, {
 						status: 0,
-						url: '/shujumohe',
+						url: '/index/shujumohe',
 						label: '手机认证',
 						getUrl: 'credit/shujumoheSimQueryStatus',
 						checkMethod: function(data) {
@@ -119,7 +119,7 @@
 						}
 					}, {
 						status: 0,
-						url: '/upload',
+						url: '/index/upload',
 						label: '身份证上传',
 						getUrl: 'userInfo/addAccessory',
 						checkMethod: function(data) {
@@ -135,7 +135,7 @@
 						}
 					}, {
 						status: 0,
-						url: '/debt',
+						url: '/index/debt',
 						label: '负债调查',
 						getUrl: 'userInfo/liabilities',
 
@@ -144,7 +144,7 @@
 						// {
 						// 	status: 0,
 						// 	status2: 0,
-						// 	url: '/profile',
+						// 	url: '/index/profile',
 						// 	label: '个人概况',
 						// 	getUrl: 'userInfo/personal',
 						// 	getUrl2: 'userInfo/address'
@@ -152,7 +152,7 @@
 						{
 							status: 0,
 							status2: 0,
-							url: '/contact_way',
+							url: '/index/contact_way',
 							label: '联系方式',
 							getUrl: 'userInfo/contact',
 							getUrl2: 'userInfo/relatives',

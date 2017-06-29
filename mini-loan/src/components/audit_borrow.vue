@@ -1,6 +1,6 @@
 <template>
 	<div id="applyBorrowVue" class='input' >
-		<h1 class="title">审核借款人信息</h1>
+		<h1 class="title"><app-back></app-back>审核借款人信息</h1>
 		<div class="checkFill"></div>
 
 		<div class="info-user">

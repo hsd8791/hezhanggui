@@ -331,4 +331,23 @@ div.el-loading-mask {
   margin-top: 0.9rem;
   height: auto; }
 
+.back-enter-active, .forward-enter-active, .samelevel-enter-active {
+  transition: transform 3s; }
+
+.back-leave-active, .forward-leave-active {
+  transition: transform 3s;
+  position: absolute; }
+
+.back-enter {
+  transform: translateX(-100%); }
+
+.back-leave-to {
+  transform: translateX(100%); }
+
+.forward-enter {
+  transform: translateX(100%); }
+
+.forward-leave-to {
+  transform: translateX(-100%); }
+
 /*# sourceMappingURL=input.css.map */

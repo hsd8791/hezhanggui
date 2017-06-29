@@ -5,7 +5,7 @@
 			<div class="record-type" v-for='item in status'>{{item.label}}</div>
 		</div> -->
 		<div class="sub-top-nav input" v-loading='loading' element-loading-text='请稍后'>
-			<h1 class="title" >申请记录 </h1>
+			<h1 class="title" ><app-back></app-back>申请记录 </h1>
 			<div class="tabs-container">
 				<div class="record-type tab" v-for='item in status' :class='{active:crrtStatus===item.status}' @click='switchType(item.status)'>{{item.label}}</div>
 

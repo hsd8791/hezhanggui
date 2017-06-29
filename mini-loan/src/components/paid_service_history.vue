@@ -88,7 +88,7 @@
 			},
 			reviewDetail(taskId){
 				// bus.detailTaskId=taskId
-				publicFun.goPage('/paid_service/rslt?taskId='+taskId)
+				publicFun.goPage('/paid_service/history/rslt?taskId='+taskId)
 			},
 			submit(){
 				var postBody = {}
