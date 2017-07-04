@@ -11,9 +11,14 @@
 
 			</div>
 		</div>
-		<div class="list-container"  v-if='records' @scroll='scrolling($event)' @touchend='touchend($event)'@touchstart='touchstart($event)' @touchmove='touching($event)' :style='{marginTop:containerTop+"rem"}'>
+		<div class="list-container"  v-if='records' @scroll='scrolling($event)' >
 
-			<div class="list-container-inner">
+			<div class="list-container-inner" @touchend='touchend($event)'@touchstart='touchstart($event)' @touchmove='touching($event)' :style='{paddingTop:containerTop+"rem"}'>
+			<div class="list-top">
+				<!-- <p class="list-top-text"> -->
+				-释放刷新-
+				<!-- </p> -->
+			</div>
 				<div class="record-container" v-for='item in records'>
 					<div class="avator">
 						<i class="icon-database icon-avator"></i>
@@ -43,7 +48,7 @@
 <script>
 	import bus from '../bus.js'
 	import publicFun from '../js/public.js'
-	import remind from '../components/tmpts/remind.vue'
+	// import remind from '../components/tmpts/remind.vue'
 
 	export default {
 		data() {
@@ -54,7 +59,8 @@
 					last:null,
 					crrt:null,
 				},
-				containerTop:0.9,
+				containerTop:0,
+				maxTop:2,
 				ttlPage:0,
 				getting:false,
 				allGet:false,
@@ -89,47 +95,69 @@
 				this.reloadTouch.last=e.touches[0].clientY
 			},
 			touching(e){
-				// console.log('touching')
-				// console.log('$e',e)
 				var t=this.reloadTouch
 				t.crrt=e.touches[0].clientY
-				if(e.currentTarget.scrollTop>0||t.crrt<t.last){
-					t.last=this.reloadTouch.crrt
+				var scrollTop=e.currentTarget.parentElement.scrollTop
+
+				if(scrollTop>0){
 					return
+				}else{
+					// console.log('may drag down')
+					// console.log('e.currentTarget.scrollTop',e.currentTarget.parentElement.scrollTop)
+					// console.log('compare',t.last,t.crrt)
+					if(t.crrt<=t.last){
+						if(this.containerTop===0){
+							return
+						}else{
+							// e.stopPropagation()
+							e.preventDefault()
+							this.containerTop-=0.025;
+						}
+					}else{
+						// e.stopPropagation()
+						e.preventDefault()
+						this.containerTop+=0.025
+						// console.log('drag down')
+					}
 				}
-				console.log('current',e.currentTarget.scrollTop)
-
-				t.last=this.reloadTouch.crrt
-				this.containerTop+=0.025
-				e.preventDefault()
+				t.last=t.crrt
 			},
+			//下拉刷新的要素，
+			// touchstart 获取位置,
+			// touchmove 确定是否下啦，上拉,下拉|上拉时preventDefault
+			// touchend 是否刷新
+			// paras: start last crrt end
+			// 检测元素， touch event on 最长的（inner list), scrollTop of parentElement
 			touchend(e){
-				console.log('e',e)
+				// console.log('e',e)
 				// console.log('e',e.currentTarget)
-				var el=e.currentTarget
-				el.style.transition='0.3s'
-				this.containerTop=0.9
-				this.reloadTouch.end=e.changedTouches[0].clientY
-
-
-				this.currentPage=1
-				this.ttlPage=null
-				this.get(this.crrtStatus)
+				var el=e.currentTarget,t=this.reloadTouch
+				el.style.transition='.5s cubic-bezier(0.23, 0.86, 0.39, 0.78)'
+				t.end=e.changedTouches[0].clientY
+				if(this.containerTop>0){
+					console.log('refresh')
+					this.getNew()
+				}
+				this.containerTop=0
 				setTimeout(()=> {
 					el.style.transition='0s'
 				}, 300);
 			},
 			switchType(status){
 				this.crrtStatus=status
+				this.getNew()
+			},
+			getNew(){
 				this.records=[]
 				this.currentPage=1
 				this.ttlPage=null
+				this.allGet=false
 				this.get(this.crrtStatus)
 			},
 			get(status){
 				var body={
 					page:this.currentPage,
-					limit:7,
+					limit:8,
 				}
 				if(status!==-1&&status!==undefined){
 					body.status=status// -1:all 0:audit 1:ac 2: refuse
@@ -191,7 +219,7 @@
 		},
 		events: {},
 		components: {
-			remind:remind,
+			// remind:remind,
 		}
 	}
 </script>
@@ -205,14 +233,27 @@
 		bottom: 0;
 		width: 100%;
 		.icon-database{
-			font-size: 0.3rem;
+			font-size: 0.2rem;
 		}
 		.list-container{
 			margin-bottom:auto;
+			/*overflow: visible;*/
 			/*height: 3rem;*/
 		}
 		.list-container-inner{
+			position: relative;
+			/*padding-top:0.2rem;*/
 			/*z-index: 99;*/
 		}
+		.list-top{
+			position: absolute;
+			top: 0.2rem;
+			font-size: 0.14rem;
+			width: 100%;
+			overflow: visible;
+			text-align: center;
+		}
+	/*	.list-top-text{
+		}*/
 	}
 </style>

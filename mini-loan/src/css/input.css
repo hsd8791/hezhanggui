@@ -34,7 +34,7 @@
     margin: 0 auto;
     margin: 0.08rem 0 0.08rem 0; }
     .input .container .unordered-list {
-      font-size: 0.18rem;
+      font-size: 0.16rem;
       position: relative;
       text-align: left;
       height: 0.36rem;
@@ -319,6 +319,7 @@ div.el-loading-mask {
     bottom: 0; }
 
 .list-bottom {
+  position: relative;
   font-size: 0.14rem;
   margin-bottom: 0.1rem; }
 

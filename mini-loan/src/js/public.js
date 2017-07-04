@@ -110,6 +110,7 @@ publicFun.urlConcat = function(url, obj) {
 publicFun.goPage = function(path, callback) {
 	// console.log('gopage', path)
 	if (typeof path === 'number') {
+		console.log('back unknown', 1)
 		router.go(path)
 	} else {
 		router.push(path)
@@ -240,8 +241,8 @@ publicFun.get = function(url, vm, sccssCall, errCall, callback) { //paras:  this
 			} else {
 				vm.editing = false
 			}
+			sccssCall()
 		}
-		sccssCall()
 		callback()
 	}, err => {
 		vm.loading = false
@@ -280,27 +281,29 @@ publicFun.post = function(url, body, vm, sccssCall, errCall, callback) { //paras
 	callback = setNullFunc(callback)
 		// var url = 'userInfo/remarks'
 	vm.$http.post(url, body).then(res => {
-		vm.loading = false
-		vm.response = res
-		var resBody = res.body
-		console.log('post res', res.body)
-		if (resBody.error) {
-			vm.remind.remindMsg = resBody.msg
-			vm.remind.isShow = true
-			if (resBody.error === 20002) {
-				console.log('未登录')
-				vm.remind.remindOpts[0].callback = function() {
-					router.push('/mine/login')
-				}
-			}
-		} else {
-			vm.remind.remindMsg = '提交成功'
-			vm.remind.remindOpts = [{
-				msg: '确定',
-			}, ]
-			vm.remind.isShow = true
-			vm.editing = false
-		}
+		// var testF
+		this.postRes(res, vm)
+			// vm.loading = false
+			// vm.response = res
+			// var resBody = res.body
+			// console.log('post res', res.body)
+			// if (resBody.error) {
+			// 	vm.remind.remindMsg = resBody.msg
+			// 	vm.remind.isShow = true
+			// 	if (resBody.error === 20002) {
+			// 		console.log('未登录')
+			// 		vm.remind.remindOpts[0].callback = function() {
+			// 			router.push('/mine/login')
+			// 		}
+			// 	}
+			// } else {
+			// 	vm.remind.remindMsg = '提交成功'
+			// 	vm.remind.remindOpts = [{
+			// 		msg: '确定',
+			// 	}, ]
+			// 	vm.remind.isShow = true
+			// 	vm.editing = false
+			// }
 		sccssCall()
 		callback()
 	}, err => {
@@ -316,6 +319,29 @@ publicFun.post = function(url, body, vm, sccssCall, errCall, callback) { //paras
 			// router.go(-1)
 			// router.push('/index')
 	})
+}
+publicFun.postRes = function(res, vm) {
+	vm.loading = false
+	vm.response = res
+	var resBody = res.body
+	console.log('post res', res.body)
+	if (resBody.error) {
+		vm.remind.remindMsg = resBody.msg
+		vm.remind.isShow = true
+		if (resBody.error === 20002) {
+			console.log('未登录')
+			vm.remind.remindOpts[0].callback = function() {
+				router.push('/mine/login')
+			}
+		}
+	} else {
+		vm.remind.remindMsg = '提交成功'
+		vm.remind.remindOpts = [{
+			msg: '确定',
+		}, ]
+		vm.remind.isShow = true
+		vm.editing = false
+	}
 }
 publicFun.getTimeString = function(AsSetValue, AiStart, AiEnd) {
 	if (AiStart === undefined) {

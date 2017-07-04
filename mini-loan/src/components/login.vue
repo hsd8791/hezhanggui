@@ -1,6 +1,6 @@
 <template>
 	<div id="loginVue" class="input" v-loading='loading'  element-loading-text='登录中'>
-	<h1 class="title">登录</h1>
+	<h1 class="title"><app-back></app-back>登录</h1>
 	<div class="logo-container" >
 	<!-- v-if='action=="login"' -->
 	<!-- <h2 class="log-title">验证手机找回密码</h2> -->
@@ -77,7 +77,7 @@
 				formData:{
 					
 				},
-				backAfterPost:true,
+				backAfterPost:false,
 				remind:{
 					isShow:false,
 					remindMsg:'',
@@ -150,41 +150,62 @@
 					subDomain='/loginByPwd'
 				}
 				var url = publicFun.urlConcat('account'+subDomain,queryBody)
-				// console.log('url',url)
-				// var var url='http://192.168.1.58:8080/account/loginByPwd?phone='+this.cellphone+'?='
-				this.$http.get(url).then(response => {
-					console.log('response',response)
-					var res=response.body
-					this.loading=false
-					if(res.error){
-						this.remind.isShow=true
-						this.remind.remindMsg=res.msg
-					}else if(res.error===0){
-						// console.log('bus',bus)
-						localStorage.userID=this.cellphone
-						localStorage.pwd=this.pwd
-						console.log('login success',res)
-						bus.$emit('account_change', this.cellphone,res.data.uniqueId)
-						if(res.data.isSetPwd==='0'||(this.pwdLost===true&&this.pwdLogin===false)){
+				publicFun.get(url,this,()=>{
+					var data=this.response.body.data
+					console.log('data log',data)
+					localStorage.userID=data.phone
+					localStorage.pwd=this.pwd
+					localStorage.uniqueId=data.uniqueId
+					// console.log('login success',res)
+					bus.$emit('account_change', data.phone,data.uniqueId)
+					if(data.isSetPwd==='0'||(this.pwdLost===true&&this.pwdLogin===false)){
 							// console.log('pwd not set')
 							publicFun.goPage('/pwd')
 						}else{
 							this.remind.remindOpts=[{msg:'确定',callback:()=>{
+								console.log('back',1)
 								publicFun.goPage(-1)
 							}}]
 							this.remind.remindMsg='登录成功'
 							this.remind.isShow=true
 						}
-					}
-					// console.log('response.body',response.body)
+				})
+				
+				// this.$http.get(url).then(response => {
+					// console.log('response',response)
+					// var res=response.body
+					// this.loading=false
+					// if(res.error){
+					// 	this.remind.isShow=true
+					// 	this.remind.remindMsg=res.msg
+					// }else if(res.error===0){
+					// 	// console.log('bus',bus)
+					// 	var data=res.data
+					// 	localStorage.userID=data.cellphone
+					// 	localStorage.pwd=data.pwd
+					// 	localStorage.uniqueId=data.uniqueId
+					// 	console.log('login success',res)
+					// 	bus.$emit('account_change', data.cellphone,data.uniqueId)
+				// 		if(data.isSetPwd==='0'||(this.pwdLost===true&&this.pwdLogin===false)){
+				// 			// console.log('pwd not set')
+				// 			publicFun.goPage('/pwd')
+				// 		}else{
+				// 			this.remind.remindOpts=[{msg:'确定',callback:()=>{
+				// 				publicFun.goPage(-1)
+				// 			}}]
+				// 			this.remind.remindMsg='登录成功'
+				// 			this.remind.isShow=true
+				// 		}
+				// 	}
+				// 	console.log('response.body',response.body)
 
-				}, response => {
-					this.loading=false
-					console.log('res',response)
-					this.remind.isShow=true
-					this.remind.remindMsg='连接失败'
-					this.remind.remindOpts=[{msg:'确定',callback:()=>{publicFun.goPage(-1)}}]
-				});
+				// }, response => {
+				// 	this.loading=false
+				// 	console.log('res',response)
+				// 	this.remind.isShow=true
+				// 	this.remind.remindMsg='连接失败'
+				// 	this.remind.remindOpts=[{msg:'确定',callback:()=>{publicFun.goPage(-1)}}]
+				// });
 			},
 		},
 		created:function(){

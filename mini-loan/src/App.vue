@@ -54,16 +54,16 @@
     },
     methods:{
      checkSession(){
-      // console.log('checkSession')
+      console.log('checkSession')
       this.loading=true
 
       this.$http.get('account/checkSession').then(res=>{
         var data = res.body.data
-        // console.log('session data',data)
+        console.log('session data',data)
         if(data){
           // bus.account=data.phone
           // bus.uniqueId=data.uniqueId
-          bus.$emit('account_change',data.phone,data.uniqueId)
+          bus.$emit('account_change',localStorage.userID,localStorage.uniqueId)
           if(data.isSetPwd==0){
             // console.log('no set pwd')
             var r=this.remind
@@ -98,12 +98,15 @@
 
   },
   created:function(){
-      bus.$on('foot_show_change',(footShow,action)=>{
+
+      bus.$on('foot_show_change',(footShow)=>{
         this.footNavShow=footShow
+      })
+      bus.$on('url_change',(action)=>{
         this.enter=action
       })
     this.checkSession()
-
+    this.footNavShow=true
   },
   watch:{
       // account:function(val){

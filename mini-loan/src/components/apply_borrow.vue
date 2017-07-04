@@ -111,10 +111,18 @@
 							if (data.status === 'success') {
 								this.status = 1
 							}else{
-								console.log('data', data.time)
+								// console.log('/failure/.test(data.status)',/failure/.test('failure:超时！'))
+								// if(/failure/.test('failure:超时！')){
+								if(/failure/.test(data.status)){
 								var passed=new Date().getTime()-data.time
+									if(passed<24*3600*1000){
+										this.status=1
+									}
+								}
+								// console.log('data.status', data.status)
+								// console.log('data', data.time)
 								console.log('passed',passed)
-								console.log('one day',24*3600*1000)
+								// console.log('one day',24*3600*1000)
 							}
 						}
 					}, {

@@ -57,6 +57,8 @@
 				{title:'申请记录',link:'/apply_list'},//
 				{title:'我的伙伴',link:'/partner'},
 				{title:'密码修改',link:'/pwd'},
+				{title:'佣金',link:'/commission'},
+				{title:'充值',link:'/charge'},
 				{title:'登出',methodName:'logout'},
 				],
 
@@ -69,8 +71,8 @@
 				}
 				console.log('item',item)
 				if(item.methodName){
-					console.log('methodName',item.methodName)
-					console.log('methodName',this[item.methodName])
+					// console.log('methodName',item.methodName)
+					// console.log('methodName',this[item.methodName])
 					this[item.methodName]()
   			// item.method()
   		}

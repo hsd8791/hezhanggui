@@ -5,6 +5,10 @@ import index from '../components/index.vue'
 import mine from '../components/mine.vue'
 import applyList from '../components/mine_apply_list.vue'
 import partner from '../components/mine_partner.vue'
+import charge from '../components/mine_charge.vue'
+import commission from '../components/mine_commission.vue'
+import commissionWithdraw from '../components/mine_commission_withdraw.vue'
+import commissionDetail from '../components/mine_commission_detail.vue'
 import Radio from '../components/tmpts/radio.vue'
 import Identity from '../components/info_identity.vue'
 import Profile from '../components/info_profile.vue'
@@ -13,8 +17,8 @@ import ContactWay from '../components/info_contact_way.vue'
 import Upload from '../components/info_upload.vue'
 import Zhima from '../components/info_zhima.vue'
 import Debt from '../components/info_debt.vue'
-import Login from '../components/login.vue'
-import Login_code from '../components/login_code.vue'
+import login from '../components/login.vue'
+import login_code from '../components/login_code.vue'
 import Signup from '../components/signup.vue'
 import paidServiceCreate from '../components/paid_service_create.vue'
 import Pwd from '../components/pwd.vue'
@@ -40,7 +44,7 @@ var routes = [],
 	basicRoutes = [],
 	indexRoutes = []
 
-var createRoute = function(paths, name, component, options) {
+var newRoute = function(paths, name, component, options) {
 	// console.log('typeof paths', typeof paths)
 	if (typeof paths === 'string') {
 		paths = [paths]
@@ -54,7 +58,7 @@ var createRoute = function(paths, name, component, options) {
 	for (i = 0; i < l; i++) {
 		newRoute = new Object({
 			path: rootPath + paths[i],
-			name: name,
+			name: name + '_' + i,
 			component: component,
 		})
 		Object.assign(newRoute, options)
@@ -62,16 +66,26 @@ var createRoute = function(paths, name, component, options) {
 	}
 	return routes
 }
+indexRoutes = indexRoutes.concat(
+	newRoute('/apply_borrow', 'ApplyBorrow', ApplyBorrow),
+	newRoute('/login_code', 'login&pwd&signup via code', login_code),
+	newRoute('/mine/charge', 'charge', charge),
+	newRoute('/mine/commission', 'commission', commission),
+	newRoute('/mine/commission/withdraw', 'commissionWithdraw', commissionWithdraw),
+	newRoute('/mine/commission/detail', 'commissionDetail', commissionDetail),
+)
 
-indexRoutes = [{
-	path: rootPath + '/apply_borrow',
-	name: 'ApplyBorrow',
-	component: ApplyBorrow,
-}, {
-	path: rootPath + '/login_code',
-	name: 'login&pwd&signup via code',
-	component: Login_code,
-}]
+console.log('indexRoutes', indexRoutes)
+	// indexRoutes = [{
+	// 	path: rootPath + '/apply_borrow',
+	// 	name: 'ApplyBorrow',
+	// 	component: ApplyBorrow,
+	// }, {
+	// 	path: rootPath + '/login_code',
+	// 	name: 'login&pwd&signup via code',
+	// 	component: login_code,
+	// }]
+	// console.log('indexRoutes', indexRoutes)
 
 basicRoutes = [{
 		path: rootPath + '/index',
@@ -80,11 +94,11 @@ basicRoutes = [{
 	}, {
 		path: rootPath + '/mine/login',
 		name: 'login',
-		component: Login,
+		component: login,
 	}, {
 		path: rootPath + '/mine/login_code',
 		name: 'login&pwd&signup via code',
-		component: Login_code,
+		component: login_code,
 	}, {
 		path: rootPath + '/coming',
 		name: 'coming',
@@ -115,7 +129,7 @@ basicRoutes = [{
 		// },
 		children: [{
 			path: 'create',
-			name: 'create',
+			name: 'paidServiceCreate',
 			component: paidServiceCreate,
 			// beforeEnter: beforeEnterFoot,
 			// beforeEnter: (to, from, next) => {
@@ -233,7 +247,7 @@ basicRoutes = [{
 
 routes = routes.concat(indexRoutes, basicRoutes)
 
-console.log('routes', routes)
+// console.log('routes', routes)
 export default new Router({
 	// mode: 'history',
 	routes: routes

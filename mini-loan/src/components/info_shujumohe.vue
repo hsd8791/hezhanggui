@@ -19,11 +19,11 @@
 				<div class="icon icon-mobile" >
 					<!-- <i class="icon-mobile"></i> -->
 				</div>
-				<div class="info phone">{{status.phone}}</div>
+				<div class="info phone">{{queryRslt.phone}}</div>
 				<!-- <div class="info">黄树栋</div> -->
-				<div class="info info-time">{{status.time | timeParse}}</div>
+				<div class="info info-time">{{queryRslt.time | timeParse}}</div>
 				<!-- <div class="status">等待用户处理或服务器完成查询</div> -->
-				<div class="info" v-if='status.status'>{{status.status | statusParse}}</div>
+				<div class="info" v-if='queryRslt.status'>{{queryRslt.status | statusParse}}</div>
 				
 
 			</div>
@@ -65,7 +65,7 @@
 				identity_code:'',
 				formData:{
 				},
-				status:{},
+				queryRslt:{},
 				// backAfterPost:true,
 				remind:{
 					isShow:false,
@@ -147,7 +147,13 @@
 					console.log('shujumohe',this.response)
 					var data=this.response.body.data
 					if(data){
-						this.status=data
+						this.queryRslt=data
+							var now=new Date().getTime()
+							var passed=now -data.time
+							if(passed>=600*1000){
+								this.queryRslt.status='failure:超时！'
+							}
+						// console.log('now',now-this.queryRslt.time)
 						console.log('data',data)	
 					}
 				})
@@ -174,17 +180,21 @@
 			},
 			statusParse(val){
 				var s,r
+				console.log('this',this)
 				if(!val){
 					return
 				}
-				switch(val){
-					case 'doing':s='等待用户处理或服务器完成查询'
-					break;
-					case 'success':s='查询绑定成功'
-					break;
-					default: 
-					r=val.slice(val.indexOf(':')+1)
-					s='绑定失败,失败原因：'+r
+				switch (val) {
+					case 'doing':
+					
+						s = '等待用户处理或服务器完成查询'
+						break;
+					case 'success':
+						s = '查询绑定成功'
+						break;
+					default:
+						r = val.slice(val.indexOf(':') + 1)
+						s = '绑定失败,失败原因：' + r
 				}
 				return s
 			}

@@ -3,7 +3,7 @@
 		<!-- <div></div> -->
 		<!-- accept只能过滤上传类型，限定需使用JS的正则表达式 -->
 		<!-- <form action="http://hzg.he577.com/userInfo/addAccessory" enctype="multipart/form-data" method="post">  -->
-		<div class="container input" v-loading='loading' element-loading-text='请稍后'>
+		<div class="container input" v-loading='loading' :element-loading-text='loadingText'>
 			
 			<input type="file" name='imgFile' :id='uploadConfig.id' @change='changeP($event)' accept="image/*" >
 			<div class="thumb"  v-if='urlF' @click.prevent='' :style="{backgroundImage: 'url('+urlF+')'}">
@@ -47,6 +47,7 @@
 	export default {
 		data() {
 			return {
+				loadingText:'请稍后',
 				fileImg:null,
 				editing: true,
 				loading: false,
@@ -85,18 +86,54 @@
     		}
     		// console.log('formData',formData) // sorry this can't work
     		var xhr=new XMLHttpRequest()
+    		xhr.withCredentials = true;  
     		xhr.open('post','http://hzg.he577.com/'+cfg.url)
-    		xhr.onreadystatechange=function(){
+    		// xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
+    		xhr.addEventListener('readystatechange',()=>{
+    			if(xhr.readyState===4&&xhr.status===200){
+    				console.log('success',xhr.response)
+	    			this.response={}
+	    			this.response.body=JSON.parse(xhr.response)
+    				// console.log('this,response',JSON.parse(xhr.response))    			
+    				publicFun.postRes(this.response,this)
+    			}
     			console.log('xhr ready change')
     			console.log('xhr',xhr.readyState)
+    			console.log('xhr',xhr.response)
+    			console.log('xhr',xhr)
+    		},false)
+    		xhr.onerror=function(e){
+    			console.log('error',e)
     		}
+    		xhr.onloadstart=function(){
+    			console.log('start upload')
+    		}
+    		
+					if (!xhr.upload) {
+						console.log('xhr.upload error')
+					} else {
+						if (xhr.upload.onprogress === undefined) {
+							console.log('xhr.upload.onprogress error')
+						} else {
+							xhr.upload.addEventListener("progress", (e) => {
+								console.log('progress', e)
+								var percentage = Math.round((e.loaded * 100) / e.total);
+								this.loadingText = percentage + '%'
+								console.log('loaded', percentage)
+							})
+						}
+					}
+				
+    		
+    		// xhr.
     		// xhr.upload.addEventListener("progress", function(e) {
-    		// 	if (e.lengthComputable) {
-    		// 		var percentage = Math.round((e.loaded * 100) / e.total);
-    		// 		console.log('progrssing')
-    		// 	}
+    			// if (e.lengthComputable) {
+
+    			// 	console.log('progrssing')
+    			// }
     		// }, false);
     		xhr.send(formData)
+    		this.loading=true
     		// publicFun.post(cfg.url, formData, this,()=>{
     		// 	console.log('success')
     		// } )  

@@ -1,6 +1,9 @@
 <template>
 	<div class="back">
 		<span class='text' @click='back'>返回</span>
+		<!-- <div class="test" :class='testClass'>  -->
+			<!-- <slot name='11' class='test'></slot> -->
+		<!-- </div> -->
 	</div>
 </template>
 
@@ -12,10 +15,32 @@
 
 			}
 		},
+		props:{
+			type:{
+				default:'none'
+			}
+		},
 		methods:{
 			back(){
 				publicFun.goPage(-1)
 			}
+		},
+		computed:{
+			// testClass(){
+			// 	var s
+			// 	switch(this.type){
+			// 		// case 'none':s='default' break;
+			// 		case 'success':
+			// 		s = 'success'
+			// 		break;
+			// 		case 'failure':
+			// 		s = 'failure'
+			// 		break;
+			// 		default:
+			// 		s = 'default'
+			// 	}
+			// 	return s
+			// },
 		},
 		events: {},
 		components: {}
@@ -43,4 +68,16 @@
 			top: 0;right: 0;left: 0;bottom: 0;
 		}
 	}
+	.test{
+		color:red;
+	}
+/*	.success{
+		background: green;
+	}
+	.failure{
+		background: red;
+	}
+	.default{
+		background: yellow;
+	}*/
 </style>

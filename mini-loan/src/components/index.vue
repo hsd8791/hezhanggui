@@ -12,6 +12,8 @@
 					<div class="item-name">分享给客户</div>
 				</div>
 				<div class="cell" @click=''>
+					<div class="item-icon"><i class="icon-banknote"></i></div>
+					<div class="item-name">我要赚钱</div>
 				</div>
 				<div class="cell" @click='goP("/")'>
 					<!-- <div class="item-icon"><i class="icon-address-book"></i></div> -->

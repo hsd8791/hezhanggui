@@ -1,8 +1,13 @@
 <template>
 	<div id="partnerVue" >
 		<div class="input" v-loading='loading' element-loading-text='请稍后'>
-    
-			<h1 class="title"><app-back></app-back>我的下线</h1>
+
+			<h1 class="title">
+      <app-back ref='back'>
+      <!-- <span slot='11' >111</span> -->
+      </app-back>
+      我的下线   
+      </h1>
     </div>
     <div class="list-container" @scroll='scrolling($event)'>
       <div class="list-container-inner">
@@ -48,6 +53,7 @@
   },
   created(){
   	this.get()
+
   },
   methods:{
   	get(){
