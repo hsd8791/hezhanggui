@@ -50,15 +50,17 @@
 				accountName:'',
 				response:null,
 				columnList:[
-				{title:'使用帮助',},
+				// {title:'使用帮助',},
 				// {title:'敬请期待',},
 				],
+				//登录后显示
 				columnListLoged:[
 				{title:'申请记录',link:'/apply_list'},//
-				{title:'我的伙伴',link:'/partner'},
+				// {title:'我的伙伴',link:'/partner'},
 				{title:'密码修改',link:'/pwd'},
-				{title:'佣金',link:'/commission'},
-				{title:'充值',link:'/charge'},
+				// {title:'佣金',link:'/commission'},
+				// {title:'充值',link:'/charge'},
+				// {title:'我的禾币',link:'/myhb'},
 				{title:'登出',methodName:'logout'},
 				],
 

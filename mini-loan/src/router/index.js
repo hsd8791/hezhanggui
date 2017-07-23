@@ -25,12 +25,13 @@ import Pwd from '../components/pwd.vue'
 import paidServiceHistory from '../components/paid_service_history.vue'
 import paidServiceRslt from '../components/paid_service_rslt.vue'
 import paidService from '../components/paid_service.vue'
-import ApplyBorrow from '../components/apply_borrow.vue'
-import ApplyLend from '../components/apply_lend.vue'
+import apply_borrow from '../components/apply_borrow.vue'
+import apply_lend from '../components/apply_lend.vue'
 import coming from '../components/coming.vue'
 import shujumohe from '../components/info_shujumohe.vue'
+import pay from '../components/order_pay.vue'
 import errorPage from '../components/tmpts/error.vue'
-// import Test from '../components/test.vue'
+import test from '../components/test.vue'
 // import Relatives from '../components/info_relatives.vue'
 // import AddInfo from '../components/info_add_info.vue'
 // import AuditBorrow from '../components/audit_borrow.vue'
@@ -42,8 +43,18 @@ Vue.use(Router)
 var rootPath = ''
 var routes = [],
 	basicRoutes = [],
-	indexRoutes = []
+	indexRoutes = [],
+	mineRoutes = [],
+	xiaoheRoutes = []
 
+/**
+ * 针对某一个组件创建路由数组（多个路由）
+ * @param  {string || array} paths     路由字符串或者路由数组
+ * @param  {string} name      路由名称
+ * @param  {Vue component} component 指定的组件/模块
+ * @param  {[配置]} options   路由的配置，e.g. meta:{ keepAlive:true}
+ * @return {[type]}           [description]
+ */
 var newRoute = function(paths, name, component, options) {
 	// console.log('typeof paths', typeof paths)
 	if (typeof paths === 'string') {
@@ -66,186 +77,92 @@ var newRoute = function(paths, name, component, options) {
 	}
 	return routes
 }
-indexRoutes = indexRoutes.concat(
-	newRoute('/apply_borrow', 'ApplyBorrow', ApplyBorrow),
-	newRoute('/login_code', 'login&pwd&signup via code', login_code),
+mineRoutes = mineRoutes.concat(
+	newRoute(['/mine/login_code', '/login_code', ], 'login&pwd&signup via code', login_code),
+	newRoute(['/login', '/*/login', ], 'login via pwd', login),
+	newRoute(['/signup', '/*/signup', ], 'signup', Signup),
+	newRoute(['/mine/pwd', '/*/pwd', ], 'pwd', Pwd),
+	newRoute(['/mine/apply_list', '/*/apply_list', ], 'apply_list', applyList),
+	newRoute(['/mine/partner', '/*/partner', ], 'partner', partner),
+	newRoute('/mine', 'mine', mine),
 	newRoute('/mine/charge', 'charge', charge),
 	newRoute('/mine/commission', 'commission', commission),
 	newRoute('/mine/commission/withdraw', 'commissionWithdraw', commissionWithdraw),
 	newRoute('/mine/commission/detail', 'commissionDetail', commissionDetail),
 )
 
+
+indexRoutes = indexRoutes.concat(
+	// newRoute('/apply_borrow', 'apply_borrow', apply_borrow),
+	newRoute(['/identity', '/*/identity'], 'Identity', Identity),
+	newRoute(['/profile', '/*/profile'], 'Profile', Profile),
+	newRoute(['/job_info', '/*/job_info'], 'JobInfo', JobInfo),
+	newRoute(['/contact_way', '/*/contact_way'], 'ContactWay', ContactWay),
+	newRoute(['/upload', '/*/upload'], 'Upload', Upload),
+	newRoute(['/zhima', '/*/zhima'], 'Zhima', Zhima),
+	newRoute(['/debt', '/*/debt'], 'Debt', Debt),
+	newRoute(['/apply_lend', '/*/apply_lend'], 'apply_lend', apply_lend),
+	newRoute(['/apply_borrow', '/*/apply_borrow'], 'apply_borrow', apply_borrow),
+	newRoute(['/shujumohe', '/*/shujumohe'], 'shujumohe', shujumohe),
+	newRoute('/*/pay', 'pay', pay),
+	newRoute('/test', 'test', test),
+
+
+)
+
 console.log('indexRoutes', indexRoutes)
-	// indexRoutes = [{
-	// 	path: rootPath + '/apply_borrow',
-	// 	name: 'ApplyBorrow',
-	// 	component: ApplyBorrow,
-	// }, {
-	// 	path: rootPath + '/login_code',
-	// 	name: 'login&pwd&signup via code',
-	// 	component: login_code,
-	// }]
-	// console.log('indexRoutes', indexRoutes)
+
 
 basicRoutes = [{
-		path: rootPath + '/index',
-		name: 'index',
-		component: index,
-	}, {
-		path: rootPath + '/mine/login',
-		name: 'login',
-		component: login,
-	}, {
-		path: rootPath + '/mine/login_code',
-		name: 'login&pwd&signup via code',
-		component: login_code,
-	}, {
-		path: rootPath + '/coming',
-		name: 'coming',
-		component: coming,
-	}, {
-		path: rootPath + '/index/apply_borrow',
-		name: 'ApplyBorrow',
-		component: ApplyBorrow,
-		meta: {
-			// keepAlive: true,
-		},
-	}, {
-		path: rootPath + '/index/apply_lend',
-		name: 'ApplyLend',
-		component: ApplyLend,
-	}, {
-		path: rootPath + '/index/debt',
-		name: 'Debt',
-		component: Debt,
-	}, {
-		path: rootPath + '/paid_service',
-		// name: 'paidService',
-		component: paidService,
-		// beforeEnter: (to, from, next) => {
-		// 	console.log('emit foot index 1 from router')
-		// 	bus.$emit('foot_index_change', 1)
-		// 	next()
-		// },
-		children: [{
-			path: 'create',
-			name: 'paidServiceCreate',
-			component: paidServiceCreate,
-			// beforeEnter: beforeEnterFoot,
-			// beforeEnter: (to, from, next) => {
-			// 	bus.$emit('foot_index_change', 1)
-			// 	next()
-			// },
-		}, {
-			path: '',
-			name: 'paidServiceCreate',
-			component: paidServiceCreate,
-			meta: {
-				keepAlive: true,
-			}
-		}, {
-			path: 'history',
-			name: 'paidServiceHistory',
-			component: paidServiceHistory,
-			meta: {
-				keepAlive: true,
-			}
-		}, {
-			path: 'history/rslt',
-			name: 'paidServiceRslt',
-			component: paidServiceRslt,
-			meta: {
-				// keepAlive: false,
-			}
-		}, ]
-	},
-	// {
-	// 	path: rootPath + '/paid_service_create',
-	// 	name: 'paidServiceCreate',
-	// 	component: paidServiceCreate,
-	// 	beforeEnter: (to, from, next) => {
-	// 		bus.$emit('foot_index_change', 1)
-	// 		next()
-	// 	},
-	// },
-	// {
-	// 	path: rootPath + '/paid_service_rslt',
-	// 	name: 'paidServiceRslt',
-	// 	component: paidServiceRslt,
-	// },
-	// {
-	// 	path: rootPath + '/paid_service_history',
-	// 	name: 'paidServi/indexceHistory',
-	// 	component: paidServiceHistory,
-	// }, 
-	{
-		path: rootPath + '/mine/pwd',
-		name: 'pwd',
-		component: Pwd,
-	}, {
-		path: rootPath + '/mine/signup',
-		name: 'signup',
-		component: Signup,
-	}, {
-		path: rootPath + '/radio', //test
-		name: 'radio',
-		component: Radio,
-	}, {
-		path: rootPath + '/mine',
-		name: 'mine',
-		component: mine,
-		// beforeEnter: (to, from, next) => {
-		// 	bus.$emit('foot_index_change', 3)
-		// 	next()
-		// },
-	}, {
-		path: rootPath + '/index/identity',
-		name: 'identity',
-		component: Identity,
-	}, {
-		path: rootPath + '/index/profile',
-		name: 'profile',
-		component: Profile,
-	}, {
-		path: rootPath + '/index/upload',
-		name: 'upload attachment and position',
-		component: Upload,
-	}, {
-		path: rootPath + '/index/zhima',
-		name: 'zhima',
-		component: Zhima,
-	}, {
-		path: rootPath + '/index/job_info',
-		name: 'job infomation',
-		component: JobInfo,
-	}, {
-		path: rootPath + '/index/contact_way',
-		name: 'contact way',
-		component: ContactWay,
-	}, {
-		path: rootPath + '/index/shujumohe',
-		name: 'shujumohe',
-		component: shujumohe
-	}, {
-		path: rootPath + '/mine/apply_list',
-		name: 'applyList',
-		component: applyList
-	}, {
-		path: rootPath + '/mine/partner',
-		name: 'partner',
-		component: partner
-	}, {
-		path: rootPath + '/',
-		name: 'index',
-		component: index,
-	}, {
-		path: rootPath + '/*',
-		name: 'errorPage',
-		component: errorPage
-	},
-]
+	path: rootPath + '/index',
+	name: 'index',
+	component: index,
+}, {
+	path: rootPath + '/coming',
+	name: 'coming',
+	component: coming,
+}, {
+	path: rootPath + '/paid_service',
+	// name: 'paidService',
+	component: paidService,
+	children: [{
+		path: 'create',
+		name: 'paidServiceCreate',
+		component: paidServiceCreate,
 
-routes = routes.concat(indexRoutes, basicRoutes)
+	}, {
+		path: '',
+		name: 'paidServiceCreate',
+		component: paidServiceCreate,
+		meta: {
+			keepAlive: true,
+		}
+	}, {
+		path: 'history',
+		name: 'paidServiceHistory',
+		component: paidServiceHistory,
+		meta: {
+			keepAlive: true,
+		}
+	}, {
+		path: 'history/rslt',
+		name: 'paidServiceRslt',
+		component: paidServiceRslt,
+		meta: {
+			// keepAlive: false,
+		}
+	}, ]
+}, {
+	path: rootPath + '/',
+	name: 'index',
+	component: index,
+}, {
+	path: rootPath + '/*',
+	name: 'errorPage',
+	component: errorPage
+}, ]
+
+routes = routes.concat(indexRoutes.concat(mineRoutes), basicRoutes)
 
 // console.log('routes', routes)
 export default new Router({

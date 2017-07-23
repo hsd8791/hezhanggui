@@ -1,7 +1,7 @@
 <template>
 	<div id="mineCommissionVue" class="input">
 		<h1 class="title">
-			<app-back></app-back>
+			<app-back :text='"我的"' :link='"/mine"'></app-back>
 			我的佣金
 		</h1>
 		<div class="ctrl-container">
@@ -11,19 +11,19 @@
 		<div class="container">
 			<div class="unordered-list">
 				总佣金：
-				<span class='cmmssn-rslt'>
+				<span class='cmmssn-rslt' v-if='commission.totalBrokerage!==null'>
 					{{commission.totalBrokerage | moneyParser}}元
 				</span>
 			</div>
 			<div class="unordered-list">
 				可支配佣金：
-				<span class='cmmssn-rslt'>
+				<span class='cmmssn-rslt' v-if='commission.brokerage!==null'>
 					{{commission.brokerage | moneyParser}}元
 				</span>
 			</div>
 			<div class="unordered-list">
 				已冻结佣金：
-				<span class='cmmssn-rslt'>
+				<span class='cmmssn-rslt' v-if='commission.freezeBrokerage!==null'>
 					{{commission.freezeBrokerage | moneyParser}}元
 				</span>
 			</div>
@@ -43,7 +43,11 @@ import publicFun from '../js/public.js'
 export default {
   data() {
     return {
-    	commission:{},
+    	commission:{
+    		totalBrokerage:null,
+    		brokerage:null,
+    		freezeBrokerage:null,
+    	},
       response:null,
       loading:true,
       editing:true,

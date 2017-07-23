@@ -1,12 +1,12 @@
 <template>
 	<div id="applyBorrowVue" class='input' v-loading='loading' element-loading-text='请稍后'>
-		<h1 class="title"><app-back></app-back><!-- 申请借款 -->分享到微信</h1>
+		<h1 class="title"><app-back></app-back>申请借款<!-- 分享到微信 --></h1>
 		<div class="checkFill"></div>
 		<div class="container phone-lender" v-if='!getById'>
 			<div class="wraper">
-				<label ><!-- 放贷人 -->经纪人手机：</label> 
-				<!-- 放贷人 -->
-				<el-input :disabled='false' type='tel' placeholder='经纪人注册手机号' v-model='phoneLender' @blur.once='blured'  :class='{"valid-border":phoneLenderValid,"error-border":!phoneLenderValid}'></el-input>
+				<label class="label" >放贷人手机：</label> 
+				
+				<el-input :disabled='false' type='tel' placeholder='放贷人注册手机号' v-model='phoneLender' @blur.once='blured'  :class='{"valid-border":phoneLenderValid,"error-border":!phoneLenderValid}'></el-input>
 				
 				<i :class="{'el-icon-check':phoneLenderValid,'el-icon-close':!phoneLenderValid}"></i>
 			</div>
@@ -18,28 +18,28 @@
 		</div>
 		<!-- !(phoneLenderValid&&allFilled&&phoneExist||getById) -->
 		<!-- <el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(canApply&&allFilled&&amountValid)'>点击申请</el-button> -->
-		<el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(canApply&&allFilled)'>点击申请</el-button>
+		<el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(canApply&&fillStatusCfg.allFilled)'>点击申请</el-button>
 		<div class="info-user">
-			<h3 class="subtitle"><!-- 放贷人 -->经纪人信息</h3>
+			<h3 class="subtitle">放贷人<!-- 经纪人 -->信息</h3>
 			<div class="info-lender">
 				<!-- <p style="color:purple">提交前检查信息是否按要求填写的功能，实现中</p> -->
 				<!-- <br> -->
-				<p v-if='lenderInfo.phone'><!-- 放贷人 -->经纪人姓名：{{lenderInfo.name | nameParse}}</p>
-				<p v-if='lenderInfo.phone'><!-- 放贷人 -->经纪人手机号：{{lenderInfo.phone | phonePartshow}}</p>
-				<p v-if='lenderInfo.phone'>请核实<!-- 放贷人 -->经纪人姓名后提交申请</p>
+				<p v-if='lenderInfo.phone'>放贷人姓名：{{lenderInfo.name | nameParse}}</p>
+				<p v-if='lenderInfo.phone'>放贷人手机号：{{lenderInfo.phone | phonePartshow}}</p>
+				<p v-if='lenderInfo.phone'>请核实放贷人姓名后提交申请</p>
 				<p v-if='lenderInfoAlert' style='color:red'>{{lenderInfoAlert}}</p>
 			</div>
 		</div>
 		<!-- <div class="fill-status " v-if='allFilled'> -->
-		<div class="fill-status " v-if='!allFilled'>
+		<div class="fill-status " v-if='!fillStatusCfg.allFilled'>
 			<h3 class="subtitle">请完成以下信息后提交</h3>
 			<div class="container">
 				
-				<div class="unordered-list"  v-for='(item,index) in fillStatus' @click='goPage(item.url)' v-if='!item.status'>
+				<div class="unordered-list"  v-for='(item,index) in fillStatusCfg.fillStatus' @click='goPage(item.url)' v-if='!item.status'>
 					{{item.label}}
 					<i class="el-icon-arrow-right"></i>
 				</div>
-				<div class="unordered-list"  v-for='(item,index) in fillStatus2' @click='goPage(item.url)' v-if='!(item.status&&item.status2)'>
+				<div class="unordered-list"  v-for='(item,index) in fillStatusCfg.fillStatus2' @click='goPage(item.url)' v-if='!(item.status&&item.status2)'>
 					{{item.label}}
 					<i class="el-icon-arrow-right"></i>
 				</div>
@@ -57,8 +57,6 @@
 	export default {
 		data() {
 				return {
-					ttlRequest: 6, // qty of requset
-					undoneRequest: null, //记录未完成的请求判断，全部完成后判断是否可以提交
 					getById: false, //判定是否由uniqueId 传入获取lenderPhone
 					canApply: false,
 					// firstEnter: true,
@@ -90,95 +88,17 @@
 					},
 					phoneLender: null,
 					amount: null,
-					allFilled: true,
-
-					//fillStatus 填写项的后台请求path，router path, 名称,填写状态，特殊验证方法
-
-					fillStatus: [{
-						status: 0,
-						url: '/index/identity',
-						label: '个人信息',
-						getUrl: 'userInfo/identity',
-					}, {
-						status: 0,
-						url: '/index/shujumohe',
-						label: '手机认证',
-						getUrl: 'credit/shujumoheSimQueryStatus',
-						checkMethod: function(data) {
-							this.status = 0
-							
-							console.log('data', data.status)
-							if (data.status === 'success') {
-								this.status = 1
-							}else{
-								// console.log('/failure/.test(data.status)',/failure/.test('failure:超时！'))
-								// if(/failure/.test('failure:超时！')){
-								if(/failure/.test(data.status)){
-								var passed=new Date().getTime()-data.time
-									if(passed<24*3600*1000){
-										this.status=1
-									}
-								}
-								// console.log('data.status', data.status)
-								// console.log('data', data.time)
-								console.log('passed',passed)
-								// console.log('one day',24*3600*1000)
-							}
-						}
-					}, {
-						status: 0,
-						url: '/index/upload',
-						label: '身份证上传',
-						getUrl: 'userInfo/addAccessory',
-						checkMethod: function(data) {
-							// console.log('data', data)
-							// console.log('test filling')
-							if (!data) {
-								this.status = 0
-								return
-							}
-							if (data.idcardUrl && data.idcardUrl2) {
-								this.status = 1
-							}
-						}
-					}, {
-						status: 0,
-						url: '/index/debt',
-						label: '负债调查',
-						getUrl: 'userInfo/liabilities',
-
-					}, ],
-					fillStatus2: [
-						// {
-						// 	status: 0,
-						// 	status2: 0,
-						// 	url: '/index/profile',
-						// 	label: '个人概况',
-						// 	getUrl: 'userInfo/personal',
-						// 	getUrl2: 'userInfo/address'
-						// },
-						{
-							status: 0,
-							status2: 0,
-							url: '/index/contact_way',
-							label: '联系方式',
-							getUrl: 'userInfo/contact',
-							getUrl2: 'userInfo/relatives',
-							checkMethod: function(data) {
-								// this.status=0
-							}
-						},
-					],
+					fillStatusCfg:{},
 				}
 			},
 			methods: {
 				goPage(p) {
-					publicFun.goPage(p)
+					publicFun.goPage(this.$route.path+p)
 				},
 				apllyBorrow() {
 
 					if (!this.allFilled) {
-						return
+						// return
 					}
 					this.remind.remindMsg = '请确认是否提交'
 					this.remind.remindOpts = [{
@@ -197,76 +117,6 @@
 					}, ]
 					this.remind.isShow = true
 
-				},
-				blured($event) {
-					var el = $event.target.parentElement.parentElement
-					el.className += ' validate'
-				},
-				//不确定未提交是否返回null,如返回对象并且每个key的value为null，需函数判断是否对象中是否无数据
-				getByUrls(urls, index) {
-					// console.log('check',urls[index].getUrl)
-					publicFun.get(urls[index].getUrl, this, () => {
-						// console.log('this',this)
-						console.log('this.response.data', this.response.body.data, publicFun.checkNullObj(this.response.body.data))
-						if (publicFun.checkNullObj(this.response.body.data)) {
-							urls[index].status = 1
-							if (urls[index].checkMethod !== undefined) {
-								urls[index].checkMethod(this.response.body.data)
-							} else {
-								urls[index].status = 1
-							}
-						} else {
-							urls[index].status = 0
-						}
-						this.undoneRequest--
-					})
-					if (urls[index].getUrl2) {
-						publicFun.get(urls[index].getUrl2, this, () => {
-							if (publicFun.checkNullObj(this.response.data)) {
-								urls[index].status2 = 1
-								if (urls[index].checkMethod !== undefined) {
-									urls[index].checkMethod(this.response.data)
-								} else {
-									urls[index].status2 = 1
-								}
-							}
-							this.undoneRequest--
-						})
-					}
-				},
-				checkFilled() {
-					// console.log('checking filled')
-					this.undoneRequest = this.ttlRequest
-					var u = this.fillStatus,
-						l = u.length,
-						i
-					var u2 = this.fillStatus2,
-						l2 = u2.length,
-						i2
-					for (i = 0; i < l; i++) {
-						this.getByUrls(u, i)
-					}
-					for (i2 = 0; i2 < l2; i2++) {
-						this.getByUrls(u2, i2)
-					}
-				},
-				checkAllFilled() {
-					var u = this.fillStatus,
-						u2 = this.fillStatus2,
-						l = u.length,
-						l2 = u2.length,
-						i
-					var flag = true
-					for (i = 0; i < l; i++) {
-						flag = flag && u[i].status
-						console.log('status', i, '-->', u[i].status)
-					}
-					for (i = 0; i < l2; i++) {
-						flag = flag && u2[i].status && u2[i].status2
-						console.log('status 1 2', i, '-->', u2[i].status, u2[i].status2)
-
-					}
-					return flag
 				},
 				getLenderInfo(url) {
 					// console.log('getLenderInfo url',url)
@@ -293,13 +143,30 @@
 						}
 					})
 				},
+
+				blured($event) {
+					var el = $event.target.parentElement.parentElement
+					el.className += ' validate'
+				},
+				//不确定未提交是否返回null,如返回对象并且每个key的value为null，需函数判断是否对象中是否无数据
+				
 				edit() {
 					this.editing = true
 				},
 			},
 			events: {},
 			created: function() {
-				this.checkFilled()
+				// console.log('apply_borrow root',this.$root)
+				// console.log('apply_borrow parent',this.$parent)
+				this.fillStatusCfg=bus.fillStatusCfg
+				bus.$on('checked_fill_status',val=>{
+					console.log('checked_fill_status on',val)
+					this.fillStatusCfg=val
+				})
+				publicFun.checkSingleFilled('credit/shujumoheSimQueryStatus')
+				
+				// this.fillStatus2=bus.fillStatus2
+				// this.checkFilled()
 				if (bus.phoneLender) {
 					this.phoneLender = bus.phoneLender
 				}
@@ -357,12 +224,12 @@
 						this.canApply = false
 					}
 				},
-				undoneRequest: function(val) {
-					// console.log('undoneRequest', val)
-					if (val === 0) {
-						this.allFilled = this.checkAllFilled()
-					}
-				}
+				// undoneRequest: function(val) {
+				// 	// console.log('undoneRequest', val)
+				// 	if (val === 0) {
+				// 		this.allFilled = this.checkAllFilled()
+				// 	}
+				// }
 			},
 			computed: {
 				phoneLenderValid: function() {
@@ -416,4 +283,14 @@
 	}
 
 
+</style>
+<style lang='scss' >
+	#applyBorrowVue{
+		.container{
+			.label{
+				font-size: 0.14rem;
+				width: 27%;
+			}
+		}
+	}
 </style>

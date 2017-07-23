@@ -1,12 +1,12 @@
 <template>
 	<div id="mineCommissionWidthdraw" class="input" v-loading='loading' element-loading-text='请稍后'>
 		<h1 class="title">
-			<app-back></app-back>提现
+			<app-back :text='"返回"' :link='"/mine/commission"'></app-back>提现
 		</h1>
 		<div class="container">
 			<div class="wraper">
 				<label :disabled='!editing'>金额(元)：</label> 
-				<el-input :disabled='!editing'  type='number' placeholder='至少10元  例:15.55' v-model='amount' @blur.once='blured'  :class='{"valid-border":amountValid,"error-border":!amountValid}'></el-input>
+				<el-input :disabled='!editing' id='amountInput' type='number' placeholder='至少10元  例:15.55' v-model='amount' @blur.once='blured'  :class='{"valid-border":amountValid,"error-border":!amountValid}'></el-input>
 				<i :class="{'el-icon-check':amountValid,'el-icon-close':!amountValid}"></i>
 			</div>
 			<div class="wraper">
@@ -27,8 +27,9 @@
 
 		</div>
 		<div class="amount-emphasis" >￥{{amount | amountParser}}</div>
+		<el-checkbox v-model='clause'>点击提交代表同意提现条款balabala...</el-checkbox>
 		<transition>
-			<el-button type='success' :disabled='!allValid' class='submit' v-if='editing' @click='confirm'>提交</el-button>
+			<el-button type='success' :disabled='!(allValid&&clause)' class='submit' v-if='editing' @click='confirm'>提交</el-button>
 			<!-- <el-button type='warning'  class='submit' v-if='!editing' @click='edit'>修改</el-button> -->
 		</transition>
 		<remind :remind='remind'></remind>
@@ -46,14 +47,15 @@
 				// loading:true,
 				loading:false,
 				editing:true,
-				amount:'10.11',
+				clause:true,
+				amount:'0.01',
 				zhifubao:'1111111',
 				name:'huang',
 				phone:'12345678901',
-				url:'brokerage/pplyExtra',
+				url:'brokerage/applyExtra',
 				formData:{
 				},
-				backAfterPost:true,
+				backAfterPost:false,
 				remind:{
 					isShow:false,
 					remindMsg:'remind',
@@ -80,12 +82,29 @@
 					name:this.name,
 					phone:this.phone,
 					zhifubao:this.zhifubao,
-					amount:(this.amount*100).toFixed(2)
+					amount:(this.amount*100).toFixed(0)
 				})
 				console.log('url',url)
-				// publicFun.get(url,this,()=>{
-
-				// })
+				publicFun.get(url,this,()=>{
+					var data=this.response.body
+					,remind=this.remind
+					if(data.data==0){
+						remind.remindMsg='可用余额不足'
+						remind.remindOpts=[{msg:'确定'}]
+						remind.remindMsgDscrp=null
+						remind.isShow=true
+						var el=document.querySelector('#amountInput')
+						var input=el.getElementsByTagName('input')[0]
+						input.focus()
+						// console.log('el',input)
+					}else if(data.data==1){
+						remind.remindMsg='提交成功'
+						remind.remindOpts=[{msg:'确定'}]
+						remind.remindMsgDscrp=null
+						remind.isShow=true
+					}
+					console.log('data withdraw',data)
+				})
 			},
 			confirm(){
 				var remind=this.remind
@@ -129,7 +148,8 @@
 		},
 		computed:{
 			amountValid:function(){
-				var reg=/^((1[0-9])|([2-9]\d)|([1-9]\d{2,}))(\.\d{1,2})?$/;
+				// var reg=/^((1[0-9])|([2-9]\d)|([1-9]\d{2,}))(\.\d{1,2})?$/;
+				var reg=/\d+/
 				return reg.test(this.amount)
 			},
 			zhifubaoValid:function(){
@@ -163,8 +183,8 @@
 </script>
 
 <style type="text/css" lang='scss' scoped>
-.amount-emphasis{
-	font-size: 0.4rem;
-}
+	.amount-emphasis{
+		font-size: 0.4rem;
+	}
 	
 </style>

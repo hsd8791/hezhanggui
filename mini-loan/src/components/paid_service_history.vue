@@ -44,7 +44,7 @@
 				loading:true,
 				editing:true,
 				allGet:false,
-				url:'paidService/records?limit=9&page=',
+				url:'paidService/records?limit=8&page=',
 				currentPage:1,
 				ttlPage:null,
 				remind:{
@@ -63,16 +63,13 @@
 		created(){
 			console.log('route meta',this.$route.meta)
 			//destory this if new paid serv created
-			bus.$on('paid_service_created',()=>{
-				// console.log('paid_service_created')
-				// this.$destroy()
-			})
+			// bus.$on('paid_service_created',()=>{
+			// 	// console.log('paid_service_created')
+			// 	// this.$destroy()
+			// })
 			this.get()
 		},
 		methods: {
-			move(){
-				// console.log('move')
-			},
 			scrolling(){
 				// console.log('scrolling')
 				var el=document.querySelector('.list-container-inner')
@@ -101,7 +98,7 @@
 			get(){
 				console.log('get history')
 				publicFun.get(this.url+this.currentPage,this,()=>{
-					// console.log('res outer',this.response.body.data.data)
+					console.log('res outer',this.response.body.data.data)
 					var data=this.response.body.data
 					if(data){
 						this.ttlPage=data.pages

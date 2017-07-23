@@ -156,7 +156,7 @@
 					bus.$emit('account_change', data.phone,data.uniqueId)
 					if(data.isSetPwd==='0'||(this.pwdLost===true&&this.pwdLogin===false)){
 							// console.log('pwd not set')
-							publicFun.goPage('/pwd')
+							publicFun.goPage('/mine/pwd')
 						}else{
 							this.remind.remindOpts=[{msg:'确定',callback:()=>{
 								console.log('back',1)
@@ -164,6 +164,7 @@
 							}}]
 							this.remind.remindMsg='登录成功'
 							this.remind.isShow=true
+							publicFun.wechatAuth(this)
 						}
 				})
 

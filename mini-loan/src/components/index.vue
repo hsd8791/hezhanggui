@@ -1,44 +1,46 @@
 <template>
 	<div id="indexVue">
-		<h3 class="title">操作</h3>
-		<div class="container">
-			<div class="row">
-				<div class="cell" @click='goP("/apply_borrow")'>
-					<div class="item-icon"><i class="icon-database"></i></div>
-					<div class="item-name">分享给经纪人</div>
+		<!-- <h3 class="title">操作</h3> -->
+		<div class="ctrl-container">
+			<!-- <div class="row"> -->
+				<div class="ctrl-bttn" @click='goP("/apply_borrow")'>
+					<!-- <div class="item-icon"><i class="icon-database"></i></div> -->
+					<div class="item-name">我要借款</div>
 				</div>
-				<div class="cell" @click='goP("/apply_lend")'>
-					<div class="item-icon"><i class="icon-banknote"></i></div>
-					<div class="item-name">分享给客户</div>
+				<div class="ctrl-bttn" @click='goP("/apply_lend")'>
+					<!-- <div class="item-icon"><i class="icon-banknote"></i></div> -->
+					<div class="item-name">我要放贷</div>
 				</div>
-				<div class="cell" @click=''>
-					<div class="item-icon"><i class="icon-banknote"></i></div>
+				<div class="ctrl-bttn" @click=''>
+					<!-- <div class="item-icon"><i class="icon-banknote"></i></div> -->
 					<div class="item-name">我要赚钱</div>
 				</div>
-				<div class="cell" @click='goP("/")'>
+				<!-- <div class="ctrl-bttn" @click='goP("/")'> -->
 					<!-- <div class="item-icon"><i class="icon-address-book"></i></div> -->
 					<!-- <div class="item-name">基本信息</div> -->
-				</div>
+				<!-- </div> -->
 
-			</div>
+			<!-- </div> -->
 		</div>
 		<h3 class='title first-title'>必填认证认证信息</h3>
 		<div class="container">
 			<div class="row" v-for='row in essentialCell'>
-				<div class="cell" v-for='cell in row' @click='goP(cell.link)'>
+				<div class="cell" v-for='cell in row' @click='goP(cell.url)'>
 					<div class="item-icon"><i :class="cell.icon"></i></div>
-					<div class="item-name">{{cell.title}}</div>
+					<div class="item-name">{{cell.label}}</div>
 				</div>
 			</div>
 		</div>
-		<h3 class="title">可选信息</h3>
+		<h3 class="title">可选认证信息</h3>
 		<div class="container">
-			<div class="row" v-for='row in optionalCell'>
-				<div class="cell" v-for='cell in row' @click='goP(cell.link)'>
+			<div class="row" v-for='row in optionalCells'>
+				<div class="cell" v-for='cell in row' @click='goP(cell.url)'>
 					<div class="item-icon"><i :class="cell.icon"></i></div>
-					<div class="item-name">{{cell.title}}</div>
+					<div class="item-name">{{cell.label}}</div>
 				</div>
 			</div>
+		</div>
+		
 		</div>
 	</div>
 
@@ -46,42 +48,120 @@
 </template>
 
 <script>
-	// import router from'../router'
 	import publicFun from '../js/public.js'
+	import bus from '../bus.js'
 	export default {
+		// name:'index',
 		data() {
-			return {
-				essentialCell:[
-				[
-				{title:'身份认证',link:'/identity',icon:'icon-address-book',},
-				{title:'联系方式',link:'/contact_way',icon:'icon-phone',},
-				{title:'身份证上传',link:'/upload',icon:'icon-upload',},
-				{title:'手机认证',link:'/shujumohe',icon:'icon-mobile',},
-				],
-				// [
-				// {title:'负债调查',link:'/debt',icon:'icon-puzzle',},
-				// 		],
-						],
-						optionalCell:[
-						[
-						{title:'个人概况',link:'/profile',icon:'icon-documents',},
-						{title:'工作信息',link:'/job_info',icon:'icon-profile',},
-						{title:'行业名单',link:'/',icon:'icon-info',},
-						{title:'芝麻认证',link:'/zhima',icon:'icon-eye-plus',},
+				return {
+					//从bus中导入
+					//??需拆分成4个一组
+					essentialCell:[
+						// [1], 
+					],
+					// essentialCell1: [
+					// 	[{
+					// 		title: '个人信息',
+					// 		link: '/identity',
+					// 		icon: 'icon-address-book',
+					// 	}, {
+					// 		title: '联系方式',
+					// 		link: '/contact_way',
+					// 		icon: 'icon-phone',
+					// 	}, {
+					// 		title: '身份证上传',
+					// 		link: '/upload',
+					// 		icon: 'icon-upload',
+					// 	}, {
+					// 		title: '手机认证',
+					// 		link: '/shujumohe',
+					// 		icon: 'icon-mobile',
+					// 	}, ],
+					// 	// [
+					// 	// {title:'负债调查',link:'/debt',icon:'icon-puzzle',},
+					// 	// 		],
+					// ],
+					optionalCells: [
+						// [{
+						// 		title: '个人概况',
+						// 		link: '/profile',
+						// 		icon: 'icon-documents',
+						// 	}, {
+						// 		title: '工作信息',
+						// 		link: '/job_info',
+						// 		icon: 'icon-profile',
+						// 	}, {
+						// 		title: '行业名单',
+						// 		link: '/',
+						// 		icon: 'icon-info',
+						// 	}, {
+						// 		title: '芝麻认证',
+						// 		link: '/zhima',
+						// 		icon: 'icon-eye-plus',
+						// 	},
 
-						],
-						]
+						// ],
+					],
+
+				}
+			},
+			methods: {
+				goP(path) {
+					publicFun.goPage(this.$route.path + path)
+				},
+				createCells(cells,arr){
+					var tempArr=[],len=arr.length
+					var rows,i,j,k
+					tempArr=tempArr.concat(bus[arr[0]],bus[arr[1]])
+					 // tempArr=bus.fillStatus.concat(bus.fillStatus2)
+					// console.log('tempArr',tempArr)
+					// this.essentialCell=[[]]
+					rows=Math.floor(tempArr.length/4)
+					for(i=0;i<rows;i++){
+						// console.log('essentialCell',this.essentialCell[i][0],tempArr[i+0])
+						cells[i]=[]
+						cells[i][0]=tempArr[i+0]
+						cells[i][1]=tempArr[i+1]
+						cells[i][2]=tempArr[i+2]
+						cells[i][3]=tempArr[i+3]
+					}
+						cells[rows]=[]
+					for(j=rows*4,k=0;j<tempArr.length;j++,k++){
+						cells[rows][k]=tempArr[j]
 					}
 				},
-				methods:{
-					goP(path){
-						publicFun.goPage('/index'+path)
-					}
-				},
-				events: {},
-				components: {}
-			}
-		</script>
+			},
+			created(){
+				// var tempArr=bus.fillStatus.concat(bus.fillStatus2)
+				// // console.log('tempArr',tempArr)
+				// var rows=Math.floor(tempArr.length/4),i,j,k
+				// // this.essentialCell=[[]]
+				// for(i=0;i<rows;i++){
+				// 	// console.log('essentialCell',this.essentialCell[i][0],tempArr[i+0])
+				// 	this.essentialCell[i]=[]
+				// 	this.essentialCell[i][0]=tempArr[i+0]
+				// 	this.essentialCell[i][1]=tempArr[i+1]
+				// 	this.essentialCell[i][2]=tempArr[i+2]
+				// 	this.essentialCell[i][3]=tempArr[i+3]
+				// }
+				// 	this.essentialCell[rows]=[]
+				// for(j=rows*4,k=0;j<tempArr.length;j++,k++){
+				// 	this.essentialCell[rows][k]=tempArr[j]
+				// }
+				this.createCells(this.essentialCell,['fillStatus','fillStatus2'])
+				this.createCells(this.optionalCells,['fillStatusOpt','fillStatusOpt2'])
+				bus.$on('checked_fill_status',val=>{
+					// console.log('on checked_fill_status',this.$route.path)
+					this.createCells(this.essentialCell,['fillStatus','fillStatus2'])
+				})
+				// this.createCells(this.optionalCells)
+
+
+			},
+			events: {},
+			components: {}
+	}
+</script>
 
 		<style lang='scss' scoped>
 			$cellBorder:#e2e3e4;
@@ -93,6 +173,23 @@
 			$itemIconColor:#8f8e94;
 			h3.first-title{
 				/*margin-top: 1.52rem;*/
+			}
+			.ctrl-container{
+				display: flex;
+				/**{
+					border:1px solid red;
+				}*/
+				.ctrl-bttn{
+					width: 33%;
+					margin:0.15rem;
+					padding:0.1rem;
+					background-color:#d6322c;
+					color: #eee;
+					font-size: 0.16rem;
+					background: linear-gradient(90deg,#d6322c 0%,#d6322c 30%,#eda29a);
+					border-width: 0;
+					border-radius: 0.1rem;
+				}
 			}
 			.cell{
 
@@ -117,16 +214,6 @@
 				/*background: #fff;*/
 				/*border:1px solid red;*/
 				border:$outBorder solid 0px;
-				/*border-bottom-width:0.15rem;*/
-		/*background:
-		linear-gradient(180deg, $cellBorder 0.5%,$cellBorder 0.8%,transparent 0.8% ),
-		linear-gradient(90deg, transparent 99.5%,$cellBorder 99.5%,$cellBorder 99.8%,transparent 99.8% );
-		background-repeat:repeat-y repeat-x;
-		background-size:100% $cellHeight,25.5% 100%; 
-		background-clip:content-box;*/
-		/*background-origin: border-box; */
-
-
 		.cell{
 			/*background:#fff;*/
 			box-sizing: border-box;

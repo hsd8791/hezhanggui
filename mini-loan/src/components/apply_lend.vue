@@ -1,8 +1,8 @@
 <template>
 	<div id="applyLendVue" class="input" v-loading='loading' element-loading-text='请稍后'>
-		<h1 class="title"><app-back></app-back><!-- 开始放贷 -->分享到微信</h1>
-    <el-button type='success' class="confirm" @click='share("borrower")'>点击分享给客户<!-- 借款人 --></el-button>
-		<el-button type='success' class="confirm" @click='share("partner")'>点击分享给伙伴<!-- 下线 --></el-button>
+		<h1 class="title"><app-back></app-back>开始放贷</h1>
+    <el-button type='success' class="confirm" @click='share("borrower")'>点击分享给借款人</el-button>
+		<!-- <el-button type='success' class="confirm" @click='share("partner")'>点击推广给朋友</el-button> -->
    <div class="weixin_layout" id='cover'></div>
    <share :show='shareCoverShow'></share>
    <remind :remind='remind'></remind>
@@ -57,10 +57,10 @@
       this.shareCoverShow='block'
     },
     changeUrl(){
-      window.history.pushState("object or string", "Title",'/m/#/apply_borrow?uniqueId='+bus.uniqueId)
+      window.history.pushState("object or string", "Title",'/m/#/index/apply_borrow?uniqueId='+bus.uniqueId)
     },
     changeUrlSign(){
-      window.history.pushState("object or string", "Title",'/m/#/login_code?signup=1&uniqueId='+bus.uniqueId)
+      window.history.pushState("object or string", "Title",'/m/#/index/login_code?signup=1&uniqueId='+bus.uniqueId)
 
     },
   },

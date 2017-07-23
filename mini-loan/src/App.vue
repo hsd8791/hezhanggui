@@ -16,109 +16,102 @@
     <foot-nav v-if='footNavShow' ></foot-nav>
   <!-- </transition> -->
   <remind :remind='remind'></remind >
+  <!-- <button id="testBttn" @click='test'>test</button> -->
   </div>
 </template>
 
 <script>
-  import router from './router'
-  import footNav from './foot.vue'
-  import publicFun from './js/public.js'
-  import bus from './bus.js'
-  import remind from './components/tmpts/remind.vue'
-  import './css/icons.css'
-  import './css/input.css'
-  // import './libs/font-awesome.min.css'
-  export default {
-    name:'App',
-    // cmpt:/borrow/,
-    data:function() {
-      return {
-        enter:'',
+import router from './router'
+import footNav from './foot.vue'
+import publicFun from './js/public.js'
+import bus from './bus.js'
+import remind from './components/tmpts/remind.vue'
+import './css/icons.css'
+import './css/input.css'
+// import './libs/font-awesome.min.css'
+export default {
+  name: 'App',
+  // cmpt:/borrow/,
+  data: function() {
+    return {
+      enter: '',
+      loading: false,
+      vueName: 'App',
+      footNavShow: true,
+      // account:'请登录',
+      response: null,
+      editing: true,
+      backAfterPost: true,
+      remind: {
+        isShow: false,
+        remindMsg: 'remind',
+        self_: this,
+        remindOpts: [{
+          msg: '确定',
+        }, ],
+      },
 
-        loading:false,
-        vueName:'App',
-        footNavShow:true,
-        // account:'请登录',
-        response:null,
-        editing:true,
-        backAfterPost:true,
-        remind:{
-          isShow:false,
-          remindMsg:'remind',
-          self_:this,
-          remindOpts:[
-          {msg:'确定',},
-          ],
-        },
-      }
+    }
+  },
+  methods: {
+    test(){
+      console.log('test')
+      bus.checkAllFilled()
+      bus.$emit('checked_fill_status', bus.fillStatusCfg)
     },
-    methods:{
-     checkSession(){
+    checkSession() {
       console.log('checkSession')
-      this.loading=true
+      this.loading = true
 
-      this.$http.get('account/checkSession').then(res=>{
+      this.$http.get('account/checkSession').then(res => {
         var data = res.body.data
-        console.log('session data',data)
-        if(data){
+        console.log('session data', data)
+        if (data) {
           // bus.account=data.phone
           // bus.uniqueId=data.uniqueId
-          bus.$emit('account_change',localStorage.userID,localStorage.uniqueId)
-          if(data.isSetPwd==0){
+          bus.$emit('account_change', localStorage.userID, localStorage.uniqueId)
+          if (data.isSetPwd == 0) {
             // console.log('no set pwd')
-            var r=this.remind
-            r.remindOpts=[{
-              msg:'确定',
-              callback:()=>{
-               publicFun.goPage('/pwd')
-             }
-           }]
-           r.remindMsg='请设置密码'
-           r.isShow=true
-         }
-       }
-       this.loading=false
-     },err=>{
-
-     })
-      // publicFun.get('account/checkSession',this,()=>{
-      //   // console.log('res checkSession',this.response)
-      //   var res = this.response.body
-      //   console.log('res sesion',res)
-      //   if(res.data){
-      //     bus.account=res.data.phone
-      //     bus.uniqueId=res.data.uniqueId
-      //     bus.$emit('account change',res.data.phone,res.data.uniqueId)
-      //     if(res.data.isSetPwd===0){
-      //       publicFun.goPage('/pwd')
-      //     }
-      //   }
-      // })
+            var r = this.remind
+            r.remindOpts = [{
+              msg: '确定',
+              callback: () => {
+                publicFun.goPage('/pwd')
+              }
+            }]
+            r.remindMsg = '请设置密码'
+            r.isShow = true
+          }
+          publicFun.wechatAuth(this)
+        }
+        this.loading = false
+      }, err => {})
     },
 
   },
-  created:function(){
+  created: function() {
 
-      bus.$on('foot_show_change',(footShow)=>{
-        this.footNavShow=footShow
-      })
-      bus.$on('url_change',(action)=>{
-        this.enter=action
-      })
+    // this.checkFilled()
+    bus.$on('foot_show_change', (footShow) => {
+      this.footNavShow = footShow
+    })
+    bus.$on('url_change', (action) => {
+      this.enter = action
+    })
     this.checkSession()
-    this.footNavShow=true
+    this.footNavShow = true
   },
-  watch:{
-      // account:function(val){
-      //   // console.log('account change',val)
-      //   Bus.$emit('account change',val)
-      // }
-    },
-    components: {
-      'foot-nav':footNav,
-      remind:remind,
-    }
+  watch: {
+    // account:function(val){
+    //   // console.log('account change',val)
+    //   Bus.$emit('account change',val)
+    // }
+  },
+  components: {
+    'foot-nav': footNav,
+    remind: remind,
   }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -172,7 +165,15 @@
   /*$itemNameColor:#8f8e94;*/
   /*#323233;*/
   /*$itemIconColor:#8f8e94;*/
-
+  #testBttn{
+    z-index: 999;
+    font-size: 0.2rem;
+    width: 0.4rem;
+    height: 0.3rem;
+    position: absolute;
+    left: 0;
+    bottom: 1rem;
+  }
   .foot-nav{
     /*border-top:0.5px solid $navColor ;*/
     width: 100%;

@@ -10,11 +10,148 @@ import VueResource from 'vue-resource'
 import publicFun from './js/public.js'
 import remind from './components/tmpts/remind.vue'
 import back from './components/tmpts/route_back.vue'
-
+import record from './components/tmpts/record.vue'
+import list from './components/tmpts/record_list.vue'
+import bus from './bus.js'
 Vue.use(VueResource)
 Vue.component('remind', remind)
 Vue.component('app-back', back)
+Vue.component('app-record', record)
+Vue.component('app-record-list', list)
+Vue.directive('scroll-load', {
+	bind: function(el, binding, vnode) {
+		console.log('vnode',vnode)
+		// var el = document.querySelector('.list-container-inner')
+		var cfg = binding.value,
+			sel = cfg.listSelector
+			// console.log('scoll load config', cfg)
+		var listContainer,
+			btt,
+			H = screen.height + 50 //trigger height
+			// console.log('binding cfg', cfg.listSelector)
+			// console.log('el', listContainer)
+		el.addEventListener('scroll', () => {
+				listContainer = document.querySelector(sel)
+					// console.log('scrolling')
+					// console.log('cfg', cfg)
+					// console.log('cfg.listSelector', cfg.listSelector)
 
+				btt = listContainer.getBoundingClientRect().bottom
+					// console.log('btt',btt)
+				if (btt < H) {
+					// cfg.getting = true
+					// cfg.get(cfg.crrtPage)
+					cfg.method()
+						// console.log('load more')
+						// console.dirxml(el)
+				}
+			}, false)
+			// console.log('cfg', this)
+	}
+})
+Vue.directive('pull-refresh', {
+	bind: function(el, binding, vnode) {
+		var cfg = binding.value,
+			containerTop = 0
+		// console.warn('config', cfg)
+		// console.warn('config', binding)
+		var touch = {
+			start: null,
+			end: null,
+			last: null,
+			crrt: null,
+		}
+		var scrollTop
+		el.addEventListener('touchstart', (e) => {
+			// console.log('$e',e.touches[0].clientY)
+			e.stopPropagation()
+			e.preventDefault()
+			touch.start = e.touches[0].clientY
+			touch.last = e.touches[0].clientY
+				// console.log('touch', touch)
+		}, false)
+		el.addEventListener('touchmove', (e) => {
+			e.stopPropagation()
+			e.preventDefault()
+			touch.crrt = e.touches[0].clientY
+				// console.log('touch', touch)
+			scrollTop = e.currentTarget.parentElement.scrollTop
+			// console.log('scrollTop', scrollTop)
+				// do sth to containerTop
+			if (scrollTop > 0) {
+				return
+			} else {
+				// console.log('may drag down')
+				// console.log('e.currentTarget.scrollTop',e.currentTarget.parentElement.scrollTop)
+				// console.log('compare',t.last,t.crrt)
+				if (touch.crrt <= touch.last) {
+					if (containerTop === 0) {
+						return
+					} else {
+						// e.stopPropagation()
+						e.preventDefault()
+						containerTop -= 0.025;
+						el.style.paddingTop = containerTop + 'rem'
+
+					}
+				} else {  
+					// e.stopPropagation()
+					e.preventDefault()
+					containerTop += 0.025
+					el.style.paddingTop = containerTop + 'rem'
+
+					// console.log('drag down')
+				}
+			}
+			touch.last = touch.crrt
+		}, false)
+		el.addEventListener('touchend', (e) => {
+			e.stopPropagation()
+			e.preventDefault()
+			touch.end = e.changedTouches[0].clientY
+				// console.log('touch', touch)	
+			// console.log('cfg', cfg)
+			// console.log('cfg', cfg.method)
+
+			el.style.transition = '.5s cubic-bezier(0.23, 0.86, 0.39, 0.78)'
+				// if(this.containerTop>0){
+				// 	console.log('refresh')
+				// 	this.getNew()
+				// }
+			if (containerTop > 0) { //可以设置其他值控制下拉的幅度
+
+				if (cfg.method) {
+					if (cfg.method instanceof Function) {
+						cfg.method()
+					} else {
+						console.warn('method is not a function')
+					}
+				} else {
+					console.warn('no method ')
+				}
+				console.log('refresh')
+			}
+			containerTop = 0
+			el.style.paddingTop = containerTop + 'px'
+			setTimeout(() => {
+				el.style.transition = '0s'
+			}, 300);
+		}, false)
+		console.log('binded pull-refresh')
+	}
+})
+Vue.directive('record',{
+	bind:function(el,binding,vnode){
+		// console.log('vnode - record',vnode)
+		// console.log('binding name',binding.value)
+		// console.log('binding name',binding.value.name)
+		// console.log('vnode - record',vnode.context.records)
+		bus.$on(binding.value,function(val){
+			vnode.context.records=val
+			// console.log(binding.value,'getted',val)
+		})
+	}
+})
 Vue.config.productionTip = false
 Vue.http.options.credentials = true;
 Vue.http.options.emulateJSON = true;

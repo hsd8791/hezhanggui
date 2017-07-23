@@ -5,7 +5,7 @@
 			<div class="record-type" v-for='item in status'>{{item.label}}</div>
 		</div> -->
 		<div class="sub-top-nav input" v-loading='loading' element-loading-text='请稍后'>
-			<h1 class="title" ><app-back></app-back>申请记录 </h1>
+			<h1 class="title" ><app-back :text='"我的"' :link='"/mine"'></app-back>申请记录 </h1>
 			<div class="tabs-container">
 				<div class="record-type tab" v-for='item in status' :class='{active:crrtStatus===item.status}' @click='switchType(item.status)'>{{item.label}}</div>
 
@@ -184,10 +184,10 @@
 				this.editing=true
 			},
 			scrolling(e){
-				// console.log('scrolling')
+				console.log('scrolling')
 				// this.loading=true
 				// return
-				// console.log('e',e.target.scrollTop)
+				console.log('e',e.target.scrollTop)
 				var el=document.querySelector('.list-container-inner')
 				var btt=el.getBoundingClientRect().bottom
 				// console.log('btt',btt)

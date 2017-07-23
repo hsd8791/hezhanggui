@@ -37,6 +37,8 @@ export default {
                 '/paid_service', //paid_service
                 '/coming',
                 '/mine',
+            ],
+            specialPaths: [
                 '/paid_service/create',
                 '/paid_service/history',
                 '/',
@@ -57,10 +59,42 @@ export default {
             }, 50);
             router.push(this.paths[index])
         },
+        getFirstRoute(p){
+            var splitPath=p.split('/')
+            if(splitPath[1]===''){
+                this.activeI=0
+            }else{
+            this.activeI= this.paths.indexOf('/'+splitPath[1])
+            }
+        },
         checkPath(p){
             //先判断是否显示
             //再判断显示哪个
+            //判断是否有二级
+            // console.log('path',p)
+            if(this.specialPaths.indexOf(p)>=0){
+                bus.$emit('foot_show_change',true)
+                this.getFirstRoute(p)
+                return
+            }
+            var arr=p.split('/')
+            if(arr[2]!==undefined&&arr[2].length!==0){
+                // console.log('no foot')
+                bus.$emit('foot_show_change',false)
+                return
+            }
+            //一级的路径
+            p='/'+arr[1]
+            console.log('? index',p.indexOf('?'))
+            var queryMark=p.indexOf('?')
+
+            if(queryMark>0){
+                p=p.slice(0,queryMark)
+            }
+
+            // console.log('arr',arr)
             var index=this.paths.indexOf(p)
+            // console.log('this.paths',p)
             if(index<0){
                 bus.$emit('foot_show_change',false)
             }else{
@@ -114,6 +148,7 @@ export default {
                 // } else {
                 //     bus.$emit('foot_show_change', true, action)
                 // }
+                console.log('to.path',to.path)
                 this.checkPath(to.path)
                 next()
 
@@ -123,11 +158,18 @@ export default {
             // this.activeI=val
             // })
         var self_ = this
-        var url = location.href
+        // var url = location.href
         var urlPath = location.pathnname
+        // console.log('location',location)
         var urlHash = location.hash
         urlHash = urlHash.replace('#', '')
-            // console.log('urlHash',urlHash.split('/')[1])
+        // console.log('urlHash.indexOf()',urlHash.indexOf('?'))
+        // var queryMark=urlHash.indexOf('?')
+        // console.log('queryMark',queryMark)
+        // if(queryMark>0){
+            // urlHash=urlHash.slice(0,queryMark)
+        // }
+            // console.log('urlHash',urlHash)
         this.checkPath(urlHash)
         // var aUrl = urlHash.split('/')
         // this.activeI = getIndex(this.paths, '/' + urlHash.split('/')[1])

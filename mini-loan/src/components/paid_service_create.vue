@@ -55,7 +55,7 @@
 		data() {
 			return {
 				// loading:true,
-				name:'黄树栋',
+				name:'黄哈哈',
 				idCard:'123456198811112222',
 				address:'',
 				mobile:'12345678901',
@@ -76,7 +76,7 @@
 				response:null,
 				loading:true,
 				editing:true,
-				url:'credit/query',
+				url:'order/createPaidServiceOrder',
 				confirmOpts:[
 				{msg:'确定',callback:()=>{
 					this.request()
@@ -102,7 +102,7 @@
 		},
 		methods: {
 			submit(){
-				console.log('submit')
+				// console.log('submit')
 				this.remind.remindOpts=this.confirmOpts
 				this.remind.remindMsg='请确定是否提交'
 				this.remind.isShow=true
@@ -124,12 +124,14 @@
 				if(this.TongdunPreloanQuery){
 					formData.product+='TongdunPreloanQuery'+';'
 				}			
-				console.log('formData',formData)
+				// console.log('formData',formData)
 				publicFun.post(this.url,formData,this,()=>{
+					var payId=this.response.body.data.payId
 					this.remind.remindOpts[0].callback=()=>{
-						bus.$emit('paid_service_created')
+						// bus.$emit('paid_service_created')
 						setTimeout(function() {
-							publicFun.goPage('/paid_service/history')
+							// publicFun.goPage('/paid_service/history')
+							publicFun.goPage('/paid_service/create/pay?payId='+payId)
 						}, 35);
 					}
 					//success 

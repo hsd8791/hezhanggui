@@ -6,22 +6,22 @@
 		</h1>
 		<div class="container">
 			<div class="wraper">
-				<label :disabled='!editing'>借贷宝负债：</label> 
+				<label class="label" :disabled='!editing'>借贷宝负债：</label> 
 				<el-input :disabled='!editing'  type='number' placeholder='借贷金额，无负债填0' v-model='jiedaibaoLiabilities' @blur.once='blured'  :class='{"valid-border":jiedaibaoLiabilitiesValid,"error-border":!jiedaibaoLiabilitiesValid}'></el-input>
 				<i :class="{'el-icon-check':jiedaibaoLiabilitiesValid,'el-icon-close':!jiedaibaoLiabilitiesValid}"></i>
 			</div>
 			<div class="wraper">
-				<label>今借到负债：</label> 
+				<label class="label">今借到负债：</label> 
 				<el-input :disabled='!editing' type='number' placeholder='借贷金额，无负债填0' v-model='jinjiedaoLiabilities' @blur.once='blured'  :class='{"valid-border":jinjiedaoLiabilitiesValid,"error-border":!jinjiedaoLiabilitiesValid}'></el-input>
 				<i :class="{'el-icon-check':jinjiedaoLiabilitiesValid,'el-icon-close':!jinjiedaoLiabilitiesValid}"></i>
 			</div>
 			<div class="wraper">
-				<label>其他网贷负债：</label> 
+				<label class="label">其他网贷负债：</label> 
 				<el-input :disabled='!editing' type='number' placeholder='借贷金额，无负债填0' v-model='otherLiabilities' @blur.once='blured'  :class='{"valid-border":otherLiabilitiesValid,"error-border":!otherLiabilitiesValid}'></el-input>
 				<i :class="{'el-icon-check':otherLiabilitiesValid,'el-icon-close':!otherLiabilitiesValid}"></i>
 			</div>
 			<div class="wraper">
-				<label>芝麻信用分：</label> 
+				<label class="label">芝麻信用分：</label> 
 				<el-input :disabled='!editing' type='number' placeholder='填写芝麻信用分' v-model='zmxyScore' @blur.once='blured'  :class='{"valid-border":zmxyScoreValid,"error-border":!zmxyScoreValid}'></el-input>
 				<i :class="{'el-icon-check':zmxyScoreValid,'el-icon-close':!zmxyScoreValid}"></i>
 			</div>
@@ -156,4 +156,14 @@
 
 <style lang='scss' scoped>
 
+</style>
+<style lang='scss'>
+	#debtVue{
+		.container{
+			.label{
+				font-size: 0.14rem;
+				width: 27%;
+			}
+		}
+	}
 </style>

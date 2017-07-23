@@ -1,6 +1,6 @@
 <template>
 	<div id="loginVue" class="input" v-loading='loading'  element-loading-text='登录中'>
-	<h1 class="title"><app-back></app-back>登录</h1>
+	<h1 class="title"><app-back :text='"返回"' :link='-1'></app-back>登录</h1>
 	<div class="logo-container" >
 	<!-- v-if='action=="login"' -->
 	<!-- <h2 class="log-title">验证手机找回密码</h2> -->
@@ -61,6 +61,7 @@
 	export default {
 		data() {
 			return {
+				fromRoute:{},
 				pwdLogin:true,
 				actions:['login','signup','findPwd'],
 				action:'login',
@@ -163,50 +164,33 @@
 							publicFun.goPage('/pwd')
 						}else{
 							this.remind.remindOpts=[{msg:'确定',callback:()=>{
-								console.log('back',1)
-								publicFun.goPage(-1)
+								// console.log('back',1)
+								if(this.fromRoute.name){
+									publicFun.goPage(-1)
+								}else{
+									publicFun.goPage('/index')
+								}
 							}}]
 							this.remind.remindMsg='登录成功'
 							this.remind.isShow=true
+							//wechat authorize 微信授权
+							// if(publicFun.isWeiXin){
+							// 	publicFun.get('wechat/oauth',this,()=>{
+							// 	  console.log('res auth',this.response.body.data)
+							// 	  if(this.response.body.data){
+							// 	   location.href=this.response.body.data
+							// 	  }
+							// 	})
+							// }
+							publicFun.wechatAuth(this)
 						}
 				})
-				
-				// this.$http.get(url).then(response => {
-					// console.log('response',response)
-					// var res=response.body
-					// this.loading=false
-					// if(res.error){
-					// 	this.remind.isShow=true
-					// 	this.remind.remindMsg=res.msg
-					// }else if(res.error===0){
-					// 	// console.log('bus',bus)
-					// 	var data=res.data
-					// 	localStorage.userID=data.cellphone
-					// 	localStorage.pwd=data.pwd
-					// 	localStorage.uniqueId=data.uniqueId
-					// 	console.log('login success',res)
-					// 	bus.$emit('account_change', data.cellphone,data.uniqueId)
-				// 		if(data.isSetPwd==='0'||(this.pwdLost===true&&this.pwdLogin===false)){
-				// 			// console.log('pwd not set')
-				// 			publicFun.goPage('/pwd')
-				// 		}else{
-				// 			this.remind.remindOpts=[{msg:'确定',callback:()=>{
-				// 				publicFun.goPage(-1)
-				// 			}}]
-				// 			this.remind.remindMsg='登录成功'
-				// 			this.remind.isShow=true
-				// 		}
-				// 	}
-				// 	console.log('response.body',response.body)
-
-				// }, response => {
-				// 	this.loading=false
-				// 	console.log('res',response)
-				// 	this.remind.isShow=true
-				// 	this.remind.remindMsg='连接失败'
-				// 	this.remind.remindOpts=[{msg:'确定',callback:()=>{publicFun.goPage(-1)}}]
-				// });
 			},
+		},
+		beforeRouteEnter(to,from,next){
+			next(vm=>{
+				vm.fromRoute.name=from.name
+			})
 		},
 		created:function(){
 			bus.$on('close_remind',()=>{})

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!-- <meta name="msapplication-tap-highlight" content="no"> -->
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta name="x5-fullscreen" content="true">
+	<meta name="full-screen" content="yes"> 
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+	<title>小禾微贷</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			font-family: Helvetica, Arial, sans-serif;
+		}
+		html{
+			/*touch-action: manipulation*/
+			height: 100%;
+			-webkit-tap-highlight-color: transparent;
+		}
+		body{
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			/*touch-action: none;*/
+			/*padding-bottom: 0.5rem;*/
+			/*min-height: 100%;*/
+			/*background: #fcf9fe;*/
+			background: #f4f4f4;
+		}
+		.underlayer{
+			width:3.75rem;
+			height: 10rem;
+			position: fixed;
+			/*z-index: -999;*/
+			z-index: -1;
+			/*visibility: hidden;*/
+			background: transparent;
+		}
+		
+	</style>
+	<script type="text/javascript">
+		function setRem(){
+			var remDefault=document.documentElement.style.fontSize = 
+			window.innerWidth/3.75 + 'px';
+		}
+		window.onload=function(){
+			// document.body.addEventListener('touchmove', function(event) {
+			// 	event.preventDefault();
+			// }, false);
+			document.body.addEventListener('touchmove', function(event) {
+				// event.preventDefault();
+			}, false);
+		} 
+		setRem()
+		window.onresize=setRem
+	</script>
+</head>
+<body style="font-size: 12px">
+	<!-- <div class="underlayer"></div> -->
+	<div id="app"></div>
+	
+	<!-- <i class="fa fa-list-ul"></i>  -->
+	<!-- built files will be auto injected -->
+		<script id='AMAP' src="https://webapi.amap.com/maps?v=1.3&key=88803f8a6ef6758ba4e2ba70b425e43c"></script> 
+		<script>
+		var _mtac = {};
+		(function() {
+		    var mta = document.createElement("script");
+		    mta.src = "http://pingjs.qq.com/h5/stats.js?v2.0.2";
+		    mta.setAttribute("name", "MTAH5");
+		    mta.setAttribute("sid", "500492771");
+		    var s = document.getElementsByTagName("script")[0];
+		    s.parentNode.insertBefore(mta, s);
+		})();
+		</script>
+</body>
+</html>

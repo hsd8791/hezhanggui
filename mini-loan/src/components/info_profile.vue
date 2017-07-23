@@ -1,10 +1,10 @@
 <template>
 	<div id="profileVue" class='input' v-loading='loading' element-loading-text='请稍后'>
-		<div class="container">
 			<h1 class="title">
 				<app-back></app-back>个人信息
 				<span class="edit-input" v-if='!editing' @click='edit'>编辑</span>
 			</h1>
+		<div class="container">
 			<div class="wraper">
 				<label>学历：</label>
 				<el-select :disabled='!editing' v-model="education" placeholder="请选择">

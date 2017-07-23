@@ -3,7 +3,7 @@
 		<div class="input" v-loading='loading' element-loading-text='请稍后'>
 
 			<h1 class="title">
-      <app-back ref='back'>
+      <app-back ref='back' :text='"我的"' :link='"/mine"'>
       <!-- <span slot='11' >111</span> -->
       </app-back>
       我的下线   

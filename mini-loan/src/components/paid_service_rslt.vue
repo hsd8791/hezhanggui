@@ -425,9 +425,7 @@
 										continue
 									}else if(p.status==='failure'){
 										this.antifraudRslt.verifyError=publicFun.parseMixRslt(p.result)
-
 									}
-
 								}else{
 									var rslt=JSON.parse(p.result)
 									this.antifraudRslt.verify_code=rslt.verify_code
@@ -444,9 +442,7 @@
 										continue
 									}else if(p.status==='failure'){
 										this.antifraudRslt.scoreError=publicFun.parseMixRslt(p.result)
-
 									}
-
 								}else{
 									var rslt=JSON.parse(p.result)
 									this.antifraudRslt.score=rslt.score

@@ -20,7 +20,7 @@ publicFun.parseMixRslt = function(s) {
 	// console.log('s', s)
 	// var obj = JSON.parse(s)
 	if (typeof(s) !== 'string') {
-		console.error('s', s, 'is not a string')
+		console.warn('s', s, 'is not a string')
 		return
 	}
 	if (s === 'success') {
@@ -110,7 +110,7 @@ publicFun.urlConcat = function(url, obj) {
 publicFun.goPage = function(path, callback) {
 	// console.log('gopage', path)
 	if (typeof path === 'number') {
-		console.log('back unknown', 1)
+		// console.log('back unknown', 1)
 		router.go(path)
 	} else {
 		router.push(path)
@@ -120,12 +120,32 @@ publicFun.goPage = function(path, callback) {
 	}
 }
 
+publicFun.goTopLv = function() {
+	var r = location.hash.replace("#", '')
+	var arr = r.split('/')
+	this.goPage('/' + arr[1])
+}
 
-publicFun.checkSession = function(vm) {
+// publicFun.goUpLv = function() {
+// 	var r = location.hash.replace("#", '')
+// 	var arr = r.split('/')
+// 	arr.pop()
+// 	var newR = arr.join('/')
+// 	console.log('newR', newR)
+// 	router.push(newR)
+// }
+
+
+publicFun.checkSession = function(vm, callback) {
 	var loginOpts = [{
 		msg: '确定',
 		callback: () => {
-			this.goPage('/mine/login') // 与vm 中不同
+			this.goPage(vm.$route.path + '/login') // 与vm 中不同
+		}
+	}, {
+		msg: '取消',
+		callback: () => {
+			this.goPage(-1)
 		}
 	}];
 	// if (bus.account === '请登录') {
@@ -135,7 +155,7 @@ publicFun.checkSession = function(vm) {
 	// 	return false
 	// }
 	this.get('account/checkSession', vm, () => {
-		console.log('still checking sesion', bus.account)
+		// console.log('still checking sesion', bus.account)
 		var res = vm.response.body
 		if (res.data) {
 			// bus.account = res.data.phone
@@ -143,10 +163,16 @@ publicFun.checkSession = function(vm) {
 			// already checkSession in App.vue
 			if (res.data.isSetPwd == 0) {
 				publicFun.goPage('/pwd')
+			} else {
+				// console.log('callback',callback)
+				if (callback !== undefined && callback instanceof Function) {
+					callback()
+				}
 			}
-			return false
+			return true
 		} else {
 			vm.remind.remindOpts = loginOpts
+			vm.remind.remindMsgDscrp = ''
 			vm.remind.remindMsg = '请先登录'
 			vm.remind.isShow = true
 			return false
@@ -190,6 +216,7 @@ publicFun.get = function(url, vm, sccssCall, errCall, callback) { //paras:  this
 	callback = setNullFunc(callback)
 		// var url = 'userInfo/remarks'
 	vm.$http.get(url).then(res => {
+		// console.log('getted', vm)
 		vm.loading = false
 		vm.response = res
 		var resBody = res.body
@@ -207,13 +234,21 @@ publicFun.get = function(url, vm, sccssCall, errCall, callback) { //paras:  this
 			// console.log('err res', resBody)
 			if (resBody.error === 20002 && vmRemind) {
 				vmRemind.remindOpts = [{
-					msg: '确定'
+					msg: '确定',
+					callback: () => {
+						this.goPage(vm.$route.path + '/login')
+					}
+				}, {
+					msg: '取消',
+					callback: () => {
+						this.goPage(-1)
+					}
 				}]
 				vmRemind.remindMsg = '请登录'
-				vmRemind.remindOpts[0].callback = function() {
-					router.push('/mine/login')
-					vmRemind.isShow = true
-				}
+					// vmRemind.remindOpts[0].callback = function() {
+					// 	router.push('/mine/login')
+					// 	vmRemind.isShow = true
+					// }
 			}
 			if (resBody.error === 20000 && vmRemind) {
 				vmRemind.remindMsg = '系统异常'
@@ -282,28 +317,32 @@ publicFun.post = function(url, body, vm, sccssCall, errCall, callback) { //paras
 		// var url = 'userInfo/remarks'
 	vm.$http.post(url, body).then(res => {
 		// var testF
+		// bus.checkFilled()
+		console.log('url',url)
+		this.checkSingleFilled(url)
 		this.postRes(res, vm)
-			// vm.loading = false
-			// vm.response = res
-			// var resBody = res.body
-			// console.log('post res', res.body)
-			// if (resBody.error) {
-			// 	vm.remind.remindMsg = resBody.msg
-			// 	vm.remind.isShow = true
-			// 	if (resBody.error === 20002) {
-			// 		console.log('未登录')
-			// 		vm.remind.remindOpts[0].callback = function() {
-			// 			router.push('/mine/login')
-			// 		}
-			// 	}
-			// } else {
-			// 	vm.remind.remindMsg = '提交成功'
-			// 	vm.remind.remindOpts = [{
-			// 		msg: '确定',
-			// 	}, ]
-			// 	vm.remind.isShow = true
-			// 	vm.editing = false
-			// }
+
+		// vm.loading = false
+		// vm.response = res
+		// var resBody = res.body
+		// console.log('post res', res.body)
+		// if (resBody.error) {
+		// 	vm.remind.remindMsg = resBody.msg
+		// 	vm.remind.isShow = true
+		// 	if (resBody.error === 20002) {
+		// 		console.log('未登录')
+		// 		vm.remind.remindOpts[0].callback = function() {
+		// 			router.push('/mine/login')
+		// 		}
+		// 	}
+		// } else {
+		// 	vm.remind.remindMsg = '提交成功'
+		// 	vm.remind.remindOpts = [{
+		// 		msg: '确定',
+		// 	}, ]
+		// 	vm.remind.isShow = true
+		// 	vm.editing = false
+		// }
 		sccssCall()
 		callback()
 	}, err => {
@@ -331,7 +370,7 @@ publicFun.postRes = function(res, vm) {
 		if (resBody.error === 20002) {
 			console.log('未登录')
 			vm.remind.remindOpts[0].callback = function() {
-				router.push('/mine/login')
+				router.push(vm.$route.path + '/login')
 			}
 		}
 	} else {
@@ -342,6 +381,44 @@ publicFun.postRes = function(res, vm) {
 		vm.remind.isShow = true
 		vm.editing = false
 	}
+}
+publicFun.checkSingleFilled = function(url) {
+	/*
+	 * 每一个info组件post成功后，
+	 * 找出对应的index of the item of fillStatus,
+	 * undoneRequest+1 /+2 depends
+	 * bus.getByUrl(url,index)
+	 * emit 'checked_fill_status'
+	 */
+	// console.log('url', url)
+	// console.log('bus', bus.fillStatus)
+	console.warn('url',url,'checking single ')
+	var fill1 = bus.fillStatus,
+		fill2 = bus.fillStatus2,
+		i, l1 = fill1.length,
+		l2 = fill2.length,
+		index=null,
+		undoneRequest
+	for (i = 0; i < l1; i++) {
+		// console.log('fill1', i, fill1[i].getUrl)
+		if (url === fill1[i].getUrl) {
+			index=i
+			bus.undoneRequest=1
+			bus.getByUrls(fill1,i)
+			return;
+		}
+	}
+	for(i=0;i<l2;i++){
+		// console.log('fill2', i, fill2[i].getUrl)
+		// console.log('fill2', i, fill2[i].getUrl2)
+		if(url===fill2[i].getUrl||url===fill2[i].getUrl2){
+			bus.undoneRequest=2
+			bus.getByUrls(fill2,i)
+			return;
+		}
+	}
+	// console.log('index',index)
+
 }
 publicFun.getTimeString = function(AsSetValue, AiStart, AiEnd) {
 	if (AiStart === undefined) {
@@ -403,6 +480,26 @@ publicFun.isWeiXin = function() {
 	} else {
 		return false;
 	}
+}
+publicFun.wechatAuth = function(vm) {
+	return
+	// console.log('authorize wechat')
+	if (this.isWeiXin()) {
+		publicFun.get('wechat/oauth', vm, () => {
+			console.log('res auth', vm.response.body.data)
+			if (vm.response.body.data) {
+				// alert('绑定微信')
+				location.href = vm.response.body.data
+			} else {
+				// alert('already authrized wechat')
+			}
+		})
+	} else {
+		// alert('not wechat browser')
+		// console.log('not micromessenger')
+		return false
+	}
+
 }
 
 function fToTwo(aNum) {
