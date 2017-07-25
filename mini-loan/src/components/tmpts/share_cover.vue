@@ -1,5 +1,5 @@
 <template>
-	<div class="cover" :style="{display:show}" @click='close'>
+	<div class="cover" :style="{display:show}" @click='close()'>
 		
 	</div>
 </template>
@@ -22,6 +22,8 @@ export default {
   },
   methods:{
   	close(){
+      // console.log('e',e)
+      // e.target.style.display='none'
   		console.log('closing')
   		bus.$emit('close_share_cover')
   	}

@@ -1,7 +1,7 @@
 <template>
 	<div id="mineCommissionDetails" class="input">
 		<h1 class="title" v-loading='loading' element-loading-text='请稍后'>
-			<app-back :text='"返回"' :link='"/mine/commission"'></app-back>
+			<app-back></app-back>
 			佣金明细
 		</h1>
 
@@ -53,12 +53,12 @@
     		return publicFun.getTimeString(v)
     	}
     },
-    created:function(){
-      // bus.$on(this.config.name,(val)=>{
-      // 	console.log('event name',this.config.name)
-      //   console.log('test_records',val)
-      //   this.records=val
-      // })
+    created(){
+      bus.$on(this.config.name,(val)=>{
+      	console.log('event name',this.config.name)
+        console.log('test_records',val)
+        this.records=val
+      })
     },
     watch:{
 

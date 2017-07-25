@@ -88,7 +88,10 @@
 					},
 					phoneLender: null,
 					amount: null,
-					fillStatusCfg:{},
+					fillStatusCfg:{
+						fillStatus:{},
+						fillStatus2:{},
+					},
 				}
 			},
 			methods: {
@@ -163,7 +166,7 @@
 					console.log('checked_fill_status on',val)
 					this.fillStatusCfg=val
 				})
-				publicFun.checkSingleFilled('credit/shujumoheSimQueryStatus')
+				publicFun.checkSingleFilled('credit/shujumoheSimQueryStatus','cfgEssential')
 				
 				// this.fillStatus2=bus.fillStatus2
 				// this.checkFilled()

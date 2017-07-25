@@ -216,6 +216,7 @@ publicFun.get = function(url, vm, sccssCall, errCall, callback) { //paras:  this
 	callback = setNullFunc(callback)
 		// var url = 'userInfo/remarks'
 	vm.$http.get(url).then(res => {
+		// console.log('---------',res)
 		// console.log('getted', vm)
 		vm.loading = false
 		vm.response = res
@@ -224,7 +225,7 @@ publicFun.get = function(url, vm, sccssCall, errCall, callback) { //paras:  this
 			// console.log('res', res.body)
 		if (resBody.error) {
 			// console.log('error', resBody)
-			console.log('vmRemind', vmRemind)
+			// console.log('vmRemind', vmRemind)
 			if (vmRemind) {
 				vmRemind.remindMsg = resBody.msg
 				vmRemind.isShow = true
@@ -319,7 +320,8 @@ publicFun.post = function(url, body, vm, sccssCall, errCall, callback) { //paras
 		// var testF
 		// bus.checkFilled()
 		console.log('url',url)
-		this.checkSingleFilled(url)
+		this.checkSingleFilled(url,'cfgEssential')
+		this.checkSingleFilled(url,'cfgOptional')
 		this.postRes(res, vm)
 
 		// vm.loading = false
@@ -382,7 +384,7 @@ publicFun.postRes = function(res, vm) {
 		vm.editing = false
 	}
 }
-publicFun.checkSingleFilled = function(url) {
+publicFun.checkSingleFilled = function(url,cfgName) {
 	/*
 	 * 每一个info组件post成功后，
 	 * 找出对应的index of the item of fillStatus,
@@ -393,8 +395,8 @@ publicFun.checkSingleFilled = function(url) {
 	// console.log('url', url)
 	// console.log('bus', bus.fillStatus)
 	console.warn('url',url,'checking single ')
-	var fill1 = bus.fillStatus,
-		fill2 = bus.fillStatus2,
+	var fill1 = bus[cfgName].fillStatus,
+		fill2 = bus[cfgName].fillStatus2,
 		i, l1 = fill1.length,
 		l2 = fill2.length,
 		index=null,
@@ -403,21 +405,18 @@ publicFun.checkSingleFilled = function(url) {
 		// console.log('fill1', i, fill1[i].getUrl)
 		if (url === fill1[i].getUrl) {
 			index=i
-			bus.undoneRequest=1
-			bus.getByUrls(fill1,i)
+			bus[cfgName].undoneRequest=1
+			bus.getByUrls(fill1,i,bus[cfgName])
 			return;
 		}
 	}
 	for(i=0;i<l2;i++){
-		// console.log('fill2', i, fill2[i].getUrl)
-		// console.log('fill2', i, fill2[i].getUrl2)
 		if(url===fill2[i].getUrl||url===fill2[i].getUrl2){
-			bus.undoneRequest=2
-			bus.getByUrls(fill2,i)
+			bus[cfgName].undoneRequest=2
+			bus.getByUrls(fill2,i,bus[cfgName])
 			return;
 		}
 	}
-	// console.log('index',index)
 
 }
 publicFun.getTimeString = function(AsSetValue, AiStart, AiEnd) {

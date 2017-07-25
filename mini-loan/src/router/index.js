@@ -6,8 +6,10 @@ import mine from '../components/mine.vue'
 import applyList from '../components/mine_apply_list.vue'
 import partner from '../components/mine_partner.vue'
 import charge from '../components/mine_charge.vue'
+import myhb from '../components/mine_hb.vue'
 import commission from '../components/mine_commission.vue'
 import commissionWithdraw from '../components/mine_commission_withdraw.vue'
+import commissionWithdrawRecord from '../components/mine_commission_withdraw_record.vue'
 import commissionDetail from '../components/mine_commission_detail.vue'
 import Radio from '../components/tmpts/radio.vue'
 import Identity from '../components/info_identity.vue'
@@ -30,6 +32,7 @@ import apply_lend from '../components/apply_lend.vue'
 import coming from '../components/coming.vue'
 import shujumohe from '../components/info_shujumohe.vue'
 import pay from '../components/order_pay.vue'
+import promotion from '../components/promotion.vue'
 import errorPage from '../components/tmpts/error.vue'
 import test from '../components/test.vue'
 // import Relatives from '../components/info_relatives.vue'
@@ -45,7 +48,8 @@ var routes = [],
 	basicRoutes = [],
 	indexRoutes = [],
 	mineRoutes = [],
-	xiaoheRoutes = []
+	xiaoheRoutes = [],
+	promoteRoutes = []
 
 /**
  * 针对某一个组件创建路由数组（多个路由）
@@ -78,20 +82,24 @@ var newRoute = function(paths, name, component, options) {
 	return routes
 }
 mineRoutes = mineRoutes.concat(
-	newRoute(['/mine/login_code', '/login_code', ], 'login&pwd&signup via code', login_code),
+	newRoute(['/*/login_code', '/login_code', ], 'login&pwd&signup via code', login_code),
 	newRoute(['/login', '/*/login', ], 'login via pwd', login),
 	newRoute(['/signup', '/*/signup', ], 'signup', Signup),
 	newRoute(['/mine/pwd', '/*/pwd', ], 'pwd', Pwd),
-	newRoute(['/mine/apply_list', '/*/apply_list', ], 'apply_list', applyList),
-	newRoute(['/mine/partner', '/*/partner', ], 'partner', partner),
+	newRoute(['/mine/charge', '/*/charge', ], 'charge', charge),
+	newRoute(['/mine/myhb', '/*/myhb', ], 'myhb', myhb),
+	newRoute(['/apply_list', '/*/apply_list', ], 'apply_list', applyList),
 	newRoute('/mine', 'mine', mine),
-	newRoute('/mine/charge', 'charge', charge),
-	newRoute('/mine/commission', 'commission', commission),
-	newRoute('/mine/commission/withdraw', 'commissionWithdraw', commissionWithdraw),
-	newRoute('/mine/commission/detail', 'commissionDetail', commissionDetail),
 )
 
-
+promoteRoutes=promoteRoutes.concat(
+	newRoute(['/*/partner', '/partner', ], 'partner', partner),
+	newRoute(['/promotion','/*/promotion'],'promotion',promotion),
+	newRoute(['/*/commission','/commission'], 'commission', commission),
+	newRoute(['/*/commission/withdraw'], 'commissionWithdraw', commissionWithdraw),
+	newRoute(['/*/commission/withdraw_record'], 'commissionWithdrawRecord', commissionWithdrawRecord),
+	newRoute(['/*/commission/detail'], 'commissionDetail', commissionDetail),
+	)
 indexRoutes = indexRoutes.concat(
 	// newRoute('/apply_borrow', 'apply_borrow', apply_borrow),
 	newRoute(['/identity', '/*/identity'], 'Identity', Identity),
@@ -162,7 +170,7 @@ basicRoutes = [{
 	component: errorPage
 }, ]
 
-routes = routes.concat(indexRoutes.concat(mineRoutes), basicRoutes)
+routes = routes.concat(indexRoutes.concat(mineRoutes,promoteRoutes), basicRoutes)
 
 // console.log('routes', routes)
 export default new Router({

@@ -34,6 +34,10 @@
 				</span>
 			</div>
 		</div>
+		<div class="input">
+			
+		<el-button type='success' @click='goPage("/withdraw_record")'>提现记录</el-button>
+		</div>
 		<remind :remind='remind'></remind>
 	</div>
 </template>

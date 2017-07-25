@@ -3,7 +3,7 @@
 		<h1 class="title"><app-back></app-back>开始放贷</h1>
     <el-button type='success' class="confirm" @click='share("borrower")'>点击分享给借款人</el-button>
 		<!-- <el-button type='success' class="confirm" @click='share("partner")'>点击推广给朋友</el-button> -->
-   <div class="weixin_layout" id='cover'></div>
+   <!-- <div class="weixin_layout" id='cover'></div> -->
    <share :show='shareCoverShow'></share>
    <remind :remind='remind'></remind>
  </div>
@@ -45,12 +45,12 @@
         this.remind.isShow=true
         // publicFun.goPage('/login')
       }
-      if(to==='partner'){
-        this.changeUrlSign()
-      }
-      if(to==='borrower'){
-        this.changeUrl()
-      }
+      // if(to==='partner'){
+        // this.changeUrlSign()
+      // }
+      // if(to==='borrower'){
+      // }
+      this.changeUrl()
       this.showCover()
     },
     showCover(){
@@ -59,18 +59,19 @@
     changeUrl(){
       window.history.pushState("object or string", "Title",'/m/#/index/apply_borrow?uniqueId='+bus.uniqueId)
     },
-    changeUrlSign(){
-      window.history.pushState("object or string", "Title",'/m/#/index/login_code?signup=1&uniqueId='+bus.uniqueId)
+    // changeUrlSign(){
+      // window.history.pushState("object or string", "Title",'/m/#/index/login_code?signup=1&uniqueId='+bus.uniqueId)
 
-    },
+    // },
   },
   events: {},
   created(){
+    // this.path=this.$route.path
     publicFun.checkSession(this)
   	bus.$on('close_share_cover',()=>{
   		this.shareCoverShow='none'
-      // window.history.pushState("object or string", "Title",'/m/#/apply_lend')
-      // publicFun.goPage(-1)
+      // window.history.pushState("object or string", "Title",'/m/#'+this.$route.path)
+      publicFun.goPage(-1)
 
   	})
   },

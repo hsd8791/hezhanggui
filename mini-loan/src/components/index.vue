@@ -11,7 +11,7 @@
 					<!-- <div class="item-icon"><i class="icon-banknote"></i></div> -->
 					<div class="item-name">我要放贷</div>
 				</div>
-				<div class="ctrl-bttn" @click=''>
+				<div class="ctrl-bttn" @click='goP("/promotion")'>
 					<!-- <div class="item-icon"><i class="icon-banknote"></i></div> -->
 					<div class="item-name">我要赚钱</div>
 				</div>
@@ -26,6 +26,7 @@
 		<div class="container">
 			<div class="row" v-for='row in essentialCell'>
 				<div class="cell" v-for='cell in row' @click='goP(cell.url)'>
+					<i :class="{'input-status icon-document-edit':cell.status===0,'icon-input-checked':cell.status===1,'icon-spinner':cell.status===-1,'active':showInputIcon}" class=" input-status"></i>
 					<div class="item-icon"><i :class="cell.icon"></i></div>
 					<div class="item-name">{{cell.label}}</div>
 				</div>
@@ -35,6 +36,7 @@
 		<div class="container">
 			<div class="row" v-for='row in optionalCells'>
 				<div class="cell" v-for='cell in row' @click='goP(cell.url)'>
+					<i :class="{'input-status icon-document-edit':cell.status===0,'icon-input-checked':cell.status===1,'icon-spinner':cell.status===-1,'active':showInputIcon}" class="  input-status"></i>
 					<div class="item-icon"><i :class="cell.icon"></i></div>
 					<div class="item-name">{{cell.label}}</div>
 				</div>
@@ -56,6 +58,7 @@
 				return {
 					//从bus中导入
 					//??需拆分成4个一组
+					showInputIcon:false,
 					essentialCell:[
 						// [1], 
 					],
@@ -109,10 +112,14 @@
 				goP(path) {
 					publicFun.goPage(this.$route.path + path)
 				},
-				createCells(cells,arr){
+				createCells(cells,cfgName,arr){
+					// cells=[[]]
 					var tempArr=[],len=arr.length
 					var rows,i,j,k
-					tempArr=tempArr.concat(bus[arr[0]],bus[arr[1]])
+					for(i=0;i<len;i++){
+						tempArr=tempArr.concat(bus[cfgName][arr[i]])
+					}
+						
 					 // tempArr=bus.fillStatus.concat(bus.fillStatus2)
 					// console.log('tempArr',tempArr)
 					// this.essentialCell=[[]]
@@ -148,11 +155,29 @@
 				// for(j=rows*4,k=0;j<tempArr.length;j++,k++){
 				// 	this.essentialCell[rows][k]=tempArr[j]
 				// }
-				this.createCells(this.essentialCell,['fillStatus','fillStatus2'])
-				this.createCells(this.optionalCells,['fillStatusOpt','fillStatusOpt2'])
+				this.createCells(this.essentialCell,'cfgEssential',['fillStatus','fillStatus2'])
+				this.createCells(this.optionalCells,'cfgOptional',['fillStatus','fillStatus2'])
 				bus.$on('checked_fill_status',val=>{
-					// console.log('on checked_fill_status',this.$route.path)
-					this.createCells(this.essentialCell,['fillStatus','fillStatus2'])
+					// console.log('on checked_fill_status',val)
+					// this.essentialCell=val
+					this.createCells(this.essentialCell,'cfgEssential',['fillStatus','fillStatus2'])
+				})
+				bus.$on('checked_fill_status_optional',val=>{
+					console.log('checked_fill_status_optional on')
+					this.createCells(this.optionalCells,'cfgOptional',['fillStatus','fillStatus2'])
+				})
+				if(bus.account==='请登录'){
+					this.showInputIcon=false
+				}else{
+					this.showInputIcon=true
+				}
+				bus.$on('account_change',(ac)=>{
+					console.log('account_change on',ac)
+					if(ac==='请登录'){
+						this.showInputIcon=false
+					}else{
+						this.showInputIcon=true
+					}
 				})
 				// this.createCells(this.optionalCells)
 
@@ -192,7 +217,32 @@
 				}
 			}
 			.cell{
-
+				position: relative;
+				.input-status{
+					position: absolute;
+					right: 0.05rem;
+					top: 0.05rem;
+					font-size: 0.15rem;
+					display: none;
+				}
+				.active{
+					display: block;
+				}
+				.icon-spinner{
+					display: none;
+					animation: spinning 1s infinite;
+					animation-timing-function: linear;
+				}
+				.icon-document-edit{
+					color:#a5a54c;
+				}
+				.icon-input-checked{
+					color: #09bb07;
+				}
+				@keyframes spinning{
+					from {transform: rotate(0);}
+					to {transform: rotate(360deg);}
+				}
 				.item-icon{
 					margin:0.2rem 0 0;
 					/*border:1px solid red;*/

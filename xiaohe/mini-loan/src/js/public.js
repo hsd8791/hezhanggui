@@ -460,7 +460,7 @@ publicFun.wechatAuth = function(vm) {
 
 function fToTwo(aNum) {
 	return aNum >= 10 ? aNum : "0" + aNum;
-};
+};	
 //yyyy-mm-dd hh:mm:ss ----(0,19)
 //yy-mm-dd hh:mm:ss ----(2,19)
 //mm-dd hh:mm:ss ----(5,19)

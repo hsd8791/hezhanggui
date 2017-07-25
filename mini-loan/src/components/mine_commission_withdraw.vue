@@ -48,7 +48,7 @@
 				loading:false,
 				editing:true,
 				clause:true,
-				amount:'0.01',
+				amount:'10.00',
 				zhifubao:'1111111',
 				name:'huang',
 				phone:'12345678901',
@@ -148,8 +148,8 @@
 		},
 		computed:{
 			amountValid:function(){
-				// var reg=/^((1[0-9])|([2-9]\d)|([1-9]\d{2,}))(\.\d{1,2})?$/;
-				var reg=/\d+/
+				var reg=/^((1[0-9])|([2-9]\d)|([1-9]\d{2,}))(\.\d{1,2})?$/;
+				// var reg=/\d+/
 				return reg.test(this.amount)
 			},
 			zhifubaoValid:function(){

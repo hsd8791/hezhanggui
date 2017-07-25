@@ -16,7 +16,7 @@
     <foot-nav v-if='footNavShow' ></foot-nav>
   <!-- </transition> -->
   <remind :remind='remind'></remind >
-  <!-- <button id="testBttn" @click='test'>test</button> -->
+  <button id="testBttn" @click='test'>test</button>
   </div>
 </template>
 
@@ -55,8 +55,9 @@ export default {
   },
   methods: {
     test(){
-      console.log('test')
-      bus.checkAllFilled()
+      console.log('test',bus)
+      bus.checkAllFilled(bus.cfgEssential)
+      bus.checkAllFilled(bus.cfgOptional)
       bus.$emit('checked_fill_status', bus.fillStatusCfg)
     },
     checkSession() {

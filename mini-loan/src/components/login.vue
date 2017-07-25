@@ -93,19 +93,10 @@
 		},
 		methods: {
 			signup(){
-				publicFun.goPage('/login_code?signup=1')
-				// this.remind.remindMsg='注册：选择手机登录'
-				// this.remind.remindMsgDscrp='将为您直接注册，登录后请设置密码'
-				// this.remind.remindOpts=[{msg:'确定'}]
-				// this.remind.isShow=true
+				publicFun.goPage(this.$route.path+'/login_code?signup=1')
 			},
 			findPwd(){
-				publicFun.goPage('/login_code?findPwd=1')
-				// this.pwdLost=true
-				// this.remind.remindMsg='找回密码：选择手机登录'
-				// this.remind.remindMsgDscrp='请使用手机验证码登录后重置密码'
-				// this.remind.remindOpts=[{msg:'确定'}]
-				// this.remind.isShow=true
+				publicFun.goPage(this.$route.path+'/login_code?findPwd=1')
 			},
 			pwdLog(b){
 				this.pwdLogin=b
