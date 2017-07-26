@@ -6,21 +6,21 @@
 		</h1>
 		<h2 class="sub-title">个人联系方式</h2>
 		<div class="container">
-			<div class="wraper">
+			<!-- <div class="wraper">
 				<label :disabled='!editing'>QQ昵称：</label> 
 				<el-input  :disabled='!editing' placeholder='请输入QQ昵称' v-model='nickQq' @blur.once='blured'  :class='{"valid-border":nickQqValid,"error-border":!nickQqValid}'></el-input>
 				<i :class="{'el-icon-check':nickQqValid,'el-icon-close':!nickQqValid}"></i>
-			</div>
+			</div> -->
 			<div class="wraper">
 				<label>QQ账号：</label> 
 				<el-input :disabled='!editing' placeholder='请输入QQ账号' v-model='acQQ' @blur.once='blured'  :class='{"valid-border":acQQValid,"error-border":!acQQValid}'></el-input>
 				<i :class="{'el-icon-check':acQQValid,'el-icon-close':!acQQValid}"></i>
 			</div>
-			<div class="wraper">
+			<!-- <div class="wraper">
 				<label>微信昵称：</label> 
 				<el-input :disabled='!editing' placeholder='请输入微信昵称' v-model='nickWechat' @blur.once='blured'  :class='{"valid-border":nickWechatValid,"error-border":!nickWechatValid}'></el-input>
 				<i :class="{'el-icon-check':nickWechatValid,'el-icon-close':!nickWechatValid}"></i>
-			</div>
+			</div> -->
 			<div class="wraper">
 				<label>微信账号：</label> 
 				<el-input :disabled='!editing' placeholder='请输入微信账号' v-model='acWechat' @blur.once='blured'  :class='{"valid-border":acWechatValid,"error-border":!acWechatValid}'></el-input>
@@ -40,7 +40,11 @@
 				<el-select :disabled='!editing' v-model="item.relative" placeholder="关系"  @change='validateRelative(item)'  class=''>
 				<el-option v-for="relation in relationOpts[index]" :key="relation.value" :label="relation.label" :value="relation.value"></el-option></el-select>
 			</div>
-
+			<!-- <div class="wraper">
+				<label>关系：</label>
+				<el-input :disabled='!editing'  placeholder='关系' v-model='item.relative' @blur.once='blured'  @change='validateRelative(item)'></el-input>
+				<i :class="{'el-icon-check':item.relativeValid,'el-icon-close':!item.relativeValid}"></i>
+			</div> -->
 
 
 			<div class="wraper">
@@ -281,7 +285,8 @@ export default {
 					// 	relationValid=relationValid&&c.phoneValid&&c.relationValid&&c.nameValid
 					// }
 					// var validR=this.relatives[0].validAll&&this.relatives[1].validAll
-				return t.relativesAllVailid && t.nickQqValid && t.acQQValid && t.nickWechatValid && t.acWechatValid && true //&&
+					//  t.nickQqValid && t.nickWechatValid &&
+				return t.relativesAllVailid && t.acQQValid &&  t.acWechatValid && true //&&
 
 			},
 		},

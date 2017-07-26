@@ -40,6 +40,7 @@ export default {
       editing:true,
       backAfterPost:false,// watch out
       url:'accounting/myLendInfo',
+      urlApply:'lendApply/borrowLoanRecords?limit=1',
       // urlSales:'qudao/pv?qudao=',
       remind:{
       	isShow:false,
@@ -73,10 +74,19 @@ export default {
   			if(this.response.body.data){
   				this.isNewer=false
   			}else{
-  				this.isNewer=true
+  				publicFun.get(this.urlApply,this,()=>{
+  					console.warn('this urlApply',this.response)
+  					if(this.response.body.data.data.length){
+  						this.isNewer=false
+  					}else{
+  						this.isNewer=true
+  					}
+  				})
   			}
   		})
+  		
   	},
+
   	dealBill(){
   		publicFun.goPage('/loan_bill')
   	},

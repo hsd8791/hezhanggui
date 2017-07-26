@@ -20,12 +20,16 @@
 				<el-input :disabled='!editing' type='number' placeholder='借贷金额，无负债填0' v-model='otherLiabilities' @blur.once='blured'  :class='{"valid-border":otherLiabilitiesValid,"error-border":!otherLiabilitiesValid}'></el-input>
 				<i :class="{'el-icon-check':otherLiabilitiesValid,'el-icon-close':!otherLiabilitiesValid}"></i>
 			</div>
-			<div class="wraper">
-				<label class="label">芝麻信用分：</label> 
-				<el-input :disabled='!editing' type='number' placeholder='填写芝麻信用分' v-model='zmxyScore' @blur.once='blured'  :class='{"valid-border":zmxyScoreValid,"error-border":!zmxyScoreValid}'></el-input>
+			<div class="wraper" >
+				<label class="label">花呗额度：</label> 
+				<el-input :disabled='!editing' type='number' placeholder='填写花呗额度' v-model='zmxyScore' @blur.once='blured'  :class='{"valid-border":zmxyScoreValid,"error-border":!zmxyScoreValid}'></el-input>
 				<i :class="{'el-icon-check':zmxyScoreValid,'el-icon-close':!zmxyScoreValid}"></i>
 			</div>
-
+			<div class="wraper" >
+				<label class="label">芝麻信用分：</label> 
+				<el-input :disabled='!editing' type='number' placeholder='填写芝麻信用分' v-model='zmxyScore2' @blur.once='blured'  :class='{"valid-border":zmxyScore2Valid,"error-border":!zmxyScore2Valid}'></el-input>
+				<i :class="{'el-icon-check':zmxyScore2Valid,'el-icon-close':!zmxyScore2Valid}"></i>
+			</div>
 		</div>
 		<transition>
 			<el-button type='success' :disabled='!allValid' class='submit' v-if='editing' @click='submit'>提交</el-button>
@@ -50,6 +54,7 @@
 				jinjiedaoLiabilities:'',
 				otherLiabilities:'',
 				zmxyScore:'',
+				zmxyScore2:'',
 				url:'userInfo/liabilities',
 				formData:{
 				},
@@ -71,6 +76,8 @@
 				postBody.jinjiedaoLiabilities = this.jinjiedaoLiabilities 
 				postBody.otherLiabilities = this.otherLiabilities 
 				postBody.zmxyScore = this.zmxyScore 
+				postBody.zmxyScore2 = this.zmxyScore2 
+				console.log('postBody',postBody)
 				publicFun.post(this.url,postBody,this,()=>{
 					console.log('post res',this.response)
 				})
@@ -86,6 +93,7 @@
 					this.jinjiedaoLiabilities=	data.jinjiedaoLiabilities			
 					this.otherLiabilities=data.otherLiabilities
 					this.zmxyScore=data.zmxyScore
+					this.zmxyScore2=data.zmxyScore2
 
 				})
 			},
@@ -96,28 +104,28 @@
 				var el=$event.target.parentElement.parentElement
 				el.className+=' validate'
 			},
-			setFormData(dataKey){
-				if(this[dataKey+'Valid']){
-					this.formData[dataKey]=this[dataKey]
-				}else{
-					this.formData[dataKey]=null
-				}
-			},
+			// setFormData(dataKey){
+			// 	if(this[dataKey+'Valid']){
+			// 		this.formData[dataKey]=this[dataKey]
+			// 	}else{
+			// 		this.formData[dataKey]=null
+			// 	}
+			// },
 			
 		},
 		watch:{
-			jiedaibaoLiabilities:function(){
-				this.setFormData('jiedaibaoLiabilities')
-			},
-			jinjiedaoLiabilities:function(){
-				this.setFormData('jinjiedaoLiabilities')
-			},
-			otherLiabilities:function(){
-				this.setFormData('otherLiabilities')
-			},
-			zmxyScore:function(){
-				this.setFormData('zmxyScore')
-			},
+			// jiedaibaoLiabilities:function(){
+			// 	this.setFormData('jiedaibaoLiabilities')
+			// },
+			// jinjiedaoLiabilities:function(){
+			// 	this.setFormData('jinjiedaoLiabilities')
+			// },
+			// otherLiabilities:function(){
+			// 	this.setFormData('otherLiabilities')
+			// },
+			// zmxyScore:function(){
+			// 	this.setFormData('zmxyScore')
+			// },
 		},
 		computed:{
 			jiedaibaoLiabilitiesValid:function(){
@@ -136,10 +144,13 @@
 				var reg=/\d/;
 				return reg.test(this.zmxyScore)
 			},
-
+			zmxyScore2Valid:function(){
+				var reg=/\d/
+				return reg.test(this.zmxyScore2)
+			},
 			allValid:function(){
 				var t=this
-				return t.jiedaibaoLiabilitiesValid&&t.jinjiedaoLiabilitiesValid&&t.otherLiabilitiesValid&&t.zmxyScoreValid&&true//&&
+				return t.jiedaibaoLiabilitiesValid&&t.jinjiedaoLiabilitiesValid&&t.otherLiabilitiesValid&&t.zmxyScoreValid&&t.zmxyScore2Valid&&true//&&
 				
 			},
 		},

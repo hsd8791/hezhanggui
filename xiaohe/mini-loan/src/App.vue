@@ -175,6 +175,7 @@
     padding-bottom: 0.65rem;
     /*background: #fcf9fe;*/
     background: #f4f4f4;
+    z-index: 9;
     /*margin-top: 0.6rem;*/
   }
 

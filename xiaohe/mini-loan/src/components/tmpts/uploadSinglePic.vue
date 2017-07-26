@@ -87,7 +87,7 @@
     		// console.log('formData',formData) // sorry this can't work
     		var xhr=new XMLHttpRequest()
     		xhr.withCredentials = true;  
-    		xhr.open('post','http://hzg.he577.com/'+cfg.url)
+    		xhr.open('post',this.$http.options.root+'/'+cfg.url)
     		// xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
     		xhr.addEventListener('readystatechange',()=>{
     			if(xhr.readyState===4&&xhr.status===200){
@@ -148,6 +148,9 @@
 					if(res){
 						this.urlF=res[cfg.resKey]
 					}
+					if(!this.urlF){
+						this.editing=true
+					}
 				})
 			},
 			edit:function($event){
@@ -161,10 +164,11 @@
 				var input = $event.target.parentElement.parentElement.getElementsByTagName('input')[0]
 				console.log('input.files[0].size',input.files[0].size)
 				console.log('input.files[0].size',input.files[0].type)
-				if(input.files[0].size>1024*1024){
+				if(input.files[0].size>2*1024*1024){
 					var r = this.remind
-					r.remindMsg='大小超过1M'
+					r.remindMsg='大小不得超过2M'
 					r.isShow=true
+					return
 				}
 				// console.log(' $event.target.parentElement', $event.target.parentElement.parentElement)
 				// console.log(' $event.target', $event.target)
@@ -257,6 +261,7 @@
 		position: absolute;
 		top: 0;
 		opacity: 0;
+		z-index: -1;
 	}
 	div.container{
 		width: 100%;

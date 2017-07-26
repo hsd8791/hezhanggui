@@ -40,7 +40,11 @@
 				<el-select :disabled='!editing' v-model="item.relative" placeholder="关系"  @change='validateRelative(item)'  class=''>
 				<el-option v-for="relation in relationOpts[index]" :key="relation.value" :label="relation.label" :value="relation.value"></el-option></el-select>
 			</div>
-
+			<!-- <div class="wraper">
+				<label>关系：</label>
+				<el-input :disabled='!editing'  placeholder='关系' v-model='item.relative' @blur.once='blured'  @change='validateRelative(item)'></el-input>
+				<i :class="{'el-icon-check':item.relativeValid,'el-icon-close':!item.relativeValid}"></i>
+			</div> -->
 
 
 			<div class="wraper">

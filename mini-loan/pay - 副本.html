@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>禾掌柜/小禾微贷</title>
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta charset="utf-8">
+	<script type="text/javascript">
+		function setRem(){
+			var remDefault=document.documentElement.style.fontSize = 
+			window.innerWidth/3.75 + 'px';
+		}
+		setRem()
+		window.onresize=setRem
+	</script>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.title {
+			background: #37383b;
+			color: #fff;
+			padding: 0.1rem 0;
+			font-size: 0.2rem;
+			position: relative;
+			width: 100%;
+			line-height: 1;
+			text-align: center;
+			box-sizing: border-box;
+		}
+		#bttn{
+			width: 0.5rem;
+			height: 0.3rem;
+
+		}
+	</style>
+
+</head>
+<body>
+	<h1 class="title">支付</h1>
+	<div id="bttn">pay!</div>
+	<script type="text/javascript">
+		window.onload = function() {
+			document.querySelector('#bttn').onclick=pay
+			var payData={},
+			payUrl='http://hzg.he577.com/test/order/pay',
+			statusUrl='http://hzg.he577.com/test/order/status?payId=',
+			payTypes=['WX_NATIVE','WX_JSAPI'],
+			payId=2
+			var urlPayRequest = urlConcat(payUrl, {
+				payId: payId,
+				payType: payTypes[1],
+			})
+			var loginXhr = new XMLHttpRequest()
+			loginXhr.open('get','http://hzg.he577.com//account/loginByPwd?phone=13816938525&password=12345678')
+			loginXhr.addEventListener('readystatechange',()=>{
+				if(loginXhr.readyState==4){
+					console.log('success',loginXhr.response)
+				}
+			},false)
+			loginXhr.send(null)
+
+
+			var xhr = new XMLHttpRequest()
+			xhr.withCredentials = true;  
+			xhr.open('get',urlPayRequest)
+				// xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
+			xhr.addEventListener('readystatechange', () => {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					console.log('success', xhr.response)
+					// this.response = {}
+					// this.response.body = JSON.parse(xhr.response)
+						// console.log('this,response',JSON.parse(xhr.response))    			
+					// publicFun.postRes(this.response, this)
+				}
+				console.log('xhr ready change')
+				console.log('xhr', xhr.readyState)
+				console.log('xhr', xhr.response)
+				console.log('xhr', xhr)
+			}, false)
+			xhr.onerror = function(e) {
+				console.log('error', e)
+			}
+			xhr.onloadstart = function() {
+				console.log('start upload')
+			}
+			function pay(){
+				xhr.send(null)
+			}
+			function payInvoke() {
+				console.log({
+					"appId": payData.appId, //公众号名称，由商户传入     
+					"timeStamp": payData.timeStamp, //时间戳，自1970年以来的秒数     
+					"nonceStr": payData.nonceStr, //随机串     
+					"package": payData.package,
+					"signType": payData.signType, //微信签名方式：     
+					"paySign": payData.paySign //微信签名 
+				})
+				WeixinJSBridge.invoke(
+					'getBrandWCPayRequest', {
+						"appId": payData.appId, //公众号名称，由商户传入     
+						"timeStamp": payData.timeStamp, //时间戳，自1970年以来的秒数     
+						"nonceStr": payData.nonceStr, //随机串     
+						"package": payData.package,
+						"signType": payData.signType, //微信签名方式：     
+						"paySign": payData.paySign //微信签名 
+					},
+					(res) => {
+						if (res.err_msg == "get_brand_wcpay_request:ok") {
+							console.log('push forward')
+						} else {
+							console.log('failed')
+						}
+						// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+					}
+				);
+			}
+			function get() {
+				if (!this.payId) {
+					console.warn('no payId')
+					return
+				}
+				
+				publicFun.get(url, this, () => {
+					console.log('pay id', this.response.body.data.payInfo)
+					payData = this.response.body.data.payInfo
+					if (typeof WeixinJSBridge == "undefined") {
+						if (document.addEventListener) {
+							document.addEventListener('WeixinJSBridgeReady', payInvoke, false);
+						} else if (document.attachEvent) {
+							document.attachEvent('WeixinJSBridgeReady', payInvoke);
+							document.attachEvent('onWeixinJSBridgeReady', payInvoke);
+						}
+					} else {
+						payInvoke();
+						var T = setInterval(() => {
+							publicFun.get(this.statusUrl + this.payId, this, () => {
+								console.log('res status pay', this.response.body)
+								var data = this.response.body.data
+								if (data.status === 'success') {
+									clearInterval(T)
+									var r = this.remind
+									r.remindMsg = '支付成功'
+									r.isShow = true
+									r.remindOpts = [{
+										msg: '确定',
+										callback: () => {
+											// publicFun.goPage(-1,()=>{
+											// bus.$emit('paid_service_paid')
+											// publicFun.goPage('/paid_service/history')
+											publicFun.goPage(this.fromPath)
+												// })
+										}
+									}]
+
+								}
+							})
+						}, 2000)
+					}
+
+				})
+			}
+			function urlConcat(url, obj) {
+				var str = ''
+				for (var key in obj) {
+					str = str + key + '=' + obj[key] + '&'
+				}
+				str = url + '?' + str
+				return str
+			}
+		}
+	</script>
+</body>
+</html>

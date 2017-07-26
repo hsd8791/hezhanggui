@@ -1,36 +1,30 @@
 <template>
-  <div id="app" v-loading='loading' element-loading-text='请稍后'>
+  <div id="app">
 
     <div class="router-view-container" :class="{'show-foot':footNavShow}">
-      <keep-alive>
-      <!-- <transition :name='enter'> -->
+     <!--  <keep-alive>
         <router-view v-if="$route.meta.keepAlive"></router-view>
-      <!-- </transition> -->
-    </keep-alive>
-    <!-- <transition :name='enter'> -->
+    </keep-alive> -->
       <router-view v-if="!$route.meta.keepAlive"></router-view>
-    <!-- </transition> -->
 
   </div>
-  <!-- <transition :name='enter'> -->
-    <foot-nav v-if='footNavShow' ></foot-nav>
-  <!-- </transition> -->
+    <!-- <foot-nav v-if='footNavShow' ></foot-nav> -->
   <remind :remind='remind'></remind >
-  <button id="testBttn" @click='test'>test</button>
+  <!-- <button id="testBttn" @click='test'>test</button> -->
   </div>
 </template>
 
 <script>
-import router from './router'
-import footNav from './foot.vue'
+// import router from './router'
+// import footNav from './foot.vue'
 import publicFun from './js/public.js'
-import bus from './bus.js'
-import remind from './components/tmpts/remind.vue'
-import './css/icons.css'
-import './css/input.css'
+// import bus from './bus.js'
+// import remind from './components/tmpts/remind.vue'
+// import './css/icons.css'
+// import './css/input.css'
 // import './libs/font-awesome.min.css'
 export default {
-  name: 'App',
+  name: 'App_pay',
   // cmpt:/borrow/,
   data: function() {
     return {
@@ -54,12 +48,12 @@ export default {
     }
   },
   methods: {
-    test(){
-      console.log('test',bus)
-      bus.checkAllFilled(bus.cfgEssential)
-      bus.checkAllFilled(bus.cfgOptional)
-      bus.$emit('checked_fill_status', bus.fillStatusCfg)
-    },
+    // test(){
+    //   console.log('test',bus)
+    //   bus.checkAllFilled(bus.cfgEssential)
+    //   bus.checkAllFilled(bus.cfgOptional)
+    //   bus.$emit('checked_fill_status', bus.fillStatusCfg)
+    // },
     checkSession() {
       console.log('checkSession')
       this.loading = true
@@ -70,7 +64,7 @@ export default {
         if (data) {
           // bus.account=data.phone
           // bus.uniqueId=data.uniqueId
-          bus.$emit('account_change', localStorage.userID, localStorage.uniqueId)
+          // bus.$emit('account_change', localStorage.userID, localStorage.uniqueId)
           if (data.isSetPwd == 0) {
             // console.log('no set pwd')
             var r = this.remind
@@ -93,14 +87,14 @@ export default {
   created: function() {
 
     // this.checkFilled()
-    bus.$on('foot_show_change', (footShow) => {
-      this.footNavShow = footShow
-    })
-    bus.$on('url_change', (action) => {
-      this.enter = action
-    })
+    // bus.$on('foot_show_change', (footShow) => {
+    //   this.footNavShow = footShow
+    // })
+    // bus.$on('url_change', (action) => {
+    //   this.enter = action
+    // })
     this.checkSession()
-    this.footNavShow = true
+    // this.footNavShow = true
   },
   watch: {
     // account:function(val){
@@ -109,8 +103,8 @@ export default {
     // }
   },
   components: {
-    'foot-nav': footNav,
-    remind: remind,
+    // 'foot-nav': footNav,
+    // remind: remind,
   }
 }
 </script>
@@ -151,7 +145,7 @@ export default {
     padding-bottom: 0.65rem;
     /*background: #fcf9fe;*/
     background: #f4f4f4;
-    /*z-index: 999;*/
+    z-index: 9999;
     /*margin-top: 0.6rem;*/
   }
 

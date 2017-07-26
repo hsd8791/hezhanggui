@@ -1,10 +1,10 @@
 <template>
 	<div id="jobVue"  class="input">
-		<div class="container" v-loading='loading' element-loading-text='请稍后'>
 			<h1 class="title">
 				<app-back></app-back>工作信息
 				<span class="edit-input" v-if='!editing' @click='edit'>编辑</span>
 			</h1>
+		<div class="container" v-loading='loading' element-loading-text='请稍后'>
 			<div class="wraper">
 				<label>单位名称：</label>
 				<el-input :disabled='!editing' placeholder='请输入单位全称' v-model='employerName' @blur.once='blured'  :class='{"valid-border":employerNameValid,"error-border":!employerNameValid}'></el-input>
@@ -89,6 +89,9 @@
 				publicFun.get(this.url,this,()=>{
 					console.log('res outer',this.response)
 					var data=this.response.body.data
+					if(!data){
+						return
+					}
 					this.employerName=data.companyName
 					this.workPhone=data.workPhone
 					this.employerAdd=data.companyAdr

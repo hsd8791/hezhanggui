@@ -132,8 +132,8 @@
 						checkMethod: function(data) {
 							// console.log('data', data)
 							// console.log('test filling')
+							this.status = 0
 							if (!data) {
-								this.status = 0
 								return
 							}
 							if (data.idcardUrl && data.idcardUrl2) {

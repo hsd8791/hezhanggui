@@ -34,13 +34,13 @@ import shujumohe from '../components/info_shujumohe.vue'
 import pay from '../components/order_pay.vue'
 import promotion from '../components/promotion.vue'
 import errorPage from '../components/tmpts/error.vue'
-import test from '../components/test.vue'
+// import test from '../components/test.vue'
 // import Relatives from '../components/info_relatives.vue'
 // import AddInfo from '../components/info_add_info.vue'
 // import AuditBorrow from '../components/audit_borrow.vue'
 // import Descrip from '../components/descrip.vue'
 
-import bus from '../bus.js'
+// import bus from '../bus.js'
 Vue.use(Router)
 	// var rootPath = '/hezhanggui'
 var rootPath = ''
@@ -113,13 +113,13 @@ indexRoutes = indexRoutes.concat(
 	newRoute(['/apply_borrow', '/*/apply_borrow'], 'apply_borrow', apply_borrow),
 	newRoute(['/shujumohe', '/*/shujumohe'], 'shujumohe', shujumohe),
 	newRoute('/*/pay', 'pay', pay),
-	newRoute('/test', 'test', test),
+	// newRoute('/test', 'test', test),
 
 
 )
 
 console.log('indexRoutes', indexRoutes)
-
+// alter('!!')
 
 basicRoutes = [{
 	path: rootPath + '/index',

@@ -139,7 +139,7 @@ publicFun.checkSession = function(vm, callback) {
 	var loginOpts = [{
 		msg: '确定',
 		callback: () => {
-			this.goPage(this.$route.path + '/login') // 与vm 中不同
+			this.goPage(vm.$route.path + '/login') // 与vm 中不同
 		}
 	}, {
 		msg: '取消',
@@ -440,8 +440,16 @@ publicFun.isWeiXin = function() {
 }
 publicFun.wechatAuth = function(vm) {
 	// console.log('authorize wechat')
+	var back=location.href
+	var i=back.match('/login')
+	if(i){
+	 back=back.slice(0,i.index)
+	}
+	// console.warn('back path',back)
+	// console.log('i',i.index)
+	console.warn('wechat auth back path',back)
 	if (this.isWeiXin()) {
-		publicFun.get('wechat/oauth', vm, () => {
+		publicFun.get('wechat/oauth?url='+path, vm, () => {
 			console.log('res auth', vm.response.body.data)
 			if (vm.response.body.data) {
 				// alert('绑定微信')

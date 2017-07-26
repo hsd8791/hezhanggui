@@ -23,7 +23,7 @@ $dangerColor:#e94f4f;
 		font-size: 0.2rem;
 		position: relative;
 		// position: fixed;
-
+		z-index: 9999999;
 		width: 100%;
 		line-height: 1;
 		.edit-input{

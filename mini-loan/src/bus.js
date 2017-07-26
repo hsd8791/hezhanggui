@@ -97,13 +97,14 @@ var bus = new Vue({
 				getUrl: 'userInfo/addAccessory',
 				icon: 'icon-upload',
 				checkMethod: function(data) {
-					// console.log('data', data)
-					// console.log('test filling')
+					console.log('data', data)
+					console.log('test upload')
+					this.status=0
 					if (!data) {
-						this.status = 0
+						// this.status = 0
 						return
 					}
-					if (data.idcardUrl && data.idcardUrl2) {
+					if (data.idcardUrl && data.idcardUrl2 &&data.idcardUrl3) {
 						this.status = 1
 					}
 				}

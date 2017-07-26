@@ -1,7 +1,7 @@
 <template>
 	<div id="orderPayVue" class="input">
 		<h1 class="title">
-      <app-back></app-back>
+      <!-- <app-back></app-back> -->
       支付
     </h1>
 		<remind :remind='remind'></remind>

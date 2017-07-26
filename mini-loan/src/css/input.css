@@ -9,6 +9,7 @@
     padding: 0.1rem 0;
     font-size: 0.2rem;
     position: relative;
+    z-index: 9999999;
     width: 100%;
     line-height: 1; }
     .input .title .edit-input {
@@ -153,7 +154,7 @@
 .input .el-input.is-disabled .el-input__inner {
   background-color: #fff;
   border-color: #fff;
-  color: #777;
+  color: #555;
   cursor: not-allowed; }
 .input .el-button--success.is-disabled, .input .el-button--success.is-disabled:focus, .input .el-button--success.is-disabled:hover {
   color: #dbf4db;
