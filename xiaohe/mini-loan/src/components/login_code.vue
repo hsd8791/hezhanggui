@@ -14,10 +14,17 @@
 				<!-- <i :class="{'el-icon-check':cellphoneValid,'el-icon-close':!cellphoneValid}"></i> -->
 			</div>
 			<div class="wraper">
+				<label>图片码：</label>
+				<!-- :class="{'valid':idCardNumValid,'error':!idCardNumValid}" -->
+				<el-input placeholder='图片验证码' v-model='picCode' @blur.once='blured'  :class='{"valid-border":picCodeValid,"error-border":!picCodeValid}'></el-input>
+				<img class='pic-code' :src="picCodeSrc" alt='填手机号获取' @click='getPicCode'>
+				<!-- <i :class="{'el-icon-check':verifyCodeValid,'el-icon-close':!verifyCodeValid}"></i> -->
+			</div>
+			<div class="wraper">
 				<label>验证码：</label>
 				<!-- :class="{'valid':idCardNumValid,'error':!idCardNumValid}" -->
-				<el-input placeholder='填写验证码' v-model='verifyCode' @blur.once='blured'  :class='{"valid-border":verifyCodeValid,"error-border":!verifyCodeValid}'></el-input>
-				<el-button class='getVerify' type="warning" @click='getCode' :disabled="banGetCode||!cellphoneValid">{{codeBtnMsg}}</el-button>
+				<el-input placeholder='手机验证码' v-model='verifyCode' @blur.once='blured'  :class='{"valid-border":verifyCodeValid,"error-border":!verifyCodeValid}'></el-input>
+				<el-button class='getVerify' type="warning" @click='getCode' :disabled="banGetCode||!cellphoneValid||!picCodeValid">{{codeBtnMsg}}</el-button>
 				<!-- <i :class="{'el-icon-check':verifyCodeValid,'el-icon-close':!verifyCodeValid}"></i> -->
 			</div>
 		</div>
@@ -49,8 +56,12 @@
 				pwdLost:true,
 				cellphone:'',
 				verifyCode:'',
+				picCode:'',
+				picCodeSrc:'',
 				banGetCode:false,
 				loading:false,
+				urlGetVerifyCode:'account/sendVerifyCode',
+				urlGetPicCode:'account/captcha',
 				// loadText:'',
 				pwd:'',
 				codeBtnMsg:"获取验证码",
@@ -103,26 +114,45 @@
 				el.className+=' validate'
 			},
 			getCode(){
-				this.banGetCode=true
-				var expire=60,self_=this
-				this.codeBtnMsg=expire+'s后获取'
-				var T=setInterval(function(){
-					expire--
-					self_.codeBtnMsg=expire+'s后获取'
-					if(!expire){
-						clearInterval(T)
-						self_.banGetCode=false
-						self_.codeBtnMsg="获取验证码"
-					}
-				},1000)
-				var url='account/sendVerifyCode?phone='+this.cellphone
-				// this.$http.get(url).then(response=>{
 
-				// },err=>{
-				// })
+				var url=this.urlGetVerifyCode+'?phone='+this.cellphone
+				var url=publicFun.urlConcat(this.urlGetVerifyCode,{
+					phone:this.cellphone,
+					code:this.picCode,
+				})
 				publicFun.get(url,this,()=>{
 					console.log('get code response',this.response)
+
+					this.banGetCode=true
+					var expire=60,self_=this
+					this.codeBtnMsg=expire+'s后获取'
+					var T=setInterval(function(){
+						expire--
+						self_.codeBtnMsg=expire+'s后获取'
+						if(!expire){
+							clearInterval(T)
+							self_.banGetCode=false
+							self_.codeBtnMsg="获取验证码"
+						}
+					},1000)
+				},()=>{},()=>{
+					if(this.response.body.error==20018){
+						this.picCode=''
+						this.getPicCode()
+					}
 				})
+			},
+			getPicCode(){
+				if(!this.cellphoneValid){
+					return
+				}
+				// var url=this.urlGetPicCode+'?phone='+this.cellphone
+				var url=publicFun.urlConcat(this.urlGetPicCode,{
+					phone:this.cellphone,
+					v:Math.random().toFixed(5)
+				})
+				this.picCodeSrc=this.$http.options.root+'/'+url	
+				
 			},
 			setFormData(dataKey){
 				if(this[dataKey+'Valid']){
@@ -176,40 +206,7 @@
 							publicFun.wechatAuth(this)
 						}
 				})
-
-				// this.$http.get(url).then(response => {
-				// 	console.log('response',response)
-				// 	var res=response.body
-				// 	this.loading=false
-				// 	if(res.error){
-				// 		this.remind.isShow=true
-				// 		this.remind.remindMsg=res.msg
-				// 	}else if(res.error===0){
-				// 		// console.log('bus',bus)
-				// 		localStorage.userID=this.cellphone
-				// 		localStorage.pwd=this.pwd
-				// 		console.log('login success',res)
-				// 		bus.$emit('account_change', this.cellphone,res.data.uniqueId,data.mayiQualify)
-				// 		if(res.data.isSetPwd==='1'||(this.pwdLost===true&&this.pwdLogin===false)||this.action==='findPwd'){
-				// 			// console.log('pwd not set')
-				// 			publicFun.goPage('/pwd')
-				// 		}else{
-				// 			this.remind.remindOpts=[{msg:'确定',callback:()=>{
-				// 				publicFun.goPage(-1)
-				// 			}}]
-				// 			this.remind.remindMsg='登录成功'
-				
-				// 		}
-				// 	}
-				// 	// console.log('response.body',response.body)
-
-				// }, response => {
-				// 	this.loading=false
-				// 	console.log('res',response)
-				// 	this.remind.isShow=true
-				// 	this.remind.remindMsg='连接失败'
-				// 	this.remind.remindOpts=[{msg:'确定',callback:()=>{publicFun.goPage(-1)}}]
-				// });
+		
 			},
 		},
 		created:function(){
@@ -217,7 +214,7 @@
 				// publicFun.goTopLv()
 			// }, 3000);
 			// bus.$on('close_remind',()=>{})
-			console.log('route',this.$route)
+			// console.log('route',this.$route)
 			if(this.$route.query.findPwd){
 				this.action='findPwd'
 			}
@@ -230,14 +227,11 @@
 			}
 		},
 		watch:{
-			cellphone:function(val){
-				this.setFormData('cellphone')
-			},
-			verifyCode:function(val){
-				this.setFormData('verifyCode')
-			},
-			pwd:function(val){
-				this.setFormData('pwd')
+			cellphoneValid(v){
+				console.log('v',v)
+				if(v){
+					this.getPicCode()
+				}
 			},
 		},
 		computed:{
@@ -248,6 +242,10 @@
 			verifyCodeValid:function(){
 				var reg=/^\d{6}$/;
 				return reg.test(this.verifyCode)
+			},			
+			picCodeValid:function(){
+				var reg=/^.{4}$/;
+				return reg.test(this.picCode)
 			},
 			pwdValid:function(){
 				var reg=/^.{6,}$/;
@@ -255,7 +253,7 @@
 			},
 			allValid:function(){
 				var t=this
-				return (t.verifyCodeValid||t.pwdValid)&&t.cellphoneValid&&true//&&
+				return (t.verifyCodeValid||t.pwdValid||t.picCodeValid)&&t.cellphoneValid&&true//&&
 			},
 		},
 		events: {},
@@ -281,6 +279,17 @@
 		.logo{
 			width: 100%;
 		}
+	}
+	.pic-code{
+		position: absolute;
+		right: 0;top: 0;bottom: 0;
+		margin:auto 0.05rem;
+		height: 0.36rem;
+		width: 0.98rem;
+		font-size: 0.13rem;
+		line-height: 0.36rem;
+		color:#bfcbd9;
+
 	}
 	.getVerify{
 		position: absolute;
