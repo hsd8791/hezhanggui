@@ -120,6 +120,10 @@ export default {
                 // check path
                 // console.log('to', to.path)
                     // console.log('from', from.path)
+                // if(!from.path){
+                //     console.log('got the undefined path')
+                //     next()
+                // }
                 var depthTo = to.path.split('/').length
                 var depthFrom = from.path.split('/').length
                     // console.log('depth',depthFrom,depthTo)

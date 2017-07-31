@@ -21,7 +21,6 @@ Vue.component('app-record-list', list)
 Vue.config.productionTip = false
 Vue.http.options.credentials = true;
 Vue.http.options.emulateJSON = true;
-// Vue.http.options.root = 'http://192.168.1.58:8080';
 // Vue.http.options.root = 'http://hzg.he577.com';
 Vue.http.options.root = 'http://hzg.he577.com/test';
 

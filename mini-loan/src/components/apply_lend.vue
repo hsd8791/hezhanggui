@@ -57,7 +57,7 @@
       this.shareCoverShow='block'
     },
     changeUrl(){
-      window.history.pushState("object or string", "Title",'/m/#/index/apply_borrow?uniqueId='+bus.uniqueId)
+      window.history.pushState("object or string", "Title",'/test/m/#/index/apply_borrow?uniqueId='+bus.uniqueId)
     },
     // changeUrlSign(){
       // window.history.pushState("object or string", "Title",'/m/#/index/login_code?signup=1&uniqueId='+bus.uniqueId)

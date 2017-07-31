@@ -12,9 +12,8 @@
     <div class="list-container" @scroll='scrolling($event)'>
       <div class="list-container-inner">
         <div class="lv2-partner" v-for='lv2 in lv2Partners'>
-          <div style="background: #ccc">二级代理姓名：{{lv2.name}} </div>
-          <!-- <div>手机:{{lv2.phone}}</div> -->
-          <div class="lv3Partners" v-for='lv3 in lv2.agentLv3'>三级代理：{{lv3.name}}</div>
+          <div style="background: #ccc">二级代理姓名：{{lv2.name}} <br>二级代理手机：{{lv2.phone}}</div>
+          <div class="lv3Partners" v-for='lv3 in lv2.agentLv3'>三级代理：{{lv3.name}} <br>三级代理：{{lv3.phone}}</div>
         </div>
       </div>
       <div class="list-bottom" v-if='allGet'>没有更多啦...</div>

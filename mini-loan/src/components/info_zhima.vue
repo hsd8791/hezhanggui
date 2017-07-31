@@ -20,8 +20,8 @@
 			</div>
 			<!-- <div class="binding-detail binding-time" v-if='authBinded'>绑定时间：{{authorized.time | timeParse}}</div> -->
 
-			<!-- <el-button type='success' @click='authorize' >绑定芝麻信用</el-button> -->
-			<el-button type='success' @click='authorize' v-if='!authBinded'>绑定芝麻信用</el-button>
+			<el-button type='success' @click='authorize' ><span v-if='authBinded'>重新</span>绑定芝麻信用</el-button>
+			<!-- <el-button type='success' @click='authorize' v-if='!authBinded'>绑定芝麻信用</el-button> -->
 		</div>
 
 

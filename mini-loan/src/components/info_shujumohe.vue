@@ -84,16 +84,21 @@
 					real_name:this.real_name,
 					identity_code:this.identity_code,
 					user_mobile:this.phone,
-					// cb:encodeURIComponent('http://localhost:8080/m/#/shujumohe'),
-					cb:'http://hzg.he577.com/m/#/shujumohe',
-					// v:Math.random(),//防止location.href 失效
+					// cb:encodeURI('http://localhost:8888/m/#/shujumohe'),
+					// cb:location.href,
+					cb:'http://hzg.he577.com/m/#/index/shujumohe',
+					// cb:'http://hzg.he577.com/m/#'+this.$route.path,
+					// v:Math.random().toFixed(5),//防止location.href 失效
 					// cb:encodeURIComponent('http://hzg.he577.com/callback/shujumohe/createSimQuery?self_task_id='+this.taskId+'&phone='+this.phone),
 				}
+
+
 				// console.log('callback',postBody.cb)
-				console.log('this.taskId',this.taskId)
+				// console.log('this.taskId',this.taskId)
 				var url=publicFun.urlConcat(this.exUrl,postBody)
 				// var url=publicFun.urlConcat('----',postBody)
 				console.log('URL shujumohe',url)
+				// return
 				// url=encodeURI(url)
 				// url='https://www.baidu.com'
 				location.href=url
@@ -180,7 +185,7 @@
 			},
 			statusParse(val){
 				var s,r
-				console.log('this',this)
+				// console.log('this',this)
 				if(!val){
 					return
 				}

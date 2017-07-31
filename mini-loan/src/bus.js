@@ -10,7 +10,7 @@ var bus = new Vue({
 		uniqueIdLender: '',
 		account: '请登录',
 		uniqueId: '',
-		allFilled: false,
+		// allFilled: false,
 		/**
 		 * 概述
 		 * checkFilled 触发 checkAllfilled,
@@ -35,6 +35,7 @@ var bus = new Vue({
 		 */
 
 		cfgEssential: {
+			allFilled:false,
 			ttlRequest: 3, // qty of requset
 			undoneRequest: null, //记录未完成的请求判断，全部完成后判断是否可以提交
 			fillStatus: [{ //identity
@@ -62,7 +63,11 @@ var bus = new Vue({
 							var passed = new Date().getTime() - data.time
 							if (passed < 24 * 3600 * 1000) {
 								this.status = 1
+							}else{
+								this.status = 0
 							}
+						}else{
+								this.status = 0
 						}
 						// console.log('data.status', data.status)
 						// console.log('data', data.time)
@@ -88,7 +93,8 @@ var bus = new Vue({
 			fillStatus2: [],
 		},
 		cfgOptional: {
-			ttlRequest: null,
+			ttlRequest: 5,
+			allFilled:false,
 			undoneRequest: null, //记录未完成的请求判断，全部完成后判断是否可以提交
 			fillStatus: [{ //upload
 				status: -1,
@@ -97,8 +103,8 @@ var bus = new Vue({
 				getUrl: 'userInfo/addAccessory',
 				icon: 'icon-upload',
 				checkMethod: function(data) {
-					console.log('data', data)
-					console.log('test upload')
+					// console.log('data', data)
+					// console.log('test upload')
 					this.status=0
 					if (!data) {
 						// this.status = 0
@@ -166,133 +172,6 @@ var bus = new Vue({
 				// },
 			],
 		},
-		ttlRequestOpt: null,
-		undoneRequestOpt: null, //记录未完成的请求判断，全部完成后判断是否可以提交
-		fillStatusOpt: [{ //upload
-			status: -1,
-			url: '/upload',
-			label: '身份证上传',
-			getUrl: 'userInfo/addAccessory',
-			icon: 'icon-upload',
-			checkMethod: function(data) {
-				// console.log('data', data)
-				// console.log('test filling')
-				if (!data) {
-					this.status = 0
-					return
-				}
-				if (data.idcardUrl && data.idcardUrl2) {
-					this.status = 1
-				}
-			}
-		}, { //debt
-			status: -1,
-			url: '/debt',
-			label: '负债调查',
-			getUrl: 'userInfo/liabilities',
-			icon: 'icon-banknote',
-			// checkMethod: function(data) {
-			// console.warn('debt data', data)
-			// }
-		}, ],
-		fillStatusOpt2: [{ //profile
-				status: -1,
-				status2: -1,
-				url: '/profile',
-				label: '个人概况',
-				icon: 'icon-documents',
-				getUrl: 'userInfo/personal',
-				getUrl2: 'userInfo/address'
-			}, { //contact_way
-				status: -1,
-				status2: -1,
-				url: '/contact_way',
-				label: '联系方式',
-				icon: 'icon-phone',
-				getUrl: 'userInfo/contact',
-				getUrl2: 'userInfo/relatives',
-				checkMethod: function(data) {
-					// this.status=0
-				}
-			},
-
-			// {
-			// 	status: 0,
-			// 	status2: 1,
-			// 	url: '/zhima',
-			// 	label: '芝麻认证',
-			// 	getUrl: 'credit/zhimaAuthStatus',
-			// 	getUrl2: 'credit/zhimaCustomerCertificationStatus',
-			// 	checkMethod: function(data) {
-			// 		if(data.status){
-			// 			this.status=0
-			// 			if(data.status=='success'){
-			// 				this.status=1
-			// 			}
-			// 		}
-			// 		if(data.data){
-
-			// 			this.status2=0
-			// 			if(data.data.status=='success'){
-			// 				this.status2=1
-			// 			}
-			// 		}
-			// 		console.log('----')
-			// 		console.log('data',data)
-			// 	}
-			// },
-		],
-		ttlRequest: 3, // qty of requset
-		undoneRequest: null, //记录未完成的请求判断，全部完成后判断是否可以提交
-		fillStatus: [{ //identity
-			status: -1,
-			url: '/identity',
-			label: '个人信息',
-			getUrl: 'userInfo/identity',
-			icon: 'icon-address-book',
-		}, { //shujumohe
-			status: -1,
-			url: '/shujumohe',
-			label: '手机认证',
-			getUrl: 'credit/shujumoheSimQueryStatus',
-			icon: 'icon-mobile',
-			checkMethod: function(data) {
-				this.status = -1
-
-				// console.log('data', data.status)
-				if (data.status === 'success') {
-					this.status = 1
-				} else {
-					// console.log('/failure/.test(data.status)',/failure/.test('failure:超时！'))
-					// if(/failure/.test('failure:超时！')){
-					if (/failure/.test(data.status)) {
-						var passed = new Date().getTime() - data.time
-						if (passed < 24 * 3600 * 1000) {
-							this.status = 1
-						}
-					}
-					// console.log('data.status', data.status)
-					// console.log('data', data.time)
-					// console.log('passed', passed)
-					// console.log('one day',24*3600*1000)
-				}
-			}
-		}, { //zhima
-			status: -1,
-			url: '/zhima',
-			label: '芝麻认证',
-			getUrl: 'credit/zhimaAuthStatus',
-			icon: 'icon-lock',
-			checkMethod: function(data) {
-				if (data.status) {
-					this.status = 0
-					if (data.status == 'success') {
-						this.status = 1
-					}
-				}
-			}
-		}, ],
-		fillStatus2: [],
 
 	},
 	created: function() {
@@ -301,12 +180,37 @@ var bus = new Vue({
 				// this.checkFilled(this.cfgEssential)
 		// }, 2000);
 		this.$on('account_change', (ac, id) => {
+			var indexUrl=encodeURI(location.href)
 			console.log('bus get account change', ac, id)
 			this.uniqueId = id
 			this.account = ac
 			this.checkFilled(this.cfgEssential)
 			this.checkFilled(this.cfgOptional)
+			publicFun.default.get('wechat/jsconfig'+'?url='+indexUrl,this,()=>{
+			// publicFun.get(this.wechatAPI,this,()=>{
+			  console.log('wechat API',this.response.body)
+			  var data=this.response.body.data
+			  wx.config({
+			    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+			    appId:data.appId, // 必填，公众号的唯一标识
+			    timestamp: data.timestamp, // 必填，生成签名的时间戳
+			    nonceStr: data.nonceStr, // 必填，生成签名的随机串
+			    signature:data.signature ,// 必填，签名，见附录1
+			    jsApiList: ['onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+			  })
+			  wx.ready(function(){
+			    console.warn('wx config success')
 
+			  });
+			  wx.error((res)=>{
+			    // alert(res)
+			    var remind=this.remind
+			    remind.remindMsg='分享操作无法完成'
+			    remind.remindMsgDscrp=res
+			    remind.remindOpts=[{msg:'确定'}]
+			    remind.isShow=true
+			  });
+			})
 		})
 
 		// this.$on('paid_service_paid', () => {
@@ -369,6 +273,7 @@ var bus = new Vue({
 			}
 		},
 		checkAllFilled(cfg) {
+			console.log('cfg',cfg)
 			var u = cfg.fillStatus,
 				u2 = cfg.fillStatus2,
 				l = u.length,
@@ -377,13 +282,17 @@ var bus = new Vue({
 			var flag = true
 			for (i = 0; i < l; i++) {
 				flag = flag && u[i].status === 1
+				console.log('flag ',i,flag)
 				console.log('status', i, u[i].url, '-->', u[i].status)
 			}
 			for (i = 0; i < l2; i++) {
 				flag = flag && u2[i].status === 1 && u2[i].status2 === 1
 				console.log('status 1 2', i, u2[i].url, '-->', u2[i].status, u2[i].status2)
 			}
-			return flag
+			console.log('flag',flag)
+			cfg.allFilled=flag
+			cfg.test='test'
+			// return flag
 		},
 	},
 	computed: {
@@ -404,18 +313,19 @@ var bus = new Vue({
 	},
 	watch: {
 		'cfgEssential.undoneRequest': function(val) {
-			// console.log('undoneRequest', val)
-			this.$emit('checked_fill_status', this.fillStatusCfg)
+			console.log('undoneRequest', val)
+			this.$emit('checked_fill_status', this.cfgEssential)
 			if (val === 0) {
-				this.cfgEssential.allFilled = this.checkAllFilled(this.cfgEssential)
-				this.$emit('checked_fill_status', this.fillStatusCfg)
+				// this.cfgEssential.allFilled = 
+				this.checkAllFilled(this.cfgEssential)
+				this.$emit('checked_fill_status', this.cfgEssential)
 				// console.log('emit checked_fill_status', this.fillStatusCfg, this.allFilled)
 			}
 		},
 		'cfgOptional.undoneRequest': function(val) {
 			this.$emit('checked_fill_status_optional', this.fillStatusCfgOpt)
 			if (val === 0) {
-				this.cfgOptional.allFilled = this.checkAllFilled(this.cfgOptional)
+				this.checkAllFilled(this.cfgOptional)
 				this.$emit('checked_fill_status_optional', this.fillStatusCfgOpt)
 			}
 		},

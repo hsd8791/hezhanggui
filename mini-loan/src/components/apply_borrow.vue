@@ -161,13 +161,19 @@
 			created: function() {
 				// console.log('apply_borrow root',this.$root)
 				// console.log('apply_borrow parent',this.$parent)
-				this.fillStatusCfg=bus.fillStatusCfg
+				publicFun.checkSession(this)
+				publicFun.checkSingleFilled	('credit/shujumoheSimQueryStatus','cfgEssential')
+				console.log('bus',bus)
 				bus.$on('checked_fill_status',val=>{
 					console.log('checked_fill_status on',val)
 					this.fillStatusCfg=val
 				})
-				publicFun.checkSingleFilled('credit/shujumoheSimQueryStatus','cfgEssential')
-				
+				var intervalCfg=setInterval(()=>{
+					this.fillStatusCfg=bus.fillStatusCfg
+					if(this.fillStatusCfg.allFilled){
+						clearInterval(intervalCfg)
+					}
+				},300)
 				// this.fillStatus2=bus.fillStatus2
 				// this.checkFilled()
 				if (bus.phoneLender) {
