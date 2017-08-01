@@ -72,6 +72,7 @@ export default {
           // bus.account=data.phone
           // bus.uniqueId=data.uniqueId
           bus.$emit('account_change', localStorage.userID, localStorage.uniqueId)
+          // publicFun.wxApiConfig(this)
           if (data.isSetPwd == 0) {
             // console.log('no set pwd')
             var r = this.remind
@@ -89,35 +90,55 @@ export default {
         this.loading = false
       }, err => {})
     },
+    // wxApiConfig(){
+    //     var indexUrl=encodeURI(location.href)
+    //     publicFun.get('wechat/jsconfig'+'?url='+indexUrl,this,()=>{
+    //     // publicFun.get(this.wechatAPI,this,()=>{
+    //     console.log('wechat API',this.response.body)
+    //     var data=this.response.body.data
+    //     wx.config({
+    //       debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    //       appId:data.appId, // 必填，公众号的唯一标识
+    //       timestamp: data.timestamp, // 必填，生成签名的时间戳
+    //       nonceStr: data.nonceStr, // 必填，生成签名的随机串
+    //       signature:data.signature ,// 必填，签名，见附录1
+    //       jsApiList: ['onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    //     })
+    //     wx.ready(function(){
+    //       console.warn('wx config success')
 
+    //     });
+    //     wx.error((res)=>{
+    //       // alert(res)
+    //       var remind=this.remind
+    //       remind.remindMsg='分享操作无法完成'
+    //       remind.remindMsgDscrp=res
+    //       remind.remindOpts=[{msg:'确定'}]
+    //       remind.isShow=true
+    //     });
+    //   })
+      
+    // },
   },
   created() {
-    var indexUrl=encodeURI(location.href)
-    publicFun.get(this.wechatAPI+'?url='+indexUrl,this,()=>{
-    // publicFun.get(this.wechatAPI,this,()=>{
-      console.log('wechat API',this.response.body)
-      var data=this.response.body.data
-      wx.config({
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId:data.appId, // 必填，公众号的唯一标识
-        timestamp: data.timestamp, // 必填，生成签名的时间戳
-        nonceStr: data.nonceStr, // 必填，生成签名的随机串
-        signature:data.signature ,// 必填，签名，见附录1
-        jsApiList: ['onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-      })
-      wx.ready(function(){
-        console.warn('wx config success')
-
-      });
-      wx.error((res)=>{
-        // alert(res)
-        var remind=this.remind
-        remind.remindMsg='分享操作无法完成'
-        remind.remindMsgDscrp=res
-        remind.remindOpts=[{msg:'确定'}]
-        remind.isShow=true
-      });
+    // setTimeout(()=> {
+      publicFun.wxApiConfig(this)
+    // }, 5000);
+    
+    bus.$on('account_change',(ac)=>{
+      if(ac!=='请登录'){
+        console.log('刷新页面 wxapi')
+        // publicFun.wxApiConfig(this)
+      }
     })
+
+    // var IntervalWX=setInterval(()=>{
+    //   if(bus.account!=='请登录'){
+    //     console.log('登录后接 wxapi')
+    //     publicFun.wxApiConfig(this)
+    //     clearInterval(IntervalWX)
+    //   }
+    // },300)
     
     bus.$on('foot_show_change', (footShow) => {
       this.footNavShow = footShow

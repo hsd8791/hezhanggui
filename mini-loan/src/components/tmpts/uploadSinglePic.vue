@@ -97,10 +97,10 @@
     				// console.log('this,response',JSON.parse(xhr.response))    			
     				publicFun.postRes(this.response,this)
     			}
-    			console.log('xhr ready change')
-    			console.log('xhr',xhr.readyState)
-    			console.log('xhr',xhr.response)
-    			console.log('xhr',xhr)
+    			// console.log('xhr ready change')
+    			// console.log('xhr',xhr.readyState)
+    			// console.log('xhr',xhr.response)
+    			// console.log('xhr',xhr)
     		},false)
     		xhr.onerror=function(e){
     			console.log('error',e)

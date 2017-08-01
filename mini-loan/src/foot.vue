@@ -27,6 +27,8 @@
 import router from './router'
 import bus from './bus.js'
 export default {
+
+
     data: function() {
         return {
             activeI: 0,
@@ -59,139 +61,115 @@ export default {
             }, 50);
             router.push(this.paths[index])
         },
-        getFirstRoute(p){
-            var splitPath=p.split('/')
-            if(splitPath[1]===''){
-                this.activeI=0
-            }else{
-            this.activeI= this.paths.indexOf('/'+splitPath[1])
+        getFirstRoute(p) {
+            var splitPath = p.split('/')
+            if (splitPath[1] === '') {
+                this.activeI = 0
+            } else {
+                this.activeI = this.paths.indexOf('/' + splitPath[1])
             }
         },
-        checkPath(p){
+        checkPath(p) {
             //先判断是否显示
             //再判断显示哪个
             //判断是否有二级
             // console.log('path',p)
-            if(this.specialPaths.indexOf(p)>=0){
-                bus.$emit('foot_show_change',true)
+            if (this.specialPaths.indexOf(p) >= 0) {
+                bus.$emit('foot_show_change', true)
                 this.getFirstRoute(p)
                 return
             }
-            var arr=p.split('/')
-            if(arr[2]!==undefined&&arr[2].length!==0){
+            var arr = p.split('/')
+            if (arr[2] !== undefined && arr[2].length !== 0) {
                 // console.log('no foot')
-                bus.$emit('foot_show_change',false)
+                bus.$emit('foot_show_change', false)
                 return
             }
             //一级的路径
-            p='/'+arr[1]
-            console.log('? index',p.indexOf('?'))
-            var queryMark=p.indexOf('?')
+            p = '/' + arr[1]
+            console.log('? index', p.indexOf('?'))
+            var queryMark = p.indexOf('?')
 
-            if(queryMark>0){
-                p=p.slice(0,queryMark)
+            if (queryMark > 0) {
+                p = p.slice(0, queryMark)
             }
 
             // console.log('arr',arr)
-            var index=this.paths.indexOf(p)
-            // console.log('this.paths',p)
-            if(index<0){
-                bus.$emit('foot_show_change',false)
-            }else{
-                bus.$emit('foot_show_change',true)
-                var splitPath=p.split('/')
-                if(splitPath[1]===''){
-                    this.activeI=0
-                }else{
-                this.activeI= this.paths.indexOf('/'+splitPath[1])
+            var index = this.paths.indexOf(p)
+                // console.log('this.paths',p)
+            if (index < 0) {
+                bus.$emit('foot_show_change', false)
+            } else {
+                bus.$emit('foot_show_change', true)
+                var splitPath = p.split('/')
+                if (splitPath[1] === '') {
+                    this.activeI = 0
+                } else {
+                    this.activeI = this.paths.indexOf('/' + splitPath[1])
                 }
             }
 
         },
+        wxDefaultConfig(){
+            wx.onMenuShareAppMessage({
+                title: '禾掌柜', // 分享标题
+                desc: '禾掌柜-用户授信贷款管理', // 分享描述
+                link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: '', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: ()=> { 
+                  var remind=this.remind
+                  remind.remindMsg='分享成功'
+                  remind.remindOpts=[{msg:'完成'}]
+                  remind.isShow=true
+                },
+                cancel: ()=> { 
+                  // var remind=this.remind
+                  // remind.remindMsg='取消分享'
+                  // remind.remindOpts=[{msg:'确定'}]
+                  // remind.isShow=true
+                }
+            });
+        }
 
     },
     // props:['activeI'],
     created: function() {
         router.beforeEach((to, from, next) => {
-                // 先判断全路径
-                // 1.判断前进还是后退
-                //  下面代码
-                // 2.判断是否显示foot
-                // check path
-                // console.log('to', to.path)
-                    // console.log('from', from.path)
-                // if(!from.path){
-                //     console.log('got the undefined path')
-                //     next()
-                // }
-                var depthTo = to.path.split('/').length
-                var depthFrom = from.path.split('/').length
-                    // console.log('depth',depthFrom,depthTo)
-                // var name = to.name
-                    // console.log('name',name)
-                // var activeFoot = this.cmpntNames.indexOf(name)
-                // if (activeFoot > 3) {
-                    // if (activeFoot === 4) {
-                        // activeFoot = 1
-                    // }
-                // }
-                // console.log('activeFoot', activeFoot)
-                // this.activeI = activeFoot
-                var action
-                if (depthTo > depthFrom) {
-                    action = 'forward'
-                } else if (depthTo < depthFrom) {
-                    action = 'back'
-                } else {
-                    action = 'samelevel'
-                }
-                // console.log('action', action)
-                bus.$emit('url_change', action)
-                // if (activeFoot < 0) {
-                //     bus.$emit('foot_show_change', false, action)
-                // } else {
-                //     bus.$emit('foot_show_change', true, action)
-                // }
-                console.log('to.path',to.path)
-                this.checkPath(to.path)
-                next()
+            // 先判断全路径
+            // 1.判断前进还是后退
+            //  下面代码
+            // 2.判断是否显示foot
+            // check path
+            // console.log('to', to.path)
+            // console.log('from', from.path)
+            // if(!from.path){
+            //     console.log('got the undefined path')
+            //     next()
+            // }
+            var depthTo = to.path.split('/').length
+            var depthFrom = from.path.split('/').length
+            var action
+            if (depthTo > depthFrom) {
+                action = 'forward'
+            } else if (depthTo < depthFrom) {
+                action = 'back'
+            } else {
+                action = 'samelevel'
+            }
+            bus.$emit('url_change', action)
+            console.log('to.path', to.path)
+            this.checkPath(to.path)
+            this.wxDefaultConfig()
+            next()
+        })
 
-            })
-            // bus.$on('foot_index_change',(val)=>{
-            // console.log('get change footindex',val)
-            // this.activeI=val
-            // })
         var self_ = this
-        // var url = location.href
         var urlPath = location.pathnname
-        // console.log('location',location)
         var urlHash = location.hash
         urlHash = urlHash.replace('#', '')
-        // console.log('urlHash.indexOf()',urlHash.indexOf('?'))
-        // var queryMark=urlHash.indexOf('?')
-        // console.log('queryMark',queryMark)
-        // if(queryMark>0){
-            // urlHash=urlHash.slice(0,queryMark)
-        // }
-            // console.log('urlHash',urlHash)
         this.checkPath(urlHash)
-        // var aUrl = urlHash.split('/')
-        // this.activeI = getIndex(this.paths, '/' + urlHash.split('/')[1])
-        //     // console.log('getIndex(this.paths,urlHash)',getIndex(this.paths,urlHash))
-        // function getIndex(arr, val) {
-        //     var l = arr.length,
-        //         i
-        //     if (val == '/') {
-        //         return 0
-        //     }
-        //     for (i = 0; i < l; i++) {
-        //         if (arr[i] === val) {
-        //             return i
-        //         }
-        //     }
-        //     return -1
-        // }
-        // console.log('hash',urlHash)
     },
     components: {}
 }

@@ -192,78 +192,78 @@ publicFun.checkSession = function(vm, callback) {
  * @return {null}             [description]
  */
 publicFun.get = function(url, vm, sccssCall, errCall, callback) { //paras:  this,url,
-	// console.log('geting', url)
-	// console.log('vm', vm)
-	// if (bus.account === '请登录') {
-	// 	vm.loading = false
-	// 	if (!vm.remind) {
-	// 		return
-	// 	}
-	// 	vm.remind.remindMsg = '请先登录'
-	// 	vm.remind.isShow = true
-	// 	vm.remind.remindOpts = [{
-	// 		msg: '确定',
-	// 		callback: () => {
-	// 			this.goPage('/login')
-	// 		}
-	// 	}]
-	// 	return
-	// }
-	vm.loading = true
-	var vmRemind = vm.remind
-	sccssCall = setNullFunc(sccssCall)
-	errCall = setNullFunc(errCall)
-	callback = setNullFunc(callback)
-		// var url = 'userInfo/remarks'
-	vm.$http.get(url).then(res => {
-		// console.log('getted', vm)
-		vm.loading = false
-		vm.response = res
-		var resBody = res.body
-			// console.log('get res', res)
-			// console.log('res', res.body)
-		if (resBody.error) {
-			publicFun.errorHandle(resBody, vm)
-			return
-		} else {
-			// sccssCall()
-			// callback()
-			if (!checkNullObj(res.body.data)) {
-				vm.editing = true
+		// console.log('geting', url)
+		// console.log('vm', vm)
+		// if (bus.account === '请登录') {
+		// 	vm.loading = false
+		// 	if (!vm.remind) {
+		// 		return
+		// 	}
+		// 	vm.remind.remindMsg = '请先登录'
+		// 	vm.remind.isShow = true
+		// 	vm.remind.remindOpts = [{
+		// 		msg: '确定',
+		// 		callback: () => {
+		// 			this.goPage('/login')
+		// 		}
+		// 	}]
+		// 	return
+		// }
+		vm.loading = true
+		var vmRemind = vm.remind
+		sccssCall = setNullFunc(sccssCall)
+		errCall = setNullFunc(errCall)
+		callback = setNullFunc(callback)
+			// var url = 'userInfo/remarks'
+		vm.$http.get(url).then(res => {
+			// console.log('getted', vm)
+			vm.loading = false
+			vm.response = res
+			var resBody = res.body
+				// console.log('get res', res)
+				// console.log('res', res.body)
+			if (resBody.error) {
+				publicFun.errorHandle(resBody, vm)
+				return
 			} else {
-				vm.editing = false
+				// sccssCall()
+				// callback()
+				if (!checkNullObj(res.body.data)) {
+					vm.editing = true
+				} else {
+					vm.editing = false
+				}
+				sccssCall()
 			}
-			sccssCall()
-		}
-		callback()
-	}, err => {
-		vm.loading = false
-		if (vmRemind) {
-			vmRemind.remindMsg = '连接失败'
-			vmRemind.remindOpts = [{
-				msg: '确定',
-			}, ]
-			vmRemind.isShow = true
-		}
-		// router.go(-1)
-		// console.log('try go back')
-		// router.push('/index')
-		vm.response = err
-		callback()
-		errCall()
-	})
-}
-/**
- * post中一定会有remind 故不判断remind提示是否存在
- * 除body为 post body外，其余与get方法一样
- * @param  {[type]}   url       [同get function]
- * @param  {[type]}   body      [description]
- * @param  {[type]}   vm        [同get function]
- * @param  {[type]}   sccssCall [同get function]
- * @param  {[type]}   errCall   [同get function]
- * @param  {Function} callback  [同get function]
- * @return {[type]}             [同get function]
- */
+			callback()
+		}, err => {
+			vm.loading = false
+			if (vmRemind) {
+				vmRemind.remindMsg = '连接失败'
+				vmRemind.remindOpts = [{
+					msg: '确定',
+				}, ]
+				vmRemind.isShow = true
+			}
+			// router.go(-1)
+			// console.log('try go back')
+			// router.push('/index')
+			vm.response = err
+			callback()
+			errCall()
+		})
+	}
+	/**
+	 * post中一定会有remind 故不判断remind提示是否存在
+	 * 除body为 post body外，其余与get方法一样
+	 * @param  {[type]}   url       [同get function]
+	 * @param  {[type]}   body      [description]
+	 * @param  {[type]}   vm        [同get function]
+	 * @param  {[type]}   sccssCall [同get function]
+	 * @param  {[type]}   errCall   [同get function]
+	 * @param  {Function} callback  [同get function]
+	 * @return {[type]}             [同get function]
+	 */
 publicFun.post = function(url, body, vm, sccssCall, errCall, callback) { //paras:  this,url,
 	// console.log('posting')
 	vm.loading = true
@@ -321,7 +321,7 @@ publicFun.errorHandle = function(resBody, vm) {
 	// console.log('error', resBody)
 	// console.log('vmRemind', vmRemind)
 	var err = resBody.error
-	var vmRemind=vm.remind
+	var vmRemind = vm.remind
 	if (vmRemind) {
 		vmRemind.remindMsg = resBody.msg
 		if (err === 20002) {
@@ -395,7 +395,7 @@ publicFun.postRes = function(res, vm) {
 		vm.editing = false
 	}
 }
-publicFun.checkSingleFilled = function(url,cfgName) {
+publicFun.checkSingleFilled = function(url, cfgName) {
 	/*
 	 * 每一个info组件post成功后，
 	 * 找出对应的index of the item of fillStatus,
@@ -500,11 +500,12 @@ publicFun.wechatAuth = function(vm) {
 	}
 	// console.warn('back path',back)
 	// console.log('i',i.index)
-	console.warn('wechat auth back path', back)
-	// alert('')
+	// console.warn('wechat auth back path', back)
+	back=encodeURIComponent(back)
+		// alert('')
 	if (this.isWeiXin()) {
 		publicFun.get('wechat/oauth?url=' + back, vm, () => {
-			console.log('res auth', vm.response.body.data)
+			// console.log('res auth', vm.response.body.data)
 			if (vm.response.body.data) {
 				// alert('绑定微信')
 				location.href = vm.response.body.data
@@ -518,6 +519,46 @@ publicFun.wechatAuth = function(vm) {
 		return false
 	}
 
+}
+publicFun.wxApiConfig = function(vm,callback) {
+	var indexUrl = encodeURIComponent(location.href.split('#')[0])
+	// var indexUrl = encodeURI(location.href)
+	publicFun.get('wechat/jsconfig' + '?url=' + indexUrl, vm, () => {
+		// publicFun.get(vm.wechatAPI,vm,()=>{
+		console.log('wechat API', vm.response.body)
+		var data = vm.response.body.data
+		wx.config({
+			debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+			appId: data.appId, // 必填，公众号的唯一标识
+			timestamp: data.timestamp, // 必填，生成签名的时间戳
+			nonceStr: data.nonceStr, // 必填，生成签名的随机串
+			signature: data.signature, // 必填，签名，见附录1
+			jsApiList: ['onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+		})
+		var r=vm.remind
+		wx.ready(function() {
+			console.warn('wx config success')
+			bus.wxConfiged=true
+			// r.remindMsg='已配置'
+			// r.remindMsgDscrp=indexUrl
+			// r.isShow=true
+			// if(callback!==undefined && callback instanceof Function){
+			// 	callback()
+			// }
+
+		});
+		wx.error((res) => {
+			// alert(res)
+			// var remind = vm.remind
+			// remind.remindMsg = '分享操作无法完成'
+			// remind.remindMsg = indexUrl
+			// remind.remindMsgDscrp = data
+			// remind.remindOpts = [{
+				// msg: '确定'
+			// }]
+			// remind.isShow = true
+		});
+	})
 }
 
 function fToTwo(aNum) {

@@ -21,8 +21,8 @@ Vue.component('app-record-list', list)
 Vue.config.productionTip = false
 Vue.http.options.credentials = true;
 Vue.http.options.emulateJSON = true;
-// Vue.http.options.root = 'http://hzg.he577.com';
-Vue.http.options.root = 'http://hzg.he577.com/test';
+Vue.http.options.root = 'http://hzg.he577.com';
+// Vue.http.options.root = 'http://hzg.he577.com/test';
 
 
 Vue.directive('scroll-load', {
