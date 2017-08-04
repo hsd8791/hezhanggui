@@ -16,7 +16,7 @@
     <foot-nav v-if='footNavShow' ></foot-nav>
   <!-- </transition> -->
   <remind :remind='remind'></remind >
-  <!-- <button id="testBttn" @click='test'>test</button> -->
+  <button id="testBttn" @click='test' v-if='busDebug'>test</button>
   </div>
 </template>
 
@@ -35,7 +35,8 @@ export default {
   data: function() {
     return {
       enter: '',
-      wechatAPI:'wechat/jsconfig',
+      busDebug:'',
+      // wechatAPI:'wechat/jsconfig',
       loading: false,
       vueName: 'App',
       footNavShow: true,
@@ -124,7 +125,7 @@ export default {
     // setTimeout(()=> {
       publicFun.wxApiConfig(this)
     // }, 5000);
-    
+    this.busDebug=bus.relativeUrlTest
     bus.$on('account_change',(ac)=>{
       if(ac!=='请登录'){
         console.log('刷新页面 wxapi')

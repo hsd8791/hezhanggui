@@ -65,7 +65,12 @@ export default {
 				publicFun.get(this.urlCreateOrder+id,this,()=>{
 					console.log('order',this.response.body)
 					var payId=this.response.body.data.payId
-					publicFun.goPage('/mine/charge/pay?payId='+payId)
+					var transactionId = this.response.body.data.transactionId
+					var url=publicFun.urlConcat('/pay',{
+						transactionId: transactionId,
+						payId:payId,
+					})
+					publicFun.goPage(this.$route.path+url)
 				})
 			}
 		},

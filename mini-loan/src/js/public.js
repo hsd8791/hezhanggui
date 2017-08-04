@@ -12,6 +12,7 @@ var publicFun = {}
 	// }]
 publicFun.reg = {}
 publicFun.reg.cellphone = /^1[1234567890]\d{9}$/
+publicFun.reg.chinese = /^[\u4e00-\u9fa5]+$/
 publicFun.reg.idCardNum = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/
 	// publicFun.remindOpts={}
 	// publicFun.remindOpts.confirm=[{msg:'确定'}]
@@ -70,7 +71,7 @@ var setNullFunc = function(fun) {
 /*
 	1->非 null //至少有一个不是空值
  */
-var checkNullObj = function(obj) {
+var notAllNull = function(obj) {
 	var flag = 0
 	for (var k in obj) {
 		if (obj[k]) {
@@ -84,7 +85,7 @@ var checkNullObj = function(obj) {
 /*
 	0->all null
  */
-publicFun.checkNullObj = checkNullObj
+publicFun.notAllNull = notAllNull
 
 /**
  * 链接URL
@@ -228,7 +229,7 @@ publicFun.get = function(url, vm, sccssCall, errCall, callback) { //paras:  this
 			} else {
 				// sccssCall()
 				// callback()
-				if (!checkNullObj(res.body.data)) {
+				if (!notAllNull(res.body.data)) {
 					vm.editing = true
 				} else {
 					vm.editing = false
@@ -387,6 +388,9 @@ publicFun.postRes = function(res, vm) {
 			}
 		}
 	} else {
+		bus.checkFilled(bus.cfgEssential)
+		bus.checkFilled(bus.cfgOptional)
+
 		vm.remind.remindMsg = '提交成功'
 		vm.remind.remindOpts = [{
 			msg: '确定',
@@ -501,7 +505,7 @@ publicFun.wechatAuth = function(vm) {
 	// console.warn('back path',back)
 	// console.log('i',i.index)
 	// console.warn('wechat auth back path', back)
-	back=encodeURIComponent(back)
+	back = encodeURIComponent(back)
 		// alert('')
 	if (this.isWeiXin()) {
 		publicFun.get('wechat/oauth?url=' + back, vm, () => {
@@ -520,11 +524,11 @@ publicFun.wechatAuth = function(vm) {
 	}
 
 }
-publicFun.wxApiConfig = function(vm,callback) {
+publicFun.wxApiConfig = function(vm, callback) {
 	var indexUrl = encodeURIComponent(location.href.split('#')[0])
-	// var indexUrl = encodeURI(location.href)
-	publicFun.get('wechat/jsconfig' + '?url=' + indexUrl, vm, () => {
-		// publicFun.get(vm.wechatAPI,vm,()=>{
+		// var indexUrl = encodeURI(location.href)
+	publicFun.get('http://hzg.he577.com/wechat/jsconfig' + '?url=' + indexUrl, vm, () => {
+		// publicFun.get('wechat/jsconfig' + '?url=' + indexUrl, vm, () => {
 		console.log('wechat API', vm.response.body)
 		var data = vm.response.body.data
 		wx.config({
@@ -535,16 +539,16 @@ publicFun.wxApiConfig = function(vm,callback) {
 			signature: data.signature, // 必填，签名，见附录1
 			jsApiList: ['onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 		})
-		var r=vm.remind
+		var r = vm.remind
 		wx.ready(function() {
 			console.warn('wx config success')
-			bus.wxConfiged=true
-			// r.remindMsg='已配置'
-			// r.remindMsgDscrp=indexUrl
-			// r.isShow=true
-			// if(callback!==undefined && callback instanceof Function){
-			// 	callback()
-			// }
+			bus.wxConfiged = true
+				// r.remindMsg='已配置'
+				// r.remindMsgDscrp=indexUrl
+				// r.isShow=true
+				// if(callback!==undefined && callback instanceof Function){
+				// 	callback()
+				// }
 
 		});
 		wx.error((res) => {
@@ -554,11 +558,20 @@ publicFun.wxApiConfig = function(vm,callback) {
 			// remind.remindMsg = indexUrl
 			// remind.remindMsgDscrp = data
 			// remind.remindOpts = [{
-				// msg: '确定'
+			// msg: '确定'
 			// }]
 			// remind.isShow = true
 		});
 	})
+}
+publicFun.phonePartshow = function(p) {
+	var s = p.split('')
+	s[3] = '*'
+	s[4] = '*'
+	s[5] = '*'
+	s[6] = '*'
+	s = s.join('')
+	return s
 }
 
 function fToTwo(aNum) {

@@ -233,18 +233,6 @@ export default {
 
 		},
 		watch: {
-			nickQq: function() {
-				this.setFormData('nickQq')
-			},
-			acQQ: function() {
-				this.setFormData('acQQ')
-			},
-			nickWechat: function() {
-				this.setFormData('nickWechat')
-			},
-			acWechat: function() {
-				this.setFormData('acWechat')
-			},
 		},
 		computed: {
 			relationOpts: function() {

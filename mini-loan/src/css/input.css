@@ -79,7 +79,9 @@
       width: 75%;
       margin-left: 25%; }
     .input .container .el-input .el-input__inner, .input .container .el-input .el-textarea__inner, .input .container .el-select .el-input__inner, .input .container .el-select .el-textarea__inner, .input .container .el-textarea .el-input__inner, .input .container .el-textarea .el-textarea__inner {
-      border: 0px; }
+      border: 0px;
+      padding-top: 0.08rem;
+      font-size: 0.16rem; }
     .input .container .el-input .el-input__inner, .input .container .el-select .el-input__inner, .input .container .el-textarea .el-input__inner {
       padding: 0.03rem 0.1rem;
       padding-right: 0.5rem; }

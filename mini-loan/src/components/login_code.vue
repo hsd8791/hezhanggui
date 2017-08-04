@@ -166,7 +166,7 @@
 				var queryBody = {	phone:this.cellphone},subDomain
 				// if(!this.pwdLogin){
 					queryBody.code=this.verifyCode
-					queryBody.platform='xh'
+					// queryBody.platform='xh'
 					subDomain='/loginByCode'
 				if(this.action==='signup'&&this.referrerUniqueId){
 					queryBody.uniqueId=this.referrerUniqueId

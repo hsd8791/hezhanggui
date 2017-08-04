@@ -149,7 +149,7 @@
 				return reg.test(this.idCardNum)
 			},
 			nameValid:function(){
-				var reg=/^[\u4e00-\u9fa5]+$/;
+				var reg=publicFun.reg.chinese
 				return reg.test(this.name)
 			},
 			idcardAdrValid:function(){

@@ -8,7 +8,7 @@
      </span>
      <span class='nav-btn' :class='{active:activeI===1}' @click='goPage(1)'>
          <div class="nav-icon"><i class="icon-cool"></i></div>
-         <div class="nav-item">增值</div>
+         <div class="nav-item">口子</div>
      </span>
      <span class='nav-btn' :class='{active:activeI===2}' @click='goPage(2)'>
          <div class="nav-icon"><i class="icon-hammer"></i></div>
@@ -36,7 +36,7 @@ export default {
             // footActive:true,
             paths: [ //显示footnav的路径
                 '/index',
-                '/paid_service', //paid_service
+                '/market_list', //paid_service
                 '/coming',
                 '/mine',
             ],
@@ -47,7 +47,7 @@ export default {
             ],
             cmpntNames: [
                 'index',
-                'paidServiceCreate',
+                'market_list',
                 'coming',
                 'mine',
                 'paidServiceHistory'

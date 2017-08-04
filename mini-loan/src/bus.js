@@ -181,7 +181,7 @@ var bus = new Vue({
 				// this.checkFilled(this.cfgEssential)
 		// }, 2000);
 		this.$on('account_change', (ac, id) => {
-			console.log('bus get account change', ac, id)
+			// console.log('bus get account change', ac, id)
 			this.uniqueId = id
 			this.account = ac
 			this.checkFilled(this.cfgEssential)
@@ -202,8 +202,8 @@ var bus = new Vue({
 				// console.log('publicFun.default',publicFun.default.get)
 			publicFun.default.get(urls[index].getUrl, this, () => {
 				// console.log('this', this.response.body.data)
-					// console.log('this.response.data', this.response.body.data, publicFun.default.checkNullObj(this.response.body.data))
-				if (publicFun.default.checkNullObj(this.response.body.data)) {
+					// console.log('this.response.data', this.response.body.data, publicFun.default.notAllNull(this.response.body.data))
+				if (publicFun.default.notAllNull(this.response.body.data)) {
 					urls[index].status = 1
 					if (urls[index].checkMethod !== undefined) {
 						urls[index].checkMethod(this.response.body.data)
@@ -217,7 +217,7 @@ var bus = new Vue({
 			})
 			if (urls[index].getUrl2) {
 				publicFun.default.get(urls[index].getUrl2, this, () => {
-					if (publicFun.default.checkNullObj(this.response.data)) {
+					if (publicFun.default.notAllNull(this.response.data)) {
 						urls[index].status2 = 1
 						if (urls[index].checkMethod !== undefined) {
 							urls[index].checkMethod(this.response.data)
@@ -232,7 +232,7 @@ var bus = new Vue({
 			}
 		},
 		checkFilled(cfg) {
-			console.log('checking filled')
+			// console.log('checking filled')
 			cfg.undoneRequest = cfg.ttlRequest
 			var u = cfg.fillStatus,
 				l = u.length,
@@ -249,7 +249,7 @@ var bus = new Vue({
 			}
 		},
 		checkAllFilled(cfg) {
-			console.log('cfg',cfg)
+			// console.log('cfg',cfg)
 			var u = cfg.fillStatus,
 				u2 = cfg.fillStatus2,
 				l = u.length,
@@ -258,20 +258,27 @@ var bus = new Vue({
 			var flag = true
 			for (i = 0; i < l; i++) {
 				flag = flag && u[i].status === 1
-				console.log('flag ',i,flag)
+				// console.log('flag ',i,flag)
 				console.log('status', i, u[i].url, '-->', u[i].status)
 			}
 			for (i = 0; i < l2; i++) {
 				flag = flag && u2[i].status === 1 && u2[i].status2 === 1
 				console.log('status 1 2', i, u2[i].url, '-->', u2[i].status, u2[i].status2)
 			}
-			console.log('flag',flag)
+			// console.log('flag',flag)
 			cfg.allFilled=flag
 			cfg.test='test'
 			// return flag
 		},
 	},
 	computed: {
+		relativeUrlTest(){
+			if(/test/.test(this.$http.options.root)){
+				return '/test'
+			}else{
+				return ''
+			}
+		},
 		fillStatusCfg() {
 			return {
 				fillStatus: this.cfgEssential.fillStatus,
@@ -289,7 +296,7 @@ var bus = new Vue({
 	},
 	watch: {
 		'cfgEssential.undoneRequest': function(val) {
-			console.log('undoneRequest', val)
+			// console.log('undoneRequest', val)
 			this.$emit('checked_fill_status', this.cfgEssential)
 			if (val === 0) {
 				// this.cfgEssential.allFilled = 

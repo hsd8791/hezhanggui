@@ -11,7 +11,7 @@
         <span slot='rt'>{{record.createTime | timeParser}}</span>
         <span slot='rd'>{{record.remark}}</span>
         <span slot='ld'>{{record.babaName}} {{record.babaPhone}}</span>
-        <span slot='lt'>{{record.money}}元</span>
+        <span slot='lt'>{{record.money| moneyParser}}元</span>
       </app-record>
     </app-record-list>
 	<remind :remind='remind'></remind>
@@ -51,7 +51,10 @@
     filters:{
     	timeParser(v){
     		return publicFun.getTimeString(v)
-    	}
+    	},
+      moneyParser(v){
+        return (Number(v/100)).toFixed(2)
+      }
     },
     created(){
       bus.$on(this.config.name,(val)=>{

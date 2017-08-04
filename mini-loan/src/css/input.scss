@@ -111,6 +111,8 @@ $successColor:#09bb07;
 		.el-input,.el-select,.el-textarea{
 			.el-input__inner,.el-textarea__inner{
 				border:0px;
+				padding-top: 0.08rem;
+				font-size: 0.16rem;
 			}
 			.el-input__inner{
 				padding:0.03rem 0.1rem;

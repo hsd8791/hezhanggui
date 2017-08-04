@@ -210,14 +210,7 @@
 					return s
 				},
 				phonePartshow(val) {
-					var s = val.split('')
-					s[3] = '*'
-					s[4] = '*'
-					s[5] = '*'
-					s[6] = '*'
-					s = s.join('')
-						// console.log('strings',s.splice(0,3),s.splice(7,4))
-					return s
+					return publicFun.phonePartshow(val)
 				}
 			},
 			watch: {

@@ -24,6 +24,9 @@ import login_code from '../components/login_code.vue'
 import Signup from '../components/signup.vue'
 import paidServiceCreate from '../components/paid_service_create.vue'
 import Pwd from '../components/pwd.vue'
+import market_mine from '../components/lend_market_mine.vue'
+import market_detail from '../components/lend_market_detail.vue'
+import market_list from '../components/lend_market_list.vue'
 import paidServiceHistory from '../components/paid_service_history.vue'
 import paidServiceRslt from '../components/paid_service_rslt.vue'
 import paidService from '../components/paid_service.vue'
@@ -49,7 +52,8 @@ var routes = [],
 	indexRoutes = [],
 	mineRoutes = [],
 	xiaoheRoutes = [],
-	promoteRoutes = []
+	promoteRoutes = [],
+	marketRoutes = []
 
 /**
  * 针对某一个组件创建路由数组（多个路由）
@@ -92,14 +96,14 @@ mineRoutes = mineRoutes.concat(
 	newRoute('/mine', 'mine', mine),
 )
 
-promoteRoutes=promoteRoutes.concat(
+promoteRoutes = promoteRoutes.concat(
 	newRoute(['/*/partner', '/partner', ], 'partner', partner),
-	newRoute(['/promotion','/*/promotion'],'promotion',promotion),
-	newRoute(['/*/commission','/commission'], 'commission', commission),
+	newRoute(['/promotion', '/*/promotion'], 'promotion', promotion),
+	newRoute(['/*/commission', '/commission'], 'commission', commission),
 	newRoute(['/*/commission/withdraw'], 'commissionWithdraw', commissionWithdraw),
 	newRoute(['/*/commission/withdraw_record'], 'commissionWithdrawRecord', commissionWithdrawRecord),
 	newRoute(['/*/commission/detail'], 'commissionDetail', commissionDetail),
-	)
+)
 indexRoutes = indexRoutes.concat(
 	// newRoute('/apply_borrow', 'apply_borrow', apply_borrow),
 	newRoute(['/identity', '/*/identity'], 'Identity', Identity),
@@ -118,8 +122,14 @@ indexRoutes = indexRoutes.concat(
 
 )
 
+marketRoutes=marketRoutes.concat(
+	newRoute(['/*/market_mine', '/market_mine', ], 'market_mine', market_mine),
+	newRoute(['/*/market_detail', '/market_detail', ], 'market_detail', market_detail),
+	newRoute(['/*/market_list', '/market_list', ], 'market_list', market_list),
+	)
+
 console.log('indexRoutes', indexRoutes)
-// alter('!!')
+	// alter('!!')
 
 basicRoutes = [{
 	path: rootPath + '/index',
@@ -170,7 +180,7 @@ basicRoutes = [{
 	component: errorPage
 }, ]
 
-routes = routes.concat(indexRoutes.concat(mineRoutes,promoteRoutes), basicRoutes)
+routes = routes.concat(indexRoutes.concat(mineRoutes, promoteRoutes,marketRoutes), basicRoutes)
 
 // console.log('routes', routes)
 export default new Router({
