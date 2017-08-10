@@ -142,7 +142,7 @@
     		var cfg=this.uploadConfig
 				// console.log('cfg',cfg)
 				publicFun.get(cfg.url, this,()=>{
-					// console.log('response',this.response)
+					console.warn('pic ',this.response)
 					var res=this.response.body.data
 					// console.log('this.url',this.urlF,res.idcardUrl)
 					if(res){

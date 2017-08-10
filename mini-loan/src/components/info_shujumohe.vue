@@ -36,7 +36,10 @@
 		<a href="https://open.shujumohe.com/box/yys?box_token=BB2D93B9B972461A989EB491C1C3EE23">callback</a> -->
 		<!-- <el-checkbox v-model="useAccount">使用账号手机号</el-checkbox> -->
 		<transition>
-			<el-button type='success' :disabled='false' class='submit' v-if='true' @click='get'>重新查询</el-button>
+			<!-- <el-button type='success' :disabled='false' class='submit' v-if='true' @click='get'>重新查询</el-button> -->
+			<el-button type='success' :disabled='false' class='submit' v-if='!isFirst' @click='get(1)'>重新查询</el-button>
+			<el-button type='success' :disabled='false' class='submit' v-if='isFirst' @click='get(0)'>开始认证</el-button>
+
 			<!-- <el-button type='warning'  class='submit' v-if='!editing' @click='edit'>修改</el-button> -->
 		</transition>
 		<remind :remind='remind'></remind>
@@ -55,6 +58,7 @@
 				response:null,
 				// loading:true,
 				loading:false,
+				isFirst:false,
 				editing:false,
 				phone:'',
 				taskId:null,
@@ -109,15 +113,24 @@
 				// 	href:url,
 				// }]
 			},
-			get(){
-				this.remind.remindMsg='确定提交会清空现有记录'
-				this.remind.isShow=true
-				this.remind.remindOpts=[
-				{msg:'确定',callback:()=>{
+			get(type) {
+				if (type === 0) {
 					this.createTask()
-				}},
-				{msg:'取消',},
-				]
+					return
+				} else if (type === 1) {
+
+					// this.remind.remindMsg='确定提交会清空现有记录'
+					this.remind.remindMsg = '覆盖现有记录'
+					this.remind.isShow = true
+					this.remind.remindOpts = [{
+						msg: '确定',
+						callback: () => {
+							this.createTask()
+						}
+					}, {
+						msg: '取消',
+					}, ]
+				}
 			},
 			createTask(){
 				publicFun.get(this.url,this,()=>{
@@ -154,12 +167,14 @@
 					if(data){
 						this.queryRslt=data
 							var now=new Date().getTime()
-							var passed=now -data.time
+							var passed = now - data.time
 							if(passed>=600*1000){
 								this.queryRslt.status='failure:超时！'
 							}
 						// console.log('now',now-this.queryRslt.time)
 						console.log('data',data)	
+					}else{
+						this.isFirst=true
 					}
 				})
 			},

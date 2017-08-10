@@ -19,16 +19,47 @@
 		<!-- !(phoneLenderValid&&allFilled&&phoneExist||getById) -->
 		<!-- <el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(canApply&&allFilled&&amountValid)'>点击申请</el-button> -->
 		<el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(canApply&&fillStatusCfg.allFilled)'>点击申请</el-button>
-		<div class="info-user">
+		<div class="info-user" v-if='!getByMarket'>
 			<h3 class="subtitle">放贷人<!-- 经纪人 -->信息</h3>
 			<div class="info-lender">
 				<!-- <p style="color:purple">提交前检查信息是否按要求填写的功能，实现中</p> -->
 				<!-- <br> -->
-				<p v-if='lenderInfo.phone'>放贷人姓名：{{lenderInfo.name | nameParse}}</p>
+				<p v-if='lenderInfo.phone'>放贷人姓名：{{lenderInfo.name}}</p>
 				<p v-if='lenderInfo.phone'>放贷人手机号：{{lenderInfo.phone | phonePartshow}}</p>
 				<p v-if='lenderInfo.phone'>请核实放贷人姓名后提交申请</p>
 				<p v-if='lenderInfoAlert' style='color:red'>{{lenderInfoAlert}}</p>
 			</div>
+		</div>
+	  <div v-if='getByMarket'  >
+	    <!-- <div @click='goP("/market_mine")' v-if='false'  > -->
+
+	    <app-record class='market-container'>
+	    <div class="avator-pic" :style="{backgroundImage: 'url('+marketInfo.logo+')'}" slot='avator'></div>
+	    <span slot='lt' style="letter-spacing: -0.01rem;">
+	      {{marketInfo.name}}&nbsp;&nbsp;
+	      <i class="icon-cool market-star"></i>
+	      <i class="icon-cool market-star"></i>
+	      <i class="icon-cool market-star"></i>
+	      <i class="icon-cool market-star"></i>
+	      <i class="icon-cool market-star"></i>
+	    </span>
+	    <!-- <span slot='rt'>{{}}</span> -->
+	    <span slot='rd'>
+	      <span class="required-info-box">
+	        <span class='required-text'>身份验证</span>
+	      </span>
+	      <span class="required-info-box">
+	        <span class='required-text'>手机认证</span>
+	      </span>
+	      <span class="required-info-box">
+	        <span class='required-text'>芝麻认证</span>
+	      </span>        
+	      <span class="required-info-box">
+	        <span class='required-text'>身份证</span>
+	      </span>
+	    </span>
+	    <span slot='ld'>{{marketInfo.intro}}</span>
+	 	 </app-record>
 		</div>
 		<!-- <div class="fill-status " v-if='allFilled'> -->
 		<div class="fill-status " v-if='!fillStatusCfg.allFilled'>
@@ -58,20 +89,25 @@
 		data() {
 				return {
 					getById: false, //判定是否由uniqueId 传入获取lenderPhone
+					getByMarket: false, //判定是否由贷款超市进入 
 					canApply: false,
 					// firstEnter: true,
 					response: null,
 					loading: false,
 					editing: true,
+					marketInfo:{},
 					lenderInfo: {
 						name: '',
 						phone: '',
 					},
+					applyRecord:'',
 					lenderInfoAlert: '',
 					uniqueIdLender: null,
 					urlPhone: 'lendApply/phoneInfo?phone=',
 					urlUniqueId: 'userInfo/userInfo?uniqueId=',
+      		urlMarket:'lendSupermaket/supermaketInfo',
 					urlApply: 'lendApply/lendApply',
+					urlApplyRecord:'lendApply/borrowLoanRecords',
 					confirmOpts: [{
 						msg: '确定',
 						callback: () => {}
@@ -100,8 +136,8 @@
 				},
 				apllyBorrow() {
 
-					if (!this.allFilled) {
-						// return
+					if (!this.fillStatusCfg.allFilled) {
+						return
 					}
 					this.remind.remindMsg = '请确认是否提交'
 					this.remind.remindOpts = [{
@@ -110,8 +146,13 @@
 							var urlApply = publicFun.urlConcat(this.urlApply, {
 								phone: this.phoneLender,
 								amount: this.amount,
+								share:bus.share,
 							})
 							publicFun.post(urlApply, {}, this, () => {
+								var r=this.remind
+								r.remindOpts=[{msg:'确定',callback:()=>{
+									publicFun.goPage(-1)
+								}}]
 								// console.log('res apply_borrow', this.response)
 							}, () => {})
 						}
@@ -121,6 +162,20 @@
 					this.remind.isShow = true
 
 				},
+				getMarketInfo(){
+					var array=this.$route.path.split('/')
+					,id=array[array.length-2].split('_')[1]
+					// console.log('array',array,id)
+					// return
+				  var url=publicFun.urlConcat(this.urlMarket,{
+				    id:id
+				  })
+				  publicFun.get(url,this,()=>{
+				    console.log('market detail',this.response.body)
+				    this.marketInfo=this.response.body.data
+				    this.phoneLender=this.marketInfo.phone
+				  })
+				},
 				getLenderInfo(url) {
 					// console.log('getLenderInfo url',url)
 					publicFun.get(url, this, () => {
@@ -128,16 +183,19 @@
 							// console.log('getlenderInfo', res)
 						if (!res.error) {
 							// console.log('set lenderInfo')
-							this.lenderInfo.name = res.data.name
-							this.phoneLender = res.data.phone
-								// var p=res.data.phone.toString()
+							var info = res.data
+							this.lenderInfo = info
+							// this.phoneLender = this.lenderInfo.phone
+								// var p=this.lenderInfo.phone.toString()
 								// console.log('string phoneLender',p)
-							this.lenderInfo.phone = res.data.phone
-								// this.phoneLender=res.data.phone
-							bus.phoneLender = this.lenderInfo.phone
+							// this.lenderInfo.phone = this.lenderInfo.phone
+								// this.phoneLender=this.lenderInfo.phone
+							bus.phoneLender = info.phone
+							localStorage.phoneLender=info.phone
 							this.lenderInfoAlert = ''
 								// this.phoneExist = true
 							this.canApply = true
+							this.getApplyRecord()
 						} else {
 							// if(res.error=20000){}
 							this.lenderInfoAlert = res.msg
@@ -146,7 +204,21 @@
 						}
 					})
 				},
+				getApplyRecord(){
+					var urlRecord=publicFun.urlConcat(this.urlApplyRecord,{
+						limit:1,
+						lendingUid:this.lenderInfo.uid
+					})
+					// console.log('urlR',urlRecord)
+					publicFun.get(urlRecord,this,()=>{
+						this.applyRecord=this.response.body.data[0]
+						if(this.applyRecord){
+							
+						}
+						console.log('apply record',this.response.body)
 
+					})
+				},
 				blured($event) {
 					var el = $event.target.parentElement.parentElement
 					el.className += ' validate'
@@ -162,23 +234,26 @@
 				// console.log('apply_borrow root',this.$root)
 				// console.log('apply_borrow parent',this.$parent)
 				publicFun.checkSession(this)
-				publicFun.checkSingleFilled	('credit/shujumoheSimQueryStatus','cfgEssential')
-				console.log('bus',bus)
+				//每次进入单独判断数据魔盒是否板定成功
+				// publicFun.checkSingleFilled	('credit/shujumoheSimQueryStatus','cfgEssential')
+				// console.log('bus',bus)
 				bus.$on('checked_fill_status',val=>{
 					console.log('checked_fill_status on',val)
 					this.fillStatusCfg=val
 				})
-				var intervalCfg=setInterval(()=>{
-					this.fillStatusCfg=bus.fillStatusCfg
-					if(this.fillStatusCfg.allFilled){
-						clearInterval(intervalCfg)
-					}
-				},300)
-				// this.fillStatus2=bus.fillStatus2
-				// this.checkFilled()
-				if (bus.phoneLender) {
-					this.phoneLender = bus.phoneLender
-				}
+				this.fillStatusCfg=bus.fillStatusCfg
+				// bus.$emit('checked_fill_status', bus.cfgEssential)
+				bus.checkFilled(bus.cfgEssential)
+				//?? 获取fillStatus 状态
+				
+				if(/market_/.test(this.$route.path)){
+					this.getMarketInfo()
+					this.getByMarket = true
+					this.getById = true
+					console.log('have market')
+					// this.phoneLender = query.phone
+				}else{
+
 				var query = this.$route.query
 					// console.log('phone', query.phone)
 					// if (query.phone) {
@@ -188,6 +263,8 @@
 					//触发phoneValid watch
 					// bus.phoneLender = query.phone
 					bus.uniqueIdLender = query.uniqueId
+					bus.share=1
+					localStorage.share=1
 					this.uniqueIdLender = query.uniqueId
 						// console.log('this.urlUniqueId',this.urlUniqueId)
 					this.getLenderInfo(this.urlUniqueId + query.uniqueId)
@@ -197,7 +274,17 @@
 						// var data = this.response
 						// }
 						// this.checkFilled()
+				}else if(localStorage.phoneLender){
+					this.phoneLender=localStorage.phoneLender
+					bus.share=localStorage.share
+					bus.phoneLender=this.phoneLender
+				}else if (bus.phoneLender) {
+					this.phoneLender = bus.phoneLender
 				}
+				}
+
+				// var routePath=this.$route.path
+
 			},
 			filters: {
 				nameParse(val) {
@@ -224,6 +311,8 @@
 							// console.log('this.checkAllFilled',this.checkAllFilled())
 					} else {
 						this.canApply = false
+						bus.share=0
+						localStorage.share=0
 					}
 				},
 				// undoneRequest: function(val) {

@@ -5,7 +5,6 @@ var bus = new Vue({
 		detailTaskId: null,
 		phoneLender: '13777722216',
 		uniqueIdLender: '2qamam',
-		// urlLendInfo: 'accounting/myLendInfo',
 		account: '请登录',
 		uniqueId: '',
 		test: 'tstMSG',

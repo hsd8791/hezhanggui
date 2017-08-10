@@ -86,46 +86,46 @@ var newRoute = function(paths, name, component, options) {
 	return routes
 }
 mineRoutes = mineRoutes.concat(
-	newRoute(['/*/login_code', '/login_code', ], 'login&pwd&signup via code', login_code),
-	newRoute(['/login', '/*/login', ], 'login via pwd', login),
-	newRoute(['/signup', '/*/signup', ], 'signup', Signup),
-	newRoute(['/mine/pwd', '/*/pwd', ], 'pwd', Pwd),
-	newRoute(['/mine/charge', '/*/charge', ], 'charge', charge),
-	newRoute(['/mine/myhb', '/*/myhb', ], 'myhb', myhb),
-	newRoute(['/apply_list', '/*/apply_list', ], 'apply_list', applyList),
+	newRoute(['*/login_code', '/login_code', ], 'login&pwd&signup via code', login_code),
+	newRoute(['/login', '*/login', ], 'login via pwd', login),
+	newRoute(['/signup', '*/signup', ], 'signup', Signup),
+	newRoute(['/mine/pwd', '*/pwd', ], 'pwd', Pwd),
+	newRoute(['/mine/charge', '*/charge', ], 'charge', charge),
+	newRoute(['/mine/myhb', '*/myhb', ], 'myhb', myhb),
+	newRoute(['/apply_list', '*/apply_list', ], 'apply_list', applyList),
 	newRoute('/mine', 'mine', mine),
 )
 
 promoteRoutes = promoteRoutes.concat(
-	newRoute(['/*/partner', '/partner', ], 'partner', partner),
-	newRoute(['/promotion', '/*/promotion'], 'promotion', promotion),
-	newRoute(['/*/commission', '/commission'], 'commission', commission),
-	newRoute(['/*/commission/withdraw'], 'commissionWithdraw', commissionWithdraw),
-	newRoute(['/*/commission/withdraw_record'], 'commissionWithdrawRecord', commissionWithdrawRecord),
-	newRoute(['/*/commission/detail'], 'commissionDetail', commissionDetail),
+	newRoute(['*/partner', '/partner', ], 'partner', partner),
+	newRoute(['/promotion', '*/promotion'], 'promotion', promotion),
+	newRoute(['*/commission', '/commission'], 'commission', commission),
+	newRoute(['*/commission/withdraw'], 'commissionWithdraw', commissionWithdraw),
+	newRoute(['*/commission/withdraw_record'], 'commissionWithdrawRecord', commissionWithdrawRecord),
+	newRoute(['*/commission/detail'], 'commissionDetail', commissionDetail),
 )
 indexRoutes = indexRoutes.concat(
 	// newRoute('/apply_borrow', 'apply_borrow', apply_borrow),
-	newRoute(['/identity', '/*/identity'], 'Identity', Identity),
-	newRoute(['/profile', '/*/profile'], 'Profile', Profile),
-	newRoute(['/job_info', '/*/job_info'], 'JobInfo', JobInfo),
-	newRoute(['/contact_way', '/*/contact_way'], 'ContactWay', ContactWay),
-	newRoute(['/upload', '/*/upload'], 'Upload', Upload),
-	newRoute(['/zhima', '/*/zhima'], 'Zhima', Zhima),
-	newRoute(['/debt', '/*/debt'], 'Debt', Debt),
-	newRoute(['/apply_lend', '/*/apply_lend'], 'apply_lend', apply_lend),
-	newRoute(['/apply_borrow', '/*/apply_borrow'], 'apply_borrow', apply_borrow),
-	newRoute(['/shujumohe', '/*/shujumohe'], 'shujumohe', shujumohe),
-	newRoute('/*/pay', 'pay', pay),
+	newRoute(['/identity', '*/identity'], 'Identity', Identity),
+	newRoute(['/profile', '*/profile'], 'Profile', Profile),
+	newRoute(['/job_info', '*/job_info'], 'JobInfo', JobInfo),
+	newRoute(['/contact_way', '*/contact_way'], 'ContactWay', ContactWay),
+	newRoute(['/upload', '*/upload'], 'Upload', Upload),
+	newRoute(['/zhima', '*/zhima'], 'Zhima', Zhima),
+	newRoute(['/debt', '*/debt'], 'Debt', Debt),
+	newRoute(['/apply_lend', '*/apply_lend'], 'apply_lend', apply_lend),
+	newRoute(['/apply_borrow', '*/apply_borrow'], 'apply_borrow', apply_borrow),
+	newRoute(['/shujumohe', '*/shujumohe'], 'shujumohe', shujumohe),
+	newRoute('*/pay', 'pay', pay),
 	// newRoute('/test', 'test', test),
 
 
 )
 
 marketRoutes=marketRoutes.concat(
-	newRoute(['/*/market_mine', '/market_mine', ], 'market_mine', market_mine),
-	newRoute(['/*/market_detail', '/market_detail', ], 'market_detail', market_detail),
-	newRoute(['/*/market_list', '/market_list', ], 'market_list', market_list),
+	newRoute(['*/market_mine', '/market_mine', ], 'market_mine', market_mine),
+	newRoute(['*/market_detail/:id', '/market_detail', ], 'market_detail', market_detail),
+	newRoute(['*/market_list', '/market_list', ], 'market_list', market_list),
 	)
 
 console.log('indexRoutes', indexRoutes)

@@ -13,7 +13,8 @@ $successColor:#09bb07;
 
 .input{
 	width: 100%;
-	
+  // touch-action:none;
+	// overflow:scroll;
 	.title{
 		background:#37383b;
 		color:#fff;
@@ -80,25 +81,26 @@ $successColor:#09bb07;
 			border-bottom-width: 1px;
 			overflow:hidden;
 			// text-align: right;
-			label{
-				width: 25%;
-				letter-spacing: -0.01rem;
-				// width: 100%;
-				// padding: 0.05rem 0;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				overflow:hidden;
-				font-size: 0.16rem;
-				height: $inputHeight;
-				line-height:$inputHeight ;
-				display: inline-block;
-				color:#000000;
-				padding-left: 0.05rem;
-				text-align: left;
-				position: absolute;
-				left: 0;
-			}
+			
 
+		}
+		.wraper>label{
+			width: 25%;
+			letter-spacing: -0.01rem;
+			// width: 100%;
+			// padding: 0.05rem 0;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow:hidden;
+			font-size: 0.16rem;
+			height: $inputHeight;
+			line-height:$inputHeight ;
+			display: inline-block;
+			color:#000000;
+			padding-left: 0.05rem;
+			text-align: left;
+			position: absolute;
+			left: 0;
 		}
 		.wraper:last-child{
 			border-bottom-width: 0px;
@@ -356,7 +358,14 @@ div.el-loading-mask{
 		margin-top: 0.9rem;
 	}
 }
-
+.router-view-container{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
+}
 //列表
 .record-container{
 	position: relative;
@@ -473,4 +482,45 @@ div.el-loading-mask{
 .samelevel-enter{
 	// transform-origin:center center;
 	// transform:scale(0)
+}
+
+
+.market-container{
+	  .market-star{
+    color:#ffeb3b;
+    font-size: 0.15rem;
+  }
+  .required-info-box{
+    // height: 0.1rem;
+    // width: 0.5rem;
+    padding: 0 0.01rem;
+    border:1px solid transparent;
+    border-radius: 0.05rem;
+    background: cyan;
+    display: inline-block;
+    // font-size:0.1rem;
+    // transform: scale(0.5,0.5);
+  }
+  .required-text{
+    font-size: 0.1rem;
+    display: block;
+    // width: 200%;
+    height: 200%;
+    // transform: scale(0.5,0.5);
+    transform-origin: 0 0;
+    text-align: center;
+
+  }
+  .avator-pic{
+    width:100%;
+    height:100%;
+    // height: 0.5rem;
+    // width: 0.5rem;
+    // border:1px solid #cccccc;
+    position: absolute;
+    left: 0;
+    background:url(#) no-repeat center center;
+    background-size: contain;
+    // margin-left: 0.15rem;
+  }
 }

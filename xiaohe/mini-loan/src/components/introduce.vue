@@ -66,6 +66,7 @@
   	}
   },
   created(){
+  	// publicFun.qualify(this)
   	this.accountName=bus.account
 		console.log('bus',bus);
   	 bus.$on('account_change',(ac,id)=>{

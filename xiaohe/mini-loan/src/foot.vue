@@ -90,8 +90,12 @@ export default {
                 //  下面代码
                 // 2.判断是否显示foot
                 // check path
-                console.log('to', to.path)
-                    console.log('from', from.path)
+                // if(!from.path){
+                //     console.log('got the undefined path')
+                //     next()
+                // }
+                // console.log('to', to.path)
+                    // console.log('from', from.path)
                 var depthTo = to.path.split('/').length
                 var depthFrom = from.path.split('/').length
                     // console.log('depth',depthFrom,depthTo)

@@ -87,7 +87,7 @@
     		// console.log('formData',formData) // sorry this can't work
     		var xhr=new XMLHttpRequest()
     		xhr.withCredentials = true;  
-    		xhr.open('post',this.$http.options.root+'/'+cfg.url)
+    		xhr.open('post',this.$http.options.root+'/'+cfg.urlPost)
     		// xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
     		xhr.addEventListener('readystatechange',()=>{
     			if(xhr.readyState===4&&xhr.status===200){
@@ -97,10 +97,10 @@
     				// console.log('this,response',JSON.parse(xhr.response))    			
     				publicFun.postRes(this.response,this)
     			}
-    			console.log('xhr ready change')
-    			console.log('xhr',xhr.readyState)
-    			console.log('xhr',xhr.response)
-    			console.log('xhr',xhr)
+    			// console.log('xhr ready change')
+    			// console.log('xhr',xhr.readyState)
+    			// console.log('xhr',xhr.response)
+    			// console.log('xhr',xhr)
     		},false)
     		xhr.onerror=function(e){
     			console.log('error',e)
@@ -141,8 +141,8 @@
     	get(){
     		var cfg=this.uploadConfig
 				// console.log('cfg',cfg)
-				publicFun.get(cfg.url, this,()=>{
-					// console.log('response',this.response)
+				publicFun.get(cfg.urlGet, this,()=>{
+					// console.warn('pic ',this.response)
 					var res=this.response.body.data
 					// console.log('this.url',this.urlF,res.idcardUrl)
 					if(res){

@@ -28,7 +28,7 @@
 						<div class="record-brief-up">
 
 							<span class="record-name">{{item.name}}</span>
-							<span class="record-time">{{item.createTime | timeParser}}</span>
+							<span class="record-time">{{item.creat_time | timeParser}}</span>
 						</div>
 						<div class="record-brief-down">
 							<span class="record-phone">手机:{{item.phone}}</span>

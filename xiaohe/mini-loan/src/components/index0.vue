@@ -39,8 +39,8 @@ export default {
       loading:true,
       editing:true,
       backAfterPost:false,// watch out
-      url:'accounting/myLendInfo',
-      urlApply:'lendApply/borrowLoanRecords?limit=1',
+      url:'accounting/myLendInfo?lendingUid=1',
+      urlApply:'lendApply/borrowLoanRecords?limit=1&lendingUid=1',
       // urlSales:'qudao/pv?qudao=',
       remind:{
       	isShow:false,

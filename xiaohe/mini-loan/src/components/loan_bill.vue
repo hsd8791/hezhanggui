@@ -3,7 +3,7 @@
 		<div class="input" v-loading='loading' element-loading-text='请稍后'>
 			<h1 class="title">我的借款</h1>
 		</div>
-		<div class="container auditing" v-if='auditing==4'>
+		<div class="container auditing" v-if='auditing===4' audit-ctrl='refused'>
 			<p>
 				审核拒绝
 			</p>
@@ -12,20 +12,19 @@
 				<p class="auditing-description">审核意见：{{auditingRemark}}</p>
 			</div>
 		</div> 
-		<div class="container auditing" v-if='auditing===0||auditing===1' >
+		<div class="container auditing" v-if='auditing===0||auditing===1' audit-ctrl='auditing' >
 			<p class="auditing-txt">
-			审核中
+			<span v-if="loanInfo">重借/续期</span><span v-if="!loanInfo">小禾微贷</span> 审核中
 			</p>
+		</div>
+		<div class="container" v-if='!loanInfo&&(auditing===0||auditing===1)' audit-ctrl='guide'>
 			<p class="remind">新用户审核时间：上午9：00-下午5：00。</p>
 			<p class="remind">下午5：00以后申请的将在第二天开始审核。</p>
-			<p class="remind">识别以下二维码关注小禾微贷公众号，输入“审核”咨询结果。</p>
-
+			<p class="remind">必须添加QQ公众号【4000577009】才能进行审核。</p>
+			<p class="remind">识别以下二维码关注【小禾微贷公众号】，输入“审核”咨询结果。</p>
 			<img src="./../assets/img/QRxh.jpg" alt="" class="qrcode">
 		</div>
-		<div class="input" v-if='auditing===0||auditing===1'>
-			<el-button type='success' @click='get' >刷新</el-button>
-		</div>
-		<div class="container auditing audit-refused" v-if='auditing==2'>
+		<div class="container auditing audit-refused" v-if='auditing===2' audit-ctrl='re-fill'>
 			<p>
 				发回重审
 			</p>
@@ -34,13 +33,14 @@
 				<p class="auditing-description">审核意见：{{auditingRemark}}</p>
 			</div>
 		</div>
-		<div class="container auditing" v-if='(!loanInfo)&&auditing==null'>
+		<div class="container auditing" v-if='(!loanInfo)&&auditing==null' audit-ctrl='no-apply'>
 			无申请记录
 		</div>
-		<div class="input" v-if='auditing==2'>
+		<div class="input" v-if='auditing===2' audit-ctrl='reapply'>
 			<el-button type='success' @click='reapply' > 重新申请</el-button>
 		</div>
-		<div class="container" v-if='loanInfo'>
+		<!-- <div class="container" v-if='true'> -->
+		<div class="container" v-if='auditing!==4&&loanInfo&&auditing!==2' audit-ctrl='bill-status' >
 			<div class="inner-contaier loan-amount">
 				<div class="detail-li">
 					<span class="li-title">借款金额</span>
@@ -69,6 +69,9 @@
 					{{act.act}}
 				</el-button>
 			</div>
+		</div>
+		<div class="input bttn-refresh" v-if='auditing!==3&&auditing!==4' audit-ctrl='refresh'>
+				<el-button type='success' @click='get' >刷新</el-button>
 		</div>
 				<!-- <el-button type='success' @click='test'>test</el-button> -->
 <!-- 		<div class="dscrp-container">
@@ -101,11 +104,11 @@
 					loading: true,
 					editing: true,
 					backAfterPost: false,
-					url: 'accounting/myLendInfo',
+					url: 'accounting/myLendInfo?lendingUid=1',
 					urlApply: 'lendApply/lendApply',
 					phoneLender: null,
 					amount: 2000,
-					urlApplyRecord: 'lendApply/borrowLoanRecords?limit=1',
+					urlApplyRecord: 'lendApply/borrowLoanRecords?limit=1&lendingUid=1',
 					remind: {
 						isShow: false,
 						remindMsg: 'remind',
@@ -154,7 +157,11 @@
 					this.auditing = 1
 				},
 				reapply() {
+							var remind=this.remind
 					var apply = () => {
+							var remind=this.remind
+							remind.isShow=false
+							remind.remindMsgDscrp=null
 							var urlApply = publicFun.urlConcat(this.urlApply, {
 								phone: this.phoneLender,
 								amount: this.amount * 100,
@@ -162,10 +169,13 @@
 							publicFun.post(urlApply, {}, this, () => {
 								// console.log('res apply_borrow', this.response)
 								// this.remind.remindMsg='提示:添加联系方式'
-								this.remind.remindMsg = '提交完成'
-									// this.remind.remindMsgDscrp='请添加微信或手机联系人以便客服联系'
-								this.remind.remindMsgDscrp = null
-								this.remind.remindOpts = [{
+								if(this.response.body.error){
+									return
+								}
+								remind.remindMsg = '提交完成'
+									// remind.remindMsgDscrp='请添加微信或手机联系人以便客服联系'
+								remind.remindMsgDscrp = null
+								remind.remindOpts = [{
 									msg: '确定',
 									callback: () => {
 										// publicFun.goPage('/loan_bill')
@@ -177,27 +187,39 @@
 						// if (!this.allFilled) {
 						// 	// return
 						// }
-					this.remind.remindMsg = '请确定是否提交'
-					this.remind.remindMsgDscrp = '提示：与客服沟通后完善相应信息后提交'
-					this.remind.remindOpts = [{
+					remind.remindMsg = '请确定是否提交'
+					remind.remindMsgDscrp = '提示：与客服沟通后完善相应信息后提交'
+					remind.remindOpts = [{
 						msg: '确定',
 						callback: apply,
 					}, {
 						msg: '取消',
 					}, ]
-					this.remind.isShow = true
+					remind.isShow = true
 				},
 				goP(key, act) {
 					if (!act.enable) {
 						return
 					}
-					var url = publicFun.urlConcat('/loan_bill/loan_deal', {
+					// var url = publicFun.urlConcat('/loan_deal', {
+					var url = publicFun.urlConcat('/debt', {
 						action: key,
+						billId:this.loanInfo.id,
+						v:Math.random().toFixed(5),
 						// title:act.act,
 						// amount:this.loanInfo.moneyFee,
 					})
-					console.log('gopage', url)
-					publicFun.goPage(url)
+					// console.log('gopage', url)
+					var r=this.remind
+					r.remindMsg='请更新负债调查'
+					r.remindOpts=[
+
+					{msg:'确认',callback:()=>{
+						publicFun.goPage(this.$route.path+url)
+					}},
+					{msg:'取消',},
+					]
+					r.isShow=true
 				},
 				get() {
 					var checkAuditing = () => {
@@ -227,8 +249,8 @@
 					publicFun.get(this.url, this, () => {
 						console.log('res loan info', this.response)
 						this.loanInfo = this.response.body.data
-						if (!this.loanInfo) {
 							publicFun.get(this.urlApplyRecord, this, checkAuditing)
+						if (!this.loanInfo) {
 						}
 					})
 				},
@@ -296,9 +318,20 @@
 			.auditing-txt{
 				border: 0px solid #efeff4 ;
 				border-bottom-width: 1px;
-				margin-bottom: 0.1rem;
+				/*margin-bottom: 0.1rem;*/
+				padding:0.1rem;
+				/*margin-bottom: 0.1rem;*/
 
 			}
+
+		}
+		.bttn-refresh{
+			padding:0.15rem 0;
+		}
+		.container{
+			background: #fff;
+			margin-top:0.2rem;
+			border:1px solid transparent;
 			.qrcode{
 				width: 60%;
 				margin:0 auto;
@@ -308,11 +341,6 @@
 				text-align: left;
 				padding:0.05rem 0.25rem;
 			}
-		}
-		.container{
-			background: #fff;
-			margin-top:0.2rem;
-			border:1px solid transparent;
 			.inner-contaier{
 				margin-left: 0.2rem;
 				padding: 0.12rem 0;
@@ -343,6 +371,7 @@
 			.loan-action{
 				display: flex;
 				font-size: 0.16rem;
+				/*padding:0.1rem 0;*/
 				color:#8e8e8e;
 				.action-bttn{
 					width: 33%;

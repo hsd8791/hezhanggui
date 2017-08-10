@@ -7,6 +7,7 @@
          <div class="nav-item">首页</div>
      </span>
      <span class='nav-btn' :class='{active:activeI===1}' @click='goPage(1)'>
+     <!-- <span class='nav-btn' :class='{active:activeI===1}' @click=''> -->
          <div class="nav-icon"><i class="icon-cool"></i></div>
          <div class="nav-item">口子</div>
      </span>

@@ -172,7 +172,88 @@ Vue.directive('record', {
 		})
 	}
 })
+Vue.directive('inner-scroll',{
+	bind:function(el,binding,vnode){
+		var cfg = binding.value,
+			containerTop = 0
+			// console.warn('config', cfg)
+			// console.warn('config', binding)
+		var touch = {
+			start: null,
+			end: null,
+			last: null,
+			crrt: null,
+		}
+		var scrollTop,outer
+		console.log('bindded v-inner-scroll')
+		
+		el.addEventListener('touchstart', (e) => {
+			e.stopPropagation()
+			touch.start = e.touches[0].clientY
+			touch.last = e.touches[0].clientY
+		}, false)
+		el.addEventListener('touchmove', (e) => {
+			e.preventDefault()
+			touch.crrt = e.touches[0].clientY
+			outer= e.currentTarget.parentElement
+			scrollTop =outer.scrollTop
+			if (scrollTop > 0) {
+				var step = touch.crrt - touch.last
+				outer.scrollTop-=step
+				touch.last = touch.crrt
+				return
+			} else {
+				if (touch.crrt <= touch.last) {
+					if (containerTop === 0) {
+						var step = touch.crrt - touch.last
+						outer.scrollTop-=step
+						touch.last = touch.crrt
+						return
+					} else {
+						containerTop -= 0.025;
+						el.style.paddingTop = containerTop + 'rem'
 
+					}
+				} else {
+					// e.stopPropagation()
+					// e.preventDefault()
+					// containerTop += 0.025
+					// el.style.paddingTop = containerTop + 'rem'
+				}
+			}
+			touch.last = touch.crrt
+		}, false)
+		el.addEventListener('touchend', (e) => {
+			e.stopPropagation()
+			touch.end = e.changedTouches[0].clientY
+			
+
+			el.style.transition = '.5s cubic-bezier(0.23, 0.86, 0.39, 0.78)'
+				// if(this.containerTop>0){
+				// 	console.log('refresh')
+				// 	this.getNew()
+				// }
+			// if (containerTop > 0) { //可以设置其他值控制下拉的幅度
+
+			// 	if (cfg.method) {
+			// 		if (cfg.method instanceof Function) {
+			// 			cfg.method()
+			// 		} else {
+			// 			console.warn('method is not a function')
+			// 		}
+			// 	} else {
+			// 		console.warn('no method ')
+			// 	}
+			// 	console.log('refresh')
+			// }
+			containerTop = 0
+			el.style.paddingTop = containerTop + 'px'
+			setTimeout(() => {
+				el.style.transition = '0s'
+			}, 300);
+		}, false)
+	}
+})
 import {
 	Button,
 	Select,

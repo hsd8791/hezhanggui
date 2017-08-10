@@ -8,6 +8,7 @@ var bus = new Vue({
 		detailTaskId: null,
 		phoneLender: '',
 		uniqueIdLender: '',
+		share:0,
 		account: '请登录',
 		uniqueId: '',
 		wxConfiged:false,
@@ -37,7 +38,8 @@ var bus = new Vue({
 
 		cfgEssential: {
 			allFilled:false,
-			ttlRequest: 3, // qty of requset
+			testing:false,
+			ttlRequest: 4, // qty of requset
 			undoneRequest: null, //记录未完成的请求判断，全部完成后判断是否可以提交
 			fillStatus: [{ //identity
 				status: -1,
@@ -52,6 +54,7 @@ var bus = new Vue({
 				getUrl: 'credit/shujumoheSimQueryStatus',
 				icon: 'icon-mobile',
 				checkMethod: function(data) {
+
 					this.status = -1
 
 					// console.log('data', data.status)
@@ -83,6 +86,7 @@ var bus = new Vue({
 				getUrl: 'credit/zhimaAuthStatus',
 				icon: 'icon-lock',
 				checkMethod: function(data) {
+
 					if (data.status) {
 						this.status = 0
 						if (data.status == 'success') {
@@ -90,11 +94,21 @@ var bus = new Vue({
 						}
 					}
 				}
-			}, ],
+			}, { //debt
+				status: -1,
+				url: '/debt',
+				label: '负债调查',
+				getUrl: 'userInfo/liabilities',
+				icon: 'icon-banknote',
+				// checkMethod: function(data) {
+				// console.warn('debt data', data)
+				// }
+			},],
 			fillStatus2: [],
 		},
 		cfgOptional: {
-			ttlRequest: 5,
+			ttlRequest: 6,
+			testing:false,
 			allFilled:false,
 			undoneRequest: null, //记录未完成的请求判断，全部完成后判断是否可以提交
 			fillStatus: [{ //upload
@@ -115,16 +129,13 @@ var bus = new Vue({
 						this.status = 1
 					}
 				}
-			}, { //debt
-				status: -1,
-				url: '/debt',
-				label: '负债调查',
-				getUrl: 'userInfo/liabilities',
-				icon: 'icon-banknote',
-				// checkMethod: function(data) {
-				// console.warn('debt data', data)
-				// }
-			}, ],
+			}, {//job_info
+					status: -1,
+					url: '/job_info',
+					label: '工作信息',
+					getUrl: 'userInfo/work',
+					icon: 'icon-profile',
+				}, ],
 			fillStatus2: [{ //profile
 					status: -1,
 					status2: -1,
@@ -233,6 +244,10 @@ var bus = new Vue({
 		},
 		checkFilled(cfg) {
 			// console.log('checking filled')
+			if(cfg.testing===true){
+				return
+			}
+			cfg.testing=true
 			cfg.undoneRequest = cfg.ttlRequest
 			var u = cfg.fillStatus,
 				l = u.length,
@@ -259,11 +274,11 @@ var bus = new Vue({
 			for (i = 0; i < l; i++) {
 				flag = flag && u[i].status === 1
 				// console.log('flag ',i,flag)
-				console.log('status', i, u[i].url, '-->', u[i].status)
+				// console.log('status', i, u[i].url, '-->', u[i].status)
 			}
 			for (i = 0; i < l2; i++) {
 				flag = flag && u2[i].status === 1 && u2[i].status2 === 1
-				console.log('status 1 2', i, u2[i].url, '-->', u2[i].status, u2[i].status2)
+				// console.log('status 1 2', i, u2[i].url, '-->', u2[i].status, u2[i].status2)
 			}
 			// console.log('flag',flag)
 			cfg.allFilled=flag
@@ -299,6 +314,7 @@ var bus = new Vue({
 			// console.log('undoneRequest', val)
 			this.$emit('checked_fill_status', this.cfgEssential)
 			if (val === 0) {
+				this.cfgEssential.testing=false
 				// this.cfgEssential.allFilled = 
 				this.checkAllFilled(this.cfgEssential)
 				this.$emit('checked_fill_status', this.cfgEssential)
@@ -306,6 +322,7 @@ var bus = new Vue({
 			}
 		},
 		'cfgOptional.undoneRequest': function(val) {
+			this.cfgOptional.testing=false
 			this.$emit('checked_fill_status_optional', this.fillStatusCfgOpt)
 			if (val === 0) {
 				this.checkAllFilled(this.cfgOptional)

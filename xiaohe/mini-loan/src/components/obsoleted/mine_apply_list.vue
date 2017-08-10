@@ -77,7 +77,7 @@
 				{label:'拒绝',status:2},
 				],
 				records:[],
-				url:'lendApply/borrowLoanRecords',
+				url:'lendApply/borrowLoanRecords?lendingUid=1',
 				remind:{
 					isShow:false,
 					remindMsg:'remind',

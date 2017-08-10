@@ -58,21 +58,21 @@
       border: 0px solid #e5e5e5;
       border-bottom-width: 1px;
       overflow: hidden; }
-      .input .container .wraper label {
-        width: 25%;
-        letter-spacing: -0.01rem;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        font-size: 0.16rem;
-        height: 0.42rem;
-        line-height: 0.42rem;
-        display: inline-block;
-        color: #000000;
-        padding-left: 0.05rem;
-        text-align: left;
-        position: absolute;
-        left: 0; }
+    .input .container .wraper > label {
+      width: 25%;
+      letter-spacing: -0.01rem;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      font-size: 0.16rem;
+      height: 0.42rem;
+      line-height: 0.42rem;
+      display: inline-block;
+      color: #000000;
+      padding-left: 0.05rem;
+      text-align: left;
+      position: absolute;
+      left: 0; }
     .input .container .wraper:last-child {
       border-bottom-width: 0px; }
     .input .container .wraper > div.el-input, .input .container .wraper > div.el-select, .input .container .wraper > .el-textarea {
@@ -261,6 +261,14 @@ div.el-loading-mask {
     width: 100%;
     margin-top: 0.9rem; }
 
+.router-view-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: scroll;
+  overflow-x: hidden; }
+
 .record-container {
   position: relative;
   border: 1px solid #e5e5e5;
@@ -352,5 +360,28 @@ div.el-loading-mask {
 
 .forward-leave-to {
   transform: translateX(-100%); }
+
+.market-container .market-star {
+  color: #ffeb3b;
+  font-size: 0.15rem; }
+.market-container .required-info-box {
+  padding: 0 0.01rem;
+  border: 1px solid transparent;
+  border-radius: 0.05rem;
+  background: cyan;
+  display: inline-block; }
+.market-container .required-text {
+  font-size: 0.1rem;
+  display: block;
+  height: 200%;
+  transform-origin: 0 0;
+  text-align: center; }
+.market-container .avator-pic {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  background: url(#) no-repeat center center;
+  background-size: contain; }
 
 /*# sourceMappingURL=input.css.map */

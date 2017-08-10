@@ -103,15 +103,15 @@ mineRoutes = mineRoutes.concat(
 
 indexRoutes = indexRoutes.concat(
 	// newRoute('/apply_borrow', 'ApplyBorrow', ApplyBorrow),
-	newRoute(['/index/identity', '/index/*/identity'], 'Identity', Identity),
-	newRoute(['/index/profile', '/index/*/profile'], 'Profile', Profile),
-	newRoute(['/index/job_info', '/index/*/job_info'], 'JobInfo', JobInfo),
-	newRoute(['/index/contact_way', '/index/*/contact_way'], 'ContactWay', ContactWay),
-	newRoute(['/index/upload', '/index/*/upload'], 'Upload', Upload),
-	newRoute(['/index/zhima', '/index/*/zhima'], 'Zhima', Zhima),
-	newRoute(['/index/debt', '/index/*/debt'], 'Debt', Debt),
-	newRoute(['/index/shujumohe', '/index/*/shujumohe'], 'shujumohe', shujumohe),
-	newRoute('/*/pay', 'pay', pay),
+	newRoute(['/index/identity', '/*/identity'], 'Identity', Identity),
+	newRoute(['/index/profile', '/*/profile'], 'Profile', Profile),
+	newRoute(['/index/job_info', '/*/job_info'], 'JobInfo', JobInfo),
+	newRoute(['/index/contact_way', '/*/contact_way'], 'ContactWay', ContactWay),
+	newRoute(['/index/upload', '/*/upload'], 'Upload', Upload),
+	newRoute(['/index/zhima', '/*/zhima'], 'Zhima', Zhima),
+	newRoute(['/index/debt', '/*/debt'], 'Debt', Debt),
+	newRoute(['/index/shujumohe', '/*/shujumohe'], 'shujumohe', shujumohe),
+	newRoute('*/pay', 'pay', pay),
 
 
 )
@@ -122,8 +122,8 @@ xiaoheRoutes = xiaoheRoutes.concat(
 		newRoute('/loan_bill', 'loan_bill', loan_bill),
 		// newRoute('/pay_intrest', 'pay_intrest', pay_intrest),
 		newRoute('/index0', 'index0', index0),
-		newRoute('/loan_bill/loan_deal', 'loan_deal', loan_deal),
-		newRoute('/loan_bill/loan_deal_remind', 'loan_deal_remind', loan_deal_remind),
+		newRoute('*/loan_deal', 'loan_deal', loan_deal),
+		newRoute('*/loan_deal_remind', 'loan_deal_remind', loan_deal_remind),
 	)
 	// console.log('indexRoutes', indexRoutes)
 

@@ -56,7 +56,7 @@
 				backAfterPost:false,
 				urls:{
 					auth:'credit/applyZhimaAuth',
-					checkAuth:'credit/zhimaAuthStatus',
+					checkAuth:'credit/zhimaAuthStatus?f=1',
 					faceCetify:'credit/applyCustomerCertification?f=1',
 					faceCetifyStatus:'credit/zhimaCustomerCertificationStatus',
 					score:'credit/queryZhimaScore',
@@ -162,7 +162,7 @@
 		},
 		created(){
 			this.checkAuth()
-			this.faceCetifyStatus()
+			// this.faceCetifyStatus()
 			// this.checkScoreStatus()
 			// this.checkWatchListStatus()
 		},

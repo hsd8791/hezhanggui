@@ -78,8 +78,8 @@ export default {
 					value: '母亲',
 					label: '母亲'
 				}, {
-					value: '兄弟姐妹',
-					label: '兄弟姐妹'
+					value: '配偶',
+					label: '配偶'
 				}, 
 				 ],
 				// relationPlaceholders: ['直系亲属', ''],
@@ -256,7 +256,10 @@ export default {
 					}, {
 						value: '朋友',
 						label: '朋友'
-					}, ])
+					},  {
+					value: '兄弟姐妹',
+					label: '兄弟姐妹'
+				},])
 				]
 			},
 			nickQqValid: function() {
@@ -292,7 +295,7 @@ export default {
 		},
 		created() {
 			this.get()
-			this.relatives[0].value='父亲'
+			// this.relatives[0].value='父亲'
 		},
 		events: {},
 		components: {

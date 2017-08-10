@@ -22,7 +22,7 @@
 			<!-- 以完成<span v-if="action=='reborrow'">重借</span><span v-if="action=='renewal'">续期</span> -->
 			<!-- </p> -->
 			<p class="description">
-				长按以下二维码<span v-if="platform=='今借到'">进入今借到【发布借款】</span><span v-if="platform=='借贷宝'">进入借贷宝【发布借款】</span>
+				<span v-if="platform=='今借到'">长按以下二维码进入今借到【发布借款】</span><span v-if="platform=='借贷宝'">长按以下二维码进入借贷宝【发布借款】</span>
 			</p>
 		</div>
 

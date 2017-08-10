@@ -24,8 +24,8 @@
 				<!-- <i :class="{'el-icon-check':amountValid,'el-icon-close':!amountValid}"></i> -->
 			</div>
 		</div>
-		<el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(canApply&&allFilled&&amountValid)'>点击申请</el-button>
-		<!-- <el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(canApply&&allFilled&&norecord)'>点击申请</el-button> -->
+		<el-button type='success' class="confirm" @click='applyBorrow' :disabled='!(canApply&&allFilled&&amountValid)'>点击申请</el-button>
+		<!-- <el-button type='success' class="confirm" @click='applyBorrow' :disabled='!(canApply&&allFilled&&norecord)'>点击申请</el-button> -->
 
 		<div class="fill-status " v-if='!allFilled'>
 			<h3 class="subtitle">请完成以下信息后提交</h3>
@@ -69,10 +69,10 @@
 					lenderInfoAlert: '',
 					uniqueIdLender: null,
 					urlPhone: 'lendApply/phoneInfo?phone=',
-					urlUniqueId: 'userInfo/userInfo?uniqueId=',
+					// urlUniqueId: 'userInfo/userInfo?uniqueId=',
 					urlApply: 'lendApply/lendApply',
-					urlLendInfo:'accounting/myLendInfo',
-					urlApplyRecord:'lendApply/borrowLoanRecords?limit=1',
+					urlLendInfo:'accounting/myLendInfo?lendingUid=1',
+					urlApplyRecord:'lendApply/borrowLoanRecords?limit=1&lendingUid=1',
 					confirmOpts: [{
 						msg: '确定',
 						callback: () => {}
@@ -88,7 +88,7 @@
 						}, ],
 					},
 					phoneLender: null,
-					amount: null,
+					amount: 1000,
 					allFilled: true,
 
 					//fillStatus 填写项的后台请求path，router path, 名称,填写状态，特殊验证方法
@@ -136,7 +136,7 @@
 							if (!data) {
 								return
 							}
-							if (data.idcardUrl && data.idcardUrl2) {
+							if (data.idcardUrl && data.idcardUrl2&& data.idcardUrl3) {
 								this.status = 1
 							}
 						}
@@ -253,7 +253,7 @@
 				goPage(p) {
 					publicFun.goPage(p)
 				},
-				apllyBorrow() {
+				applyBorrow() {
 					var apply=()=> {
 							var urlApply = publicFun.urlConcat(this.urlApply, {
 								phone: this.phoneLender,
@@ -278,6 +278,7 @@
 						console.error('sth undone ！')
 						return
 					}
+					console.log('applying')
 					this.remind.remindMsg = '请确认是否提交'
 					this.remind.remindMsgDscrp=null
 					this.remind.remindOpts = [{
@@ -440,6 +441,7 @@
 			},
 			events: {},
 			created: function() {
+
 				publicFun.qualify(this)
 				this.checkNewer()//非newer 不会有提示覆盖qulify 函数中的提示，
 				// 以上两个函数只会有一个出现提示框

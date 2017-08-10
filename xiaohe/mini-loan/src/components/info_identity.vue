@@ -39,7 +39,7 @@
 				<i :class="{'el-icon-check':cellphoneValid,'el-icon-close':!cellphoneValid}"></i>
 			</div>
 		</div>
-		<el-button type='success' :disabled='!allValid' class='submit' v-if='editing' @click='submit'>提交</el-button>
+		<el-button type='success' :disabled='!(allValid&&ageValid)' class='submit' v-if='editing' @click='submit'>提交</el-button>
 		<!-- <el-button type='warning'  class='submit' v-if='!editing' @click='edit'>修改</el-button> -->
 		<remind :remind='remind'></remind>
 	</div>
@@ -124,26 +124,42 @@
 			},
 		},
 		watch:{
-			name:function(){
-				this.setFormData('name')					
-			},
-			idCardNum:function(){
-				this.setFormData('idCardNum')					
-			},
-			idcardAdr:function(){
-				this.setFormData('idcardAdr')					
-			},
-			cellphone:function(){
-				this.setFormData('cellphone')					
-			},
-			bankCard:function(){
-				this.setFormData('bankCard')					
-			},
-			email:function(){
-				this.setFormData('email')					
-			},
+			
 		},
 		computed:{
+			ageValid:function(){
+				if(!this.idCardNumValid){
+					return false
+				}
+				var ID=this.idCardNum
+				var bornY=ID.slice(6,10)*1,bornM=ID.slice(10,12)*1,bornD=ID.slice(12,14)*1
+				var today=new Date()
+				var todayY=today.getFullYear(),todayM=today.getMonth()+1,todayD=today.getDate()
+
+				if((bornY+20)<todayY&&(bornY+35)>todayY){
+					return true
+				}else{
+					if(bornY+20===todayY){
+						if(bornM<todayM){
+							return true
+						}else if(bornM===todayM){
+							if(bornD<=todayD){
+								return true
+							}
+						}
+					}
+					if(bornY+35===todayY){
+						if(bornM>todayM){
+							return true
+						}else if(bornM===todayM){
+							if(bornD>todayD){
+								return true
+							}
+						}
+					}
+				}
+				return false
+			},
 			idCardNumValid:function(){
 				var reg=publicFun.reg.idCardNum
 				return reg.test(this.idCardNum)

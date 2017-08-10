@@ -225,7 +225,7 @@ publicFun.get = function(url, vm, sccssCall, errCall, callback) { //paras:  this
 				// console.log('res', res.body)
 			if (resBody.error) {
 				publicFun.errorHandle(resBody, vm)
-				return
+				// return
 			} else {
 				// sccssCall()
 				// callback()
@@ -250,8 +250,8 @@ publicFun.get = function(url, vm, sccssCall, errCall, callback) { //paras:  this
 			// console.log('try go back')
 			// router.push('/index')
 			vm.response = err
-			callback()
 			errCall()
+			callback()
 		})
 	}
 	/**
@@ -322,8 +322,10 @@ publicFun.errorHandle = function(resBody, vm) {
 	// console.log('error', resBody)
 	// console.log('vmRemind', vmRemind)
 	var err = resBody.error
+	console.warn('error',resBody)
 	var vmRemind = vm.remind
 	if (vmRemind) {
+		vmRemind.remindOpts=[{msg:'确定'}]
 		vmRemind.remindMsg = resBody.msg
 		if (err === 20002) {
 			vmRemind.remindOpts = [{
@@ -365,6 +367,9 @@ publicFun.errorHandle = function(resBody, vm) {
 			vmRemind.remindOpts[0].callback = function() {
 				// router.push('/login')
 			}
+		}
+		if(err===30000){
+			return
 		}
 		vmRemind.isShow = true
 			// console.log('url error', url, resBody.error)

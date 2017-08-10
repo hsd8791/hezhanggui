@@ -109,20 +109,20 @@
         console.log('data brokerage rcd',data.data)
         this.records=this.records.concat(data.data.data)
         // bus.$emit(this.cfg.name,this.records)
-        var array=[],obj={
-          "id": 5,
-          "uid": 1,
-          "babaUid": 1,
-          "babaPhone": "17777777777", //提供佣金的下线手机号
-          "babaName": "哈哈哈", //提供佣金的下线名字
-          "money": 13, //单位分
-          "transactionId": "20170628151349110001", //业务编号
-          "remark": "充值奖励", //目前有 ：充值奖励、消费奖励、取消奖励
-          "createTime": 1498793212000
-        },i
-        for (i=0;i<10;i++){
-          array[i]=obj
-        }
+        // var array=[],obj={
+        //   "id": 5,
+        //   "uid": 1,
+        //   "babaUid": 1,
+        //   "babaPhone": "17777777777", //提供佣金的下线手机号
+        //   "babaName": "哈哈哈", //提供佣金的下线名字
+        //   "money": 13, //单位分
+        //   "transactionId": "20170628151349110001", //业务编号
+        //   "remark": "充值奖励", //目前有 ：充值奖励、消费奖励、取消奖励
+        //   "createTime": 1498793212000
+        // },i
+        // for (i=0;i<10;i++){
+        //   array[i]=obj
+        // }
         // bus.$emit(this.cfg.name,array)
         bus.$emit(this.cfg.name,this.records)
         this.ttlPage=data.data.pages

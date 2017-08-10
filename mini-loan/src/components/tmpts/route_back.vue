@@ -25,6 +25,9 @@
 			}
 		},
 		props:{
+			backStep:{
+				default:1,
+			},
 			text:{
 				default:'首页',
 			},
@@ -40,8 +43,14 @@
 				// console.log('url',location.hash)
 				var r=location.hash.replace("#",'')
 				// console.log('route',r)
-				var arr=r.split('/')
-				arr.pop()
+				var arr=r.split('/'),i=0
+				// for(i=0;i<this.backStep;i++){
+				// 	arr.pop()
+				// }
+				while(i<this.backStep){
+					arr.pop()
+					i++
+				}
 				var newR=arr.join('/')
 				// console.log('newR',newR)
 				publicFun.goPage(newR)

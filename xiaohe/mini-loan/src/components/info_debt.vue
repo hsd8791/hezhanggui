@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		<transition>
-			<el-button type='success' :disabled='!allValid' class='submit' v-if='editing' @click='submit'>提交</el-button>
+			<el-button type='success' :disabled='!(allValid&&creditValid)' class='submit' v-if='editing' @click='submit'>提交</el-button>
 			<!-- <el-button type='warning'  class='submit' v-if='!editing' @click='edit'>修改</el-button> -->
 		</transition>
 		<remind :remind='remind'></remind>
@@ -46,6 +46,7 @@
 	export default {
 		data() {
 			return {
+				refreshFill:false,
 				response:null,
 				// loading:true,
 				loading:false,
@@ -71,6 +72,11 @@
 		},
 		methods: {
 			submit(){
+				// if(this.refreshFill){
+				// 	this.$http.post(url,{}).then(res=>{
+
+				// 	},err=>{})
+				// }
 				var postBody = {}
 				postBody.jiedaibaoLiabilities = this.jiedaibaoLiabilities 
 				postBody.jinjiedaoLiabilities = this.jinjiedaoLiabilities 
@@ -80,6 +86,19 @@
 				console.log('postBody',postBody)
 				publicFun.post(this.url,postBody,this,()=>{
 					console.log('post res',this.response)
+					if (!this.backAfterPost) {
+						if (!this.response.body.data) {
+							this.remind.remindMsg='更新成功'
+							var url=publicFun.urlConcat('/loan_deal',this.$route.query)
+							console.log('url',url)
+							this.remind.remindOpts = [{
+								msg: '前往付款',
+								callback: () => {
+									publicFun.goPage(this.$route.path+url)
+								}
+							}]
+						}
+					}
 				})
 			},
 			get(){
@@ -114,20 +133,18 @@
 			
 		},
 		watch:{
-			// jiedaibaoLiabilities:function(){
-			// 	this.setFormData('jiedaibaoLiabilities')
-			// },
-			// jinjiedaoLiabilities:function(){
-			// 	this.setFormData('jinjiedaoLiabilities')
-			// },
-			// otherLiabilities:function(){
-			// 	this.setFormData('otherLiabilities')
-			// },
-			// zmxyScore:function(){
-			// 	this.setFormData('zmxyScore')
-			// },
+		
 		},
 		computed:{
+			creditValid:function(){
+				if(this.zmxyScore2<600){
+					return false
+				}
+				if(this.zmxyScore<500){
+					return false
+				}
+				return true
+			},
 			jiedaibaoLiabilitiesValid:function(){
 				var reg=/\d/;
 				return reg.test(this.jiedaibaoLiabilities)
@@ -155,7 +172,14 @@
 			},
 		},
 		created(){
+			var query=this.$route.query
+			if(query.action){
+				this.refreshFill=true
+				this.backAfterPost=false
+				this.editing=true
+			}else{
 			this.get()
+			}
 		}
 		,
 		events: {},
