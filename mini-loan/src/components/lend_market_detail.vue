@@ -103,24 +103,7 @@
       return v+'%'
     },
     statusParser(v){
-      var s
-      switch (v) {
-        case 0:
-          s = '审核中'
-          break;
-        case 1:
-          s = '申请通过'
-          break;
-        case 2:
-          s = '发回重审'
-          break;
-        case 3:
-          s = '申请通过'
-          break;
-        default:
-          s = '未知'
-      }
-      return s
+      return publicFun.auditStatusParse(v)
     }
   },
   methods:{

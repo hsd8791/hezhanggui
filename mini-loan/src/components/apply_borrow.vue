@@ -16,9 +16,7 @@
 				<i :class="{'el-icon-check':amountValid,'el-icon-close':!amountValid}"></i>
 			</div> -->
 		</div>
-		<!-- !(phoneLenderValid&&allFilled&&phoneExist||getById) -->
-		<!-- <el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(canApply&&allFilled&&amountValid)'>点击申请</el-button> -->
-		<el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(canApply&&fillStatusCfg.allFilled)'>点击申请</el-button>
+		<el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(lenderValid&&fillStatusCfg.allFilled)' v-if='canApply'>点击申请</el-button>
 		<div class="info-user" v-if='!getByMarket'>
 			<h3 class="subtitle">放贷人<!-- 经纪人 -->信息</h3>
 			<div class="info-lender">
@@ -30,9 +28,7 @@
 				<p v-if='lenderInfoAlert' style='color:red'>{{lenderInfoAlert}}</p>
 			</div>
 		</div>
-	  <div v-if='getByMarket'  >
-	    <!-- <div @click='goP("/market_mine")' v-if='false'  > -->
-
+	  <div v-if='getByMarket'>
 	    <app-record class='market-container'>
 	    <div class="avator-pic" :style="{backgroundImage: 'url('+marketInfo.logo+')'}" slot='avator'></div>
 	    <span slot='lt' style="letter-spacing: -0.01rem;">
@@ -61,8 +57,23 @@
 	    <span slot='ld'>{{marketInfo.intro}}</span>
 	 	 </app-record>
 		</div>
+		<div class="info-container comment" v-if='applyRecord'>
+			<hr>
+			<br>
+			  <div class="info-title">申请结果</div>
+			  <div class="info-detail">
+			    {{applyRecord.status | statusParser}}
+			  </div>
+			  <div class="info-title" v-if='applyRecord.status!==0'>审核意见</div>
+			  <div class="info-detail" v-if='applyRecord.status!==0'>
+			    {{applyRecord.remark}}
+			  </div>
+		</div>
+		<el-button type='success' @click='apllyBorrow' v-if='applyRecord&&applyRecord.status===2'>
+		  重新申请
+		</el-button>
 		<!-- <div class="fill-status " v-if='allFilled'> -->
-		<div class="fill-status " v-if='!fillStatusCfg.allFilled'>
+		<div class="fill-status " v-if='!fillStatusCfg.allFilled&&canApply'>
 			<h3 class="subtitle">请完成以下信息后提交</h3>
 			<div class="container">
 				
@@ -90,7 +101,8 @@
 				return {
 					getById: false, //判定是否由uniqueId 传入获取lenderPhone
 					getByMarket: false, //判定是否由贷款超市进入 
-					canApply: false,
+					lenderValid: false,
+					// canApply:false,
 					// firstEnter: true,
 					response: null,
 					loading: false,
@@ -151,8 +163,9 @@
 							publicFun.post(urlApply, {}, this, () => {
 								var r=this.remind
 								r.remindOpts=[{msg:'确定',callback:()=>{
-									publicFun.goPage(-1)
+									// publicFun.goPage(-1)
 								}}]
+								this.getApplyRecord()
 								// console.log('res apply_borrow', this.response)
 							}, () => {})
 						}
@@ -180,7 +193,7 @@
 					// console.log('getLenderInfo url',url)
 					publicFun.get(url, this, () => {
 						var res = this.response.body
-							// console.log('getlenderInfo', res)
+							console.log('getlenderInfo', res)
 						if (!res.error) {
 							// console.log('set lenderInfo')
 							var info = res.data
@@ -194,7 +207,7 @@
 							localStorage.phoneLender=info.phone
 							this.lenderInfoAlert = ''
 								// this.phoneExist = true
-							this.canApply = true
+							this.lenderValid = true
 							this.getApplyRecord()
 						} else {
 							// if(res.error=20000){}
@@ -211,9 +224,8 @@
 					})
 					// console.log('urlR',urlRecord)
 					publicFun.get(urlRecord,this,()=>{
-						this.applyRecord=this.response.body.data[0]
+						this.applyRecord=this.response.body.data.data[0]
 						if(this.applyRecord){
-							
 						}
 						console.log('apply record',this.response.body)
 
@@ -298,6 +310,9 @@
 				},
 				phonePartshow(val) {
 					return publicFun.phonePartshow(val)
+				},
+				statusParser(v){
+				  return publicFun.auditStatusParse(v)
 				}
 			},
 			watch: {
@@ -310,7 +325,7 @@
 							// }, 1000);
 							// console.log('this.checkAllFilled',this.checkAllFilled())
 					} else {
-						this.canApply = false
+						this.lenderValid = false
 						bus.share=0
 						localStorage.share=0
 					}
@@ -330,6 +345,10 @@
 				amountValid: function() {
 					var reg = /^[1-9][0-9]*$/
 					return reg.test(this.amount)
+				},
+				canApply:function(){
+					var t=this
+					return !t.applyRecord||t.applyRecord.status===1||t.applyRecord.status===3
 				},
 			},
 			components: {
@@ -361,19 +380,35 @@
 			line-height: 1.4;
 			text-align: left;
 			margin-left: 0.15rem;
-
 			padding-left: 0.1rem;
-
 		}
 		.container{
 			background: #fff;
-
 		}
-
-		
 	}
-
-
+	.info-title{
+	  color:blue;
+	  text-align: left;
+	  font-size: 0.2rem;
+	}
+	.info-container{
+	  margin:0.15rem;
+	  @at-root .info-detail{
+	    text-align: left;
+	    margin:0.15rem 0;
+	    font-size: 0.18rem;
+	    .platform{
+	      &:after{
+	        content:' /';
+	      }
+	      &:last-child{
+	        &:after{
+	          content:'';
+	        }
+	      }
+	    }
+	  }
+	}
 </style>
 <style lang='scss' >
 	#applyBorrowVue{
