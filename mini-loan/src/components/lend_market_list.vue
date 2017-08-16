@@ -49,7 +49,7 @@
         入驻贷款超市即送50禾币！
       </div> -->
       <div class="contact-container">
-        <p class="contact">合作电话/微信：<a href="tel:13777722216">18622272224</a></p>
+        <p class="contact">获客合作电话/微信：<a href="tel:13777722216">18622272224</a></p>
         <!-- <p class="contact">微信：18622272224，QQ：2591632277</p> -->
       </div>
     </div>
