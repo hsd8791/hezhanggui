@@ -21,9 +21,8 @@ Vue.component('app-record-list', list)
 Vue.config.productionTip = false
 Vue.http.options.credentials = true;
 Vue.http.options.emulateJSON = true;
-// Vue.http.options.root = 'http://hzg.he577.com';
-Vue.http.options.root = 'http://hzg.he577.com/test';
-
+Vue.http.options.root = 'http://hzg.he577.com';
+// Vue.http.options.root = 'http://hzg.he577.com/test';
 
 Vue.directive('scroll-load', {
 	bind: function(el, binding, vnode) {
@@ -226,31 +225,6 @@ Vue.directive('inner-scroll',{
 		el.addEventListener('touchend', (e) => {
 			e.stopPropagation()
 			touch.end = e.changedTouches[0].clientY
-			
-
-			el.style.transition = '.5s cubic-bezier(0.23, 0.86, 0.39, 0.78)'
-				// if(this.containerTop>0){
-				// 	console.log('refresh')
-				// 	this.getNew()
-				// }
-			// if (containerTop > 0) { //可以设置其他值控制下拉的幅度
-
-			// 	if (cfg.method) {
-			// 		if (cfg.method instanceof Function) {
-			// 			cfg.method()
-			// 		} else {
-			// 			console.warn('method is not a function')
-			// 		}
-			// 	} else {
-			// 		console.warn('no method ')
-			// 	}
-			// 	console.log('refresh')
-			// }
-			containerTop = 0
-			el.style.paddingTop = containerTop + 'px'
-			setTimeout(() => {
-				el.style.transition = '0s'
-			}, 300);
 		}, false)
 	}
 })

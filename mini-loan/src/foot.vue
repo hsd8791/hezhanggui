@@ -9,7 +9,7 @@
      <span class='nav-btn' :class='{active:activeI===1}' @click='goPage(1)'>
      <!-- <span class='nav-btn' :class='{active:activeI===1}' @click=''> -->
          <div class="nav-icon"><i class="icon-cool"></i></div>
-         <div class="nav-item">口子</div>
+         <div class="nav-item">贷款超市</div>
      </span>
      <span class='nav-btn' :class='{active:activeI===2}' @click='goPage(2)'>
          <div class="nav-icon"><i class="icon-hammer"></i></div>

@@ -2,21 +2,22 @@
 	<div id="applyBorrowVue" class='input' v-loading='loading' element-loading-text='请稍后'>
 		<h1 class="title"><app-back></app-back>申请借款<!-- 分享到微信 --></h1>
 		<div class="checkFill"></div>
-		<div class="container phone-lender" v-if='!getById'>
-			<div class="wraper">
+		<div class="container phone-lender">
+			<div class="wraper"  v-if='!getById'>
 				<label class="label" >放贷人手机：</label> 
 				
-				<el-input :disabled='false' type='tel' placeholder='放贷人注册手机号' v-model='phoneLender' @blur.once='blured'  :class='{"valid-border":phoneLenderValid,"error-border":!phoneLenderValid}'></el-input>
+				<el-input :disabled='false' type='tel' placeholder='放贷人注册手机号' v-model='phoneLender ' @blur.once='blured'  :class='{"valid-border":phoneLenderValid,"error-border":!phoneLenderValid}'></el-input>
 				
 				<i :class="{'el-icon-check':phoneLenderValid,'el-icon-close':!phoneLenderValid}"></i>
 			</div>
-			<!-- <div class="wraper">
+			<div class="wraper">
 				<label>借款金额：</label> 
-				<el-input :disabled='false' type='number' placeholder='申请借款金额' v-model='amount' @blur.once='blured'  :class='{"valid-border":amountValid,"error-border":!amountValid}'></el-input>
+				<el-input :disabled='applyRecord' type='number' placeholder='申请借款金额' v-model='amount' @blur.once='blured'  :class='{"valid-border":amountValid,"error-border":!amountValid}'></el-input>
 				<i :class="{'el-icon-check':amountValid,'el-icon-close':!amountValid}"></i>
-			</div> -->
+			</div>
 		</div>
-		<el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(lenderValid&&fillStatusCfg.allFilled)' v-if='canApply'>点击申请</el-button>
+		<el-button type='success' class="confirm" @click='deleteLender'  v-if='getById&&!getByMarket'>向其他人申请</el-button>
+		<el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(allValid)' v-if='canApply&&!applyRecord'>点击申请</el-button>
 		<div class="info-user" v-if='!getByMarket'>
 			<h3 class="subtitle">放贷人<!-- 经纪人 -->信息</h3>
 			<div class="info-lender">
@@ -64,7 +65,7 @@
 			  <div class="info-detail">
 			    {{applyRecord.status | statusParser}}
 			  </div>
-			  <div class="info-title" v-if='applyRecord.status!==0'>审核意见</div>
+			  <div class="info-title" v-if='applyRecord.status!==0&&applyRecord.remark'>审核意见</div>
 			  <div class="info-detail" v-if='applyRecord.status!==0'>
 			    {{applyRecord.remark}}
 			  </div>
@@ -99,6 +100,7 @@
 	export default {
 		data() {
 				return {
+					// fromIndex:null,
 					getById: false, //判定是否由uniqueId 传入获取lenderPhone
 					getByMarket: false, //判定是否由贷款超市进入 
 					lenderValid: false,
@@ -114,18 +116,13 @@
 					},
 					applyRecord:'',
 					lenderInfoAlert: '',
+
 					uniqueIdLender: null,
 					urlPhone: 'lendApply/phoneInfo?phone=',
 					urlUniqueId: 'userInfo/userInfo?uniqueId=',
       		urlMarket:'lendSupermaket/supermaketInfo',
 					urlApply: 'lendApply/lendApply',
 					urlApplyRecord:'lendApply/borrowLoanRecords',
-					confirmOpts: [{
-						msg: '确定',
-						callback: () => {}
-					}, {
-						msg: '取消'
-					}],
 					remind: {
 						isShow: false,
 						remindMsg: 'remind',
@@ -147,23 +144,39 @@
 					publicFun.goPage(this.$route.path+p)
 				},
 				apllyBorrow() {
-
-					if (!this.fillStatusCfg.allFilled) {
+					var r=this.remind
+					if (!this.fillStatusCfg.allFilled&&!bus.relativeUrlTest) {
+						r.remindMsg='必填认证信息不完整'
+						r.remindMsgDscrp='请检查必填认证信息项是否已填写'
+						r.remindOpts=[{
+							msg:'确定',
+							callback:()=>{
+								publicFun.goPage('/index')
+								r.remindMsgDscrp=null
+							}
+						}]
+						r.isShow=true
 						return
 					}
-					this.remind.remindMsg = '请确认是否提交'
-					this.remind.remindOpts = [{
+					r.remindMsg = '请确认是否提交'
+					r.remindOpts = [{
 						msg: '确定',
 						callback: () => {
-							var urlApply = publicFun.urlConcat(this.urlApply, {
+							var postBody={
 								phone: this.phoneLender,
-								amount: this.amount,
 								share:bus.share,
-							})
+							}
+							if(this.amount){
+								postBody.amount=this.amount
+							}
+							var urlApply = publicFun.urlConcat(this.urlApply, postBody)
 							publicFun.post(urlApply, {}, this, () => {
 								var r=this.remind
 								r.remindOpts=[{msg:'确定',callback:()=>{
 									// publicFun.goPage(-1)
+									if(this.getByMarket){
+										publicFun.goPage(this.$route.path+'/lend_market_applied_remind')
+									}
 								}}]
 								this.getApplyRecord()
 								// console.log('res apply_borrow', this.response)
@@ -172,7 +185,7 @@
 					}, {
 						msg: '取消',
 					}, ]
-					this.remind.isShow = true
+					r.isShow = true
 
 				},
 				getMarketInfo(){
@@ -204,6 +217,7 @@
 							// this.lenderInfo.phone = this.lenderInfo.phone
 								// this.phoneLender=this.lenderInfo.phone
 							bus.phoneLender = info.phone
+							this.phoneLender=info.phone
 							localStorage.phoneLender=info.phone
 							this.lenderInfoAlert = ''
 								// this.phoneExist = true
@@ -240,60 +254,77 @@
 				edit() {
 					this.editing = true
 				},
+				deleteLender(){
+					this.phoneLender=''
+					this.lenderInfo= {
+						name: '',
+						phone: '',
+					}
+					this.applyRecord=''
+					this.getById=false
+					bus.share=0
+					localStorage.removeItem('uniqueIdLender')
+					localStorage.removeItem('phoneLender')
+					localStorage.share=0
+				},
+				getFillStatusSet(){
+						//每次进入单独判断数据魔盒是否板定成功
+						// publicFun.checkSingleFilled	('credit/shujumoheSimQueryStatus','cfgEssential')
+					bus.$on('checked_fill_status', val => {
+						this.fillStatusCfg = val
+					})
+						//?? 获取fillStatus 状态
+					this.fillStatusCfg = bus.fillStatusCfg
+					bus.checkFilled(bus.cfgEssential)
+				},
+				initSet(){
+					if (/market_/.test(this.$route.path)) {
+						this.getMarketInfo()
+						this.getByMarket = true
+						this.getById = true
+					} else {
+						/**
+						 * 存在无用的存储，或bus,或localStorage,或this
+						 * 需改善，最好market申请与这里分离，不过有点困难
+						 */
+						var uniqueIdLender = localStorage.uniqueIdLender
+						if (uniqueIdLender) {//分享型
+							console.log('have uniqueIdLender')
+							//set phoneLender
+							//触发phoneValid watch
+							bus.uniqueIdLender = uniqueIdLender
+							this.getById = true
+							bus.share = 1
+							this.uniqueIdLender = uniqueIdLender
+								// console.log('this.urlUniqueId',this.urlUniqueId)
+							this.getLenderInfo(this.urlUniqueId + uniqueIdLender)
+							// this.getById = true
+							// this.phoneLender = bus.phoneLender
+								// console.log('fist res',this.response)
+								// var data = this.response
+								// }
+								// this.checkFilled()
+						} else if (localStorage.phoneLender) {//自输入型
+							this.phoneLender = localStorage.phoneLender
+							// bus.share = localStorage.share
+							bus.phoneLender = this.phoneLender
+						} 
+					}
+				},
 			},
 			events: {},
 			created: function() {
 				// console.log('apply_borrow root',this.$root)
 				// console.log('apply_borrow parent',this.$parent)
-				publicFun.checkSession(this)
-				//每次进入单独判断数据魔盒是否板定成功
-				// publicFun.checkSingleFilled	('credit/shujumoheSimQueryStatus','cfgEssential')
-				// console.log('bus',bus)
-				bus.$on('checked_fill_status',val=>{
-					console.log('checked_fill_status on',val)
-					this.fillStatusCfg=val
-				})
-				this.fillStatusCfg=bus.fillStatusCfg
-				// bus.$emit('checked_fill_status', bus.cfgEssential)
-				bus.checkFilled(bus.cfgEssential)
-				//?? 获取fillStatus 状态
-				
-				if(/market_/.test(this.$route.path)){
-					this.getMarketInfo()
-					this.getByMarket = true
-					this.getById = true
-					console.log('have market')
-					// this.phoneLender = query.phone
-				}else{
-
 				var query = this.$route.query
-					// console.log('phone', query.phone)
-					// if (query.phone) {
-					// console.log('query',query)
 				if (query.uniqueId) {
-					//set phoneLender
-					//触发phoneValid watch
-					// bus.phoneLender = query.phone
-					bus.uniqueIdLender = query.uniqueId
-					bus.share=1
-					localStorage.share=1
-					this.uniqueIdLender = query.uniqueId
-						// console.log('this.urlUniqueId',this.urlUniqueId)
-					this.getLenderInfo(this.urlUniqueId + query.uniqueId)
-					this.getById = true
-					this.phoneLender = bus.phoneLender
-						// console.log('fist res',this.response)
-						// var data = this.response
-						// }
-						// this.checkFilled()
-				}else if(localStorage.phoneLender){
-					this.phoneLender=localStorage.phoneLender
-					bus.share=localStorage.share
-					bus.phoneLender=this.phoneLender
-				}else if (bus.phoneLender) {
-					this.phoneLender = bus.phoneLender
+					localStorage.share = 1
+					localStorage.uniqueIdLender = query.uniqueId
 				}
-				}
+				publicFun.checkSession(this)
+				this.getFillStatusSet()
+				this.initSet()
+
 
 				// var routePath=this.$route.path
 
@@ -313,6 +344,17 @@
 				},
 				statusParser(v){
 				  return publicFun.auditStatusParse(v)
+				},
+				// phoneLenderHide:{
+				// 	read:function(v){
+				// 		return v.slice(0,4)+'****'+v.slice(7,13)
+				// 	},
+				// 	write:function(v,oldV){
+				// 		return v.slice(0,4)+'****'+v.slice(7,13)
+				// 	}
+				// },
+				phoneLenderHide(v){
+					return v.slice(0,4)+'****'+v.slice(7,13)
 				}
 			},
 			watch: {
@@ -326,17 +368,21 @@
 							// console.log('this.checkAllFilled',this.checkAllFilled())
 					} else {
 						this.lenderValid = false
-						bus.share=0
-						localStorage.share=0
+					
 					}
 				},
-				// undoneRequest: function(val) {
-				// 	// console.log('undoneRequest', val)
-				// 	if (val === 0) {
-				// 		this.allFilled = this.checkAllFilled()
-				// 	}
-				// }
 			},
+			// beforeRouteEnter:(to,from,next)=>{
+			// 	console.log('from',from)
+				
+			// 	next(vm=>{
+			// 		if(from.name==='index'){
+			// 			vm.fromIndex=true
+			// 		}else{
+			// 			vm.fromIndex=false
+			// 		}
+			// 	})
+			// },
 			computed: {
 				phoneLenderValid: function() {
 					var reg = publicFun.reg.cellphone
@@ -349,6 +395,10 @@
 				canApply:function(){
 					var t=this
 					return !t.applyRecord||t.applyRecord.status===1||t.applyRecord.status===3
+				},
+				allValid:function(){
+					let t=this
+					return t.lenderValid&&t.amountValid&&t.fillStatusCfg.allFilled
 				},
 			},
 			components: {

@@ -11,10 +11,10 @@
 				<!-- <img class="img" :src="urlF" v-if='urlF'> -->
 			</div>
 			<div class="img-ctrl" >
-				<el-button  class='img-ctrl-btn' type='success' v-if='!editing' @click='test'>重新上传</el-button>
-				<el-button class='img-ctrl-btn' :disabled='!urlF||!editing' type='warning' @click.prevent='deleteP($event)' v-if='editing'>删除</el-button>
+				<el-button  class='img-ctrl-btn' type='success' v-if='!editing' @click='reUpload'>重新上传</el-button>
+			<!-- 	<el-button class='img-ctrl-btn' :disabled='!urlF||!editing' type='warning' @click.prevent='deleteP($event)' v-if='editing'>删除</el-button>
 				<p></p>
-				<el-button class='img-ctrl-btn' :disabled='!urlF||!editing' type='success' @click.prevent='submit($event)' v-if='editing'>上传</el-button>
+				<el-button class='img-ctrl-btn' :disabled='!urlF||!editing' type='success' @click.prevent='submit($event)' v-if='editing'>上传</el-button> -->
 			</div>
 			<label :for="uploadConfig.id" v-if='!urlF'> 
 				<add-btn class='select'></add-btn> 
@@ -72,9 +72,10 @@
       // {url:'userInfo/addAccessory',data:{type:0},resKey:'idcardUrl',id:'IDscanFront'},
     },
     methods: {
-    	test:function(){
+    	reUpload:function(){
     		// console.log('test test')
     		this.edit()
+    		this.deleteP()
     	},
     	submit(){
     		var formData = new FormData();
@@ -176,7 +177,7 @@
 				this.input=input
 				var urlF = this.getFileUrl(this.input)
 				this.fileImg=urlF
-
+				this.submit()
 				var outer = input.parentElement
 					// var img=outer.getElementsByTagName('img')[0]
 					// var name=outer.getElementsByTagName('span')[0]
@@ -190,14 +191,16 @@
 						outer.appendChild(input)
 					}, 30);
 				},
-				deleteP: function($event) {
+				deleteP: function() {
 					// console.log('delete',$event.target.parentElement.parentElement)
 					// var outer = $event.target.parentElement
 					// var input = outer.getElementsByTagName('input')[0]
 					// var img=outer.getElementsByTagName('img')[0]
 					// console.log('input',input)
 					// console.log('input',input.files[0].name)
-					this.input.value = ''
+					if(this.input){
+						this.input.value = ''
+					}
 					this.urlF = ''
 					this.fileName = ''
 

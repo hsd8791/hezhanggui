@@ -238,7 +238,7 @@
 	}
 	.logo-container{
 		width: 100%;
-		height: 2.05rem;
+		height: 2.45rem;
 		background: url(../assets/img/logo.png) center center no-repeat;
 		background-size: 80%;
 		.logo{

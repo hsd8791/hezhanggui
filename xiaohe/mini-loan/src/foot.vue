@@ -18,7 +18,11 @@
          <div class="nav-icon"><i class="icon-user"></i></div>
          <div class="nav-item">我们</div>
      </span>
-
+    <span class="nav-mid" @click='hzgMarket' v-if='showMarketLink'>
+        <!-- <span class="txt"> -->
+            更多贷款
+        <!-- </span> -->
+    </span>
  </div>
  <!-- </transition> -->
 </template>
@@ -31,6 +35,7 @@ export default {
         return {
             activeI: 0,
             showFoot: true,
+            showMarketLink:false,
             // footActive:true,
             paths: [ //显示footnav的路径
                 '/index0',
@@ -42,6 +47,10 @@ export default {
         }
     },
     methods: {
+        hzgMarket(){
+            console.log('hzg market_list')
+            location.href='http://hzg.he577.com/m/#/market_list'
+        },
         goPage: function(index) {
             setTimeout(() => { //incase same foot component
                 this.activeI = index
@@ -138,6 +147,7 @@ export default {
         // console.log('location',location)
         var urlHash = location.hash
         urlHash = urlHash.replace('#', '')
+
         // console.log('urlHash.indexOf()',urlHash.indexOf('?'))
         // var queryMark=urlHash.indexOf('?')
         // console.log('queryMark',queryMark)
@@ -146,6 +156,15 @@ export default {
         // }
             // console.log('urlHash',urlHash.split('/')[1])
         this.checkPath(urlHash)
+        if(localStorage.qudao!=='jEJree'){
+            this.showMarketLink=true
+        }else{
+            let a=new Date(),
+            h=a.getHours()
+            if(h>=22||(h<8&&h>0)){
+                this.showMarketLink=true
+            }
+        }
         // var aUrl = urlHash.split('/')
         // this.activeI = getIndex(this.paths, '/' + urlHash.split('/')[1])
         //     // console.log('getIndex(this.paths,urlHash)',getIndex(this.paths,urlHash))
@@ -171,5 +190,36 @@ export default {
 	.hide-foot{
 		display: none;
 	}
+    .nav-mid{
+        width: 0.5rem;
+        height: 0.5rem;
+        background: #dd524d;
+        position: absolute;
+        border-radius: 50%;
+        top: -0.25rem;
+        margin:0 auto;
+        left: 0;right: 0;
+        font-size: 0.13rem;
+        line-height: 0.15rem;
+        padding:0.1rem 0.1rem;
+        /*padding:0.1rem;*/
+
+        color: #fff;
+        animation: beat infinite 1.5s linear;
+    }
+    @keyframes beat{
+        0% {
+            /*transform: scale(1);*/
+            box-shadow: 0px 0px 2px #dd524d;
+        }
+        50% {
+            /*transform: scale(0.9);*/
+            box-shadow: 0px 0px 8px #dd524d;
+        }
+        100% {
+            /*transform: scale(1);*/
+            box-shadow: 0px 0px 2px #dd524d;
+        }
+    }
 </style>
 

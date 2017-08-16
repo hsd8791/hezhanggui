@@ -37,6 +37,7 @@ import shujumohe from '../components/info_shujumohe.vue'
 import pay from '../components/order_pay.vue'
 import promotion from '../components/promotion.vue'
 import errorPage from '../components/tmpts/error.vue'
+import lend_market_applied_remind from '../components/lend_market_applied_remind.vue'
 // import test from '../components/test.vue'
 // import Relatives from '../components/info_relatives.vue'
 // import AddInfo from '../components/info_add_info.vue'
@@ -126,7 +127,8 @@ marketRoutes=marketRoutes.concat(
 	newRoute(['*/market_mine', '/market_mine', ], 'market_mine', market_mine),
 	newRoute(['*/market_detail/:id', '/market_detail', ], 'market_detail', market_detail),
 	newRoute(['*/market_list', '/market_list', ], 'market_list', market_list),
-	)
+	newRoute(['*/lend_market_applied_remind', '/lend_market_applied_remind', ], 'lend_market_applied_remind', lend_market_applied_remind),
+)
 
 console.log('indexRoutes', indexRoutes)
 	// alter('!!')
@@ -172,8 +174,8 @@ basicRoutes = [{
 	}, ]
 }, {
 	path: rootPath + '/',
-	name: 'index',
-	component: index,
+	name: 'market_list',
+	component: market_list,
 }, {
 	path: rootPath + '/*',
 	name: 'errorPage',

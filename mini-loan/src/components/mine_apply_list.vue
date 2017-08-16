@@ -13,7 +13,7 @@
 		</div>
 		<div class="list-container"  v-if='records' @scroll='scrolling($event)' >
 
-			<div class="list-container-inner" @touchend='touchend($event)'@touchstart='touchstart($event)' @touchmove='touching($event)' :style='{paddingTop:containerTop+"rem"}'>
+			<div class="list-container-inner" @touchend='touchend($event)' @touchstart='touchstart($event)' @touchmove='touching($event)' :style='{paddingTop:containerTop+"rem"}'>
 			<div class="list-top">
 				<!-- <p class="list-top-text"> -->
 				-释放刷新-
@@ -32,7 +32,7 @@
 						</div>
 						<div class="record-brief-down">
 							<span class="record-phone">手机:{{item.phone}}</span>
-							<span class="record-phone">金额:{{item.amount||'comming'}}</span>
+							<span class="record-phone" v-if='/\d/.test(item.amount)'>金额:{{item.amount | amountParser}}</span>
 							<span class="record-status">{{item.status | statusParser}}</span>
 						</div>
 					</div>
@@ -215,6 +215,11 @@
 					case 3:s='通过'; break;
 				}
 				return s
+			},
+			amountParser(v){
+				// if()
+				// return parseFloat(v)
+				return (Number(v)/100).toFixed(2)
 			},
 		},
 		events: {},

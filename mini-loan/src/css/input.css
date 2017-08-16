@@ -11,16 +11,17 @@
     position: relative;
     width: 100%;
     line-height: 1; }
-    .input .title .edit-input {
-      position: absolute;
-      color: #ebecef;
-      right: 0.1rem;
-      text-decoration: underline;
-      bottom: 0;
-      font-size: 0.16rem;
-      font-weight: normal;
-      line-height: 0.4rem; }
+  .input .edit-input {
+    position: absolute;
+    color: #ebecef;
+    right: 0.1rem;
+    text-decoration: underline;
+    bottom: 0;
+    font-size: 0.16rem;
+    font-weight: normal;
+    line-height: 0.4rem; }
   .input .sub-title {
+    position: relative;
     font-size: 0.16rem;
     line-height: 1;
     color: #888888;
@@ -368,7 +369,7 @@ div.el-loading-mask {
   padding: 0 0.01rem;
   border: 1px solid transparent;
   border-radius: 0.05rem;
-  background: cyan;
+  background: #e7eaf0;
   display: inline-block; }
 .market-container .required-text {
   font-size: 0.1rem;

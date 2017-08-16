@@ -11,10 +11,10 @@
 				<!-- <img class="img" :src="urlF" v-if='urlF'> -->
 			</div>
 			<div class="img-ctrl" >
-				<el-button  class='img-ctrl-btn' type='success' v-if='!editing' @click='test'>重新上传</el-button>
-				<el-button class='img-ctrl-btn' :disabled='!urlF||!editing' type='warning' @click.prevent='deleteP($event)' v-if='editing'>删除</el-button>
+				<el-button  class='img-ctrl-btn' type='success' v-if='!editing' @click='reUpload'>重新上传</el-button>
+				<!-- <el-button class='img-ctrl-btn' :disabled='!urlF||!editing' type='warning' @click.prevent='deleteP($event)' v-if='editing'>删除</el-button> -->
 				<p></p>
-				<el-button class='img-ctrl-btn' :disabled='!urlF||!editing' type='success' @click.prevent='submit($event)' v-if='editing'>上传</el-button>
+				<!-- <el-button class='img-ctrl-btn' :disabled='!urlF||!editing' type='success' @click.prevent='submit($event)' v-if='editing'>上传</el-button> -->
 			</div>
 			<label :for="uploadConfig.id" v-if='!urlF'> 
 				<add-btn class='select'></add-btn> 
@@ -72,136 +72,140 @@
       // {url:'userInfo/addAccessory',data:{type:0},resKey:'idcardUrl',id:'IDscanFront'},
     },
     methods: {
-    	test:function(){
-    		// console.log('test test')
-    		this.edit()
-    	},
-    	submit(){
-    		var formData = new FormData();
-    		var cfg=this.uploadConfig
-    		formData.append('imgFile',this.input.files[0])
+			reUpload: function() {
+				// console.log('test test')
+				this.edit()
+				this.deleteP()
+			},
+			submit() {
+				var formData = new FormData();
+				var cfg = this.uploadConfig
+				formData.append('imgFile', this.input.files[0])
 
-    		for(let key in cfg.data){
-    			formData.append(key,cfg.data[key])
-    		}
-    		// console.log('formData',formData) // sorry this can't work
-    		var xhr=new XMLHttpRequest()
-    		xhr.withCredentials = true;  
-    		xhr.open('post',this.$http.options.root+'/'+cfg.url)
-    		// xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
-    		xhr.addEventListener('readystatechange',()=>{
-    			if(xhr.readyState===4&&xhr.status===200){
-    				console.log('success',xhr.response)
-	    			this.response={}
-	    			this.response.body=JSON.parse(xhr.response)
-    				// console.log('this,response',JSON.parse(xhr.response))    			
-    				publicFun.postRes(this.response,this)
-    			}
-    			// console.log('xhr ready change')
-    			// console.log('xhr',xhr.readyState)
-    			// console.log('xhr',xhr.response)
-    			// console.log('xhr',xhr)
-    		},false)
-    		xhr.onerror=function(e){
-    			console.log('error',e)
-    		}
-    		xhr.onloadstart=function(){
-    			console.log('start upload')
-    		}
-    		
-					if (!xhr.upload) {
-						console.log('xhr.upload error')
+				for (let key in cfg.data) {
+					formData.append(key, cfg.data[key])
+				}
+				// console.log('formData',formData) // sorry this can't work
+				var xhr = new XMLHttpRequest()
+				xhr.withCredentials = true;
+				xhr.open('post', this.$http.options.root + '/' + cfg.url)
+					// xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
+				xhr.addEventListener('readystatechange', () => {
+					if (xhr.readyState === 4 && xhr.status === 200) {
+						console.log('success', xhr.response)
+						this.response = {}
+						this.response.body = JSON.parse(xhr.response)
+							// console.log('this,response',JSON.parse(xhr.response))    			
+						publicFun.postRes(this.response, this)
+					}
+					// console.log('xhr ready change')
+					// console.log('xhr',xhr.readyState)
+					// console.log('xhr',xhr.response)
+					// console.log('xhr',xhr)
+				}, false)
+				xhr.onerror = function(e) {
+					console.log('error', e)
+				}
+				xhr.onloadstart = function() {
+					console.log('start upload')
+				}
+
+				if (!xhr.upload) {
+					console.log('xhr.upload error')
+				} else {
+					if (xhr.upload.onprogress === undefined) {
+						console.log('xhr.upload.onprogress error')
 					} else {
-						if (xhr.upload.onprogress === undefined) {
-							console.log('xhr.upload.onprogress error')
-						} else {
-							xhr.upload.addEventListener("progress", (e) => {
-								console.log('progress', e)
-								var percentage = Math.round((e.loaded * 100) / e.total);
-								this.loadingText = percentage + '%'
-								console.log('loaded', percentage)
-							})
-						}
+						xhr.upload.addEventListener("progress", (e) => {
+							console.log('progress', e)
+							var percentage = Math.round((e.loaded * 100) / e.total);
+							this.loadingText = percentage + '%'
+							console.log('loaded', percentage)
+						})
 					}
-				
-    		
-    		// xhr.
-    		// xhr.upload.addEventListener("progress", function(e) {
-    			// if (e.lengthComputable) {
+				}
 
-    			// 	console.log('progrssing')
-    			// }
-    		// }, false);
-    		xhr.send(formData)
-    		this.loading=true
-    		// publicFun.post(cfg.url, formData, this,()=>{
-    		// 	console.log('success')
-    		// } )  
-    	},
-    	get(){
-    		var cfg=this.uploadConfig
-				// console.log('cfg',cfg)
-				publicFun.get(cfg.url, this,()=>{
-					console.warn('pic ',this.response)
-					var res=this.response.body.data
-					// console.log('this.url',this.urlF,res.idcardUrl)
-					if(res){
-						this.urlF=res[cfg.resKey]
+
+				// xhr.
+				// xhr.upload.addEventListener("progress", function(e) {
+				// if (e.lengthComputable) {
+
+				// 	console.log('progrssing')
+				// }
+				// }, false);
+				xhr.send(formData)
+				this.loading = true
+					// publicFun.post(cfg.url, formData, this,()=>{
+					// 	console.log('success')
+					// } )  
+			},
+			get() {
+				var cfg = this.uploadConfig
+					// console.log('cfg',cfg)
+				publicFun.get(cfg.url, this, () => {
+					console.warn('pic ', this.response)
+					var res = this.response.body.data
+						// console.log('this.url',this.urlF,res.idcardUrl)
+					if (res) {
+						this.urlF = res[cfg.resKey]
 					}
-					if(!this.urlF){
-						this.editing=true
+					if (!this.urlF) {
+						this.editing = true
 					}
 				})
 			},
-			edit:function($event){
+			edit: function($event) {
 				// console.log('editing')
-				this.editing=true
-				// this.input.value = ''
+				this.editing = true
+					// this.input.value = ''
 				this.urlF = ''
 				this.fileName = ''
 			},
 			changeP: function($event) {
 				var input = $event.target.parentElement.parentElement.getElementsByTagName('input')[0]
-				console.log('input.files[0].size',input.files[0].size)
-				console.log('input.files[0].size',input.files[0].type)
-				if(input.files[0].size>3*1024*1024-10){
+				console.log('input.files[0].size', input.files[0].size)
+				console.log('input.files[0].size', input.files[0].type)
+				if (input.files[0].size > 3 * 1024 * 1024 - 10) {
 					var r = this.remind
-					r.remindMsg='大小不得超过3M'
-					r.isShow=true
+					r.remindMsg = '大小不得超过3M'
+					r.isShow = true
 					return
 				}
 				// console.log(' $event.target.parentElement', $event.target.parentElement.parentElement)
 				// console.log(' $event.target', $event.target)
 				// console.log('input',input)
-				this.input=input
+				this.input = input
 				var urlF = this.getFileUrl(this.input)
-				this.fileImg=urlF
-
+				this.fileImg = urlF
+				this.submit()
 				var outer = input.parentElement
 					// var img=outer.getElementsByTagName('img')[0]
 					// var name=outer.getElementsByTagName('span')[0]
 					// console.log('url',urlF)
 					// console.log('changed', input.files[0].name)
 					// console.log('img',img)
-					this.fileName = input.files[0].name
-					this.urlF = urlF
-					outer.removeChild(input)//避免卡顿
-					setTimeout(function() {
-						outer.appendChild(input)
-					}, 30);
-				},
-				deleteP: function($event) {
-					// console.log('delete',$event.target.parentElement.parentElement)
-					// var outer = $event.target.parentElement
-					// var input = outer.getElementsByTagName('input')[0]
-					// var img=outer.getElementsByTagName('img')[0]
-					// console.log('input',input)
-					// console.log('input',input.files[0].name)
-					this.input.value = ''
-					this.urlF = ''
-					this.fileName = ''
+				this.fileName = input.files[0].name
+				this.urlF = urlF
 
-				},
+				outer.removeChild(input) //避免卡顿
+				setTimeout(function() {
+					outer.appendChild(input)
+				}, 30);
+			},
+			deleteP() {
+				// console.log('delete',$event.target.parentElement.parentElement)
+				// var outer = $event.target.parentElement
+				// var input = outer.getElementsByTagName('input')[0]
+				// var img=outer.getElementsByTagName('img')[0]
+				// console.log('input',input)
+				// console.log('input',input.files[0].name)
+				if (this.input) {
+					this.input.value = ''
+				}
+				this.urlF = ''
+				this.fileName = ''
+
+			},
 			getFileUrl: function(input) { //缩略图
 				var urlF;
 				if (navigator.userAgent.indexOf("MSIE") >= 1) {

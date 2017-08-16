@@ -1,23 +1,34 @@
 <template>
 	<div id="marketListVue" v-loading='loading' element-loading-text='请稍后'>
       <div class="input">
-        <h1 class="title">贷款超市列表</h1>
+        <h1 class="title">
+          贷款超市列表
+          <span class='edit-input' @click='goP("/market_mine")'>我的超市</span>
+        </h1>
       </div>
-
     <app-record-list :cfg='config' v-record='config.name'>
       <!-- <div v-for='info in list' @click='goP("/market_detail?id="+info.id)'> -->
       <div v-for='info in list' @click='goP("/market_detail/market_"+info.id)'>
       <app-record  class='market-container' >
       <div class="avator-pic" :style="{backgroundImage: 'url('+info.logo+')'}" slot='avator'></div>
       <span slot='lt' style="letter-spacing: -0.01rem;">
-        {{info.name}}&nbsp;&nbsp;
+        {{info.name}}
+        <span class="apply-count">
+        {{info.view_num}}次申请
+        </span>
+<!--         <i class="icon-cool market-star"></i>
+        <i class="icon-cool market-star"></i>
+        <i class="icon-cool market-star"></i>
+        <i class="icon-cool market-star"></i>
+        <i class="icon-cool market-star"></i> -->
+      </span>
+      <span slot='rt'>
         <i class="icon-cool market-star"></i>
         <i class="icon-cool market-star"></i>
         <i class="icon-cool market-star"></i>
         <i class="icon-cool market-star"></i>
         <i class="icon-cool market-star"></i>
       </span>
-      <!-- <span slot='rt'>{{}}</span> -->
       <span slot='rd'>
         <span class="required-info-box">
           <span class='required-text'>身份验证</span>
@@ -33,8 +44,15 @@
     </app-record>
     </div>
     </app-record-list>
-
-
+    <div class="bottom-slogan">
+      <div class="promotion">
+        入驻贷款超市即送50禾币！
+      </div>
+      <div class="contact-container">
+        <p class="contact">商务合作电话：<a href="tel:13777722216">18622272224</a></p>
+        <p class="contact">微信：18622272224，QQ：2591632277</p>
+      </div>
+    </div>
     <remind :remind='remind'></remind>
 	</div>
 </template>
@@ -92,5 +110,34 @@ export default {
 
 <style lang='scss' scoped>
 
-
+.apply-count{
+  font-size: 0.13rem;
+  color:#ccc;
+}
+.bottom-slogan{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  .promotion{
+    font-size: 0.2rem;
+    height: 0.4rem;
+    line-height: 0.4rem;
+  }
+  .contact-container{
+    height: 0.6rem;
+    font-size: 0.16rem;
+    .contact{
+      line-height: 0.3rem;
+    }
+  }
+}
+</style>
+<style type="text/css" lang='scss'>
+  
+  #marketListVue{
+    .list-container{
+      margin-bottom: 1rem;
+      border:1px solid #fff;
+    }
+  }
 </style>

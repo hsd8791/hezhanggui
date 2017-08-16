@@ -14,7 +14,7 @@
   </div>
   <!-- <transition :name='enter'> -->
   <contact></contact>
-  <foot-nav v-if='footNavShow' ></foot-nav>
+  <foot-nav v-if='footNavShow'></foot-nav>
   <!-- </transition> -->
   <remind :remind='remind'></remind >
   </div>
@@ -115,6 +115,7 @@
     console.log('way',this.$route)
     if(way){
      this.fromSales(way)
+     localStorage.qudao=way
     }
     bus.$on('foot_show_change',(footShow)=>{
       this.footNavShow=footShow

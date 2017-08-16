@@ -3,20 +3,17 @@
 		<h1 class="title"><app-back></app-back>开始放贷</h1>
       <el-button type='success'  @click='share("borrower")'>点击分享给借款人</el-button>
 
-    <div class="container container-owner" >
+<!--     <div class="container container-owner" >
       <div class="wraper">
         <label>放贷人：</label> 
         <el-input :disabled='!editing' placeholder='请输入放贷人真实姓名' v-model='owner' @blur.once='blured'  :class='{"valid-border":ownerValid,"error-border":!ownerValid}'></el-input>
-        <!-- <i :class="{'el-icon-check':ownerValid,'el-icon-close':!ownerValid}"></i> -->
+        <i :class="{'el-icon-check':ownerValid,'el-icon-close':!ownerValid}"></i>
       </div>
       <el-button type='success' @click='submitOwner'v-if='!haveOwner' :disabled='!ownerValid'>成为实名放贷人</el-button>
     </div>
-      <!-- <el-button type='success'  @click='share("borrower")'>点击分享给借款人</el-button> -->
     <div v-if='(haveOwner)'>
-      <!-- <el-button type='success'  @click='share("borrower")'>点击分享给借款人</el-button> -->
       <el-button type='success'  @click='goP("/market_mine")' v-if='!(myInfo.logo&&myInfo.name)'> 申请贷款超市</el-button>
-      <!-- <el-button type='success'  @click='goP("/market_mine")' v-if='false'> 申请贷款超市</el-button> -->
-    </div>
+    </div> -->
     <div @click='goP("/market_mine")' v-if='haveOwner&&myInfo.logo&&myInfo.name'  >
     <!-- <div @click='goP("/market_mine")' v-if='false'  > -->
 
@@ -244,12 +241,12 @@
 
 </style>
 <style lang='scss'>
-  #applyLendVue{
+/*  #applyLendVue{
 
    .container-owner .el-button--success{
     margin-bottom: 0.15rem;
   }
   
 }
-
+*/
 </style>

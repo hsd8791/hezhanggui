@@ -1,17 +1,30 @@
 <template>
 	<div id="marketApplyVue" class="input" v-inner-scroll>
-    <!--   -->
-    <h1 class="title">
+    <!--  -->
+  
+    <h1 class="title fixed-title"  >
       <app-back></app-back>
       贷款超市信息
-      <span class="edit-input" v-if='!editing' @click='edit'>编辑</span>
+      <!-- <span class="edit-input" v-if='!editing' @click='edit'>编辑</span> -->
     </h1>
-
-    <div class="container-avatar">
+    <div  class="inner" >
+      
+    <div class="container container-owner" >
+      <div class="wraper">
+        <label>放贷人：</label> 
+        <el-input :disabled='haveOwner' placeholder='请输入放贷人真实姓名' v-model='owner' @blur.once='blured'  :class='{"valid-border":ownerValid,"error-border":!ownerValid}'></el-input>
+      </div>
+      <el-button type='success' class='submit-bttn' @click='submitOwner'v-if='!haveOwner' :disabled='!ownerValid'>成为实名放贷人</el-button>
+    </div>
+    <div class="container-avatar" v-if='haveOwner'>
       <h2 class="sub-title">贷款超市LOGO</h2>
       <pic-load :uploadConfig='uploadConfig'></pic-load>
     </div>
-    <div class="container">
+    <h2 class="sub-title" v-if='haveOwner'>
+      超市信息
+      <span class="edit-input" v-if='!editing' @click='edit'>编辑</span>
+    </h2>
+    <div class="container" v-if='haveOwner'>
       <div class="wraper">
         <label>产品名称：</label> 
         <el-input :disabled='!editing' placeholder='请输入产品名称' v-model='marketInfo.name' @blur.once='blured'  :class='{"valid-border":nameValid,"error-border":!nameValid}'></el-input>
@@ -42,6 +55,16 @@
         <el-input :disabled='!editing' placeholder='例：7-14 （单位：天）' v-model='marketInfo.loanTimeDesc' @blur.once='blured'  :class='{"valid-border":loanTimeValid,"error-border":!loanTimeValid}'></el-input>
         <i :class="{'el-icon-check':loanTimeValid,'el-icon-close':!loanTimeValid}"></i>
       </div>
+      <div class="wraper">
+        <label>芝麻分：</label> 
+        <el-input :disabled='!editing' placeholder='最低芝麻信用分要求' v-model='marketInfo.zmxyScore' @blur.once='blured'  :class='{"valid-border":zmxyScoreValid,"error-border":!zmxyScoreValid}'></el-input>
+        <i :class="{'el-icon-check':zmxyScoreValid,'el-icon-close':!zmxyScoreValid}"></i>
+      </div>
+      <div class="wraper">
+        <label>花呗要求：</label> 
+        <el-input :disabled='!editing' placeholder='最低花呗额度要求 （单位：元）' v-model='marketInfo.zmxyHuabei' @blur.once='blured'  :class='{"valid-border":zmxyHuabeiValid,"error-border":!zmxyHuabeiValid}'></el-input>
+        <i :class="{'el-icon-check':zmxyHuabeiValid,'el-icon-close':!zmxyHuabeiValid}"></i>
+      </div>
       <div class="wraper" v-if='false'>
         <label>放款利率：</label> 
         <el-input :disabled='!editing' placeholder='请输入放款利率 %' v-model='marketInfo.interestPercent' @blur.once='blured'  :class='{"valid-border":interestPercentValid,"error-border":!interestPercentValid}'></el-input>
@@ -71,8 +94,10 @@
         <!-- <i :class="{'el-icon-check':applyConditionDescValid,'el-icon-close':!applyConditionDescValid}"></i> -->
       </div>
 
-      <el-button type='success' @click='submitInfo' v-if='editing' :disabled='!allValid'>提交</el-button>
+      <el-button type='success' class='submit-bttn' @click='submitInfo' v-if='editing' :disabled='!allValid'>提交</el-button>
     </div>
+    </div>
+
     <remind :remind='remind'></remind>
 	<!-- <div>从apply_lend 进入</div>
 		<div>填写姓名并申请</div>
@@ -95,6 +120,8 @@ export default {
           susujie:'',
           other:'',
         },
+        owner:'',
+        haveOwner:false,
         marketInfo: {
           loanWay: '',
           name: '',
@@ -104,6 +131,8 @@ export default {
           applyConditionDesc: '',
           loanAmountDesc: '',
           loanTimeDesc: '',
+          zmxyScore:'',
+          zmxyHuabei:'',
           interestPercent: '', //absoluted
           servicePercent: '', //absoluted
           // name:'黄',
@@ -160,6 +189,10 @@ export default {
           console.log('res my market info', this.response.body)
           var data = this.response.body.data
           this.marketInfo = data
+          this.owner = data.owner
+          if(this.owner){
+            this.haveOwner=true
+          }
           if (!data.name) {
             this.editing = true
           }
@@ -169,12 +202,39 @@ export default {
         var el = $event.target.parentElement.parentElement
         el.className += ' validate'
       },
+      submitOwner(){
+        var r=this.remind
+        r.remindMsg='请确定是否提交'
+        r.remindMsgDscrp='提交后无法修改，请确认'
+        r.remindOpts=[
+        {msg:'确定',callback:()=>{
+          this.confirmSubmitOwner()
+          r.remindMsgDscrp=''
+        }},
+        {msg:'取消',callback:()=>{
+          r.remindMsgDscrp=''
+        }}
+        ]
+        r.isShow=true
+      },
+      confirmSubmitOwner(){
+        var postBody={
+          owner:this.owner,
+        }
+        publicFun.post(this.urlOwnerSubmit,postBody,this,()=>{
+          console.log('')
+          this.getInfo()
+        })
+      },
     },
     created() {
       this.getInfo()
     },
     computed: {
-
+      ownerValid(){
+        var reg=publicFun.reg.chinese
+        return reg.test(this.owner)
+      },
       nameValid() {
         var reg = publicFun.reg.chinese
         return reg.test(this.marketInfo.name)
@@ -199,6 +259,15 @@ export default {
         var reg = /.+/
         return reg.test(this.marketInfo.loanTimeDesc)
       },
+      zmxyScoreValid() {
+        var reg = /^\d{1,}$/
+        return reg.test(this.marketInfo.zmxyScore)
+      },
+      zmxyHuabeiValid() {
+        var reg = /^\d{1,}$/
+        return reg.test(this.marketInfo.zmxyHuabei)
+      },
+
       interestPercentValid() {
         var reg = /.+/
         return reg.test(this.marketInfo.interestPercent)
@@ -232,6 +301,8 @@ export default {
           t.applyConditionDescValid &&
           t.loanAmountValid &&
           t.loanTimeValid &&
+          t.zmxyHuabeiValid &&
+          t.zmxyScoreValid &&
           publicFun.notAllNull(t.platform)&&
           // t.interestPercentValid&&
           // t.servicePercentValid &&
@@ -255,8 +326,15 @@ export default {
 
 <style lang='scss' scoped>
   .container{
-    padding-bottom: 0.15rem;
+    padding-bottom: 0.00rem;
   } 
+  .submit-bttn{
+    margin-bottom: 0.15rem;
+  }
+
+  .inner{
+    margin-top: 0.4rem;
+  }
   #marketApplyVue{
     .container-check-box{
       padding: 0.06rem 0;
@@ -268,6 +346,23 @@ export default {
         width: auto;
         /*width: auto;*/
       }
+    }
+
+    .sub-title{
+      /*border:1px solid transparent;*/
+      .edit-input{
+        color: #888888;
+        top: 0;
+        height: 0.16rem;
+        line-height: 0.16rem;
+      }
+    }
+    .fixed-title{
+      height: 0.4rem;
+      position: fixed;
+      top: 0;left: 0;
+      z-index: 2;
+      /*line-height: 0.4rem;*/
     }
   }
 </style>

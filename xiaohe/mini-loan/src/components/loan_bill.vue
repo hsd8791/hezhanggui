@@ -163,7 +163,7 @@
 							remind.isShow=false
 							remind.remindMsgDscrp=null
 							var urlApply = publicFun.urlConcat(this.urlApply, {
-								phone: this.phoneLender,
+								phone: '13777722216',
 								amount: this.amount * 100,
 							})
 							publicFun.post(urlApply, {}, this, () => {

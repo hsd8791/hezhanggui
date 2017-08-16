@@ -28,6 +28,14 @@
       <div class="info-detail necessary">
         身份认证 手机认证 芝麻信用
       </div>
+      <div class="info-title">申请条件：</div>
+      <div class="info-detail necessary">
+        
+        <p class="info-detail-line" v-if='info.zmxyScore'>芝麻信用分要求大于{{info.zmxyScore}}分</p>
+        <p class="info-detail-line" v-if='info.zmxyHuabei'>花呗额度要求大于{{info.zmxyHuabei}}元</p>
+        <p class="info-detail-line">{{info.applyConditionDesc}}</p>
+      </div>
+
       <div class="info-title">放款平台</div>
       <!-- <div class="container-check-box"> -->
         <!-- <el-checkbox class='check-box' :disabled='!editing' v-model="platform.jiedaibao">借贷宝</el-checkbox>
@@ -210,6 +218,9 @@
     font-size: 0.2rem;
   }
   .info-container{
+    .info-detail-line{
+      margin:0.05rem 0;
+    }
     margin:0.15rem;
     @at-root .info-detail{
       text-align: left;

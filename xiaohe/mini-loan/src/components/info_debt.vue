@@ -137,9 +137,9 @@
 		},
 		computed:{
 			creditValid:function(){
-				if(this.zmxyScore2<600){
-					return false
-				}
+				// if(this.zmxyScore2<600){
+				// 	return false
+				// }
 				if(this.zmxyScore<500){
 					return false
 				}
