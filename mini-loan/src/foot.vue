@@ -1,6 +1,5 @@
 <template>
   <!-- <transition name='back'> -->
-
   <div id="footNav" class='foot-nav'>
       <span class='nav-btn' :class='{active:activeI===0}' @click='goPage(0)'>
          <div class="nav-icon"><i class="icon-home"></i></div>
@@ -19,7 +18,6 @@
          <div class="nav-icon"><i class="icon-user"></i></div>
          <div class="nav-item">我的</div>
      </span>
-
  </div>
  <!-- </transition> -->
 </template>
@@ -65,7 +63,7 @@ export default {
         getFirstRoute(p) {
             var splitPath = p.split('/')
             if (splitPath[1] === '') {
-                this.activeI = 0
+                this.activeI = 1
             } else {
                 this.activeI = this.paths.indexOf('/' + splitPath[1])
             }

@@ -8,7 +8,7 @@
       </div>
     <app-record-list :cfg='config' v-record='config.name'>
       <!-- <div v-for='info in list' @click='goP("/market_detail?id="+info.id)'> -->
-      <div v-for='info in list' @click='goP("/market_detail/market_"+info.id)'>
+      <div v-for='info in list' @click='goApply(info)'>
       <app-record  class='market-container' >
       <div class="avator-pic" :style="{backgroundImage: 'url('+info.logo+')'}" slot='avator'></div>
       <span slot='lt' style="letter-spacing: -0.01rem;">
@@ -45,12 +45,12 @@
     </div>
     </app-record-list>
     <div class="bottom-slogan">
-      <div class="promotion">
+      <!-- <div class="promotion">
         入驻贷款超市即送50禾币！
-      </div>
+      </div> -->
       <div class="contact-container">
-        <p class="contact">商务合作电话：<a href="tel:13777722216">18622272224</a></p>
-        <p class="contact">微信：18622272224，QQ：2591632277</p>
+        <p class="contact">合作电话/微信：<a href="tel:13777722216">18622272224</a></p>
+        <!-- <p class="contact">微信：18622272224，QQ：2591632277</p> -->
       </div>
     </div>
     <remind :remind='remind'></remind>
@@ -91,8 +91,13 @@ export default {
         console.log('res list',this.response.body)
       })
     },
-    goP(p){
-      publicFun.goPage(this.$route.path+p)
+    goApply(info){
+      // console.log('info url',info)
+      if(info.url){
+        window.location.href=info.url
+      }else{
+        publicFun.goPage(this.$route.path+"/market_detail/market_"+info.id)
+      }
     },
   },
   created(){
@@ -124,10 +129,10 @@ export default {
     line-height: 0.4rem;
   }
   .contact-container{
-    height: 0.6rem;
-    font-size: 0.16rem;
+    height: 0.4rem;
+    font-size: 0.18rem;
     .contact{
-      line-height: 0.3rem;
+      line-height: 0.4rem;
     }
   }
 }
@@ -136,7 +141,7 @@ export default {
   
   #marketListVue{
     .list-container{
-      margin-bottom: 1rem;
+      margin-bottom: 0.4rem;
       border:1px solid #fff;
     }
   }
