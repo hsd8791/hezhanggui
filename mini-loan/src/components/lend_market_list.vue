@@ -1,7 +1,7 @@
 <template>
-	<div id="marketListVue" v-loading='loading' element-loading-text='请稍后'>
+	<div id="marketListVue" >
       <div class="input">
-        <h1 class="title">
+        <h1 class="title" v-loading='loading' element-loading-text='请稍后'>
           贷款超市列表
           <span class='edit-input' @click='goP("/market_mine")'>我的超市</span>
         </h1>
@@ -13,9 +13,9 @@
           <div class="avator-pic" :style="{backgroundImage: 'url('+info.logo+')'}" ></div>
         </div>
         <div class="info-container">
-          <div class="info-fee">{{info.view_num}}</div>
-          <div class="info-expire">{{info.view_num}}</div>
-          <div class="info-applied">{{info.view_num}}</div>
+          <div class="info-applied">申请数：{{info.view_num}}</div>
+          <div class="info-fee">{{info.loan_amount_desc}}元</div>
+          <div class="info-expire">期限{{info.loan_time_desc}}天</div>
         </div>
         <div class="new-remind" v-if='isNew(info.create_time)'>
           <div class="inner">
@@ -24,15 +24,7 @@
         </div>
       </div>
     </app-record-list>
-    <div class="bottom-slogan">
-      <!-- <div class="promotion">
-        入驻贷款超市即送50禾币！
-      </div> -->
-      <div class="contact-container">
-        <p class="contact">获客合作电话/微信：<a href="tel:13777722216">18622272224</a></p>
-        <!-- <p class="contact">微信：18622272224，QQ：2591632277</p> -->
-      </div>
-    </div>
+
     <remind :remind='remind'></remind>
 	</div>
 </template>
@@ -46,7 +38,7 @@ export default {
       config:{
       url:'lendSupermaket/list',
       name:'withdraw_record',
-      limit:12,
+      limit:16,
       },
       list:{},
       response:null,
@@ -72,17 +64,27 @@ export default {
         console.log('res list',this.response.body)
       })
     },
+    goP(p){
+      publicFun.goPage(this.$route.path+p)
+    },
     goApply(info){
       // console.log('info url',info)
       if(info.url){
-        window.location.href=info.url
+        publicFun.get('lendSupermaket/view?id='+info.id,this,()=>{
+          // alert('sent viewed')
+          this.loading=true
+        })
+
+        setTimeout(function() {
+          window.location.href=info.url
+        }, 200);
       }else{
         publicFun.goPage(this.$route.path+"/market_detail/market_"+info.id)
       }
     },
     isNew(t){
       let i=(new Date()).getTime()-t
-      console.log('i',(new Date()).getTime(),i)
+      // console.log('i',(new Date()).getTime(),i)
       if(i<259200000){
         return true
       }else{
@@ -109,38 +111,27 @@ export default {
   font-size: 0.13rem;
   color:#ccc;
 }
-.bottom-slogan{
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  .promotion{
-    font-size: 0.2rem;
-    height: 0.4rem;
-    line-height: 0.4rem;
-  }
-  .contact-container{
-    height: 0.4rem;
-    font-size: 0.18rem;
-    .contact{
-      line-height: 0.4rem;
-    }
-  }
-}
+
 </style>
 <style type="text/css" lang='scss'>
   
   #marketListVue{
     .market-container{
+
       overflow: hidden;
       width: 50%;
-      border:1px solid red;
-      height: 1rem;
+      border:1px solid #fff;
+      height: 0.8rem;
       position: relative;
+      background: #f4f4f4;
       .avator{
-        width: 0.6rem;
-        height: 0.6rem;
-        border:1px solid red;
-        position: relative;
+        width:0.5rem;
+        height:0.5rem;
+        left:0.1rem;
+        margin:auto 0;
+        border:1px solid #ccc;
+        position: absolute;
+        top: 0;bottom: 0;
         .avator-pic{
           width:100%;
           height:100%;
@@ -149,6 +140,29 @@ export default {
           background:url(#) no-repeat center center;
           background-size: contain;
 
+        }
+      }
+      .info-container{
+        width: 65%;
+        padding:0.12rem 0;
+        padding-left: 0.05rem;
+        position: absolute;
+        right: 0;
+        top: 0;
+        text-align: left;
+        font-size: 0.13rem;
+        .info-fee,.info-expire,.info-applied{
+
+        }
+        .info-fee{
+          color:#F44343;
+          font-size: 0.14rem;
+        }
+        .info-expire{
+          color:#888;
+        }
+        .info-applied{
+          color:#666;
         }
       }
       .new-remind{
@@ -176,7 +190,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
       }
-      margin-bottom: 0.4rem;
+      /*margin-bottom: 0.4rem;*/
       border:1px solid #fff;
     }
   }

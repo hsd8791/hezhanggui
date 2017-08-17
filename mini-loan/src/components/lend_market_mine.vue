@@ -1,12 +1,21 @@
 <template>
 	<div id="marketApplyVue" class="input" v-inner-scroll>
     <!--  -->
-  
+
     <h1 class="title fixed-title"  >
       <app-back></app-back>
       贷款超市信息
       <!-- <span class="edit-input" v-if='!editing' @click='edit'>编辑</span> -->
     </h1>
+    <div class="top-slogan">
+      <!-- <div class="promotion">
+        入驻贷款超市即送50禾币！
+      </div> -->
+      <div class="contact-container">
+        <p class="contact">获客合作电话/微信：<a href="tel:13777722216">18622272224</a></p>
+        <!-- <p class="contact">微信：18622272224，QQ：2591632277</p> -->
+      </div>
+    </div>
     <div  class="inner" >
       
     <div class="container container-owner" >
@@ -325,6 +334,25 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.top-slogan{
+  position: fixed;
+  top: 0.4rem;
+  width: 100%;
+  z-index: 2;
+  background: #f4f4f4;
+  .promotion{
+    font-size: 0.2rem;
+    height: 0.4rem;
+    line-height: 0.4rem;
+  }
+  .contact-container{
+    height: 0.4rem;
+    font-size: 0.18rem;
+    .contact{
+      line-height: 0.4rem;
+    }
+  }
+}
   .container{
     padding-bottom: 0.00rem;
   } 
@@ -333,7 +361,7 @@ export default {
   }
 
   .inner{
-    margin-top: 0.4rem;
+    margin-top: 0.8rem;
   }
   #marketApplyVue{
     .container-check-box{

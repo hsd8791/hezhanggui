@@ -123,14 +123,19 @@ indexRoutes = indexRoutes.concat(
 
 )
 
-marketRoutes=marketRoutes.concat(
+marketRoutes = marketRoutes.concat(
 	newRoute(['*/market_mine', '/market_mine', ], 'market_mine', market_mine),
 	newRoute(['*/market_detail/:id', '/market_detail', ], 'market_detail', market_detail),
-	newRoute(['*/market_list', '/market_list', ], 'market_list', market_list),
+	newRoute(['*/market_list', '/market_list', ], 'market_list', market_list,{
+		meta: {
+			keepAlive: true,
+		}
+	}),
 	newRoute(['*/lend_market_applied_remind', '/lend_market_applied_remind', ], 'lend_market_applied_remind', lend_market_applied_remind),
 )
 
-console.log('indexRoutes', indexRoutes)
+
+console.log('marketRoutes', marketRoutes)
 	// alter('!!')
 
 basicRoutes = [{
@@ -172,17 +177,20 @@ basicRoutes = [{
 			// keepAlive: false,
 		}
 	}, ]
-}, {
+},  {
 	path: rootPath + '/',
 	name: 'market_list',
 	component: market_list,
+	meta:{
+		keepAlive:true
+	}
 }, {
 	path: rootPath + '/*',
 	name: 'errorPage',
 	component: errorPage
 }, ]
-
-routes = routes.concat(indexRoutes.concat(mineRoutes, promoteRoutes,marketRoutes), basicRoutes)
+console.log('basicRoutes',basicRoutes)
+routes = routes.concat(indexRoutes.concat(mineRoutes, promoteRoutes, marketRoutes), basicRoutes)
 
 // console.log('routes', routes)
 export default new Router({
