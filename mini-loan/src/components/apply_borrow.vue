@@ -167,7 +167,7 @@
 								share:bus.share,
 							}
 							if(this.amount){
-								postBody.amount=this.amount
+								postBody.amount=this.amount*100
 							}
 							var urlApply = publicFun.urlConcat(this.urlApply, postBody)
 							publicFun.post(urlApply, {}, this, () => {
