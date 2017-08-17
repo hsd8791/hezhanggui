@@ -91,6 +91,9 @@ export default {
         console.log('res list',this.response.body)
       })
     },
+    goP(p){
+      publicFun.goPage(this.$route.path+p)
+    },
     goApply(info){
       // console.log('info url',info)
       if(info.url){

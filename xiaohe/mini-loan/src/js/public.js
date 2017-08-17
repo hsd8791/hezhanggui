@@ -548,7 +548,9 @@ publicFun.qualify = function(vm) {
 	// if(localStorage.qualified==1){
 	// return 
 	// }
-	// return
+	if(localStorage.qudao=='jEJree'){
+		return
+	}
 	console.log('qualified', bus.qualified)
 	if (bus.qualified == 1) {
 		return
@@ -606,7 +608,7 @@ publicFun.qualify = function(vm) {
 		r.isShow = true
 	}
 	r.remindMsg = '借款需满足以下条件'
-	r.remindMsgDscrp = ' 花呗额度大于1000, 芝麻信用大于600, 年龄20-34'
+	r.remindMsgDscrp = ' 花呗额度大于500, 年龄20-34'
 	r.remindOpts = [{
 		msg: '满足条件',
 		callback: allOk

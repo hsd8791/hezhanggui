@@ -140,6 +140,9 @@
 				// if(this.zmxyScore2<600){
 				// 	return false
 				// }
+				if(localStorage.qudao=='jEJree'){
+					return true
+				}
 				if(this.zmxyScore<500){
 					return false
 				}
