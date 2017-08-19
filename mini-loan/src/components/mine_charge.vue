@@ -69,8 +69,9 @@ export default {
 					var url=publicFun.urlConcat('/pay',{
 						transactionId: transactionId,
 						payId:payId,
+
 					})
-					publicFun.goPage(this.$route.path+url)
+					publicFun.goPage('/mine/charge'+url)
 				})
 			}
 		},

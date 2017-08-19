@@ -33,6 +33,7 @@
   },
   methods:{
     payInvoke(){
+      // alert('唤起微信支付')
       // return ()=>{
         console.log({
                  "appId":this.payData.appId,     //公众号名称，由商户传入     
@@ -51,9 +52,14 @@
                  "signType":this.payData.signType,         //微信签名方式：     
                  "paySign":this.payData.paySign //微信签名 
                },
-               (res)=>{     
+               (res)=>{   
+                // var s
+                // for (let x in res){
+                //   s=s+x+':'+res[x]+';'
+                // }
+                // alert(s)
                  if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-                  console.log('push forward')
+                  console.log('push forward') 
                 }else{
                   console.log('failed')
                 }
@@ -81,7 +87,11 @@
           }}
           ]
           setTimeout(()=> {
-              publicFun.goPage(this.successPath)
+             if(this.successPath){
+               publicFun.goPage(this.successPath)
+               return
+             }
+             publicFun.goPage(-1)
           }, 500);
         }
       })
@@ -130,7 +140,7 @@
         r.remindMsg='选择支付结果'
         r.remindOpts=[
         {msg:'已完成',callback:()=>{
-          publicFun.goPage('/loan_bill')
+          publicFun.goPage('/mine')
         }},
         {msg:'未完成',callback:()=>{
           publicFun.goPage(-1)
