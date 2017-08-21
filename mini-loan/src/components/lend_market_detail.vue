@@ -82,6 +82,7 @@
 
 <script>
   import publicFun from '../js/public.js'
+  import bus from '../bus.js'
   export default {
   	name:'paticular_lend_market_detail',
     data() {
@@ -92,7 +93,7 @@
       loading:true,
       editing:true,
       info:{},
-      applyRecord:{},
+      applyRecord:'',
       backAfterPost:false,// watch out
       urlMarketInfo:'lendSupermaket/supermaketInfo',
       urlApplyRecord:'lendApply/borrowLoanRecords',
@@ -122,7 +123,9 @@
       publicFun.get(url,this,()=>{
         console.log('market detail',this.response.body)
         this.info=this.response.body.data
-        this.getApplyInfo()
+        if(bus.account!=='请登录'){
+          this.getApplyInfo()
+        }
       })
     },
     getApplyInfo(){

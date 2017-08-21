@@ -49,7 +49,7 @@
         入驻贷款超市即送50禾币！
       </div> -->
       <div class="contact-container">
-        <p class="contact">获客合作电话/微信：<a href="tel:13777722216">18622272224</a></p>
+        <p class="contact">获客合作电话/微信：<a href="tel:18622272224">18622272224</a></p>
         <!-- <p class="contact">微信：18622272224，QQ：2591632277</p> -->
       </div>
     </div>
@@ -94,11 +94,28 @@ export default {
     goP(p){
       publicFun.goPage(this.$route.path+p)
     },
+
     goApply(info){
-      // console.log('info url',info)
+      //001 market_id  002 qudao if have
+      let qudao = sessionStorage.getItem('salesWay')
+      let MtaH5Body = {'001':info.id}
+      if(qudao){
+        MtaH5Body['002']=qudao
+        MtaH5Body['003']=qudao+'_'+info.id
+        // MtaH5.clickStat('1',{'002':qudao})
+      }
+      console.log('MtaH5Body',MtaH5Body)
+      
+      // MtaH5.clickStat('1',{'001':info.id})
+      MtaH5.clickStat('1',MtaH5Body)
       if(info.url){
-        window.location.href=info.url
+        publicFun.get('lendSupermaket/view?id='+info.id,this,()=>{
+          // alert('sent viewed')
+          window.location.href=info.url
+        })
       }else{
+        publicFun.get('lendSupermaket/view?id='+info.id,this,()=>{
+        })
         publicFun.goPage(this.$route.path+"/market_detail/market_"+info.id)
       }
     },

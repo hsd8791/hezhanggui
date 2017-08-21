@@ -2,16 +2,16 @@
   <div id="app" v-loading='loading' element-loading-text='请稍后'>
 
     <div class="router-view-container" :class="{'show-foot':footNavShow}">
-      <keep-alive>
+    <keep-alive>
       <!-- <transition :name='enter'> -->
-        <router-view v-if="$route.meta.keepAlive"></router-view>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
       <!-- </transition> -->
     </keep-alive>
-    <!-- <transition :name='enter'> -->
+      <!-- <transition :name='enter'> -->
       <router-view v-if="!$route.meta.keepAlive"></router-view>
-    <!-- </transition> -->
+      <!-- </transition> -->
 
-  </div>
+    </div>
   <!-- <transition :name='enter'> -->
     <foot-nav v-if='footNavShow' ></foot-nav>
   <!-- </transition> -->
@@ -39,6 +39,7 @@ export default {
       // wechatAPI:'wechat/jsconfig',
       loading: false,
       vueName: 'App',
+      urlSales:'qudao/pv?qudao=',
       footNavShow: true,
       // account:'请登录',
       response: null,
@@ -56,8 +57,16 @@ export default {
     }
   },
   methods: {
+    fromSales(w){
+      sessionStorage.setItem('salesWay',w)
+      publicFun.get(this.urlSales+w,this,()=>{
+      })
+    },
     test(){
       console.log('test',bus)
+      // MtaH5.clickStat('1')
+       // MtaH5.clickStat('1',{'002':'test qudao','001':'test id'})
+      // MtaH5.clickStat('000',{'0001':'速度快'})
       bus.checkAllFilled(bus.cfgEssential)
       bus.checkAllFilled(bus.cfgOptional)
       bus.$emit('checked_fill_status', bus.fillStatusCfg)
@@ -122,6 +131,12 @@ export default {
     // },
   },
   created() {
+    var way=this.$route.query.qudao
+    console.log('way',this.$route)
+    if(way){
+     this.fromSales(way)
+     localStorage.qudao=way
+    }
     // setTimeout(()=> {
       publicFun.wxApiConfig(this)
     // }, 5000);
