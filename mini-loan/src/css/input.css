@@ -332,6 +332,7 @@ div.el-loading-mask {
 .list-bottom {
   position: relative;
   font-size: 0.14rem;
+  width: 100%;
   margin-bottom: 0.1rem; }
 
 .list-container {
