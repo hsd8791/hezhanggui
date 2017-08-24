@@ -155,9 +155,9 @@
 							publicFun.goPage('/pwd')
 						}else{
 							this.remind.remindOpts=[{msg:'确定',callback:()=>{
-								// console.log('back',1)
-								if(this.fromRoute.name){
-									publicFun.goPage(-1)
+								let rName=this.fromRoute.name
+								if(rName&&!(/login/.test(rName))){
+										publicFun.goPage(-1)
 								}else{
 									publicFun.goPage('/index')
 								}

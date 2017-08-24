@@ -44,7 +44,7 @@ export default {
       },
       list:{},
       response:null,
-      loading:true,
+      loading:false,
       editing:true,
       backAfterPost:false,// watch out
       url:'lendSupermaket/list',
@@ -60,19 +60,16 @@ export default {
 
   },
   methods:{
-    get(){
-      publicFun.get(this.url,this,()=>{
-        this.list=this.response.body.data.data
-        console.log('res list',this.response.body)
-      })
-    },
+    // get(){
+    //   publicFun.get(this.url,this,()=>{
+    //     this.list=this.response.body.data.data
+    //     console.log('res list',this.response.body)
+    //   })
+    // },
     goP(p){
       publicFun.goPage(this.$route.path+p)
     },
-<<<<<<< HEAD
 
-=======
->>>>>>> dev
     goApply(info){
       //001 market_id  002 qudao if have
       let qudao = sessionStorage.getItem('salesWay')
@@ -89,17 +86,9 @@ export default {
       if(info.url){
         publicFun.get('lendSupermaket/view?id='+info.id,this,()=>{
           // alert('sent viewed')
-<<<<<<< HEAD
           window.location.href=info.url
-        })
-=======
-          this.loading=true
         })
 
-        setTimeout(function() {
-          window.location.href=info.url
-        }, 200);
->>>>>>> dev
       }else{
         publicFun.get('lendSupermaket/view?id='+info.id,this,()=>{
         })
@@ -117,7 +106,7 @@ export default {
     },
   },
   created(){
-    this.get()
+    // this.get()
     bus.$on(this.config.name,(val)=>{
       // console.log('event name',this.config.name)
       // console.log('test_records',val)

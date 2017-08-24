@@ -5,15 +5,15 @@
 			<!-- <div class="row"> -->
 				<div class="ctrl-bttn" @click='goP("/apply_borrow")'>
 					<!-- <div class="item-icon"><i class="icon-database"></i></div> -->
-					<div class="item-name">我要借款</div>
+					<div class="item-name">我要申请</div>
 				</div>
 				<div class="ctrl-bttn" @click='goP("/apply_lend")'>
 					<!-- <div class="item-icon"><i class="icon-banknote"></i></div> -->
-					<div class="item-name">我要放贷</div>
+					<div class="item-name">分享好友</div>
 				</div>
 				<div class="ctrl-bttn" @click='goP("/promotion")'>
 					<!-- <div class="item-icon"><i class="icon-banknote"></i></div> -->
-					<div class="item-name">我要赚钱</div>
+					<div class="item-name">我要推广</div>
 				</div>
 				<!-- <div class="ctrl-bttn" @click='goP("/")'> -->
 					<!-- <div class="item-icon"><i class="icon-address-book"></i></div> -->

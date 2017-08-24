@@ -30,12 +30,13 @@
 		</div>
 
 		<el-button class='submit' type="success" :disabled='!((allValid&&verifyCodeValid&&!pwdLogin)||(allValid&&pwdValid&&pwdLogin))' @click='login'>{{action=='signup'?'注册':'确认'}}</el-button>
-<!-- 		<div class='ctrl-container' v-if='action=="login"'>
-			<span class="find-pwd-btn" @click='findPwd'>忘记密码？</span>
+		<div class='ctrl-container' v-if='action=="signup"'>
+			<span class="login-link" @click='goLogin'>
+				已有账号？
+				<span class='signup-btn' @click='signup'>登录</span>
+			</span>
 		</div>
-		<div class='ctrl-container signup-container' v-if='action=="login"'>
-			没有账号？<span class='signup-btn' @click='signup'>注册</span>
-		</div> -->
+
 
 		<remind :remind='remind'></remind>
 	</div>
@@ -70,7 +71,7 @@
 				formData:{
 					
 				},
-				backAfterPost:true,
+				backAfterPost:false,
 				response:null,
 				remind:{
 					isShow:false,
@@ -81,21 +82,8 @@
 						// console.log('try align')
 					}}
 					]
-				}
-				,
-				// resCode:{
-				// 	c0:'成功',
-				// 	c20000:'系统异常',
-				// 	c20001:'参数错误',
-				// 	c20002:'未登录',
-				// 	c20003:'业务异常',
-				// 	c20004:'密码为空',
-				// 	c20005:'登录失败,账号或者密码错误',
-				// 	c20010:'重复验证码',
-				// 	c20011:'验证码错误',
-				// 	c20012:'账号异常',
-				// 	c20013:'账号不存在',
-				// },
+				},
+		
 			}
 		},
 		methods: {
@@ -104,6 +92,9 @@
 			},
 			findPwd(){
 				
+			},
+			goLogin(){
+				publicFun.goPage('/mine/login')
 			},
 			pwdLog(b){
 				this.pwdLogin=b
@@ -349,11 +340,11 @@
 		opacity: 0.4;
 	}
 	.ctrl-container{
-		margin: 0.2rem 0;
+		margin: 0.2rem 0.4rem;
 		font-size: 0.14rem;
-		.find-pwd-btn{
-			margin-left: 2.4rem;
-			color:#6a7fa5;
+		text-align: right;
+		.login-link{
+			color:#242527;
 		}
 		.signup-btn{
 			color:#6a7fa5;
