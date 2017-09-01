@@ -63,6 +63,7 @@
 				loading:false,
 				urlGetVerifyCode:'account/sendVerifyCode',
 				urlGetPicCode:'account/captcha',
+				urlPhoneUsed:'account/isPhoneRegister',
 				// loadText:'',
 				pwd:'',
 				codeBtnMsg:"获取验证码",
@@ -206,6 +207,9 @@
 			// }, 3000);
 			// bus.$on('close_remind',()=>{})
 			// console.log('route',this.$route)
+			if(localStorage.userID){
+				this.cellphone=localStorage.userID
+			}
 			if(this.$route.query.findPwd){
 				this.action='findPwd'
 			}
@@ -219,9 +223,31 @@
 		},
 		watch:{
 			cellphoneValid(v){
-				console.log('v',v)
 				if(v){
+					if(this.action==='signup'){
+						publicFun.get(this.urlPhoneUsed+'?phone='+this.cellphone,this,()=>{
+							console.log('res phone used',this.response.body)
+							if(this.response.body.data.status){
+								let r=this.remind
+								r.remindOpts=[{
+									msg:'是，此号码登录',callback:()=>{
+										localStorage.userID=this.cellphone
+										publicFun.resetLocalUserInfo()
+										publicFun.goPage('/introduce/login')
+									}
+								},{
+									msg:'不，换个号码',callback:()=>{
+										this.cellphone=''
+									}
+								}]
+								r.remindMsg='此账号已注册，是否使用此账号登录'
+								r.isShow=true
+							return
+							}
+						})
+					}
 					this.getPicCode()
+
 				}
 			},
 		},

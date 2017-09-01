@@ -17,6 +17,11 @@ publicFun.reg.idCardNum = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3
 	// publicFun.remindOpts={}
 	// publicFun.remindOpts.confirm=[{msg:'确定'}]
 
+publicFun.resetLocalUserInfo = function() {
+	localStorage.removeItem('uniqueId')
+	localStorage.removeItem('pwd')
+}
+
 publicFun.parseMixRslt = function(s) {
 	// console.log('s', s)
 	// var obj = JSON.parse(s)
@@ -183,35 +188,35 @@ publicFun.checkSession = function(vm, callback) {
 	return true
 }
 
-publicFun.auditStatusParse = function (v){
-	var s
-	switch (v) {
-	  case 0:
-	    s = '审核中'
-	    break;
-	  case 1:
-	    s = '申请通过'
-	    break;
-	  case 2:
-	    s = '发回重审'
-	    break;
-	  case 3:
-	    s = '申请通过'
-	    break;
-	  default:
-	    s = '未知'
+publicFun.auditStatusParse = function(v) {
+		var s
+		switch (v) {
+			case 0:
+				s = '审核中'
+				break;
+			case 1:
+				s = '申请通过'
+				break;
+			case 2:
+				s = '发回重审'
+				break;
+			case 3:
+				s = '申请通过'
+				break;
+			default:
+				s = '未知'
+		}
+		return s
 	}
-	return s
-}
-/**
- * get
- * @param  {string}   url       [description]
- * @param  {Vue object}   vm        usually this
- * @param  {function}   sccssCall callback in success
- * @param  {function}   errCall   callback in error
- * @param  {Function} callback  callback in both
- * @return {null}             [description]
- */
+	/**
+	 * get
+	 * @param  {string}   url       [description]
+	 * @param  {Vue object}   vm        usually this
+	 * @param  {function}   sccssCall callback in success
+	 * @param  {function}   errCall   callback in error
+	 * @param  {Function} callback  callback in both
+	 * @return {null}             [description]
+	 */
 publicFun.get = function(url, vm, sccssCall, errCall, callback) { //paras:  this,url,
 		// console.log('geting', url)
 		// console.log('vm', vm)
@@ -245,7 +250,7 @@ publicFun.get = function(url, vm, sccssCall, errCall, callback) { //paras:  this
 				// console.log('res', res.body)
 			if (resBody.error) {
 				publicFun.errorHandle(resBody, vm)
-				// return
+					// return
 			} else {
 				// sccssCall()
 				// callback()
@@ -342,12 +347,15 @@ publicFun.errorHandle = function(resBody, vm) {
 	// console.log('error', resBody)
 	// console.log('vmRemind', vmRemind)
 	var err = resBody.error
-	console.warn('error',resBody)
+	console.warn('error', resBody)
 	var vmRemind = vm.remind
 	if (vmRemind) {
-		vmRemind.remindOpts=[{msg:'确定'}]
+		vmRemind.remindOpts = [{
+			msg: '确定'
+		}]
 		vmRemind.remindMsg = resBody.msg
 		if (err === 20002) {
+			console.log('20002')
 			vmRemind.remindOpts = [{
 				msg: '确定',
 				callback: () => {
@@ -388,7 +396,7 @@ publicFun.errorHandle = function(resBody, vm) {
 				// router.push('/login')
 			}
 		}
-		if(err===30000){
+		if (err === 30000) {
 			return
 		}
 		vmRemind.isShow = true

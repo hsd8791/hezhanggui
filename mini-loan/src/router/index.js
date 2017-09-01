@@ -36,6 +36,7 @@ import apply_lend from '../components/apply_lend.vue'
 import coming from '../components/coming.vue'
 import shujumohe from '../components/info_shujumohe.vue'
 import pay from '../components/order_pay.vue'
+import bankcard_bind from '../components/pay_bankcard_bind.vue'
 import promotion from '../components/promotion.vue'
 import errorPage from '../components/tmpts/error.vue'
 // import test from '../components/test.vue'
@@ -54,8 +55,8 @@ var routes = [],
 	mineRoutes = [],
 	xiaoheRoutes = [],
 	promoteRoutes = [],
-	marketRoutes = []
-
+	marketRoutes = [],
+	bankcardRoutes = []
 /**
  * 针对某一个组件创建路由数组（多个路由）
  * @param  {string || array} paths     路由字符串或者路由数组
@@ -133,7 +134,10 @@ marketRoutes = marketRoutes.concat(
 	}),
 	newRoute(['*/lend_market_applied_remind', '/lend_market_applied_remind', ], 'lend_market_applied_remind', lend_market_applied_remind),
 )
+// bankcardRoutes = bankcardRoutes.concat(
+// 	newRoute(['*/bankcard_bind', '/bankcard_bind', ], 'bankcard_bind', bankcard_bind),
 
+// 	)
 
 console.log('marketRoutes', marketRoutes)
 	// alter('!!')
@@ -190,7 +194,7 @@ basicRoutes = [{
 	component: errorPage
 }, ]
 console.log('basicRoutes',basicRoutes)
-routes = routes.concat(indexRoutes.concat(mineRoutes, promoteRoutes, marketRoutes), basicRoutes)
+routes = routes.concat(indexRoutes.concat(mineRoutes, promoteRoutes, marketRoutes,bankcardRoutes), basicRoutes)
 
 // console.log('routes', routes)
 export default new Router({

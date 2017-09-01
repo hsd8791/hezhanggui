@@ -57,7 +57,7 @@
   methods:{
   	get(){
   		var url = publicFun.urlConcat(this.url,{
-  			limit:3,
+  			limit:16,
   			page:this.currentPage
   		})
   		publicFun.get(url,this,()=>{
