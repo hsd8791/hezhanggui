@@ -17,8 +17,8 @@
 			<div class="wraper">
 				<label>提现途径：</label>
 				<div>
-				<el-radio class='radio' v-model='withdrawWay' label='alipay'>支付宝</el-radio>
-				<el-radio class='radio' v-model='withdrawWay' label='card'>银行卡</el-radio>
+					<el-radio class='radio' v-model='withdrawWay' label='alipay'>支付宝</el-radio>
+					<el-radio class='radio' v-model='withdrawWay' label='card'>银行卡</el-radio>
 				</div>
 			</div>
 			<div class="wraper" v-if='withdrawWay=="alipay"'>
@@ -31,6 +31,12 @@
 				<el-input :disabled='!editing'  placeholder='与支付宝关联真实姓名' v-model='name' @blur.once='blured'  :class='{"valid-border":nameValid,"error-border":!nameValid}'></el-input>
 				<i :class="{'el-icon-check':nameValid,'el-icon-close':!nameValid}"></i>
 			</div>
+			<div class="wraper" v-if='withdrawWay=="card"'>
+				<label>银行卡号：</label> 
+				<el-input :disabled='true'  placeholder='' v-model='cardNo' @blur.once='blured' ></el-input>
+				<!-- <i :class="{'el-icon-check':nameValid,'el-icon-close':!nameValid}"></i> -->
+			</div>
+			<el-button type="success" class='choose-bttn' v-if='withdrawWay=="card"' @click='chooseReceiveCard'>{{chooseMsg}}</el-button>
 		</div>
 		<div class="amount-emphasis" >￥{{amount | amountParser}}</div>
 		<el-checkbox v-model='clause'>点击提交代表同意提现条款balabala...</el-checkbox>
@@ -38,6 +44,16 @@
 			<el-button type='success' :disabled='!(allValid&&clause)' class='submit' v-if='editing' @click='confirm'>提交</el-button>
 			<!-- <el-button type='warning'  class='submit' v-if='!editing' @click='edit'>修改</el-button> -->
 		</transition>
+    <div class="binding-card" v-if='binding' >
+      <div class="input">
+        <h1 class="title">
+          <app-back :method='cancelBinding'></app-back>
+          绑定新银行卡
+        </h1>
+      </div>
+      <app-bind-card :callback='cardPay' ></app-bind-card>
+     </div>
+     <app-choose :choose='choose'></app-choose>
 		<remind :remind='remind'></remind>
 	</div>
 </template>
@@ -49,6 +65,8 @@
 	export default {
 		data() {
 			return {
+        binding: false,
+        choosing:false,
 				response:null,
 				withdrawWay:'1',
 				// loading:true,
@@ -60,7 +78,11 @@
 				name:'',
 				phone:'',
 				cardToken:'',
+				cardNo:'',
 				url:'brokerage/applyExtra',
+				urls:{
+          cards: 'unspay/mycards',
+				},
 				formData:{
 				},
 				backAfterPost:false,
@@ -71,6 +93,14 @@
 					remindOpts:[
 					{msg:'确定',},
 					],
+				},
+				choose:{
+				  back:null,
+				  isShow:false,
+				  title:'',
+				  self_:this,
+				  chooseOpts:[
+				  ],
 				},
 			}
 		},
@@ -84,12 +114,64 @@
 			}
 		},
 		methods: {
+			cancelBinding(){
+				this.binding=false
+			},
+			bindCard(){
+				this.binding=true
+			},
+			chooseCard(){
+				this.choosing=true
+			},
+			chooseReceiveCard() {
+				this.binding = false
+				publicFun.get(this.urls.cards, this, () => {
+					this.editing=true
+					let cards = this.response.body.data,
+						options = [],
+						len = cards.length,
+						c = this.choose,
+						temp
+						console.log('cards',cards)
+					for (let i = 0; i < len; i++) {
+						let l = cards[i].length
+						temp = {
+							type: '银行卡：' + cards[i].cardNo,
+							callback: () => {
+								this.cardToken = cards[i].token
+								this.cardNo = cards[i].cardNo
+							}
+						}
+						options.push(temp)
+					}
+					options.push({
+							type: '使用其他银行卡',
+							callback: () => {
+								this.binding = true
+							}
+						})
+					options.push({
+							type: '取消',
+							callback: () => {
+								this.choose.isShow = false
+							}
+						})
+					c.chooseOpts = options
+					c.title = '请选择提现银行卡'
+
+					c.isShow = true
+				})
+			},
+			cardPay(){},
 			submit(){
 				var url
+				let alipay=this.withdrawWay==='alipay'
+				let card=this.withdrawWay==='card'
 				url=publicFun.urlConcat(this.url,{
-					name:this.name,
+					name:alipay?this.name:'',
 					phone:this.phone,
-					zhifubao:this.zhifubao,
+					zhifubao:alipay?this.zhifubao:'',
+					token:card?this.cardToken:'',
 					amount:(this.amount*100).toFixed(0)
 				})
 				console.log('url',url)
@@ -155,6 +237,9 @@
 			},
 		},
 		computed:{
+			chooseMsg(){
+				return this.cardToken?'重新选择银行卡':'请选择银行卡'
+			},
 			amountValid:function(){
 				var reg=/^((1[0-9])|([2-9]\d)|([1-9]\d{2,}))(\.\d{1,2})?$/;
 				// var reg=/\d+/
@@ -176,7 +261,9 @@
 
 			allValid:function(){
 				var t=this
-				return t.amountValid&&t.zhifubaoValid&&t.nameValid&&t.phoneValid&&true//&&
+				let alipayValid=t.withdrawWay==='alipay'&&t.nameValid&&t.phoneValid
+				let cardValid=t.withdrawWay==='card'&&t.cardToken
+				return t.amountValid&&t.phoneValid&&(alipayValid||cardValid)&&true//&&
 				
 			},
 		},
@@ -198,17 +285,27 @@
 		height: 0.42rem;
 		padding:0.12rem 0;
 	}
-	
+	.choose-bttn{
+		margin-bottom: 0.15rem;
+	}
 </style>
 <style type="text/cs" lang='scss'>
 	#mineCommissionWidthdraw{
 		.el-radio__input.is-checked .el-radio__inner{
-			    border-color:#09bb07;
-    			background: #09bb07;
+			border-color:#09bb07;
+			background: #09bb07;
 		}
 		.el-radio__label {
 			font-size: 0.14rem;
 		}
+		.binding-card{
+    position: fixed;
+    background: #f4f4f4;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: 99999;
+  }
 	}
 </style>
 

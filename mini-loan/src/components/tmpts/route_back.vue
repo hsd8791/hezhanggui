@@ -2,13 +2,13 @@
 	<div class="back-box-vue">
 
 	<div class="back back1">
-			<span class='text' @click='back'>返回</span>
+			<span class='text' @click='back' :style="{'color':bindedColor}">{{remind}}</span>
 			<!-- <div class="test" :class='testClass'>  -->
 			<!-- <slot name='11' class='test'></slot> -->
 			<!-- </div> -->
 		</div>
 		<div class="back close">
-			<span class='text' @click='close'>X</span>
+			<span class='text' @click='close' :style="{'color':bindedColor}">X</span>
 			<!-- <div class="test" :class='testClass'>  -->
 			<!-- <slot name='11' class='test'></slot> -->
 			<!-- </div> -->
@@ -21,7 +21,7 @@
 	export default {
 		data() {
 			return {
-
+				bindedColor:"#fff",
 			}
 		},
 		props:{
@@ -34,27 +34,32 @@
 			link:{
 				default:'/index',
 			},
+			color:{},
 			type:{
 				default:'none'
+			},
+			method:{
+
+			},
+			remind:{
+				default:'返回'
 			}
 		},
 		methods:{
 			back(){
-				// console.log('url',location.hash)
+				if(this.method){
+					console.log('back method',this.method)
+					this.method()
+					return
+				}
 				var r=location.hash.replace("#",'')
-				// console.log('route',r)
 				var arr=r.split('/'),i=0
-				// for(i=0;i<this.backStep;i++){
-				// 	arr.pop()
-				// }
 				while(i<this.backStep){
 					arr.pop()
 					i++
 				}
 				var newR=arr.join('/')
-				// console.log('newR',newR)
 				publicFun.goPage(newR)
-				// publicFun.goPage(-1)
 			},
 			close(){
 				var r=location.hash.replace("#",'')
@@ -63,6 +68,11 @@
 				// console.log('newR',newR)
 				publicFun.goPage('/'+arr[1])
 			},
+		},
+		created(){
+			if(this.color){
+				this.bindedColor=this.color
+			}
 		},
 		computed:{
 			// testClass(){

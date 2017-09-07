@@ -77,7 +77,7 @@
             msg: '确定',
           }, ],
         },
-        choose: {},
+
       }
   },
   computed:{
