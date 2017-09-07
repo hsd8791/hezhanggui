@@ -11,6 +11,8 @@ import publicFun from './js/public.js'
 import remind from './components/tmpts/remind.vue'
 import back from './components/tmpts/route_back.vue'
 import record from './components/tmpts/record.vue'
+import choose from './components/tmpts/choose_remind.vue'
+import bindCard from './components/views/card_bind.vue'
 import list from './components/tmpts/record_list.vue'
 import bus from './bus.js'
 Vue.use(VueResource)
@@ -18,11 +20,13 @@ Vue.component('remind', remind)
 Vue.component('app-back', back)
 Vue.component('app-record', record)
 Vue.component('app-record-list', list)
+Vue.component('app-choose', choose)
+Vue.component('app-bind-card',bindCard)
 Vue.config.productionTip = false
 Vue.http.options.credentials = true;
 Vue.http.options.emulateJSON = true;
-Vue.http.options.root = 'http://hzg.he577.com';
-// Vue.http.options.root = 'http://hzg.he577.com/test';
+// Vue.http.options.root = 'http://hzg.he577.com';
+Vue.http.options.root = 'http://hzg.he577.com/test';
 // 
 Vue.directive('scroll-load', {
 	bind: function(el, binding, vnode) {
@@ -238,6 +242,9 @@ import {
 	Checkbox,
 	CollapseItem,
 	Option,
+	Radio,
+	RadioGroup,
+	RadioButton,
 } from 'element-ui'
 Vue.use(Button)
 Vue.use(Select)
@@ -248,6 +255,9 @@ Vue.use(Upload)
 Vue.use(Checkbox)
 Vue.use(CollapseItem)
 Vue.use(Option)
+Vue.use(Radio)
+Vue.use(RadioGroup)
+Vue.use(RadioButton)
 Vue.prototype.$loading = Loading.service
 
 /* eslint-disable no-new */

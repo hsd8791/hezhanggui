@@ -10,21 +10,27 @@
 				<i :class="{'el-icon-check':amountValid,'el-icon-close':!amountValid}"></i>
 			</div>
 			<div class="wraper">
-				<label>支付宝：</label> 
-				<el-input :disabled='!editing'  placeholder='支付宝账号' v-model='zhifubao' @blur.once='blured'  :class='{"valid-border":zhifubaoValid,"error-border":!zhifubaoValid}'></el-input>
-				<i :class="{'el-icon-check':zhifubaoValid,'el-icon-close':!zhifubaoValid}"></i>
-			</div>
-			<div class="wraper">
-				<label>真实姓名：</label> 
-				<el-input :disabled='!editing'  placeholder='与支付宝关联真实姓名' v-model='name' @blur.once='blured'  :class='{"valid-border":nameValid,"error-border":!nameValid}'></el-input>
-				<i :class="{'el-icon-check':nameValid,'el-icon-close':!nameValid}"></i>
-			</div>
-			<div class="wraper">
 				<label>手机：</label> 
 				<el-input :disabled='!editing' type='number' placeholder='联系手机' v-model='phone' @blur.once='blured'  :class='{"valid-border":phoneValid,"error-border":!phoneValid}'></el-input>
 				<i :class="{'el-icon-check':phoneValid,'el-icon-close':!phoneValid}"></i>
 			</div>
-
+			<div class="wraper">
+				<label>提现途径：</label>
+				<div>
+				<el-radio class='radio' v-model='withdrawWay' label='alipay'>支付宝</el-radio>
+				<el-radio class='radio' v-model='withdrawWay' label='card'>银行卡</el-radio>
+				</div>
+			</div>
+			<div class="wraper" v-if='withdrawWay=="alipay"'>
+				<label>支付宝：</label> 
+				<el-input :disabled='!editing'  placeholder='支付宝账号' v-model='zhifubao' @blur.once='blured'  :class='{"valid-border":zhifubaoValid,"error-border":!zhifubaoValid}'></el-input>
+				<i :class="{'el-icon-check':zhifubaoValid,'el-icon-close':!zhifubaoValid}"></i>
+			</div>
+			<div class="wraper" v-if='withdrawWay=="alipay"'>
+				<label>真实姓名：</label> 
+				<el-input :disabled='!editing'  placeholder='与支付宝关联真实姓名' v-model='name' @blur.once='blured'  :class='{"valid-border":nameValid,"error-border":!nameValid}'></el-input>
+				<i :class="{'el-icon-check':nameValid,'el-icon-close':!nameValid}"></i>
+			</div>
 		</div>
 		<div class="amount-emphasis" >￥{{amount | amountParser}}</div>
 		<el-checkbox v-model='clause'>点击提交代表同意提现条款balabala...</el-checkbox>
@@ -44,14 +50,16 @@
 		data() {
 			return {
 				response:null,
+				withdrawWay:'1',
 				// loading:true,
 				loading:false,
 				editing:true,
 				clause:true,
-				amount:'10.00',
-				zhifubao:'1111111',
-				name:'huang',
-				phone:'12345678901',
+				amount:'',
+				zhifubao:'',
+				name:'',
+				phone:'',
+				cardToken:'',
 				url:'brokerage/applyExtra',
 				formData:{
 				},
@@ -186,5 +194,24 @@
 	.amount-emphasis{
 		font-size: 0.4rem;
 	}
+	.radio{
+		height: 0.42rem;
+		padding:0.12rem 0;
+	}
 	
 </style>
+<style type="text/cs" lang='scss'>
+	#mineCommissionWidthdraw{
+		.el-radio__input.is-checked .el-radio__inner{
+			    border-color:#09bb07;
+    			background: #09bb07;
+		}
+		.el-radio__label {
+			font-size: 0.14rem;
+		}
+	}
+</style>
+
+
+
+
