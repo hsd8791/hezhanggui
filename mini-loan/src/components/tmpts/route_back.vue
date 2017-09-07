@@ -7,7 +7,7 @@
 			<!-- <slot name='11' class='test'></slot> -->
 			<!-- </div> -->
 		</div>
-		<div class="back close">
+		<div class="back close" v-if='showClose'>
 			<span class='text' @click='close' :style="{'color':bindedColor}">X</span>
 			<!-- <div class="test" :class='testClass'>  -->
 			<!-- <slot name='11' class='test'></slot> -->
@@ -38,8 +38,9 @@
 			type:{
 				default:'none'
 			},
-			method:{
-
+			method:{},
+			showClose:{
+				default:true
 			},
 			remind:{
 				default:'返回'
@@ -106,7 +107,7 @@
 		width: 0.5rem;
 		.text{
 			height: 0.16rem;
-			text-decoration: underline;
+			/*text-decoration: underline;*/
 			font-weight: normal;
 			line-height: 1;
 			font-size: 0.16rem;

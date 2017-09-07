@@ -3,7 +3,7 @@
 	<div class="cover"   v-show='choose.isShow'  >
 		<div class="choose" :class="{'choose-higher':choose.chooseMsgDscrp}">
 			<div class="choose-msg">
-				<app-back :color='"#000"' :remind="'<'" :method='choose.back' v-if='choose.back'></app-back>
+				<app-back :color='"#000"' :remind="'<'" :method='choose.back' :showClose='false' v-if='choose.back'></app-back>
 				{{choose.title}}
 			</div>
 			<div class="choose-box">

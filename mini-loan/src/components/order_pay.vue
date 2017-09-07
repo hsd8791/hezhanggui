@@ -77,6 +77,14 @@
             msg: '确定',
           }, ],
         },
+        choose:{
+          back:null,
+          isShow:false,
+          title:'',
+          self_:this,
+          chooseOpts:[
+          ],
+        },
 
       }
   },
