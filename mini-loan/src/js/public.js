@@ -11,6 +11,7 @@ var publicFun = {}
 	// 	}
 	// }]
 publicFun.reg = {}
+publicFun.zhimaAcChangeTime=1504195777508
 publicFun.reg.cellphone = /^1[1234567890]\d{9}$/
 publicFun.reg.chinese = /^[\u4e00-\u9fa5]+$/
 publicFun.reg.idCardNum = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/

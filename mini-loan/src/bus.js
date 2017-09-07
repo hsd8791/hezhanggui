@@ -86,9 +86,13 @@ var bus = new Vue({
 				getUrl: 'credit/zhimaAuthStatus',
 				icon: 'icon-lock',
 				checkMethod: function(data) {
+					console.warn('data zhima',data,publicFun.default.zhimaAcChangeTime)
 
 					if (data.status) {
 						this.status = 0
+						if(data.time<publicFun.default.zhimaAcChangeTime){
+							return
+						}
 						if (data.status == 'success') {
 							this.status = 1
 						}

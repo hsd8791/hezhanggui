@@ -154,6 +154,9 @@
 		},
 		computed:{
 			authBinded(){
+				if(this.authorized.time<publicFun.zhimaAcChangeTime){
+					return false
+				}
 				return this.authorized.status=="success"
 			},
 			faceBinded(){
