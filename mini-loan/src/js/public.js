@@ -204,6 +204,9 @@ publicFun.auditStatusParse = function(v) {
 			case 3:
 				s = '申请通过'
 				break;
+			case -999:
+				s= '长时间未审核，建议重新申请'
+				break;
 			default:
 				s = '未知'
 		}

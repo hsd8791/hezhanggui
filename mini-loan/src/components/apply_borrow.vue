@@ -12,17 +12,15 @@
 			</div>
 			<div class="wraper">
 				<label>借款金额：</label> 
-				<el-input :disabled='applyRecord' type='number' placeholder='申请借款金额' v-model='amount' @blur.once='blured'  :class='{"valid-border":amountValid,"error-border":!amountValid}'></el-input>
+				<el-input :disabled='!!applyRecord&&!longApplied' type='number' :placeholder='amountHolder' v-model='amount' @blur.once='blured'  :class='{"valid-border":amountValid,"error-border":!amountValid}'></el-input>
 				<i :class="{'el-icon-check':amountValid,'el-icon-close':!amountValid}"></i>
 			</div>
 		</div>
 		<el-button type='success' class="confirm" @click='deleteLender'  v-if='getById&&!getByMarket'>向其他人申请</el-button>
 		<el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(allValid)' v-if='canApply&&!applyRecord'>点击申请</el-button>
 		<div class="info-user" v-if='!getByMarket'>
-			<h3 class="subtitle">放贷人<!-- 经纪人 -->信息</h3>
+			<h3 class="subtitle">放贷人信息</h3>
 			<div class="info-lender">
-				<!-- <p style="color:purple">提交前检查信息是否按要求填写的功能，实现中</p> -->
-				<!-- <br> -->
 				<p v-if='lenderInfo.phone'>放贷人姓名：{{lenderInfo.name}}</p>
 				<p v-if='lenderInfo.phone'>放贷人手机号：{{lenderInfo.phone | phonePartshow}}</p>
 				<p v-if='lenderInfo.phone'>请核实放贷人姓名后提交申请</p>
@@ -63,18 +61,18 @@
 			<br>
 			  <div class="info-title">申请结果</div>
 			  <div class="info-detail">
-			    {{applyRecord.status | statusParser}}
+			    {{longApplied?-999:applyRecord.status | statusParser}}
 			  </div>
 			  <div class="info-title" v-if='applyRecord.status!==0&&applyRecord.remark'>审核意见</div>
 			  <div class="info-detail" v-if='applyRecord.status!==0'>
 			    {{applyRecord.remark}}
 			  </div>
 		</div>
-		<el-button type='success' @click='apllyBorrow' v-if='applyRecord&&applyRecord.status===2'>
+		<el-button type='success' @click='apllyBorrow' v-if='(applyRecord&&applyRecord.status===2)||longApplied'>
 		  重新申请
 		</el-button>
 		<!-- <div class="fill-status " v-if='allFilled'> -->
-		<div class="fill-status " v-if='!fillStatusCfg.allFilled&&canApply'>
+		<div class="fill-status " v-if='longApplied||!fillStatusCfg.allFilled&&canApply'>
 			<h3 class="subtitle">请完成以下信息后提交</h3>
 			<div class="container">
 				
@@ -101,6 +99,7 @@
 		data() {
 				return {
 					// fromIndex:null,
+					amountHolder:'填写申请金额',
 					getById: false, //判定是否由uniqueId 传入获取lenderPhone
 					getByMarket: false, //判定是否由贷款超市进入 
 					lenderValid: false,
@@ -241,8 +240,11 @@
 						this.applyRecord=this.response.body.data.data[0]
 						if(this.applyRecord){
 						}
-						console.log('apply record',this.response.body)
-
+						if(this.applyRecord.amount){
+							this.amount=this.applyRecord.amount
+						}else{
+							this.amountHolder='申请未填写金额'
+						}
 					})
 				},
 				blured($event) {
@@ -342,7 +344,7 @@
 				phonePartshow(val) {
 					return publicFun.phonePartshow(val)
 				},
-				statusParser(v){
+				statusParser:function(v){
 				  return publicFun.auditStatusParse(v)
 				},
 				// phoneLenderHide:{
@@ -371,6 +373,7 @@
 					
 					}
 				},
+
 			},
 			// beforeRouteEnter:(to,from,next)=>{
 			// 	console.log('from',from)
@@ -399,6 +402,14 @@
 				allValid:function(){
 					let t=this
 					return t.lenderValid&&t.amountValid&&t.fillStatusCfg.allFilled
+				},
+				longApplied(){
+				  if(this.applyRecord.creat_time){
+				    let now = new Date()
+				    return (now.getTime()-this.applyRecord.creat_time)>86400000
+				  }else{
+				    return false
+				  }
 				},
 			},
 			components: {
@@ -429,8 +440,10 @@
 			font-size: 0.18rem;
 			line-height: 1.4;
 			text-align: left;
+			margin: 0.1rem 0;
 			margin-left: 0.15rem;
 			padding-left: 0.1rem;
+
 		}
 		.container{
 			background: #fff;

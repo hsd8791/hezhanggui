@@ -58,7 +58,7 @@
     <br>
       <div class="info-title">申请结果</div>
       <div class="info-detail">
-        {{applyRecord.status | statusParser}}
+        {{longApplied?-999:applyRecord.status | statusParser}}
       </div>
       <div class="info-title" v-if='applyRecord.status!==0'>审核意见</div>
       <div class="info-detail" v-if='applyRecord.status!==0'>
@@ -70,7 +70,7 @@
         申请
       </el-button>
 
-      <el-button type='success' @click='goApply' v-if='haveRecord&&(applyRecord.status===2||applyRecord.status===4)'>
+      <el-button type='success' @click='goApply' v-if='longApplied||(haveRecord&&(applyRecord.status===2))'>
         {{applyRecord.status===2?'重新':'再次'}}申请
       </el-button>
       <!-- <el-button type='success' @click='' v-if='haveRecord'></el-button> -->
@@ -154,6 +154,14 @@
     haveRecord(){
       return Boolean(this.applyRecord)
     },
+    longApplied(){
+      if(this.applyRecord.creat_time){
+        let now = new Date()
+        return (now.getTime()-this.applyRecord.creat_time)>86400000
+      }else{
+        return false
+      }
+    }
   },
   watch:{
     'info.loanWay':function(v){

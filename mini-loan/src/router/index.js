@@ -178,7 +178,7 @@ basicRoutes = [{
 		name: 'paidServiceRslt',
 		component: paidServiceRslt,
 		meta: {
-			// keepAlive: false,
+			keepAlive: false,
 		}
 	}, ]
 },  {
