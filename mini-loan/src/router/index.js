@@ -129,7 +129,7 @@ marketRoutes = marketRoutes.concat(
 	newRoute(['*/market_detail/:id', '/market_detail', ], 'market_detail', market_detail),
 	newRoute(['*/market_list', '/market_list', ], 'market_list', market_list,{
 		meta: {
-			keepAlive: false,
+			keepAlive: true,
 		}
 	}),
 	newRoute(['*/lend_market_applied_remind', '/lend_market_applied_remind', ], 'lend_market_applied_remind', lend_market_applied_remind),

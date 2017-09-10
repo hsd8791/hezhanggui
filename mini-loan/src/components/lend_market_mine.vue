@@ -44,7 +44,7 @@
         <el-input :disabled='!editing' placeholder='请输入产品简介' v-model='marketInfo.intro' @blur.once='blured'  :class='{"valid-border":introValid,"error-border":!introValid}'></el-input>
         <i :class="{'el-icon-check':introValid,'el-icon-close':!introValid}"></i>
       </div>
-      <div class="wraper" v-if='false'>
+      <div class="wraper" >
         <label>客服电话：</label> 
         <el-input :disabled='!editing' placeholder='请输入客服电话' v-model='marketInfo.tel' type='tel' @blur.once='blured'  :class='{"valid-border":telValid,"error-border":!telValid}'></el-input>
         <i :class="{'el-icon-check':telValid,'el-icon-close':!telValid}"></i>
@@ -305,7 +305,7 @@ export default {
         var t = this
         return t.nameValid &&
           t.introValid &&
-          // t.telValid&&
+          t.telValid&&
           t.ageValid &&
           t.applyConditionDescValid &&
           t.loanAmountValid &&

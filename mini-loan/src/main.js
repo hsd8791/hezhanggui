@@ -21,8 +21,8 @@ Vue.component('app-record-list', list)
 Vue.config.productionTip = false
 Vue.http.options.credentials = true;
 Vue.http.options.emulateJSON = true;
-Vue.http.options.root = 'http://hzg.he577.com';
-// Vue.http.options.root = 'http://hzg.he577.com/test';
+// Vue.http.options.root = 'http://hzg.he577.com';
+Vue.http.options.root = 'http://hzg.he577.com/test';
 // 
 Vue.directive('scroll-load', {
 	bind: function(el, binding, vnode) {
@@ -38,12 +38,8 @@ Vue.directive('scroll-load', {
 			// console.log('el', listContainer)
 		el.addEventListener('scroll', () => {
 				listContainer = document.querySelector(sel)
-					// console.log('scrolling')
-					// console.log('cfg', cfg)
-					// console.log('cfg.listSelector', cfg.listSelector)
-
 				btt = listContainer.getBoundingClientRect().bottom
-					// console.log('btt',btt)
+					// console.log('btt scroll',btt)
 				if (btt < H) {
 					// cfg.getting = true
 					// cfg.get(cfg.crrtPage)
@@ -193,6 +189,7 @@ Vue.directive('inner-scroll',{
 		}, false)
 		el.addEventListener('touchmove', (e) => {
 			e.preventDefault()
+			console.log('e',e)
 			touch.crrt = e.touches[0].clientY
 			outer= e.currentTarget.parentElement
 			scrollTop =outer.scrollTop

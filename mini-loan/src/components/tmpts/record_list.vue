@@ -5,10 +5,11 @@
       佣金明细
     </h1> -->
     <div v-loading='loading' element-loading-text='请稍后'></div>
-    <div class="list-container" v-scroll-load='{method:getmore,listSelector:".list-container-inner"}' @scoll.preventDefault=''>
+    <div class="list-container" v-scroll-load='{method:getmore,listSelector:".list-container-inner"}' >
       <div class="list-container-inner" v-pull-refresh='{method:getNew}'>
         <div class="list-top" v-if='records.length>0'>——释放刷新——</div>
-        <div class="list-top" v-if='records.length===0'>无数据</div>
+        <div class="list-top" v-if='records.length===0&&!loading'>无数据</div>
+        <div class="list-top" v-if='loading'>刷新中</div>
        <!--  <app-record v-for='record in records' :key="record">
           <i class="icon-database icon-avator" slot='avator'></i>
           <span slot='rt'>{{record.createTime}}</span>
@@ -55,6 +56,7 @@
   created(){
   	// this.url=this.config.url
     this.getNew()
+   
   },
   methods:{
     getmore(){
@@ -136,7 +138,9 @@
         this.getting=false
       })
     },
-
+    onScroll(e){
+      console.log('e',e)
+    },
   },
   events: {},
   components: {}
@@ -146,7 +150,6 @@
 <style lang='scss' scoped>
 
   .record-list{
-    touch-action:none;
     .icon-avator{
       font-size: 0.3rem;
     }

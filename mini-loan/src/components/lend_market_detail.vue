@@ -60,6 +60,10 @@
       <div class="info-detail">
         {{longApplied?-999:applyRecord.status | statusParser}}
       </div>
+      <div class="info-title" v-if='applyRecord.status!==4&&applyRecord.tel'>客服电话</div>
+      <div class="info-detail" v-if='applyRecord.status!==4&&applyRecord.tel'>
+        {{info.tel}}
+      </div>
       <div class="info-title" v-if='applyRecord.status!==0'>审核意见</div>
       <div class="info-detail" v-if='applyRecord.status!==0'>
         {{applyRecord.remark}}
@@ -90,7 +94,7 @@
         platform:{},
         // noApply:'',
       response:null,
-      loading:true,
+      loading:false,
       editing:true,
       info:{},
       applyRecord:'',
@@ -155,7 +159,8 @@
       return Boolean(this.applyRecord)
     },
     longApplied(){
-      if(this.applyRecord.creat_time){
+
+      if(this.applyRecord){
         let now = new Date()
         return (now.getTime()-this.applyRecord.creat_time)>86400000
       }else{

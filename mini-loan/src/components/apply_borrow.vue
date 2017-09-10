@@ -65,7 +65,9 @@
 			  </div>
 			  <div class="info-title" v-if='applyRecord.status!==0&&applyRecord.remark'>审核意见</div>
 			  <div class="info-detail" v-if='applyRecord.status!==0'>
-			    {{applyRecord.remark}}
+			    <p>
+			    	{{applyRecord.remark}}
+			    </p>
 			  </div>
 		</div>
 		<el-button type='success' @click='apllyBorrow' v-if='(applyRecord&&applyRecord.status===2)||longApplied'>
@@ -239,8 +241,6 @@
 					publicFun.get(urlRecord,this,()=>{
 						this.applyRecord=this.response.body.data.data[0]
 						if(this.applyRecord){
-						}
-						if(this.applyRecord.amount){
 							this.amount=this.applyRecord.amount
 						}else{
 							this.amountHolder='申请未填写金额'
@@ -404,7 +404,7 @@
 					return t.lenderValid&&t.amountValid&&t.fillStatusCfg.allFilled
 				},
 				longApplied(){
-				  if(this.applyRecord.creat_time){
+				  if(this.applyRecord){
 				    let now = new Date()
 				    return (now.getTime()-this.applyRecord.creat_time)>86400000
 				  }else{
