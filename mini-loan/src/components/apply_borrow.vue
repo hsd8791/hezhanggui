@@ -403,14 +403,13 @@
 					let t=this
 					return t.lenderValid&&t.amountValid&&t.fillStatusCfg.allFilled
 				},
-				longApplied(){
-				  if(this.applyRecord){
-				    let now = new Date()
-				    return (now.getTime()-this.applyRecord.creat_time)>86400000
-				  }else{
-				    return false
-				  }
-				},
+				longApplied() {
+					if (this.applyRecord) {
+						return publicFun.longApplied(this.applyRecord.creat_time)
+					} else {
+						return false
+					}
+				}
 			},
 			components: {
 				remind: remind,

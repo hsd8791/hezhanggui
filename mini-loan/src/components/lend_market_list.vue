@@ -23,7 +23,6 @@
             new!
           </div>
         </div>
-
       </div>
     </app-record-list>
 

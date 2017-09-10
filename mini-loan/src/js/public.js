@@ -11,7 +11,7 @@ var publicFun = {}
 	// 	}
 	// }]
 publicFun.reg = {}
-publicFun.zhimaAcChangeTime=1504195777508
+publicFun.zhimaAcChangeTime = 1504195777508
 publicFun.reg.cellphone = /^1[1234567890]\d{9}$/
 publicFun.reg.chinese = /^[\u4e00-\u9fa5]+$/
 publicFun.reg.idCardNum = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/
@@ -189,6 +189,11 @@ publicFun.checkSession = function(vm, callback) {
 	return true
 }
 
+publicFun.longApplied = function(time) {
+	let now = new Date()
+	return (now.getTime() - time) > 86400000
+}
+
 publicFun.auditStatusParse = function(v) {
 		var s
 		switch (v) {
@@ -205,7 +210,7 @@ publicFun.auditStatusParse = function(v) {
 				s = '申请通过'
 				break;
 			case -999:
-				s= '长时间未审核，建议重新申请'
+				s = '长时间未审核，建议重新申请'
 				break;
 			default:
 				s = '未知'

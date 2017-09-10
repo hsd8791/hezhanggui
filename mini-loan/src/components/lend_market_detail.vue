@@ -159,10 +159,9 @@
       return Boolean(this.applyRecord)
     },
     longApplied(){
-
       if(this.applyRecord){
-        let now = new Date()
-        return (now.getTime()-this.applyRecord.creat_time)>86400000
+        return publicFun.longApplied(this.applyRecord.creat_time)
+        // return (now.getTime()-this.applyRecord.creat_time)>86400000
       }else{
         return false
       }
