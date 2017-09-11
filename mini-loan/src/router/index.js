@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import index from '../components/index.vue'
+import manage from '../components/manage.vue'
 import mine from '../components/mine.vue'
 import applyList from '../components/mine_apply_list.vue'
 import partner from '../components/mine_partner.vue'
@@ -146,6 +147,10 @@ basicRoutes = [{
 	path: rootPath + '/index',
 	name: 'index',
 	component: index,
+},{
+	path: rootPath + '/manage',
+	name: 'manage',
+	component: manage,
 }, {
 	path: rootPath + '/coming',
 	name: 'coming',

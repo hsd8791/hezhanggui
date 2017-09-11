@@ -36,7 +36,7 @@ export default {
             paths: [ //显示footnav的路径
                 '/index',
                 '/market_list', //paid_service
-                '/coming',
+                '/manage',
                 '/mine',
             ],
             specialPaths: [
@@ -47,7 +47,7 @@ export default {
             cmpntNames: [
                 'index',
                 'market_list',
-                'coming',
+                'manage',
                 'mine',
                 'paidServiceHistory'
             ],
