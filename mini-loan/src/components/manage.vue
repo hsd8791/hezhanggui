@@ -3,10 +3,15 @@
 
 		<div class="input ">
 			<h1 class="title">通讯录同步助手</h1>
+			<a class="download-app" href="http://mobileappdownload.oss-cn-hangzhou.aliyuncs.com/hzg.0.0.1.apk">
 			<el-button type='success' id='androidAppDownload'>
-				<i class="icon-android"></i>
-				<span><a class="download-app" href="http://mobileappdownload.oss-cn-hangzhou.aliyuncs.com/hzg.0.0.1.apk">点击下载安卓同步助手</a></span>
+				<i class="icon-android platfor-icon"></i>
+				<div class="download-text">
+					<p>下载安卓</p>
+					<p>同步助手</p>
+				</div>
 			</el-button>
+			</a>
 		</div>
 	</div>
 
@@ -36,6 +41,19 @@
 		text-decoration: none;
 		color: #fff;
 	}
+	.platfor-icon{
+		position: absolute;
+		left: 5%;top: 0;
+		font-size: 0.5rem;
+		line-height: 0.8rem;
+	}
+	.download-text{
+		margin-left: 30%;
+		width: 60%;
+	}
+	.download-app{
+		white-space: wrap;
+	}
 	#androidAppDownload{
 		margin-top: 0.8rem;
 	}
@@ -44,9 +62,12 @@
 <style lang='scss'>
 	#manageVue{
 		.el-button{
-			font-size: 0.2rem;
-			height: 0.5rem;
-			width:70%;
+			position: relative;
+			font-size: 0.24rem;
+			line-height: 1.4;
+			height: 0.8rem;
+			width:50%;
+			padding: 0;
 		}
 
 	}
