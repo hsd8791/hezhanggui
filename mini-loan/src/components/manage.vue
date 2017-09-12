@@ -3,7 +3,7 @@
 
 		<div class="input ">
 			<h1 class="title">通讯录同步助手</h1>
-			<a class="download-app" href="http://mobileappdownload.oss-cn-hangzhou.aliyuncs.com/hzg.0.0.1.apk">
+			<a class="download-app" href="http://cdn.he577.com/hzg.0.0.1.apk">
 			<el-button type='success' id='androidAppDownload'>
 				<i class="icon-android platfor-icon"></i>
 				<div class="download-text">
