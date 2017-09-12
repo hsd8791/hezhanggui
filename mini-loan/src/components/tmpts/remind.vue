@@ -5,8 +5,8 @@
 			<div class="remind-msg">{{remind.remindMsg}}</div>
 			<div class="remind-msg-description" v-if='remind.remindMsgDscrp'>{{remind.remindMsgDscrp}}</div>
 			<div class="ctrl-box">
-				<div class="ctrl-btn"  v-for='item in remind.remindOpts'  @click='close(item.callback,remind.self_)'>{{item.msg}}
-					<a  class="href" v-show='item.href' :href="item.href"  @click='close(item.callback,remind.self_)'>
+				<div class="ctrl-btn"  v-for='item in remind.remindOpts'  @click.once='close(item.callback,remind.self_)'>{{item.msg}}
+					<a  class="href" v-show='item.href' :href="item.href"  @click.once='close(item.callback,remind.self_)'>
 					</a>
 				</div>
 			</div>

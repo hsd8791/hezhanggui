@@ -1,9 +1,9 @@
 <template>
 	<div id="manageVue">
 
-		<div class="input ">
+		<div class="input " >
 			<h1 class="title">通讯录同步助手</h1>
-			<a class="download-app" href="http://cdn.he577.com/hzg.0.0.1.apk">
+			<a class="download-app" href="http://cdn.he577.com/hzg.0.0.1.apk" @click='testWechat'>
 			<el-button type='success' id='androidAppDownload'>
 				<i class="icon-android platfor-icon"></i>
 				<div class="download-text">
@@ -13,22 +13,41 @@
 			</el-button>
 			</a>
 		</div>
+	<remind :remind='remind'></remind>
 	</div>
-
-</div>
 </template>
 
 <script>
+import publicFun from '../js/public.js'
 	export default {
 		data() {
 			return {
-      // note: changing this line won't causes changes
-      // with hot-reload because the reloaded component
-      // preserves its current state and we are modifying
-      // its initial state.
+      response:null,
+      // loading:false,
+      editing:true,
+      backAfterPost:false,// watch out
+      // url:'',
+      remind:{
+      	isShow:false,
+      	remindMsg:'remind',
+      	self_:this,
+      	remindOpts:[
+      	{msg:'确定',},
+      	],
+      },
     }
   },
-  methods:{},
+  methods:{
+  	testWechat(){
+  		if(publicFun.isWeiXin()){
+  			let r=this.remind
+  			r.remindMsg='无法在微信中下载'
+  			r.remindMsgDscrp='请点击右上方用浏览器打开后下载'
+  			r.remindOpts=[{msg:'确定'}]
+  			r.isShow=true
+  		}
+  	},
+  },
   events: {},
   components: {}
 }
