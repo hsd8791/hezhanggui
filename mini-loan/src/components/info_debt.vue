@@ -16,6 +16,11 @@
 				<i :class="{'el-icon-check':jinjiedaoLiabilitiesValid,'el-icon-close':!jinjiedaoLiabilitiesValid}"></i>
 			</div>
 			<div class="wraper">
+				<label class="label">无忧借条负债：</label> 
+				<el-input :disabled='!editing' type='number' placeholder='借贷金额，无负债填0' v-model='wuyouLiabilities' @blur.once='blured'  :class='{"valid-border":wuyouLiabilitiesValid,"error-border":!wuyouLiabilitiesValid}'></el-input>
+				<i :class="{'el-icon-check':wuyouLiabilitiesValid,'el-icon-close':!wuyouLiabilitiesValid}"></i>
+			</div>
+			<div class="wraper">
 				<label class="label">其他网贷负债：</label> 
 				<el-input :disabled='!editing' type='number' placeholder='借贷金额，无负债填0' v-model='otherLiabilities' @blur.once='blured'  :class='{"valid-border":otherLiabilitiesValid,"error-border":!otherLiabilitiesValid}'></el-input>
 				<i :class="{'el-icon-check':otherLiabilitiesValid,'el-icon-close':!otherLiabilitiesValid}"></i>
@@ -52,6 +57,7 @@
 				editing:false,
 				jiedaibaoLiabilities:'',
 				jinjiedaoLiabilities:'',
+				wuyouLiabilities:'',
 				otherLiabilities:'',
 				zmxyScore:'',
 				zmxyScore2:'',
@@ -74,6 +80,7 @@
 				var postBody = {}
 				postBody.jiedaibaoLiabilities = this.jiedaibaoLiabilities 
 				postBody.jinjiedaoLiabilities = this.jinjiedaoLiabilities 
+				postBody.wuyouLiabilities = this.wuyouLiabilities 
 				postBody.otherLiabilities = this.otherLiabilities 
 				postBody.zmxyScore = this.zmxyScore 
 				postBody.zmxyScore2 = this.zmxyScore2 
@@ -90,6 +97,7 @@
 						return
 					}
 					this.jiedaibaoLiabilities=data.jiedaibaoLiabilities
+					this.wuyouLiabilities=	data.wuyouLiabilities			
 					this.jinjiedaoLiabilities=	data.jinjiedaoLiabilities			
 					this.otherLiabilities=data.otherLiabilities
 					this.zmxyScore=data.zmxyScore
@@ -136,6 +144,10 @@
 				var reg=/\d/;
 				return reg.test(this.jinjiedaoLiabilities)
 			},
+			wuyouLiabilitiesValid:function(){
+				var reg=/\d/;
+				return reg.test(this.wuyouLiabilities)
+			},
 			otherLiabilitiesValid:function(){
 				var reg=/\d/;
 				return reg.test(this.otherLiabilities)
@@ -150,7 +162,7 @@
 			},
 			allValid:function(){
 				var t=this
-				return t.jiedaibaoLiabilitiesValid&&t.jinjiedaoLiabilitiesValid&&t.otherLiabilitiesValid&&t.zmxyScoreValid&&t.zmxyScore2Valid&&true//&&
+				return t.jiedaibaoLiabilitiesValid&&t.jinjiedaoLiabilitiesValid&&t.wuyouLiabilitiesValid&&t.otherLiabilitiesValid&&t.zmxyScoreValid&&t.zmxyScore2Valid&&true//&&
 				
 			},
 		},

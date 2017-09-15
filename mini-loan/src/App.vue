@@ -16,6 +16,7 @@
     <foot-nav v-if='footNavShow' ></foot-nav>
   <!-- </transition> -->
   <remind :remind='remind'></remind >
+  <contact></contact>
   <button id="testBttn" @click='test' v-if='busDebug'>test</button>
   </div>
 </template>
@@ -23,6 +24,7 @@
 <script>
 import router from './router'
 import footNav from './foot.vue'
+import contact from './contacts.vue'
 import publicFun from './js/public.js'
 import bus from './bus.js'
 import remind from './components/tmpts/remind.vue'
@@ -174,6 +176,8 @@ export default {
   components: {
     'foot-nav': footNav,
     remind: remind,
+    contact:contact,
+  
   }
 }
 </script>

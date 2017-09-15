@@ -8,10 +8,10 @@ var bus = new Vue({
 		detailTaskId: null,
 		phoneLender: '',
 		uniqueIdLender: '',
-		share:0,
+		share: 0,
 		account: '请登录',
 		uniqueId: '',
-		wxConfiged:false,
+		wxConfiged: false,
 		// allFilled: false,
 		/**
 		 * 概述
@@ -37,9 +37,9 @@ var bus = new Vue({
 		 */
 
 		cfgEssential: {
-			allFilled:false,
-			testing:false,
-			ttlRequest: 4, // qty of requset
+			allFilled: false,
+			testing: false,
+			ttlRequest: 6, // qty of requset
 			undoneRequest: null, //记录未完成的请求判断，全部完成后判断是否可以提交
 			fillStatus: [{ //identity
 				status: -1,
@@ -67,11 +67,11 @@ var bus = new Vue({
 							var passed = new Date().getTime() - data.time
 							if (passed < 24 * 3600 * 1000) {
 								this.status = 1
-							}else{
+							} else {
 								this.status = 0
 							}
-						}else{
-								this.status = 0
+						} else {
+							this.status = 0
 						}
 						// console.log('data.status', data.status)
 						// console.log('data', data.time)
@@ -86,11 +86,11 @@ var bus = new Vue({
 				getUrl: 'credit/zhimaAuthStatus',
 				icon: 'icon-lock',
 				checkMethod: function(data) {
-					console.warn('data zhima',data,publicFun.default.zhimaAcChangeTime)
+					console.warn('data zhima', data, publicFun.default.zhimaAcChangeTime)
 
 					if (data.status) {
 						this.status = 0
-						if(data.time<publicFun.default.zhimaAcChangeTime){
+						if (data.time < publicFun.default.zhimaAcChangeTime) {
 							return
 						}
 						if (data.status == 'success') {
@@ -107,13 +107,30 @@ var bus = new Vue({
 				// checkMethod: function(data) {
 				// console.warn('debt data', data)
 				// }
-			},],
-			fillStatus2: [],
+			}, ],
+			fillStatus2: [{ //contact_way
+				status: -1,
+				status2: -1,
+				url: '/contact_way',
+				label: '联系方式',
+				icon: 'icon-phone',
+				getUrl: 'userInfo/contact',
+				getUrl2: 'userInfo/relatives',
+				checkMethod: function(data) {
+					console.log('data contact_way',data)
+					if(data.hasOwnProperty('acQq')){
+						this.status=0
+						if(data.acQq&&data.acWechat){
+							this.status=1
+						}
+					}
+				}
+			}, ],
 		},
 		cfgOptional: {
-			ttlRequest: 6,
-			testing:false,
-			allFilled:false,
+			ttlRequest: 4,
+			testing: false,
+			allFilled: false,
 			undoneRequest: null, //记录未完成的请求判断，全部完成后判断是否可以提交
 			fillStatus: [{ //upload
 				status: -1,
@@ -124,22 +141,22 @@ var bus = new Vue({
 				checkMethod: function(data) {
 					// console.log('data', data)
 					// console.log('test upload')
-					this.status=0
+					this.status = 0
 					if (!data) {
 						// this.status = 0
 						return
 					}
-					if (data.idcardUrl && data.idcardUrl2 &&data.idcardUrl3) {
+					if (data.idcardUrl && data.idcardUrl2 && data.idcardUrl3) {
 						this.status = 1
 					}
 				}
-			}, {//job_info
-					status: -1,
-					url: '/job_info',
-					label: '工作信息',
-					getUrl: 'userInfo/work',
-					icon: 'icon-profile',
-				}, ],
+			}, { //job_info
+				status: -1,
+				url: '/job_info',
+				label: '工作信息',
+				getUrl: 'userInfo/work',
+				icon: 'icon-profile',
+			}, ],
 			fillStatus2: [{ //profile
 					status: -1,
 					status2: -1,
@@ -148,17 +165,6 @@ var bus = new Vue({
 					icon: 'icon-documents',
 					getUrl: 'userInfo/personal',
 					getUrl2: 'userInfo/address'
-				}, { //contact_way
-					status: -1,
-					status2: -1,
-					url: '/contact_way',
-					label: '联系方式',
-					icon: 'icon-phone',
-					getUrl: 'userInfo/contact',
-					getUrl2: 'userInfo/relatives',
-					checkMethod: function(data) {
-						// this.status=0
-					}
 				},
 
 				// {
@@ -193,7 +199,7 @@ var bus = new Vue({
 	created: function() {
 		// setTimeout(() => {
 		// console.log('publicFun', publicFun.default)
-				// this.checkFilled(this.cfgEssential)
+		// this.checkFilled(this.cfgEssential)
 		// }, 2000);
 		this.$on('account_change', (ac, id) => {
 			// console.log('bus get account change', ac, id)
@@ -214,10 +220,10 @@ var bus = new Vue({
 		getByUrls(urls, index, cfg) {
 			// console.warn('cfg',cfg)
 			// console.warn('check', urls[index].getUrl)
-				// console.log('publicFun.default',publicFun.default.get)
+			// console.log('publicFun.default',publicFun.default.get)
 			publicFun.default.get(urls[index].getUrl, this, () => {
 				// console.log('this', this.response.body.data)
-					// console.log('this.response.data', this.response.body.data, publicFun.default.notAllNull(this.response.body.data))
+				// console.log('this.response.data', this.response.body.data, publicFun.default.notAllNull(this.response.body.data))
 				if (publicFun.default.notAllNull(this.response.body.data)) {
 					urls[index].status = 1
 					if (urls[index].checkMethod !== undefined) {
@@ -248,10 +254,10 @@ var bus = new Vue({
 		},
 		checkFilled(cfg) {
 			// console.log('checking filled')
-			if(cfg.testing===true){
+			if (cfg.testing === true) {
 				return
 			}
-			cfg.testing=true
+			cfg.testing = true
 			cfg.undoneRequest = cfg.ttlRequest
 			var u = cfg.fillStatus,
 				l = u.length,
@@ -259,7 +265,7 @@ var bus = new Vue({
 			var u2 = cfg.fillStatus2,
 				l2 = u2.length,
 				i2
-			// console.log('u', u, l)
+				// console.log('u', u, l)
 			for (i = 0; i < l; i++) {
 				this.getByUrls(u, i, cfg)
 			}
@@ -277,24 +283,24 @@ var bus = new Vue({
 			var flag = true
 			for (i = 0; i < l; i++) {
 				flag = flag && u[i].status === 1
-				// console.log('flag ',i,flag)
-				// console.log('status', i, u[i].url, '-->', u[i].status)
+					// console.log('flag ',i,flag)
+					// console.log('status', i, u[i].url, '-->', u[i].status)
 			}
 			for (i = 0; i < l2; i++) {
 				flag = flag && u2[i].status === 1 && u2[i].status2 === 1
-				// console.log('status 1 2', i, u2[i].url, '-->', u2[i].status, u2[i].status2)
+					// console.log('status 1 2', i, u2[i].url, '-->', u2[i].status, u2[i].status2)
 			}
 			// console.log('flag',flag)
-			cfg.allFilled=flag
-			cfg.test='test'
-			// return flag
+			cfg.allFilled = flag
+			cfg.test = 'test'
+				// return flag
 		},
 	},
 	computed: {
-		relativeUrlTest(){
-			if(/test/.test(this.$http.options.root)){
+		relativeUrlTest() {
+			if (/test/.test(this.$http.options.root)) {
 				return '/test'
-			}else{
+			} else {
 				return ''
 			}
 		},
@@ -318,15 +324,15 @@ var bus = new Vue({
 			// console.log('undoneRequest', val)
 			this.$emit('checked_fill_status', this.cfgEssential)
 			if (val === 0) {
-				this.cfgEssential.testing=false
-				// this.cfgEssential.allFilled = 
+				this.cfgEssential.testing = false
+					// this.cfgEssential.allFilled = 
 				this.checkAllFilled(this.cfgEssential)
 				this.$emit('checked_fill_status', this.cfgEssential)
-				// console.log('emit checked_fill_status', this.fillStatusCfg, this.allFilled)
+					// console.log('emit checked_fill_status', this.fillStatusCfg, this.allFilled)
 			}
 		},
 		'cfgOptional.undoneRequest': function(val) {
-			this.cfgOptional.testing=false
+			this.cfgOptional.testing = false
 			this.$emit('checked_fill_status_optional', this.fillStatusCfgOpt)
 			if (val === 0) {
 				this.checkAllFilled(this.cfgOptional)

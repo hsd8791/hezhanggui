@@ -14,12 +14,13 @@
 		<div class="list-container"  v-if='records' @scroll='scrolling($event)' >
 
 			<div class="list-container-inner" @touchend='touchend($event)' @touchstart='touchstart($event)' @touchmove='touching($event)' :style='{paddingTop:containerTop+"rem"}'>
-			<div class="list-top">
+			<div class="list-top" v-if='refreshPulling'>
 				<!-- <p class="list-top-text"> -->
 				-释放刷新-
 				<!-- </p> -->
 			</div>
-				<div class="record-container" v-for='item in records'>
+				<div class="record-container" v-for='item in records' v-if='item.name!=="小禾微贷"'>
+				<!-- <div class="record-container" v-for='item in records' v-if='true'> -->
 					<div class="avator">
 						<i class="icon-database icon-avator"></i>
 					</div>
@@ -69,6 +70,7 @@
 				loading:true,
 				editing:true,
 				backAfterPost:false,
+				refreshPulling:false,
 				crrtStatus:-1,
 				status:[
 				{label:'全部',status:-1},
@@ -175,6 +177,13 @@
 							this.allGet=true
 						}
 						this.currentPage++
+						let listContainer=document.querySelector('.list-container-inner')
+						this.$nextTick(()=>{
+							if(listContainer.scrollHeight<700&&!this.allGet){
+								this.get(this.crrtStatus)
+							}
+						})
+
 					}
 					this.getting=false
 				// e.g.	this.acWechat=data.acWechat
@@ -184,10 +193,10 @@
 				this.editing=true
 			},
 			scrolling(e){
-				console.log('scrolling')
+				// console.log('scrolling')
 				// this.loading=true
 				// return
-				console.log('e',e.target.scrollTop)
+				// console.log('e',e.target.scrollTop)
 				var el=document.querySelector('.list-container-inner')
 				var btt=el.getBoundingClientRect().bottom
 				// console.log('btt',btt)

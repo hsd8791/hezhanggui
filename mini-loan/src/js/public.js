@@ -86,7 +86,20 @@ var notAllNull = function(obj) {
 	}
 	return flag
 }
-
+/**
+ * 存在空值
+ * @param  {[type]} obj [description]
+ * @return {boolen}     true: have null or empty string, false:no null or empty string
+ */
+var haveNull = function(obj){
+	var flag = 0
+	for (var k in obj) {
+		if (!obj[k]) {
+			return 1
+		}
+	}
+	return flag
+}
 
 /*
 	0->all null

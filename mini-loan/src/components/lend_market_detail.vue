@@ -28,8 +28,8 @@
       <div class="info-detail necessary">
         身份认证 手机认证 芝麻信用
       </div>
-      <div class="info-title">申请条件：</div>
-      <div class="info-detail necessary">
+      <div class="info-title" v-if='false'>申请条件：</div>
+      <div class="info-detail necessary" v-if='false'>
         
         <p class="info-detail-line" v-if='info.zmxyScore'>芝麻信用分要求大于{{info.zmxyScore}}分</p>
         <p class="info-detail-line" v-if='info.zmxyHuabei'>花呗额度要求大于{{info.zmxyHuabei}}元</p>
