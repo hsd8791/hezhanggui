@@ -15,7 +15,7 @@
 					</a>
 				</li>
 				<li @click="doit(3)">
-					<a href="tel:4000577009">
+					<a href="tel:18622272224">
 						<span class="icon-phone-hang-up"></span>
 					</a>
 				</li>
@@ -29,11 +29,11 @@
 						<img src="./assets/img/jdb.png" alt="">
 					</a>
 				</li> -->
-				<!-- <li @click="doit(6)">
+				<!-- <li @click="doit(6)" class="gongzhonghao-icon">
 					<a href="javascript:void(0)">
 						<img src="./assets/img/gongzhonghao_icon.png" alt="">
-					</a> -->
-				</li>
+					</a>
+				</li> -->
 			</ul>
 			<div class="keycontrol" @click="control">
 				{{openMsg}}
@@ -44,7 +44,7 @@
 			<img @click.stop='' v-show="qrcode == 2" src="./assets/img/qqMe.png" alt="">
 			<!-- <img @click.stop='' v-show="qrcode == 3" src="./assets/img/zfbMe.jpeg" alt="">
 			<img @click.stop='' v-show="qrcode == 4" src="./assets/img/jdbMe.jpeg" alt=""> -->
-			<!-- <img @click.stop='' v-show="qrcode == 5" src="./assets/img/qrcode_xh.jpg" alt=""> -->
+			<!-- <img @click.stop='' v-show="qrcode == 5" src="./assets/img/qrcode_hzg.jpg" alt=""> -->
 		</div>
 	</div>
 </template>
@@ -125,6 +125,18 @@
 			padding: 0;
 			margin: 0;
 			display: none;
+			.gongzhonghao-icon{
+				width: 0.42rem;
+				height:0.42rem;
+				position: relative;
+				background: #5494f3;
+				overflow: hidden;
+				img{
+					position: absolute;
+					top: 0;bottom: 0;
+					margin:auto 0;
+				}
+			}
 			li{
 				a{
 					display: block;
