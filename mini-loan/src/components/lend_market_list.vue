@@ -1,5 +1,5 @@
 <template>
-	<div id="marketListVue" >
+	<div id="marketListVue" v-inner-scroll >
       <div class="input">
         <h1 class="title" v-loading='loading' element-loading-text='请稍后'>
           贷款超市列表
@@ -78,7 +78,7 @@ export default {
         MtaH5Body['003']=qudao+'_'+info.id
         // MtaH5.clickStat('1',{'002':qudao})
       }
-      console.log('MtaH5Body',MtaH5Body)
+      // console.log('MtaH5Body',MtaH5Body)
       
       // MtaH5.clickStat('1',{'001':info.id})
       MtaH5.clickStat('1',MtaH5Body)
@@ -103,6 +103,15 @@ export default {
         return false
       }
     },
+  },
+  deactivated(){
+    // console.log('deactivated')
+  },
+  activated(){
+    // console.log('acitved')
+    let listContainer=document.querySelector('.list-container')
+    console.log('listContainer',listContainer)
+    listContainer.scrollTop=bus.marketListScrollTop
   },
   created(){
     // this.get()

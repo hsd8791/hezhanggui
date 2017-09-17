@@ -78,20 +78,20 @@ var setNullFunc = function(fun) {
 	1->非 null //至少有一个不是空值
  */
 var notAllNull = function(obj) {
-	var flag = 0
-	for (var k in obj) {
-		if (obj[k]) {
-			return 1
+		var flag = 0
+		for (var k in obj) {
+			if (obj[k]) {
+				return 1
+			}
 		}
+		return flag
 	}
-	return flag
-}
-/**
- * 存在空值
- * @param  {[type]} obj [description]
- * @return {boolen}     true: have null or empty string, false:no null or empty string
- */
-var haveNull = function(obj){
+	/**
+	 * 存在空值
+	 * @param  {[type]} obj [description]
+	 * @return {boolen}     true: have null or empty string, false:no null or empty string
+	 */
+var haveNull = function(obj) {
 	var flag = 0
 	for (var k in obj) {
 		if (!obj[k]) {
@@ -446,12 +446,23 @@ publicFun.postRes = function(res, vm) {
 		bus.checkFilled(bus.cfgEssential)
 		bus.checkFilled(bus.cfgOptional)
 
-		vm.remind.remindMsg = '提交成功'
-		vm.remind.remindOpts = [{
-			msg: '确定',
-		}, ]
-		vm.remind.isShow = true
+		// vm.remind.remindMsg = '提交成功'
+		// vm.remind.remindOpts = [{
+		// 	msg: '确定',
+		// }, ]
+		// vm.remind.isShow = true
 		vm.editing = false
+		let r = bus.remindSimple
+		r.remindMsg = '提交成功'
+		r.isShow = true
+		r.cbLeave = () => {
+			if (vm.backAfterPost) {
+				publicFun.goPage(-1)
+			}
+		}
+		r.cbEnter = () => {
+			r.isShow = false
+		}
 	}
 }
 publicFun.checkSingleFilled = function(url, cfgName) {

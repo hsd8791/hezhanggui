@@ -167,11 +167,6 @@
 				if(salesWay){
 					queryBody.qudao=salesWay
 				}
-				// }else{
-					// queryBody.password=this.pwd
-				// 	subDomain='/loginByPwd'
-				// }
-				// queryBody.uniqueId='gds333'
 				var url = publicFun.urlConcat('account'+subDomain,queryBody)
 				console.log('login code URL',url)
 				publicFun.get(url,this,()=>{
@@ -188,13 +183,20 @@
 							
 							publicFun.goPage(this.$route.path+'/pwd')
 						}else{
-							this.remind.remindOpts=[{msg:'确定',callback:()=>{
-								// console.log('back',1)
-								// publicFun.goPage(-1)
+							// this.remind.remindOpts=[{msg:'确定',callback:()=>{
+							// 	// console.log('back',1)
+							// 	// publicFun.goPage(-1)
+							// 	publicFun.goTopLv()
+							// }}]
+							// this.remind.remindMsg='登录成功'
+							// this.remind.isShow=true
+							let r=bus.remindSimple
+							r.isShow=true
+							r.remindMsg='登录成功'
+							r.cbReset(this)
+							r.cbLeave=()=>{
 								publicFun.goTopLv()
-							}}]
-							this.remind.remindMsg='登录成功'
-							this.remind.isShow=true
+							}
 							publicFun.wechatAuth(this)
 						}
 				})

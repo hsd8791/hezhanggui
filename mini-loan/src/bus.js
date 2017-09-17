@@ -12,6 +12,33 @@ var bus = new Vue({
 		account: '请登录',
 		uniqueId: '',
 		wxConfiged: false,
+		marketListScrollTop:0,
+		remindSimple:{
+			isShow:false,
+			remindMsg:'',
+			cbEnter:()=>{
+				console.log('enter callback run')
+			},
+			cbLeave:()=>{
+				console.log('leave callback run')
+			},
+			cbReset:(vm)=>{
+				let r = bus.remindSimple
+				r.cbEnter = () => {
+					r.isShow = false
+					console.log('enter callback run')
+				}
+				r.cbLeave = () => {
+					console.log('leave callback run')
+					if (vm) {
+						if (vm.backAfterPost) {
+							publicFun.default.goPage(-1)
+						}
+					}
+				}
+			}
+
+		},
 		// allFilled: false,
 		/**
 		 * 概述
@@ -217,6 +244,7 @@ var bus = new Vue({
 		// })
 	},
 	methods: {
+
 		getByUrls(urls, index, cfg) {
 			// console.warn('cfg',cfg)
 			// console.warn('check', urls[index].getUrl)

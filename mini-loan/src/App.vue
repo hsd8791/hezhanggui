@@ -17,6 +17,7 @@
   <!-- </transition> -->
   <remind :remind='remind'></remind >
   <contact></contact>
+  <remind-simple></remind-simple>
   <button id="testBttn" @click='test' v-if='busDebug'>test</button>
   </div>
 </template>
@@ -27,9 +28,9 @@ import footNav from './foot.vue'
 import contact from './contacts.vue'
 import publicFun from './js/public.js'
 import bus from './bus.js'
-import remind from './components/tmpts/remind.vue'
 import './css/icons.css'
 import './css/input.css'
+import remindSimple from './components/tmpts/simple_remind.vue'
 // import './libs/font-awesome.min.css'
 export default {
   name: 'App',
@@ -65,6 +66,7 @@ export default {
       })
     },
     test(){
+      bus.remindSimple.isShow=!bus.remindSimple.isShow
       console.log('test',bus)
       // MtaH5.clickStat('1')
        // MtaH5.clickStat('1',{'002':'test qudao','001':'test id'})
@@ -175,9 +177,8 @@ export default {
   },
   components: {
     'foot-nav': footNav,
-    remind: remind,
     contact:contact,
-  
+    'remind-simple':remindSimple,
   }
 }
 </script>

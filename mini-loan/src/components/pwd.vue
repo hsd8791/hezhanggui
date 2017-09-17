@@ -78,15 +78,27 @@
 					if(res.error){
 						console.log('res',res,res.msg)
 					}else{
-						this.remind.remindMsg='设置成功'
-						console.log('set success')
-						this.remind.isShow=true
-						this.remind.remindOpts=[{msg:'确定',callback:()=>{
+						// this.remind.remindMsg='设置成功'
+						// console.log('set success')
+						// this.remind.isShow=true
+						// this.remind.remindOpts=[{msg:'确定',callback:()=>{
+						// 	var r = location.hash.replace("#", '')
+						// 	var arr = r.split('/')
+						// 	console.log('arr',arr)
+						// 	publicFun.goPage('/'+arr[1])
+						// }}]
+
+						let r=Bus.remindSimple
+						r.remindMsg='设置成功'
+						r.isShow=true
+						r.cbReset(this)
+						r.cbLeave=()=>{
 							var r = location.hash.replace("#", '')
 							var arr = r.split('/')
 							console.log('arr',arr)
 							publicFun.goPage('/'+arr[1])
-						}}]
+						}
+
 						// setTimeout(() =>{
 							
 						// }, 800);

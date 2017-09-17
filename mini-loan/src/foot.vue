@@ -86,7 +86,7 @@ export default {
             }
             //一级的路径
             p = '/' + arr[1]
-            console.log('? index', p.indexOf('?'))
+            // console.log('? index', p.indexOf('?'))
             var queryMark = p.indexOf('?')
 
             if (queryMark > 0) {
@@ -158,7 +158,7 @@ export default {
                 action = 'samelevel'
             }
             bus.$emit('url_change', action)
-            console.log('to.path', to.path)
+            // console.log('to.path', to.path)
             this.checkPath(to.path)
             this.wxDefaultConfig()
             next()
