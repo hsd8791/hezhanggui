@@ -3,50 +3,71 @@
       <div class="input">
         <h1 class="title" v-loading='loading' element-loading-text='请稍后'>
           贷款超市列表
+          <span class='edit-input-left' @click='toggleChoose'>{{multipleMsg}}</span>
           <span class='edit-input' @click='goP("/market_mine")'>我的超市</span>
         </h1>
       </div>
     <app-record-list :cfg='config' v-record='config.name' class='market-list'>
       <!-- <div v-for='info in list' @click='goP("/market_detail?id="+info.id)'> -->
 
-      <div v-for='info in list' @click='goApply(info)' class="market-container">
-        <div class="avator">
-          <div class="avator-pic" :style="{backgroundImage: 'url('+info.logo+')'}" ></div>
-        </div>
-        <div class="info-container">
-          <div class="info-applied">申请数：{{info.view_num}}</div>
-          <div class="info-fee">{{info.loan_amount_desc}}元</div>
-          <div class="info-expire">期限{{info.loan_time_desc}}天</div>
-        </div>
-        <div class="new-remind" v-if='isNew(info.create_time)'>
-          <div class="inner">
-            new!
+      <div v-for='(info,key) in list' @click='goApply(info)' class="market-container" :key='info.uid'>
+        <div class="inner-container" :class="{'inner-container-small':choosing}">
+          
+          <div class="avator">
+            <div class="avator-pic" :style="{backgroundImage: 'url('+info.logo+')'}" ></div>
           </div>
+          <div class="info-container">
+            <div class="info-applied">申请数：{{info.view_num}}</div>
+            <div class="info-fee">{{info.loan_amount_desc}}元</div>
+            <div class="info-expire">期限{{info.loan_time_desc}}天</div>
+          </div>
+          <div class="new-remind" v-if='isNew(info.create_time)'>
+            <div class="inner">
+              new!
+            </div>
+          </div>
+        </div>
+        <div class="checkbox-container" @click.stop='outerLinkRemind(key)' v-show='choosing'>
+          <el-checkbox class='checkbox' v-model='marketChoosed' :label='key' @click.stop='' :disabled='info.url!==""||!!auditingApply[key]'></el-checkbox>
         </div>
       </div>
     </app-record-list>
-
+    <div class="input submit" v-if='choosing'>
+      <p class="choose-qty">已选<span class="text">{{marketChoosed.length}}</span>个</p>
+      <el-button type='success' class='submit-bttn' @click='goSubmitMulti'>确认选择</el-button>
+    </div>
     <remind :remind='remind'></remind>
 	</div>
 </template>
 
 <script>
+
 import publicFun from '../js/public.js'
 import bus from '../bus.js'
 export default {
   data() {
     return {
+      auditingApply:{},
       config:{
       url:'lendSupermaket/list',
       name:'withdraw_record',
       limit:16,
       },
+      multipleMsg:'多选',
+      marketChoosed:[],
+      choosing:false,
+      // marketId arr
+      // toggle choosing   model checkbox 
+      // if not completed to index
+      // choose
+      // post all
       list:{},
       response:null,
       loading:false,
       editing:true,
       backAfterPost:false,// watch out
       url:'lendSupermaket/list',
+      urlApply: 'lendApply/lendApply',
       remind:{
         isShow:false,
         remindMsg:'remind',
@@ -65,6 +86,59 @@ export default {
     //     console.log('res list',this.response.body)
     //   })
     // },
+    outerLinkRemind(key){
+      console.log('click')
+      let r=this.remind
+      if(this.list[key].url!==''){
+        r.remindMsg='该贷款超市需单独操作' 
+        r.remindOpts=[{msg:'确定'}]
+        r.isShow=true
+      }
+      if(this.auditingApply[key]){
+        r.remindMsg='请勿24小时内重复申请' 
+        r.remindOpts=[{msg:'确定'}]
+        r.isShow=true
+      }
+    },
+    toggleChoose(){
+      let b=this.choosing
+      this.auditingApply=bus.auditingApply
+      if(b){
+        this.multipleMsg='多选'
+      }else{
+        this.multipleMsg='取消'
+      }
+      this.choosing=!b
+    },
+    goSubmitMulti(){
+
+      bus.marketChosenInfo={}
+      let keys = this.marketChoosed,info=this.list
+      ,l=keys.length
+      for(let i=0;i<l;i++){
+        bus.marketChosenInfo[keys[i]]=info[keys[i]]
+      }
+      publicFun.goPage(this.$route.path+'/market_applymulti')
+      return
+
+      if(bus.cfgEssential.allFilled){
+
+      }else{
+        let r=this.remind
+        r.remindMsg='请完成必填认证后再申请'
+        r.remindOpts=[{
+          msg:'前往填写',callback:()=>{
+            publicFun.goPage('/index')
+          }
+        },{
+          msg:'知道了',callback:()=>{
+
+          }
+        }]
+        r.isShow=true
+      }
+      console.log('bus.config',bus.cfgEssential)
+    },
     goP(p){
       publicFun.goPage(this.$route.path+p)
     },
@@ -110,15 +184,20 @@ export default {
   activated(){
     // console.log('acitved')
     let listContainer=document.querySelector('.list-container')
-    console.log('listContainer',listContainer)
+    // console.log('listContainer',listContainer)
     listContainer.scrollTop=bus.marketListScrollTop
   },
   created(){
-    // this.get()
+    // 每次重新赋值，后续需优化
     bus.$on(this.config.name,(val)=>{
       // console.log('event name',this.config.name)
       // console.log('test_records',val)
-      this.list=val
+      this.list={}
+      let l=val.length
+      for(let i=0;i<l;i++){
+        // console.log('id',val[i].id)
+        this.list[val[i].uid]=val[i]
+      }
     })
   },
   events: {},
@@ -137,6 +216,58 @@ export default {
 <style type="text/css" lang='scss'>
   
   #marketListVue{
+    .submit{
+      position: fixed;
+      bottom: 0;
+      z-index: 3;
+      height: 0.5rem;
+      .choose-qty{
+        position: absolute;
+        background: #fddfec;
+        text-align: center;
+        top: -0.3rem;
+        width: 100%;
+        line-height: 0.3rem;
+        font-size: 0.16rem;
+        color:#666;
+        .text{
+          color:#D80F0F;
+          font-weight: bold;
+        }
+      }
+      .submit-bttn{
+        width: 100%;
+        margin:0;
+        height: 100%;
+      }
+    }
+    .checkbox{
+      position: absolute;
+      left: 0;right: 0;
+      top: 0;bottom: 0;
+      /*margin:auto ;*/
+      height:0.8rem;
+      width: 100%;
+      padding:0.25rem 0;
+      padding-left: 0.05rem;
+      margin:0;
+      /*border:1px solid red;*/
+    }
+    .inner-container{
+      width: 100%;
+      height:100%;
+      transform: scale(1);
+      transform-origin: right;
+      transition: .15s;
+    }
+    .inner-container-small{
+      transform: scale(0.9);
+    }
+    .checkbox-container{
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
     .market-container{
 
       overflow: hidden;
@@ -215,4 +346,12 @@ export default {
       border:1px solid #fff;
     }
   }
+</style>
+<style type="text/css" lang='scss'>
+#marketListVue{
+
+  .el-checkbox__label{
+    opacity: 0;
+  } 
+}
 </style>

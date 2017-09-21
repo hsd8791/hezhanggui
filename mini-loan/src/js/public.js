@@ -18,6 +18,19 @@ publicFun.reg.idCardNum = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3
 	// publicFun.remindOpts={}
 	// publicFun.remindOpts.confirm=[{msg:'确定'}]
 
+publicFun.getAuditingApply=function(){
+	let crrtPage=1
+	,ttlPage=null
+	,limit=10
+	,url='lendApply/borrowLoanRecords'
+	//nomore || time > 24*3600*1000
+	let getUrl=publicFun.urlConcat(url,{limit,page:crrtPage})
+	bus.$http.get(getUrl).then(res=>{
+		console.warn('res auditingApply',res)
+		// bus.auditingApply=res.body.data
+	},err=>{})
+}
+
 publicFun.resetLocalUserInfo = function() {
 	localStorage.removeItem('uniqueId')
 	localStorage.removeItem('pwd')

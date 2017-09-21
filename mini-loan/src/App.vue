@@ -60,13 +60,51 @@ export default {
     }
   },
   methods: {
+    getAuditingApply() {
+      let params = bus.auditingApplyParams
+      let timeNow = (new Date()).getTime()
+      this.getAuditingApplyPage(params.crrtPage, timeNow, (end) => {
+        if (!end) {
+          this.getAuditingApply()
+        }
+      })
+    },
+    getAuditingApplyPage(page, now, cb) {
+      let limit = 10,
+        url = 'lendApply/borrowLoanRecords'
+      let getUrl = url+'?limit=10&page='+page
+      this.$http.get(getUrl).then(res => {
+        console.warn('res auditingApply', res)
+        let list = res.body.data.data,
+          l = list.length,
+          end = false
+        if (l === 0) {
+          end = true
+        }
+        bus.auditingApplyParams.crrtPage++
+          for (let i = 0; i < l; i++) {
+            console.log('now - list[i].create_time',now - list[i].creat_time)
+            if (now - list[i].creat_time < 86400000) {
+              console.log('i',i,list[i])
+              bus.auditingApply[list[i].lendingUid]=list[i]
+            } else {
+              end = true
+              break
+            }
+            // bus.auditingApply=res.body.data
+          }
+          console.log('end',end)
+         cb(end)
+      }, err => {})
+
+    },
     fromSales(w){
       sessionStorage.setItem('salesWay',w)
       publicFun.get(this.urlSales+w,this,()=>{
       })
     },
     test(){
-      bus.remindSimple.isShow=!bus.remindSimple.isShow
+      // bus.remindSimple.isShow=!bus.remindSimple.isShow
       console.log('test',bus)
       // MtaH5.clickStat('1')
        // MtaH5.clickStat('1',{'002':'test qudao','001':'test id'})
@@ -135,31 +173,29 @@ export default {
     // },
   },
   created() {
-    var way=this.$route.query.qudao
-    console.log('way',this.$route)
-    if(way){
-     this.fromSales(way)
-     localStorage.qudao=way
+    bus.auditingApplyParams = {
+      crrtPage: 0,
+      ttlPage: null,
+    }
+    bus.auditingApply={},
+    // let timeNow = (new Date()).getTime()
+    this.getAuditingApply()
+    var way = this.$route.query.qudao
+    console.log('way', this.$route)
+    if (way) {
+      this.fromSales(way)
+      localStorage.qudao = way
     }
     // setTimeout(()=> {
-      publicFun.wxApiConfig(this)
-    // }, 5000);
-    this.busDebug=bus.relativeUrlTest
-    bus.$on('account_change',(ac)=>{
-      if(ac!=='请登录'){
+    publicFun.wxApiConfig(this)
+      // }, 5000);
+    this.busDebug = bus.relativeUrlTest
+    bus.$on('account_change', (ac) => {
+      if (ac !== '请登录') {
         console.log('刷新页面 wxapi')
-        // publicFun.wxApiConfig(this)
+          // publicFun.wxApiConfig(this)
       }
     })
-
-    // var IntervalWX=setInterval(()=>{
-    //   if(bus.account!=='请登录'){
-    //     console.log('登录后接 wxapi')
-    //     publicFun.wxApiConfig(this)
-    //     clearInterval(IntervalWX)
-    //   }
-    // },300)
-    
     bus.$on('foot_show_change', (footShow) => {
       this.footNavShow = footShow
     })

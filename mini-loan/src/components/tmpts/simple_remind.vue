@@ -65,7 +65,7 @@ export default {
   position: absolute;
   top: 0.4rem;
   width: 100%;
-  z-index: 999;
+  z-index: 99999;
   background: #e0635c;
   /*transform: scaleY(1);*/
   transform-origin: top;

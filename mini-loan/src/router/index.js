@@ -26,6 +26,7 @@ import Signup from '../components/signup.vue'
 import paidServiceCreate from '../components/paid_service_create.vue'
 import Pwd from '../components/pwd.vue'
 import market_mine from '../components/lend_market_mine.vue'
+import market_applymulti from '../components/market_applymulti.vue'
 import market_detail from '../components/lend_market_detail.vue'
 import market_list from '../components/lend_market_list.vue'
 import lend_market_applied_remind from '../components/lend_market_applied_remind.vue'
@@ -127,6 +128,7 @@ indexRoutes = indexRoutes.concat(
 
 marketRoutes = marketRoutes.concat(
 	newRoute(['*/market_mine', '/market_mine', ], 'market_mine', market_mine),
+	newRoute(['*/market_applymulti', '/market_applymulti', ], 'market_applymulti', market_applymulti),
 	newRoute(['*/market_detail/:id', '/market_detail', ], 'market_detail', market_detail),
 	newRoute(['*/market_list', '/market_list', ], 'market_list', market_list,{
 		meta: {
