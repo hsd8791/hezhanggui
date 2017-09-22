@@ -4,6 +4,7 @@
       <h1 class="title">
         <app-back :backStep=2></app-back>
         {{info.name||''}}
+        <span  class="edit-input" @click='viewApplyRecord'>申请记录</span>
       </h1>  
     </div>
     <div class="basic-info basic-title" v-if='info.name'>
@@ -60,7 +61,7 @@
       <div class="info-detail">
         {{longApplied?-999:applyRecord.status | statusParser}}
       </div>
-      <div class="info-title" v-if='applyRecord.status!==4&&applyRecord.tel'>客服电话</div>
+      <div class="info-title" v-if='applyRecord.status!==4&&applyRecord.tel'>联系电话</div>
       <div class="info-detail" v-if='applyRecord.status!==4&&applyRecord.tel'>
         {{info.tel}}
       </div>
@@ -148,7 +149,13 @@
       })
       console.log('url',url)
       publicFun.goPage(this.$route.path+url)
-    }
+    },
+    viewApplyRecord(){
+      let url = publicFun.urlConcat('/apply_list',{
+        lendingUid:1
+      })
+      publicFun.goPage(this.$route.path+url)
+    },
   },
   created(){
     this.getMarketInfo()

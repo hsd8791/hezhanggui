@@ -12,6 +12,7 @@ var bus = new Vue({
 		account: '请登录',
 		uniqueId: '',
 		wxConfiged: false,
+		applyRecordViewing:null,
 		// allFilled: false,
 		/**
 		 * 概述

@@ -117,7 +117,6 @@
 					},
 					applyRecord:'',
 					lenderInfoAlert: '',
-
 					uniqueIdLender: null,
 					urlPhone: 'lendApply/phoneInfo?phone=',
 					urlUniqueId: 'userInfo/userInfo?uniqueId=',
@@ -146,26 +145,31 @@
 				},
 				apllyBorrow() {
 					var r=this.remind
-					if (!this.fillStatusCfg.allFilled&&!bus.relativeUrlTest) {
-						r.remindMsg='必填认证信息不完整'
-						r.remindMsgDscrp='请检查必填认证信息项是否已填写'
-						r.remindOpts=[{
-							msg:'确定',
-							callback:()=>{
-								publicFun.goPage('/index')
-								r.remindMsgDscrp=null
-							}
-						}]
-						r.isShow=true
-						return
-					}
+					// if (!this.fillStatusCfg.allFilled&&!bus.relativeUrlTest) {
+					// 	r.remindMsg='必填认证信息不完整'
+					// 	r.remindMsgDscrp='请检查必填认证信息项是否已填写'
+					// 	r.remindOpts=[{
+					// 		msg:'确定',
+					// 		callback:()=>{
+					// 			publicFun.goPage('/index')
+					// 			r.remindMsgDscrp=null
+					// 		}
+					// 	}]
+					// 	r.isShow=true
+					// 	return
+					// }
 					r.remindMsg = '请确认是否提交'
 					r.remindOpts = [{
 						msg: '确定',
 						callback: () => {
 							var postBody={
-								phone: this.phoneLender,
+								// phone: this.phoneLender,
 								share:bus.share,
+							}
+							if(this.marketInfo.phone){
+								postBody.phone=this.marketInfo.phone
+							}else{
+								postBody.phone=this.phoneLender
 							}
 							if(this.amount){
 								postBody.amount=this.amount*100
@@ -200,7 +204,7 @@
 				  publicFun.get(url,this,()=>{
 				    console.log('market detail',this.response.body)
 				    this.marketInfo=this.response.body.data
-				    this.phoneLender=this.marketInfo.phone
+				    // this.phoneLender=this.marketInfo.phone
 				  })
 				},
 				getLenderInfo(url) {

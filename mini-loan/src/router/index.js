@@ -5,6 +5,7 @@ import index from '../components/index.vue'
 import manage from '../components/manage.vue'
 import mine from '../components/mine.vue'
 import applyList from '../components/mine_apply_list.vue'
+import apply_detail from '../components/mine_apply_detail.vue'
 import partner from '../components/mine_partner.vue'
 import charge from '../components/mine_charge.vue'
 import myhb from '../components/mine_hb.vue'
@@ -96,6 +97,7 @@ mineRoutes = mineRoutes.concat(
 	newRoute(['/mine/charge', '*/charge', ], 'charge', charge),
 	newRoute(['/mine/myhb', '*/myhb', ], 'myhb', myhb),
 	newRoute(['/apply_list', '*/apply_list', ], 'apply_list', applyList),
+	newRoute(['/apply_detail', '*/apply_detail', ], 'apply_detail', apply_detail),
 	newRoute('/mine', 'mine', mine),
 )
 

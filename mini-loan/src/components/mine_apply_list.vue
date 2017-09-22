@@ -19,15 +19,15 @@
 				-释放刷新-
 				<!-- </p> -->
 			</div>
-				<div class="record-container" v-for='item in records' v-if='item.name!=="小禾微贷"'>
-				<!-- <div class="record-container" v-for='item in records' v-if='true'> -->
+				<!-- <div class="record-container" v-for='item in records' v-if='item.name!=="小禾微贷"'> -->
+				<div class="record-container" v-for='item in records' v-if='true' @click='viewDetail(item)'>
+				<!-- <div class="record-container" v-for='item in records' v-if='crrtStatus===-1||item.status===crrtStatus'> -->
 					<div class="avator">
 						<i class="icon-database icon-avator"></i>
 					</div>
 					<!-- <div class="loan-record" >{{item.applyId}}</div> -->
 					<div class="record-brief">
 						<div class="record-brief-up">
-
 							<span class="record-name">{{item.name}}</span>
 							<span class="record-time">{{item.creat_time | timeParser}}</span>
 						</div>
@@ -60,6 +60,7 @@
 					last:null,
 					crrt:null,
 				},
+				lendingUid:null,
 				containerTop:0,
 				maxTop:2,
 				ttlPage:0,
@@ -70,7 +71,7 @@
 				loading:true,
 				editing:true,
 				backAfterPost:false,
-				refreshPulling:false,
+				refreshPulling:true,
 				crrtStatus:-1,
 				status:[
 				{label:'全部',status:-1},
@@ -91,6 +92,14 @@
 			}
 		},
 		methods: {
+			viewDetail(item){
+				bus.applyRecordViewing=item
+				let url=publicFun.urlConcat('/apply_detail',{
+					// apply_id:item.id,
+					lendingUid:item.lendingUid
+				})
+				publicFun.goPage(this.$route.path+url)
+			},
 			touchstart(e){
 				// console.log('$e',e.touches[0].clientY)
 				this.reloadTouch.start=e.touches[0].clientY
@@ -160,6 +169,10 @@
 				var body={
 					page:this.currentPage,
 					limit:8,
+
+				}
+				if(this.lendingUid){
+					body.lendingUid=this.lendingUid
 				}
 				if(status!==-1&&status!==undefined){
 					body.status=status// -1:all 0:audit 1:ac 2: refuse
@@ -207,6 +220,9 @@
 			},
 		},
 		created(){
+			if(this.$route.query.lendingUid){
+				this.lendingUid=this.$route.query.lendingUid
+			}
 			this.get(this.crrtStatus)
 			
 		},
