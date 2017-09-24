@@ -55,7 +55,7 @@
 				],
 				//登录后显示
 				columnListLoged:[
-				{title:'申请记录',link:'/apply_list'},//
+				{title:'申请记录',link:'/apply_list/lendingUid_0'},//
 				{title:'我的伙伴',link:'/partner'},
 				{title:'密码修改',link:'/pwd'},
 				{title:'佣金',link:'/commission'},

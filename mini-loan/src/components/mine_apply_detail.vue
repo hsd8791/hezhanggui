@@ -19,7 +19,9 @@
     <!-- </div> -->
     <hr>
     <!-- <div class="container" v-if='marketInfo'> -->
-      <app-info :title="'申请结果'">{{longApplied?-999:applyRecord.status | statusParser}}</app-info>
+      <!-- <app-info :title="'查看状态'">{{viewed?'已查看':'未查看'}}</app-info> -->
+      <!-- <app-info :title="'申请结果'" v-if='viewed'>{{longApplied?-999:applyRecord.status | statusParser}}</app-info> -->
+      <app-info :title="'申请结果'" >{{applyRecord.status | statusParser}}</app-info>
       <app-info :title="'联系方式'" >
         <span v-if='marketInfo.tel'><a :href="'tel:'+marketInfo.tel">{{marketInfo.tel}}</a></span>
         <span v-if='!marketInfo.tel'>请通过右侧联系方式联系禾掌柜工作人员</span>
@@ -98,6 +100,13 @@ export default {
     },
   },
   computed:{
+    // viewed(){
+    //   if(this.applyRecord.phone.indexOf('****')>-1){
+    //     return false
+    //   }else{
+    //     return true
+    //   }
+    // },
     submitText() {
       let a=this.applyRecord
       if(a.status===0||a.status===1||a.status===3){

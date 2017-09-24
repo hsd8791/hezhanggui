@@ -27,7 +27,7 @@
 				<p v-if='lenderInfoAlert' style='color:red'>{{lenderInfoAlert}}</p>
 			</div>
 		</div>
-	  <div v-if='getByMarket'>
+<!-- 	  <div v-if='getByMarket'>
 	    <app-record class='market-container'>
 	    <div class="avator-pic" :style="{backgroundImage: 'url('+marketInfo.logo+')'}" slot='avator'></div>
 	    <span slot='lt' style="letter-spacing: -0.01rem;">
@@ -38,7 +38,6 @@
 	      <i class="icon-cool market-star"></i>
 	      <i class="icon-cool market-star"></i>
 	    </span>
-	    <!-- <span slot='rt'>{{}}</span> -->
 	    <span slot='rd'>
 	      <span class="required-info-box">
 	        <span class='required-text'>身份验证</span>
@@ -55,7 +54,7 @@
 	    </span>
 	    <span slot='ld'>{{marketInfo.intro}}</span>
 	 	 </app-record>
-		</div>
+		</div> -->
 		<div class="info-container comment" v-if='applyRecord'>
 			<hr>
 			<br>
@@ -145,19 +144,19 @@
 				},
 				apllyBorrow() {
 					var r=this.remind
-					// if (!this.fillStatusCfg.allFilled&&!bus.relativeUrlTest) {
-					// 	r.remindMsg='必填认证信息不完整'
-					// 	r.remindMsgDscrp='请检查必填认证信息项是否已填写'
-					// 	r.remindOpts=[{
-					// 		msg:'确定',
-					// 		callback:()=>{
-					// 			publicFun.goPage('/index')
-					// 			r.remindMsgDscrp=null
-					// 		}
-					// 	}]
-					// 	r.isShow=true
-					// 	return
-					// }
+					if (!this.fillStatusCfg.allFilled&&!bus.relativeUrlTest) {
+						r.remindMsg='必填认证信息不完整'
+						r.remindMsgDscrp='请检查必填认证信息项是否已填写'
+						r.remindOpts=[{
+							msg:'确定',
+							callback:()=>{
+								publicFun.goPage('/index')
+								r.remindMsgDscrp=null
+							}
+						}]
+						r.isShow=true
+						return
+					}
 					r.remindMsg = '请确认是否提交'
 					r.remindOpts = [{
 						msg: '确定',
@@ -284,11 +283,6 @@
 					bus.checkFilled(bus.cfgEssential)
 				},
 				initSet(){
-					if (/market_/.test(this.$route.path)) {
-						this.getMarketInfo()
-						this.getByMarket = true
-						this.getById = true
-					} else {
 						/**
 						 * 存在无用的存储，或bus,或localStorage,或this
 						 * 需改善，最好market申请与这里分离，不过有点困难
@@ -315,7 +309,6 @@
 							// bus.share = localStorage.share
 							bus.phoneLender = this.phoneLender
 						} 
-					}
 				},
 			},
 			events: {},
@@ -328,6 +321,8 @@
 					localStorage.uniqueIdLender = query.uniqueId
 				}
 				publicFun.checkSession(this)
+
+
 				this.getFillStatusSet()
 				this.initSet()
 
@@ -379,17 +374,6 @@
 				},
 
 			},
-			// beforeRouteEnter:(to,from,next)=>{
-			// 	console.log('from',from)
-				
-			// 	next(vm=>{
-			// 		if(from.name==='index'){
-			// 			vm.fromIndex=true
-			// 		}else{
-			// 			vm.fromIndex=false
-			// 		}
-			// 	})
-			// },
 			computed: {
 				phoneLenderValid: function() {
 					var reg = publicFun.reg.cellphone
@@ -397,7 +381,7 @@
 				},
 				amountValid: function() {
 					var reg = /^[1-9][0-9]*$/
-					return reg.test(this.amount)
+					return reg.test(this.amount)||this.amount==''
 				},
 				canApply:function(){
 					var t=this

@@ -97,7 +97,7 @@ mineRoutes = mineRoutes.concat(
 	newRoute(['/mine/pwd', '*/pwd', ], 'pwd', Pwd),
 	newRoute(['/mine/charge', '*/charge', ], 'charge', charge),
 	newRoute(['/mine/myhb', '*/myhb', ], 'myhb', myhb),
-	newRoute(['/apply_list', '*/apply_list', ], 'apply_list', applyList),
+	newRoute(['*/apply_list', '*/apply_list/:uid', ], 'apply_list', applyList),
 	newRoute(['/apply_detail', '*/apply_detail', ], 'apply_detail', apply_detail),
 	newRoute('/mine', 'mine', mine),
 )

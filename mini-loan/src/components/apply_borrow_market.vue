@@ -104,7 +104,7 @@ export default {
 		},
   	amountValid: function() {
   		var reg = /^[1-9][0-9]*$/
-  		return reg.test(this.amount)
+  		return reg.test(this.amount)||this.amount==''
   	},
   	allValid:function(){
   		let t=this
@@ -182,20 +182,19 @@ export default {
 
   	apllyBorrow() {
   		var r=this.remind
-  		//!!!
-  		// if (!this.fillStatusCfg.allFilled&&!bus.relativeUrlTest) {
-  		// 	r.remindMsg='必填认证信息不完整'
-  		// 	r.remindMsgDscrp='请检查必填认证信息项是否已填写'
-  		// 	r.remindOpts=[{
-  		// 		msg:'确定',
-  		// 		callback:()=>{
-  		// 			publicFun.goPage('/index')
-  		// 			r.remindMsgDscrp=null
-  		// 		}
-  		// 	}]
-  		// 	r.isShow=true
-  		// 	return
-  		// }
+  		if (!this.fillStatusCfg.allFilled&&!bus.relativeUrlTest) {
+  			r.remindMsg='必填认证信息不完整'
+  			r.remindMsgDscrp='请检查必填认证信息项是否已填写'
+  			r.remindOpts=[{
+  				msg:'确定',
+  				callback:()=>{
+  					publicFun.goPage('/index')
+  					r.remindMsgDscrp=null
+  				}
+  			}]
+  			r.isShow=true
+  			return
+  		}
   		r.remindMsg = '请确认是否提交'
   		r.remindOpts = [{
   			msg: '确定',
