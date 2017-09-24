@@ -36,7 +36,10 @@
 			},
 			type:{
 				default:'none'
-			}
+			},
+			query:{
+				default:false,
+			},
 		},
 		methods:{
 			back(){
@@ -52,6 +55,9 @@
 					i++
 				}
 				var newR=arr.join('/')
+				if(this.query){
+					newR=publicFun.urlConcat(newR,this.$route.query)
+				}
 				// console.log('newR',newR)
 				publicFun.goPage(newR)
 				// publicFun.goPage(-1)

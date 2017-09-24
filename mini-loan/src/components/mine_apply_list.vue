@@ -34,7 +34,7 @@
 						<div class="record-brief-down">
 							<span class="record-phone">手机:{{item.phone}}</span>
 							<span class="record-phone" v-if='/\d/.test(item.amount)'>金额:{{item.amount | amountParser}}</span>
-							<span class="record-status">{{item.status | statusParser}}</span>
+							<span class="record-status">{{isLongApplied(item.creat_time)?-999:item.status | statusParser}}</span>
 						</div>
 					</div>
 					<i class="el-icon-arrow-right"></i>
@@ -92,10 +92,13 @@
 			}
 		},
 		methods: {
+			isLongApplied(t){
+				return publicFun.longApplied(t)
+			},
 			viewDetail(item){
 				bus.applyRecordViewing=item
 				let url=publicFun.urlConcat('/apply_detail',{
-					// apply_id:item.id,
+					apply_id:item.apply_id,
 					lendingUid:item.lendingUid
 				})
 				publicFun.goPage(this.$route.path+url)
@@ -238,6 +241,7 @@
 					case 1:s='通过'; break;
 					case 2:s='拒绝'; break;
 					case 3:s='通过'; break;
+					case -999: s='审核超时'; break;
 				}
 				return s
 			},

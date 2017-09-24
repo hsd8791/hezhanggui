@@ -223,7 +223,7 @@ publicFun.auditStatusParse = function(v) {
 				s = '申请通过'
 				break;
 			case -999:
-				s = '长时间未审核，建议重新申请'
+				s = '长时间未审核，建议再次申请'
 				break;
 			default:
 				s = '未知'

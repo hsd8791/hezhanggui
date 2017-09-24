@@ -27,14 +27,14 @@ export default {
   },
   methods:{
       back(){
-        var r=location.hash.replace("#",'')
-        var arr=r.split('/'),i=0
-        while(i<2){
-          arr.pop()
-          i++
-        }
-        var newR=arr.join('/')
-        publicFun.goPage(newR)
+        // var r=location.hash.replace("#",'')
+        // var arr=r.split('/'),i=0
+        // while(i<2){
+        //   arr.pop()
+        //   i++
+        // }
+        // var newR=arr.join('/')
+        publicFun.goPage('/mine/apply_list')
       },
       goMarket(){
         publicFun.goPage('/market_list')

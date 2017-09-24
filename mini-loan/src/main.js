@@ -12,12 +12,16 @@ import remind from './components/tmpts/remind.vue'
 import back from './components/tmpts/route_back.vue'
 import record from './components/tmpts/record.vue'
 import list from './components/tmpts/record_list.vue'
+import appInfo from './components/tmpts/info.vue'
+import fillStatusEssential from './components/views/fill_status_essential.vue'
 import bus from './bus.js'
 Vue.use(VueResource)
 Vue.component('remind', remind)
 Vue.component('app-back', back)
+Vue.component('app-info', appInfo)
 Vue.component('app-record', record)
 Vue.component('app-record-list', list)
+Vue.component('fill-status-essential', fillStatusEssential)
 Vue.config.productionTip = false
 Vue.http.options.credentials = true;
 Vue.http.options.emulateJSON = true;

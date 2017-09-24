@@ -105,6 +105,7 @@
 				// return
 				// url=encodeURI(url)
 				// url='https://www.baidu.com'
+				// return
 				location.href=url
 				// this.remind.isShow=true
 				// this.remind.remindMsg='传送门已开启，点击确定前往'

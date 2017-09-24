@@ -34,6 +34,7 @@ import paidServiceHistory from '../components/paid_service_history.vue'
 import paidServiceRslt from '../components/paid_service_rslt.vue'
 import paidService from '../components/paid_service.vue'
 import apply_borrow from '../components/apply_borrow.vue'
+import apply_borrow_market from '../components/apply_borrow_market.vue'
 import apply_lend from '../components/apply_lend.vue'
 import coming from '../components/coming.vue'
 import shujumohe from '../components/info_shujumohe.vue'
@@ -120,6 +121,7 @@ indexRoutes = indexRoutes.concat(
 	newRoute(['/debt', '*/debt'], 'Debt', Debt),
 	newRoute(['/apply_lend', '*/apply_lend'], 'apply_lend', apply_lend),
 	newRoute(['/apply_borrow', '*/apply_borrow'], 'apply_borrow', apply_borrow),
+	newRoute(['/apply_borrow_market', '*/apply_borrow_market'], 'apply_borrow_market', apply_borrow_market),
 	newRoute(['/shujumohe', '*/shujumohe'], 'shujumohe', shujumohe),
 	newRoute('*/pay', 'pay', pay),
 	// newRoute('/test', 'test', test),

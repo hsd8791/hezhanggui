@@ -13,6 +13,7 @@ var bus = new Vue({
 		uniqueId: '',
 		wxConfiged: false,
 		applyRecordViewing:null,
+		marketDetailViewing:null,
 		// allFilled: false,
 		/**
 		 * 概述

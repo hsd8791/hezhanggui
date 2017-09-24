@@ -31,7 +31,7 @@
 							</span>
 						</div>
 					</div>
-					<i class="el-icon-arrow-right"></i>
+					<i class="el-icon-arrow-right" v-if='canClick'></i>
 				</div>
 	</div>
 </template>
@@ -45,7 +45,7 @@ export default {
     }
   },
   props:{
-
+  	canClick:{default:true},
   },
   filters:{
   	

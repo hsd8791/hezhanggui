@@ -23,52 +23,28 @@
       <!-- </div> -->
     </div>
     <div class="info-container" v-if='info.name'>
-      <div class="info-title">放贷简介</div>
-      <div class="info-detail intro">{{info.intro}}</div>
-      <div class="info-title">必需材料</div>
-      <div class="info-detail necessary">
-        身份认证 手机认证 芝麻信用
-      </div>
-      <div class="info-title" v-if='false'>申请条件：</div>
-      <div class="info-detail necessary" v-if='false'>
-        
-        <p class="info-detail-line" v-if='info.zmxyScore'>芝麻信用分要求大于{{info.zmxyScore}}分</p>
-        <p class="info-detail-line" v-if='info.zmxyHuabei'>花呗额度要求大于{{info.zmxyHuabei}}元</p>
-        <p class="info-detail-line">{{info.applyConditionDesc}}</p>
-      </div>
-
-      <div class="info-title">放款平台</div>
-      <!-- <div class="container-check-box"> -->
-        <!-- <el-checkbox class='check-box' :disabled='!editing' v-model="platform.jiedaibao">借贷宝</el-checkbox>
-        <el-checkbox class='check-box' :disabled='!editing' v-model="platform.jinjiedao">今借到</el-checkbox>
-        <el-checkbox class='check-box' :disabled='!editing' v-model="platform.wuyoujietiao">无忧借条</el-checkbox>
-        <el-checkbox class='check-box' :disabled='!editing' v-model="platform.susujie">速速借</el-checkbox>
-        <el-checkbox class='check-box' :disabled='!editing' v-model="platform.other">其他</el-checkbox> -->
-        <div class="info-detail">
-          <span v-if='platform.jiedaibao' class="platform">借贷宝</span>
-          <span v-if='platform.jinjiedao' class="platform">今借到</span>
-          <span v-if='platform.wuyoujietiao' class="platform">无忧借条</span>
-          <span v-if='platform.susujie' class="platform">速速借</span>
-          <span v-if='platform.other' class="platform">其他</span>
-        </div>
-      <!-- </div> -->
+      <app-info :title='"放贷简介"'>{{info.intro}}</app-info>
+      <app-info :title='"必需材料"'>身份认证 手机认证 芝麻信用</app-info>
+      <app-info :title='"申请条件"'>
+          <p class="info-detail-line" v-if='info.zmxyScore'>芝麻信用分要求大于{{info.zmxyScore}}分</p>
+          <p class="info-detail-line" v-if='info.zmxyHuabei'>花呗额度要求大于{{info.zmxyHuabei}}元</p>
+          <p class="info-detail-line"  v-if='false'>{{info.applyConditionDesc}}</p>
+      </app-info>
+      <app-info :title='"放款平台"'>
+        <span v-if='platform.jiedaibao' class="platform">借贷宝</span>
+        <span v-if='platform.jinjiedao' class="platform">今借到</span>
+        <span v-if='platform.wuyoujietiao' class="platform">无忧借条</span>
+        <span v-if='platform.susujie' class="platform">速速借</span>
+        <span v-if='platform.other' class="platform">其他</span>
+      </app-info>
     </div>
 
     <div class="info-container comment" v-if='applyRecord'>
-    <hr>
-    <br>
-      <div class="info-title">申请结果</div>
-      <div class="info-detail">
-        {{longApplied?-999:applyRecord.status | statusParser}}
-      </div>
-      <div class="info-title" v-if='applyRecord.status!==4&&applyRecord.tel'>联系电话</div>
-      <div class="info-detail" v-if='applyRecord.status!==4&&applyRecord.tel'>
-        {{info.tel}}
-      </div>
-      <div class="info-title" v-if='applyRecord.status!==0'>审核意见</div>
-      <div class="info-detail" v-if='applyRecord.status!==0'>
-        {{applyRecord.remark}}
-      </div>
+      <hr>
+      <br>
+      <app-info :title='"最近申请状态"'> {{longApplied?-999:applyRecord.status | statusParser}}</app-info>
+      <app-info :title='"联系电话"'  v-if='applyRecord.status!==4&&applyRecord.tel'>  {{info.tel}}</app-info>
+      <app-info :title='"审核意见"' v-if='applyRecord.status!==0&&applyRecord.remark'>  {{applyRecord.remark}}</app-info>
     </div>
     <div class="input action-bttn">
       <el-button type='success' @click='goApply' v-if='!haveRecord'>
@@ -144,10 +120,11 @@
       })
     },
     goApply(){
-      var url=publicFun.urlConcat('/apply_borrow',{
+      var url=publicFun.urlConcat('/apply_borrow_market',{
         // phone:this.info.phone
       })
       console.log('url',url)
+      bus.marketDetailViewing=this.info
       publicFun.goPage(this.$route.path+url)
     },
     viewApplyRecord(){
@@ -166,8 +143,9 @@
       return Boolean(this.applyRecord)
     },
     longApplied(){
-      if(this.applyRecord){
-        return publicFun.longApplied(this.applyRecord.creat_time)
+      let a=this.applyRecord
+      if(a){
+        return a.status===0&&publicFun.longApplied(a.creat_time)
         // return (now.getTime()-this.applyRecord.creat_time)>86400000
       }else{
         return false
