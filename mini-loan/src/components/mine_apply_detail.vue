@@ -5,12 +5,11 @@
         <app-back></app-back>
         申请记录
       </h1>
-    
-    <div class="container" v-if='marketInfo'>
+    <div class="container" v-if='true'>
       <app-info :title="'申请对象'">{{applyRecord.name}}</app-info>
       <app-info :title="'申请金额'" v-if='applyRecord.amount'>{{applyRecord.amount |moneyParser}}</app-info>
       <app-info :title="'申请时间'">{{applyRecord.creat_time|timeParser}}</app-info>
-      <app-info :title='"申请条件"' v-if='applyRecord.status===2||applyRecord.status===4'>
+      <app-info :title='"申请条件"' v-if='marketInfo&&applyRecord.status===2||applyRecord.status===4' >
           <p class="info-detail-line" v-if='marketInfo.zmxyScore'>芝麻信用分要求大于{{marketInfo.zmxyScore}}分</p>
           <p class="info-detail-line" v-if='marketInfo.zmxyHuabei'>花呗额度要求大于{{marketInfo.zmxyHuabei}}元</p>
           <p class="info-detail-line"  v-if='false'>{{info.applyConditionDesc}}</p>
@@ -22,7 +21,7 @@
       <!-- <app-info :title="'查看状态'">{{viewed?'已查看':'未查看'}}</app-info> -->
       <!-- <app-info :title="'申请结果'" v-if='viewed'>{{longApplied?-999:applyRecord.status | statusParser}}</app-info> -->
       <app-info :title="'申请结果'" >{{applyRecord.status | statusParser}}</app-info>
-      <app-info :title="'联系方式'" >
+      <app-info :title="'联系方式'" v-if='marketInfo'>
         <span v-if='marketInfo.tel'><a :href="'tel:'+marketInfo.tel">{{marketInfo.tel}}</a></span>
         <span v-if='!marketInfo.tel'>请通过右侧联系方式联系禾掌柜工作人员</span>
       </app-info>
@@ -46,7 +45,7 @@ export default {
     return {
       platform:{},
       marketInfo:null,
-      applyRecord:null,
+      applyRecord:{},
       applyId:null,
       response:null,
       loading:false,
@@ -73,12 +72,23 @@ export default {
     //   }
     // }, 3000);
     let query=this.$route.query
-    this.applyRecord=bus.applyRecordViewing
-    this.applyId=query.apply_id
+    if(bus.applyRecordViewing){
+      this.applyRecord=bus.applyRecordViewing
+    }else{
+      this.applyId=query.apply_id
+      this.getApplyRecord()
+
+    }
     this.lendingUid=query.lendingUid
     this.getMarketInfo()
   },
   methods:{
+    getApplyRecord(){
+      let url = publicFun.urlConcat(this.urls.applyRecord,{applyId:this.applyId})
+      publicFun.get(url,this,()=>{
+        this.applyRecord=this.response.body.data.data[0]
+      })
+    },
     goApply(){
       let a=this.applyRecord,url
       if(a.status===3||a.status===1){
