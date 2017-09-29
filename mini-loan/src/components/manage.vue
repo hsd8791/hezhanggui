@@ -24,7 +24,7 @@
 			</a>
 				
 			<app-info :title='"禾掌柜后台管理地址："' class='backend-container'>
-				<a href="http://hzg.he577.com">http://hzg.he577.com</a>
+				<a href="http://www.he577.com">http://www.he577.com</a>
 			</app-info>
 
 			<!-- </div>1 -->
