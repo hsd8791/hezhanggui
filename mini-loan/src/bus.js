@@ -305,7 +305,7 @@ var bus = new Vue({
 		},
 		getAppliedMarket(auditingStatus) {
 			let cfg={
-				limit : 10,
+				limit : 99999,
 				page:0,
 				status:auditingStatus,
 			},url='lendApply/borrowLoanRecords'
