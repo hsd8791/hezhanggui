@@ -34,7 +34,8 @@
 						<div class="record-brief-down">
 							<span class="record-phone">手机:{{item.phone}}</span>
 							<span class="record-phone" v-if='/\d/.test(item.amount)'>金额:{{item.amount | amountParser}}</span>
-							<span class="record-status">{{item.status| statusParser}}</span>
+							<!-- <span class="record-status">{{item.status| statusParser}}</span> -->
+							<span class="record-status">{{getApplyStatus(item)| statusParser}}</span>
 						</div>
 					</div>
 					<i class="el-icon-arrow-right"></i>
@@ -93,12 +94,16 @@
 		},
 		methods: {
 			getApplyStatus(item){
-				if(item.phone.indexOf('****')>-1){
-					if(publicFun.longApplied(item.creat_time)){
-						return -999
-					}else{
-						return -99
-					}
+				// if(item.phone.indexOf('****')>-1){
+				// 	if(publicFun.longApplied(item.creat_time)){
+				// 		return -999
+				// 	}else{
+				// 		return -99
+				// 	}
+				// }
+
+				if(publicFun.longApplied(item.creat_time)){
+					return -999
 				}else{
 					return item.status
 				}
@@ -252,7 +257,6 @@
 				return publicFun.getTimeString(val)
 			},
 			statusParser(status){
-				
 				return publicFun.auditStatusParse(status)
 			},
 			amountParser(v){

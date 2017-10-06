@@ -42,8 +42,8 @@
     <div class="info-container comment" v-if='applyRecord'>
       <hr>
       <br>
-      <!-- <app-info :title='"最近申请状态"'> {{longApplied?-999:applyRecord.status | statusParser}}</app-info> -->
-      <app-info :title='"最近申请状态"'> {{applyRecord.status | statusParser}}</app-info>
+      <app-info :title='"最近申请状态"'> {{longApplied?-999:applyRecord.status | statusParser}}</app-info>
+      <!-- <app-info :title='"最近申请状态"'> {{applyRecord.status | statusParser}}</app-info> -->
       <app-info :title='"联系电话"'  v-if='applyRecord.status!==4&&applyRecord.tel'>  {{info.tel}}</app-info>
       <app-info :title='"审核意见"' v-if='applyRecord.status!==0&&applyRecord.remark'>  {{applyRecord.remark}}</app-info>
     </div>
@@ -52,8 +52,8 @@
         申请
       </el-button>
 
-      <!-- <el-button type='success' @click='goApply' v-if='longApplied||(haveRecord&&(applyRecord.status===2))'> -->
-      <el-button type='success' @click='goApply' v-if='(haveRecord&&(applyRecord.status===2))'>
+      <el-button type='success' @click='goApply' v-if='longApplied||(haveRecord&&(applyRecord.status===2))'>
+      <!-- <el-button type='success' @click='goApply' v-if='(haveRecord&&(applyRecord.status===2))'> -->
         {{applyRecord.status===2?'重新':'再次'}}申请
       </el-button>
       <!-- <el-button type='success' @click='' v-if='haveRecord'></el-button> -->

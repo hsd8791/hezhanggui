@@ -225,14 +225,42 @@ publicFun.auditStatusParse = function(v) {
 				// case -99:
 				// s= '等待查看'
 				// break;
-			// case -999:
-			// 	s = '超时未查看'
-			// 	break;
+			case -999:
+				s = '审核超时'
+				break;
 			default:
 				s = '未知'
 		}
 		return s
 	}
+
+publicFun.auditStatusDscrpParse=function(v){
+	var s
+	switch (v) {
+		case 0:
+			s = '审核中，请耐心等待'
+			break;
+		case 1:
+			s = '申请通过，请等待商家联系，或可直接联系商家'
+			break;
+		case 2:
+			s = '发回重审，请根据商家意见操作后重新申请'
+			break;
+		case 3:
+			s = '申请通过'
+			break;
+			// case -99:
+			// s= '等待查看'
+			// break;
+		case -999:
+			s = '审核超时，商家24小时未接单，可重新申请'
+			break;
+		default:
+			s = '未知'
+	}
+	return s
+}
+
 	/**
 	 * get
 	 * @param  {string}   url       [description]
