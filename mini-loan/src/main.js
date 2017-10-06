@@ -21,7 +21,7 @@ Vue.component('app-record-list', list)
 Vue.config.productionTip = false
 Vue.http.options.credentials = true;
 Vue.http.options.emulateJSON = true;
-// Vue.http.options.root = 'http://hzg.he577.com';
+Vue.http.options.root = 'http://hzg.he577.com';
 Vue.http.options.root = 'http://hzg.he577.com/test';
 // 
 Vue.directive('scroll-load', {
@@ -193,7 +193,7 @@ Vue.directive('inner-scroll',{
 			// console.log('e',e)
 			touch.crrt = e.touches[0].clientY
 			outer= e.currentTarget.parentElement
-			console.log('outer',outer)
+			// console.log('outer',outer)
 			scrollTop =outer.scrollTop
 			// console.log('outer.scrollTop',outer.scrollTop)
 			bus.marketListScrollTop=outer.scrollTop

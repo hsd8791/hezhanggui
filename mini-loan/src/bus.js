@@ -15,11 +15,13 @@ var bus = new Vue({
 		wxConfiged: false,
 		marketListScrollTop: 0,
 		marketChosenInfo: null,
+		marketChosenQty: null,
 		auditingApply: null,
 		auditingApplyParams: {
 			crrtPage: 0,
 			ttlPage: null,
 		},
+		cannotApplyMarket:{},
 		loanAmount: null,
 		remindSimple: {
 			isShow: false,
@@ -238,24 +240,26 @@ var bus = new Vue({
 		// this.checkFilled(this.cfgEssential)
 		// }, 2000);
 		this.$on('account_change', (ac, id) => {
-			// console.log('bus get account change', ac, id)
-			this.uniqueId = id
-			this.account = ac
-			this.checkFilled(this.cfgEssential)
-			this.checkFilled(this.cfgOptional)
+				// console.log('bus get account change', ac, id)
+				this.uniqueId = id
+				this.account = ac
+				this.checkFilled(this.cfgEssential)
+				this.checkFilled(this.cfgOptional)
 
-		})
-		// this.auditingApplyParams = {
-		// 		crrtPage: 0,
-		// 		ttlPage: null,
-		// 	}
-		// 	let timeNow = (new Date()).getTime()
-		// 	this.getAuditingApply()
-		// publicFun.default.getAuditingApply()
+			})
+		// this.getAuditingApply()
+			// this.auditingApplyParams = {
+			// 		crrtPage: 0,
+			// 		ttlPage: null,
+			// 	}
+			// 	let timeNow = (new Date()).getTime()
+			// 	this.getAuditingApply()
+			// publicFun.default.getAuditingApply()
 
 	},
 	methods: {
 		// getAuditingApply() {
+		// //获取申请中，永久拒绝的 全部，即可// 超过24小时的让不让申请了？
 		// 	let params = this.auditingApplyParams
 		// 	let timeNow = (new Date()).getTime()
 		// 	this.getAuditingApplyPage(params.crrtPage, timeNow, (end) => {
@@ -267,7 +271,7 @@ var bus = new Vue({
 		// getAuditingApplyPage(page, now, cb) {
 		// 	let limit = 10,
 		// 		url = 'lendApply/borrowLoanRecords'
-		// 	let getUrl = url+'?limit=10&page='+page
+		// 	let getUrl = url + '?limit=10&page=' + page
 		// 	this.$http.get(getUrl).then(res => {
 		// 		console.warn('res auditingApply', res)
 		// 		return
@@ -292,7 +296,35 @@ var bus = new Vue({
 		// 	}, err => {})
 
 		// },
-
+		getCannotApplyMarket() {
+			if(this.account==='请登录'){
+				return
+			}
+			this.getAppliedMarket(0)
+			this.getAppliedMarket(4)
+		},
+		getAppliedMarket(auditingStatus) {
+			let cfg={
+				limit : 10,
+				page:0,
+				status:auditingStatus,
+			},url='lendApply/borrowLoanRecords'
+			let getUrl = publicFun.default.urlConcat(url,cfg)
+			publicFun.default.get(getUrl,this,()=>{
+				console.warn('auditing apply',auditingStatus,this.response.body)
+				let list = this.response.body.data.data
+				for(let key in list){
+					console.log('key',key,list[key].lendingUid)
+				}
+				let data=this.response.body.data.data,l=data.length
+				console.log('data',data,l)
+				while(l--){
+					this.cannotApplyMarket[data[l].lendingUid]=auditingStatus
+				}
+			},()=>{
+				// console.warn(this.response)
+			})
+		},
 		getByUrls(urls, index, cfg) {
 			// console.warn('cfg',cfg)
 			// console.warn('check', urls[index].getUrl)
@@ -396,6 +428,11 @@ var bus = new Vue({
 		}
 	},
 	watch: {
+		account:function(v){
+		  if(v!=='请登录'){
+		  	this.getCannotApplyMarket()
+		  }
+		},
 		'cfgEssential.undoneRequest': function(val) {
 			// console.log('undoneRequest', val)
 			this.$emit('checked_fill_status', this.cfgEssential)

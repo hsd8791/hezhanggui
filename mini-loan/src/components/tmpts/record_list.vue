@@ -96,9 +96,6 @@
           return
         }
       }
-      console.log('geting')
-      // console.log('url config',this.cfg)
-      // console.log('url config',this.cfg)
       var url=publicFun.urlConcat(this.cfg.url,{
         limit:this.cfg.limit||8,
         page:this.crrtPage,

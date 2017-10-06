@@ -1,10 +1,15 @@
 <template>
   <div class="simple-remindVue">
     <transition name="slide"  v-on:after-leave="afterLeave" v-on:afterEnter='afterEnter'>
+
       <div class="simple-remind" v-if='isShow'>
         <p class="remind-msg">{{msg}}</p>
       </div>
+
     </transition>
+    <div class="cover"   v-if='isShow'  >
+
+    </div>
   </div>
 </template>
 
@@ -61,6 +66,14 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.cover{
+  position: fixed;
+  background:transparent;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: 99999;
+}
 .simple-remind{
   position: absolute;
   top: 0.4rem;

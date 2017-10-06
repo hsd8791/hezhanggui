@@ -10,7 +10,7 @@
     <app-record-list :cfg='config' v-record='config.name' class='market-list'>
       <!-- <div v-for='info in list' @click='goP("/market_detail?id="+info.id)'> -->
 
-      <div v-for='(info,key) in list' @click='goApply(info)' class="market-container" :key='info.uid'>
+      <div v-for='info in list' @click='goApply(info)' class="market-container" :key='info.id'>
         <div class="inner-container" :class="{'inner-container-small':choosing}">
           
           <div class="avator">
@@ -27,14 +27,14 @@
             </div>
           </div>
         </div>
-        <div class="checkbox-container" @click.stop='outerLinkRemind(key)' v-show='choosing'>
-          <el-checkbox class='checkbox' v-model='marketChoosed' :label='key' @click.stop='' :disabled='info.url!==""||!!auditingApply[key]'></el-checkbox>
+        <div class="checkbox-container" @click.stop='disabledRemind(info)' v-show='choosing'>
+          <el-checkbox class='checkbox' v-model='marketChoosed' :label='info.uid' @click.stop='' :disabled='info.url!==""||cannotApplyMarket[info.uid]!==undefined'></el-checkbox>
         </div>
       </div>
     </app-record-list>
     <div class="input submit" v-if='choosing'>
-      <p class="choose-qty">已选<span class="text">{{marketChoosed.length}}</span>个</p>
-      <el-button type='success' class='submit-bttn' @click='goSubmitMulti'>确认选择</el-button>
+      <!-- <p class="choose-qty">已选<span class="text">{{marketChoosed.length}}</span>个</p> -->
+      <el-button type='success' class='submit-bttn' :disabled='!marketChoosed.length' @click='goSubmitMulti'>已选择{{marketChoosed.length}}个，前往申请</el-button>
     </div>
     <remind :remind='remind'></remind>
 	</div>
@@ -47,10 +47,10 @@ import bus from '../bus.js'
 export default {
   data() {
     return {
-      auditingApply:{},
+      cannotApplyMarket:{},
       config:{
       url:'lendSupermaket/list',
-      name:'withdraw_record',
+      name:'market_list',
       limit:16,
       },
       multipleMsg:'多选',
@@ -61,7 +61,8 @@ export default {
       // if not completed to index
       // choose
       // post all
-      list:{},
+      list:[],
+      listObj:{},
       response:null,
       loading:false,
       editing:true,
@@ -86,35 +87,62 @@ export default {
     //     console.log('res list',this.response.body)
     //   })
     // },
-    outerLinkRemind(key){
+    disabledRemind(info){
       console.log('click')
       let r=this.remind
-      if(this.list[key].url!==''){
+      if(info.url!==''){
         r.remindMsg='该贷款超市需单独操作' 
         r.remindOpts=[{msg:'确定'}]
         r.isShow=true
+        return
       }
-      if(this.auditingApply[key]){
-        r.remindMsg='请勿24小时内重复申请' 
+      if(this.cannotApplyMarket[info.uid]===0){//不确定用哪个key
+        // r.remindMsg='请勿24小时内重复申请' 
+        r.remindMsg='已申请，请勿重复申请' 
+        r.remindOpts=[{msg:'确定'}]
+        r.isShow=true
+        return
+      }
+      if(this.cannotApplyMarket[info.uid]===4){
+        r.remindMsg='无法向该超市发起申请' 
         r.remindOpts=[{msg:'确定'}]
         r.isShow=true
       }
     },
     toggleChoose(){
-      let b=this.choosing
-      this.auditingApply=bus.auditingApply
+      console.log('this vm',this.$root)
+      let b = this.choosing
       if(b){
-        this.multipleMsg='多选'
+        this.multipleMsg = '多选'
+        this.choosing = !b
       }else{
-        this.multipleMsg='取消'
+        publicFun.checkSession(this,()=>{
+          this.cannotApplyMarket = bus.cannotApplyMarket
+          this.multipleMsg = '取消'
+          this.choosing = !b
+        })
       }
-      this.choosing=!b
+     
+      // this.$root.checkSession({
+      //   forceLogin: true,
+      //   callback: () => {
+      //     let b = this.choosing
+      //     this.cannotApplyMarket = bus.cannotApplyMarket
+      //     if (b) {
+      //       this.multipleMsg = '多选'
+      //     } else {
+      //       this.multipleMsg = '取消'
+      //     }
+      //     this.choosing = !b
+      //   }
+      // }) 
     },
     goSubmitMulti(){
 
       bus.marketChosenInfo={}
-      let keys = this.marketChoosed,info=this.list
+      let keys = this.marketChoosed,info=this.listObj
       ,l=keys.length
+      bus.marketChosenQty=l
       for(let i=0;i<l;i++){
         bus.marketChosenInfo[keys[i]]=info[keys[i]]
       }
@@ -142,7 +170,6 @@ export default {
     goP(p){
       publicFun.goPage(this.$route.path+p)
     },
-
     goApply(info){
       //001 market_id  002 qudao if have
       let qudao = sessionStorage.getItem('salesWay')
@@ -186,17 +213,31 @@ export default {
     let listContainer=document.querySelector('.list-container')
     // console.log('listContainer',listContainer)
     listContainer.scrollTop=bus.marketListScrollTop
+    this.cannotApplyMarket=bus.cannotApplyMarket
+    let listObj=bus.marketChosenInfo
+    this.marketChoosed=[]
+    for(let key in listObj){
+      console.log('key',key)
+      this.marketChoosed.push(Number(key))
+    }
+    if(!this.marketChoosed.length){
+      this.choosing=false
+      this.multipleMsg='多选'
+    }
   },
   created(){
     // 每次重新赋值，后续需优化
     bus.$on(this.config.name,(val)=>{
       // console.log('event name',this.config.name)
       // console.log('test_records',val)
-      this.list={}
+      // this.list={}
+      this.list=val
       let l=val.length
+      this.listObj={}
       for(let i=0;i<l;i++){
         // console.log('id',val[i].id)
-        this.list[val[i].uid]=val[i]
+        // console.log('val[i].uid',val[i].uid)
+        this.listObj[val[i].uid]=val[i]
       }
     })
   },

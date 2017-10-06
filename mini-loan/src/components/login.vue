@@ -132,6 +132,9 @@
 				}
 			},
 			login(){
+				if(this.loading){
+					return
+				}
 				this.loading=true
 				var queryBody = {	phone:this.cellphone},subDomain
 				if(!this.pwdLogin){

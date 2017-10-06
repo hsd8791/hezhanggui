@@ -18,17 +18,20 @@ publicFun.reg.idCardNum = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3
 	// publicFun.remindOpts={}
 	// publicFun.remindOpts.confirm=[{msg:'确定'}]
 
-publicFun.getAuditingApply=function(){
-	let crrtPage=1
-	,ttlPage=null
-	,limit=10
-	,url='lendApply/borrowLoanRecords'
-	//nomore || time > 24*3600*1000
-	let getUrl=publicFun.urlConcat(url,{limit,page:crrtPage})
-	bus.$http.get(getUrl).then(res=>{
-		console.warn('res auditingApply',res)
-		// bus.auditingApply=res.body.data
-	},err=>{})
+publicFun.getAuditingApply = function() {
+	let crrtPage = 1,
+		ttlPage = null,
+		limit = 10,
+		url = 'lendApply/borrowLoanRecords'
+		//nomore || time > 24*3600*1000
+	let getUrl = publicFun.urlConcat(url, {
+		limit,
+		page: crrtPage
+	})
+	bus.$http.get(getUrl).then(res => {
+		console.warn('res auditingApply', res)
+			// bus.auditingApply=res.body.data
+	}, err => {})
 }
 
 publicFun.resetLocalUserInfo = function() {
@@ -99,7 +102,8 @@ var notAllNull = function(obj) {
 		}
 		return flag
 	}
-	/**
+
+/**
 	 * 存在空值
 	 * @param  {[type]} obj [description]
 	 * @return {boolen}     true: have null or empty string, false:no null or empty string
@@ -337,7 +341,7 @@ publicFun.post = function(url, body, vm, sccssCall, errCall, callback) { //paras
 		if (res.body.error) {
 			this.errorHandle(res.body, vm)
 		}
-		this.postRes(res, vm)
+		this.postRes(res, vm, url)
 			// vm.loading = false
 			// vm.response = res
 			// var resBody = res.body
@@ -439,9 +443,10 @@ publicFun.errorHandle = function(resBody, vm) {
 	}
 	// console.log('url2', url)
 	// console.log('err res', resBody)
-
 }
-publicFun.postRes = function(res, vm) {
+
+
+publicFun.postRes = function(res, vm, url) {
 	vm.loading = false
 	vm.response = res
 	var resBody = res.body
@@ -456,14 +461,15 @@ publicFun.postRes = function(res, vm) {
 			}
 		}
 	} else {
+		// publicFun.checkSingleFilled(url,'cfgEssential')
+		// publicFun.checkSingleFilled(url,'cfgOptional')
 		bus.checkFilled(bus.cfgEssential)
 		bus.checkFilled(bus.cfgOptional)
-
-		// vm.remind.remindMsg = '提交成功'
-		// vm.remind.remindOpts = [{
-		// 	msg: '确定',
-		// }, ]
-		// vm.remind.isShow = true
+			// vm.remind.remindMsg = '提交成功'
+			// vm.remind.remindOpts = [{
+			// 	msg: '确定',
+			// }, ]
+			// vm.remind.isShow = true
 		vm.editing = false
 		let r = bus.remindSimple
 		r.remindMsg = '提交成功'
@@ -486,8 +492,8 @@ publicFun.checkSingleFilled = function(url, cfgName) {
 	 * bus.getByUrl(url,index)
 	 * emit 'checked_fill_status'
 	 */
-	// console.log('url', url)
-	// console.log('bus', bus.fillStatus)
+	console.log('url', url)
+	console.log('bus', bus.fillStatus)
 	console.warn('url', url, 'checking single ')
 	var fill1 = bus[cfgName].fillStatus,
 		fill2 = bus[cfgName].fillStatus2,
@@ -500,6 +506,7 @@ publicFun.checkSingleFilled = function(url, cfgName) {
 		if (url === fill1[i].getUrl) {
 			index = i
 			bus[cfgName].undoneRequest = 1
+			console.log('url', url, 'fill1', i)
 			bus.getByUrls(fill1, i, bus[cfgName])
 			return;
 		}
@@ -507,6 +514,7 @@ publicFun.checkSingleFilled = function(url, cfgName) {
 	for (i = 0; i < l2; i++) {
 		if (url === fill2[i].getUrl || url === fill2[i].getUrl2) {
 			bus[cfgName].undoneRequest = 2
+			console.log('url', url, 'fill2', i)
 			bus.getByUrls(fill2, i, bus[cfgName])
 			return;
 		}
@@ -560,8 +568,8 @@ publicFun.IvsParse = function(rslt) {
 		}
 	}
 	return obj
-
 }
+
 publicFun.antifraudParse = function(code) {
 	return parseAntifraud.parse(code)
 }
@@ -574,6 +582,7 @@ publicFun.isWeiXin = function() {
 		return false;
 	}
 }
+
 publicFun.wechatAuth = function(vm) {
 	// console.log('authorize wechat')
 	var back = location.href
@@ -601,8 +610,8 @@ publicFun.wechatAuth = function(vm) {
 		// console.log('not micromessenger')
 		return false
 	}
-
 }
+
 publicFun.wxApiConfig = function(vm, callback) {
 	var indexUrl = encodeURIComponent(location.href.split('#')[0])
 		// var indexUrl = encodeURI(location.href)
@@ -643,6 +652,7 @@ publicFun.wxApiConfig = function(vm, callback) {
 		});
 	})
 }
+
 publicFun.phonePartshow = function(p) {
 	var s = p.split('')
 	s[3] = '*'

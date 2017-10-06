@@ -1,6 +1,6 @@
 <template>
 	<div id="multipleApplyVue">
-		<div class="input">
+		<div class="input" v-loading='loadingApply' :element-loading-text='loadingMsg'>
 			<h1 class="title">
 				<app-back></app-back>
 				已选贷款超市
@@ -14,8 +14,7 @@
 			</div>
 		</div>
 		<div class="list-box">
-			
-			<div v-for='(info,key) in list' @click='goApply(info)' class="market-container" :key='info.id'>
+			<div v-for='(info,key) in list'  class="market-container" :key='info.id'>
 			  <div class="inner-container" :class="{'inner-container-small':false}">
 			    
 			    <div class="avator">
@@ -51,7 +50,11 @@ export default {
 	//刷新当前页面需回到贷款超市页面
   data() {
     return {
+      // loadingMsg:'请稍后',
     	list:{},
+      // loadingApply:false,
+      marketQty:null,
+      unappliedQty:null,
     	amountHolder:'请填入借款金额·',
     	amount:null,
     	marketChoosed:[],
@@ -117,7 +120,8 @@ export default {
   	//此post 不需要重新check fill status
   	multipleSubmit(){
   		let list = this.list
-  		for(let key in list){
+      this.unappliedQty=this.marketQty
+  		for(let key in list){ 
   			let postBody={
   				phone:list[key].phone
   			}
@@ -127,7 +131,13 @@ export default {
   			let urlApply = publicFun.urlConcat(this.urlApply, postBody)
   			console.log('postBody',key,urlApply)
   			publicFun.post(urlApply,{},this,()=>{
-
+          this.unappliedQty--
+          bus.cannotApplyMarket[key]=0
+          delete bus.marketChosenInfo[key]
+          bus.marketChosenQty--
+          if(!this.unappliedQty){
+            publicFun.goPage('/mine/apply_list')
+          }
   			})
   		}
   	},
@@ -138,13 +148,19 @@ export default {
   },
   computed:{
   	amountValid: function() {
-  		var reg = /^[1-9][0-9]*$/
+  		var reg = /(^[1-9][0-9]*$)|(.*)/
   		let b=reg.test(this.amount)
   		if(b){
   			bus.loanAmount=this.amount
   		}
   		return b
   	},
+    loadingMsg(){
+      return `申请中（${this.marketQty-this.unappliedQty}/${this.marketQty},请勿离开`
+    },
+    loadingApply(){
+      return !!this.unappliedQty
+    }
   },
   created(){
   	if(bus.loanAmount){
@@ -152,6 +168,8 @@ export default {
   	}
   	if(bus.marketChosenInfo){
   		this.list=bus.marketChosenInfo
+      this.marketQty=bus.marketChosenQty
+      // this.unappliedQty=bus.marketChosenQty
   	}else{
   		publicFun.goPage('/market_list')
   	}
