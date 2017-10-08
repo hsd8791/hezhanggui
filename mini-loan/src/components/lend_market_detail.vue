@@ -52,7 +52,7 @@
         申请
       </el-button>
 
-      <el-button type='success' @click='goApply' v-if='longApplied||(haveRecord&&(applyRecord.status===2))'>
+      <el-button type='success' @click='goApply' v-if='longApplied||(haveRecord&&(applyRecord.status===2||applyRecord.status===1||applyRecord.status===3))'>
       <!-- <el-button type='success' @click='goApply' v-if='(haveRecord&&(applyRecord.status===2))'> -->
         {{applyRecord.status===2?'重新':'再次'}}申请
       </el-button>
