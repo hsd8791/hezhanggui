@@ -28,15 +28,20 @@ $successColor:#09bb07;
 		line-height: 1;
 
 	}
-	.edit-input{
+	.edit-input,.edit-input-left{
 		position: absolute;
 		color:#ebecef;
-		right: 0.1rem;
 		text-decoration: underline;
 		bottom: 0;
 		font-size: 0.16rem;
 		font-weight: normal;
 		line-height: 0.4rem;
+	}
+	.edit-input-left{
+		left:0.1rem;
+	}
+	.edit-input-right,.edit-input{
+		right: 0.1rem;
 	}
 	.sub-title{
 		position: relative;
@@ -527,5 +532,79 @@ div.el-loading-mask{
     background:url(#) no-repeat center center;
     background-size: contain;
     // margin-left: 0.15rem;
+  }
+}
+
+
+
+
+
+.market-container{
+
+  overflow: hidden;
+  width: 50%;
+  border:1px solid #fff;
+  height: 0.8rem;
+  position: relative;
+  background: #f4f4f4;
+  .avator{
+    width:0.5rem;
+    height:0.5rem;
+    left:0.1rem;
+    margin:auto 0;
+    border:1px solid #ccc;
+    position: absolute;
+    top: 0;bottom: 0;
+    .avator-pic{
+      width:100%;
+      height:100%;
+      position: absolute;
+      left: 0;
+      background:url(#) no-repeat center center;
+      background-size: contain;
+
+    }
+  }
+  .info-container{
+    width: 65%;
+    padding:0.12rem 0;
+    padding-left: 0.05rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-align: left;
+    font-size: 0.13rem;
+    .info-fee,.info-expire,.info-applied{
+
+    }
+    .info-fee{
+      color:#F44343;
+      font-size: 0.14rem;
+    }
+    .info-expire{
+      color:#888;
+    }
+    .info-applied{
+      color:#666;
+    }
+  }
+  .new-remind{
+    transform: rotate(45deg);
+    border:1px solid red;
+    position: absolute;
+    width: 0.6rem;
+    height: 0.6rem;
+    right: -0.3rem;top: -0.3rem;
+    .inner{
+      width: 100%;
+      height: 0.2rem;
+      font-size: 0.14rem;
+      line-height: 0.2rem;
+      position: absolute;
+      background: #ED0C30;
+      color:#fff;
+      bottom: 0;
+
+    }
   }
 }

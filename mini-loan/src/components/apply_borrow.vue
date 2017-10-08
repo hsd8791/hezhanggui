@@ -325,7 +325,9 @@
 
 				this.getFillStatusSet()
 				this.initSet()
-
+				if(bus.loanAmount){
+					this.amount=bus.loanAmount
+				}
 
 				// var routePath=this.$route.path
 
@@ -381,7 +383,11 @@
 				},
 				amountValid: function() {
 					var reg = /^[1-9][0-9]*$/
-					return reg.test(this.amount)||this.amount==''
+					let b=reg.test(this.amount)
+					if(b){
+						bus.loanAmount=this.amount
+					}
+					return b
 				},
 				canApply:function(){
 					var t=this

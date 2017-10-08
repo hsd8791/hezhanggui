@@ -6,7 +6,7 @@
     </h1> -->
     <div v-loading='loading' element-loading-text='请稍后'></div>
     <div class="list-container" v-scroll-load='{method:getmore,listSelector:".list-container-inner"}' >
-      <div class="list-container-inner" v-pull-refresh='{method:getNew}'>
+      <div class="list-container-inner" v-pull-refresh='{method:getNew}' v-inner-scroll>
         <div class="list-top" v-if='records.length>0'>——释放刷新——</div>
         <div class="list-top" v-if='records.length===0&&!loading'>无数据</div>
         <div class="list-top" v-if='loading'>刷新中</div>
@@ -96,9 +96,6 @@
           return
         }
       }
-      console.log('geting')
-      // console.log('url config',this.cfg)
-      // console.log('url config',this.cfg)
       var url=publicFun.urlConcat(this.cfg.url,{
         limit:this.cfg.limit||8,
         page:this.crrtPage,

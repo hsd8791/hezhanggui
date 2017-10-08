@@ -17,6 +17,7 @@
   <!-- </transition> -->
   <remind :remind='remind'></remind >
   <contact></contact>
+  <remind-simple></remind-simple>
   <button id="testBttn" @click='test' v-if='busDebug'>test</button>
   </div>
 </template>
@@ -27,9 +28,9 @@ import footNav from './foot.vue'
 import contact from './contacts.vue'
 import publicFun from './js/public.js'
 import bus from './bus.js'
-import remind from './components/tmpts/remind.vue'
 import './css/icons.css'
 import './css/input.css'
+import remindSimple from './components/tmpts/simple_remind.vue'
 // import './libs/font-awesome.min.css'
 export default {
   name: 'App',
@@ -59,24 +60,68 @@ export default {
     }
   },
   methods: {
+    // getAuditingApply() {
+    //   let params = bus.auditingApplyParams
+    //   let timeNow = (new Date()).getTime()
+    //   this.getAuditingApplyPage(params.crrtPage, timeNow, (end) => {
+    //     if (!end) {
+    //       this.getAuditingApply()
+    //     }
+    //   })
+    // },
+    // getAuditingApplyPage(page, now, cb) {
+    //   let limit = 10,
+    //     url = 'lendApply/borrowLoanRecords'
+    //   let getUrl = url+'?limit=10&page='+page
+    //   this.$http.get(getUrl).then(res => {
+    //     console.warn('res auditingApply', res)
+    //     let list = res.body.data.data,
+    //       l = list.length,
+    //       end = false
+    //     if (l === 0) {
+    //       end = true
+    //     }
+    //     bus.auditingApplyParams.crrtPage++
+    //       for (let i = 0; i < l; i++) {
+    //         console.log('now - list[i].create_time',now - list[i].creat_time)
+    //         if (now - list[i].creat_time < 86400000) {
+    //           console.log('i',i,list[i])
+    //           bus.auditingApply[list[i].lendingUid]=list[i]
+    //         } else {
+    //           end = true
+    //           break
+    //         }
+    //         // bus.auditingApply=res.body.data
+    //       }
+    //       console.log('end',end)
+    //      cb(end)
+    //   }, err => {})
+
+    // },
     fromSales(w){
       sessionStorage.setItem('salesWay',w)
       publicFun.get(this.urlSales+w,this,()=>{
       })
     },
     test(){
+      // bus.remindSimple.isShow=!bus.remindSimple.isShow
       console.log('test',bus)
+      // publicFun.checkSession(this)
+      // publicFun.checkSingleFilled ('credit/shujumoheSimQueryStatus','cfgEssential')
       // MtaH5.clickStat('1')
        // MtaH5.clickStat('1',{'002':'test qudao','001':'test id'})
       // MtaH5.clickStat('000',{'0001':'速度快'})
-      bus.checkAllFilled(bus.cfgEssential)
-      bus.checkAllFilled(bus.cfgOptional)
-      bus.$emit('checked_fill_status', bus.fillStatusCfg)
+      // bus.checkAllFilled(bus.cfgEssential)
+      // bus.checkAllFilled(bus.cfgOptional)
+      // bus.$emit('checked_fill_status', bus.fillStatusCfg)
     },
-    checkSession() {
+    checkSession(cfg) {
       console.log('checkSession')
+      if(!cfg){
+        cfg={}
+      }
+      var r = this.remind
       this.loading = true
-
       this.$http.get('account/checkSession').then(res => {
         var data = res.body.data
         console.log('session data', data)
@@ -87,7 +132,6 @@ export default {
           // publicFun.wxApiConfig(this)
           if (data.isSetPwd == 0) {
             // console.log('no set pwd')
-            var r = this.remind
             r.remindOpts = [{
               msg: '确定',
               callback: () => {
@@ -96,8 +140,22 @@ export default {
             }]
             r.remindMsg = '请设置密码'
             r.isShow = true
+          }else{
+            if(cfg.callback&& cfg.callback instanceof Function){
+              callback()
+            }
           }
           publicFun.wechatAuth(this)
+        }else{
+          if(cfg.forceLogin){
+            r.remindMsg='请登录'
+            r.remindOpts=[{
+              msg:'确认',callback:()=>{publicFun.goPage(this.$route.path+'/login')}
+            },{
+              msg:'取消'
+            },]
+            r.isShow=true
+          }
         }
         this.loading = false
       }, err => {})
@@ -133,31 +191,30 @@ export default {
     // },
   },
   created() {
-    var way=this.$route.query.qudao
-    console.log('way',this.$route)
-    if(way){
-     this.fromSales(way)
-     localStorage.qudao=way
+    bus.auditingApplyParams = {
+      crrtPage: 0,
+      ttlPage: null,
+    }
+    bus.getCannotApplyMarket()
+    // bus.auditingApply={},
+    // let timeNow = (new Date()).getTime()
+    // this.getAuditingApply()
+    var way = this.$route.query.qudao
+    console.log('way', this.$route)
+    if (way) {
+      this.fromSales(way)
+      localStorage.qudao = way
     }
     // setTimeout(()=> {
-      publicFun.wxApiConfig(this)
-    // }, 5000);
-    this.busDebug=bus.relativeUrlTest
-    bus.$on('account_change',(ac)=>{
-      if(ac!=='请登录'){
+    publicFun.wxApiConfig(this)
+      // }, 5000);
+    this.busDebug = bus.relativeUrlTest
+    bus.$on('account_change', (ac) => {
+      if (ac !== '请登录') {
         console.log('刷新页面 wxapi')
-        // publicFun.wxApiConfig(this)
+          // publicFun.wxApiConfig(this)
       }
     })
-
-    // var IntervalWX=setInterval(()=>{
-    //   if(bus.account!=='请登录'){
-    //     console.log('登录后接 wxapi')
-    //     publicFun.wxApiConfig(this)
-    //     clearInterval(IntervalWX)
-    //   }
-    // },300)
-    
     bus.$on('foot_show_change', (footShow) => {
       this.footNavShow = footShow
     })
@@ -175,9 +232,8 @@ export default {
   },
   components: {
     'foot-nav': footNav,
-    remind: remind,
     contact:contact,
-  
+    'remind-simple':remindSimple,
   }
 }
 </script>

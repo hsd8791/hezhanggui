@@ -1,0 +1,242 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?cxk2c6');
+  src:  url('fonts/icomoon.eot?cxk2c6#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?cxk2c6') format('truetype'),
+    url('fonts/icomoon.woff?cxk2c6') format('woff'),
+    url('fonts/icomoon.svg?cxk2c6#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-icon-audit:before {
+  content: "\e912";
+}
+.icon-icon-back:before {
+  content: "\e913";
+}
+.icon-icon-close:before {
+  content: "\e914";
+}
+.icon-icon-code:before {
+  content: "\e915";
+}
+.icon-icon-contact-way:before {
+  content: "\e916";
+}
+.icon-icon-entry:before {
+  content: "\e917";
+  color: #5057a4;
+}
+.icon-icon-fee:before {
+  content: "\e918";
+}
+.icon-icon-help:before {
+  content: "\e919";
+}
+.icon-icon-id:before {
+  content: "\e91a";
+}
+.icon-icon-identification:before {
+  content: "\e91b";
+}
+.icon-icon-index:before {
+  content: "\e91c";
+}
+.icon-icon-loan-bill:before {
+  content: "\e91d";
+}
+.icon-icon-me:before {
+  content: "\e91e";
+}
+.icon-icon-phone:before {
+  content: "\e91f";
+}
+.icon-icon-pic:before {
+  content: "\e920";
+}
+.icon-icon-refresh:before {
+  content: "\e921";
+  color: #505151;
+}
+.icon-brand:before {
+  content: "\e911";
+  color: #999;
+}
+.icon-android2:before {
+  content: "\e90f";
+}
+.icon-input-checked:before {
+  content: "\e90d";
+}
+.icon-apple:before {
+  content: "\e910";
+}
+.icon-android:before {
+  content: "\e90e";
+}
+.icon-home:before {
+  content: "\e900";
+}
+.icon-home2:before {
+  content: "\e902";
+}
+.icon-home3:before {
+  content: "\e903";
+}
+.icon-file-text:before {
+  content: "\e922";
+}
+.icon-profile:before {
+  content: "\e923";
+}
+.icon-file-zip:before {
+  content: "\e92b";
+}
+.icon-copy:before {
+  content: "\e92c";
+}
+.icon-coin-yen:before {
+  content: "\e93e";
+}
+.icon-phone:before {
+  content: "\e942";
+}
+.icon-phone-hang-up:before {
+  content: "\e943";
+}
+.icon-address-book:before {
+  content: "\e944";
+}
+.icon-envelop:before {
+  content: "\e945";
+}
+.icon-pushpin:before {
+  content: "\e946";
+}
+.icon-location:before {
+  content: "\e947";
+}
+.icon-laptop:before {
+  content: "\e957";
+}
+.icon-mobile:before {
+  content: "\e958";
+}
+.icon-tv:before {
+  content: "\e95b";
+}
+.icon-download:before {
+  content: "\e960";
+}
+.icon-upload:before {
+  content: "\e961";
+}
+.icon-database:before {
+  content: "\e964";
+}
+.icon-bubbles:before {
+  content: "\e96c";
+}
+.icon-bubbles2:before {
+  content: "\e96d";
+}
+.icon-user:before {
+  content: "\e971";
+}
+.icon-users:before {
+  content: "\e972";
+}
+.icon-user-plus:before {
+  content: "\e973";
+}
+.icon-user-minus:before {
+  content: "\e974";
+}
+.icon-spinner:before {
+  content: "\e97a";
+}
+.icon-cog:before {
+  content: "\e994";
+}
+.icon-cogs:before {
+  content: "\e995";
+}
+.icon-hammer:before {
+  content: "\e996";
+}
+.icon-attachment:before {
+  content: "\e9cd";
+}
+.icon-bookmarks:before {
+  content: "\e9d3";
+}
+.icon-cool:before {
+  content: "\e9eb";
+}
+.icon-warning:before {
+  content: "\ea07";
+}
+.icon-plus:before {
+  content: "\ea0a";
+}
+.icon-minus:before {
+  content: "\ea0b";
+}
+.icon-info:before {
+  content: "\ea0c";
+}
+.icon-cancel-circle:before {
+  content: "\ea0d";
+}
+.icon-cross:before {
+  content: "\ea0f";
+}
+.icon-checkmark:before {
+  content: "\ea10";
+}
+.icon-wechat:before {
+  content: "\e909";
+}
+.icon-clipboard-checked:before {
+  content: "\e90a";
+}
+.icon-documents:before {
+  content: "\e901";
+}
+.icon-document-checked:before {
+  content: "\e90b";
+}
+.icon-document-edit:before {
+  content: "\e90c";
+}
+.icon-lock:before {
+  content: "\e904";
+}
+.icon-phone2:before {
+  content: "\e905";
+}
+.icon-mail:before {
+  content: "\e906";
+}
+.icon-banknote:before {
+  content: "\e907";
+}
+.icon-data:before {
+  content: "\e908";
+}

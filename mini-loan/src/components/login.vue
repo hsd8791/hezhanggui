@@ -132,6 +132,9 @@
 				}
 			},
 			login(){
+				if(this.loading){
+					return
+				}
 				this.loading=true
 				var queryBody = {	phone:this.cellphone},subDomain
 				if(!this.pwdLogin){
@@ -154,25 +157,30 @@
 							// console.log('pwd not set')
 							publicFun.goPage('/pwd')
 						}else{
-							this.remind.remindOpts=[{msg:'确定',callback:()=>{
+							// this.remind.remindOpts=[{msg:'确定',callback:()=>{
+							// 	let rName=this.fromRoute.name
+							// 	if(rName&&!(/login/.test(rName))){
+							// 			publicFun.goPage(-1)
+							// 	}else{
+							// 		publicFun.goPage('/index')
+							// 	}
+							// }}]
+							// this.remind.remindMsg='登录成功'
+							// this.remind.isShow=true
+
+							let r=bus.remindSimple
+							r.isShow=true
+							r.remindMsg='登录成功'
+							r.cbReset(this)
+							r.cbLeave=()=>{
 								let rName=this.fromRoute.name
 								if(rName&&!(/login/.test(rName))){
 										publicFun.goPage(-1)
 								}else{
 									publicFun.goPage('/index')
 								}
-							}}]
-							this.remind.remindMsg='登录成功'
-							this.remind.isShow=true
+							}
 							//wechat authorize 微信授权
-							// if(publicFun.isWeiXin){
-							// 	publicFun.get('wechat/oauth',this,()=>{
-							// 	  console.log('res auth',this.response.body.data)
-							// 	  if(this.response.body.data){
-							// 	   location.href=this.response.body.data
-							// 	  }
-							// 	})
-							// }
 							publicFun.wechatAuth(this)
 						}
 				})

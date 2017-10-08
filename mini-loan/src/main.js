@@ -192,11 +192,15 @@ Vue.directive('inner-scroll',{
 			touch.last = e.touches[0].clientY
 		}, false)
 		el.addEventListener('touchmove', (e) => {
+			e.stopPropagation()
 			e.preventDefault()
-			console.log('e',e)
+			// console.log('e',e)
 			touch.crrt = e.touches[0].clientY
 			outer= e.currentTarget.parentElement
+			// console.log('outer',outer)
 			scrollTop =outer.scrollTop
+			// console.log('outer.scrollTop',outer.scrollTop)
+			bus.marketListScrollTop=outer.scrollTop
 			if (scrollTop > 0) {
 				var step = touch.crrt - touch.last
 				outer.scrollTop-=step
