@@ -1,6 +1,9 @@
 <template>
   <div id="orderPayVue" class="input">
-    <h1 class="title">支付</h1>
+    <h1 class="title">
+      <app-back></app-back>
+      支付
+    </h1>
     <remind :remind='remind'></remind>
   </div>
 </template>
@@ -16,6 +19,7 @@
         editing:true,
       backAfterPost:false,// watch out
       url:'order/pay',
+      payStatusPolling:null,
       statusUrl:'order/status?payId=',
       successPath:'',
       payTypes:['WX_NATIVE','WX_JSAPI'],
@@ -154,16 +158,28 @@
     // console.log('route',this.$route.query.payId)
     var query=this.$route.query
     this.payId=query.payId
+    if(bus.relativeUrlTest){
+      this.$http.get('http://hzg.he577.com/test/test?payId='+this.payId).then(res=>{
+        let r=this.remind
+        r.isShow=true
+        r.remindMsg='测试支付成公'
+        r.remindOpts=[{msg:'确定',callback:()=>{
+            publicFun.goPage(-1)
+        }}]
+      })
+      return
+    }
     this.successPath=query.path
     // setTimeout(()=> {
     // }, 1000);
-    var T=setInterval(()=>{
+    this.payStatusPolling=setInterval(()=>{
       publicFun.get(this.statusUrl+this.payId,this,()=>{
         console.log('res status pay',this.response.body)
         var data=this.response.body.data
         if(data.status=='success'){
-          clearInterval(T)
+          clearInterval(this.payStatusPolling)
           var r=this.remind
+
           r.remindMsg='支付成功'
           r.isShow=true
           r.remindOpts=[
@@ -182,6 +198,11 @@
       })
     },2000)
     this.get()
+  },
+  beforeRouteLeave(to,from,next){
+    console.log('leave pay page')
+    clearInterval(this.payStatusPolling)
+    next()
   },
   components: {}
 }

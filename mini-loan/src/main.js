@@ -25,8 +25,11 @@ Vue.component('fill-status-essential', fillStatusEssential)
 Vue.config.productionTip = false
 Vue.http.options.credentials = true;
 Vue.http.options.emulateJSON = true;
-Vue.http.options.root = 'http://hzg.he577.com';
-// Vue.http.options.root = 'http://hzg.he577.com/test';
+if(/test\/m/.test(location.href)){
+	Vue.http.options.root = 'http://hzg.he577.com/test';
+}else{
+	Vue.http.options.root = 'http://hzg.he577.com';
+}
 // 
 Vue.directive('scroll-load', {
 	bind: function(el, binding, vnode) {
@@ -237,6 +240,7 @@ import {
 	Button,
 	Select,
 	Input,
+	InputNumber,
 	Loading,
 	Collapse,
 	Upload,
@@ -247,6 +251,7 @@ import {
 Vue.use(Button)
 Vue.use(Select)
 Vue.use(Input)
+Vue.use(InputNumber)
 Vue.use(Loading.directive)
 Vue.use(Collapse)
 Vue.use(Upload)

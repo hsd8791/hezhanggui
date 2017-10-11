@@ -136,7 +136,7 @@ export default {
           delete bus.marketChosenInfo[key]
           bus.marketChosenQty--
           if(!this.unappliedQty){
-            publicFun.goPage('/mine/apply_list')
+            publicFun.goPage('/mine/apply_list/lendingUid_0')
           }
   			})
   		}

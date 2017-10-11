@@ -29,19 +29,19 @@ var bus = new Vue({
 			isShow: false,
 			remindMsg: '',
 			cbEnter: () => {
-				console.log('enter callback run')
+				// console.log('enter callback run')
 			},
 			cbLeave: () => {
-				console.log('leave callback run')
+				// console.log('leave callback run')
 			},
 			cbReset: (vm) => {
 				let r = bus.remindSimple
 				r.cbEnter = () => {
 					r.isShow = false
-					console.log('enter callback run')
+					// console.log('enter callback run')
 				}
 				r.cbLeave = () => {
-					console.log('leave callback run')
+					// console.log('leave callback run')
 					if (vm) {
 						if (vm.backAfterPost) {
 							publicFun.default.goPage(-1)
@@ -156,7 +156,7 @@ var bus = new Vue({
 				getUrl: 'userInfo/contact',
 				getUrl2: 'userInfo/relatives',
 				checkMethod: function(data) {
-					console.log('data contact_way', data)
+					// console.log('data contact_way', data)
 					if (data.hasOwnProperty('acQq')) {
 						this.status = 0
 						if (data.acQq && data.acWechat) {
@@ -307,22 +307,29 @@ var bus = new Vue({
 		},
 		getAppliedMarket(auditingStatus) {
 			let cfg={
-				limit : 99999,
+				limit : 99999,//待优化，对于参数状态0，后续改为，递归调用，以免数据量过大
 				page:0,
 				status:auditingStatus,
 			},url='lendApply/borrowLoanRecords'
 			let getUrl = publicFun.default.urlConcat(url,cfg)
 			publicFun.default.get(getUrl,this,()=>{
-				console.warn('auditing apply',auditingStatus,this.response.body)
+				// console.warn('auditing apply',auditingStatus,this.response.body)
 				let list = this.response.body.data.data
-				for(let key in list){
-					console.log('key',key,list[key].lendingUid)
+				let checkLongApplied=publicFun.default.longApplied
+				for(let i=0;i<list.length;i++){
+					// console.log('i',i,list[i].lendingUid,)
+					// console.log('time',list[i].creat_time,checkLongApplied(list[i].creat_time),i)
+					if(!checkLongApplied(list[i].creat_time)){
+						this.cannotApplyMarket[list[i].lendingUid]=auditingStatus
+					}else{
+						break
+					}
 				}
-				let data=this.response.body.data.data,l=data.length
-				console.log('data',data,l)
-				while(l--){
-					this.cannotApplyMarket[data[l].lendingUid]=auditingStatus
-				}
+				// let data=this.response.body.data.data,l=data.length
+				// // console.log('data',data,l)
+				// while(l--){
+				// 	this.cannotApplyMarket[data[l].lendingUid]=auditingStatus
+				// }
 			},()=>{
 				// console.warn(this.response)
 			})
@@ -375,7 +382,7 @@ var bus = new Vue({
 			var u2 = cfg.fillStatus2,
 				l2 = u2.length,
 				i2
-				// console.log('u', u, l)
+				console.log('u', u, l)
 			for (i = 0; i < l; i++) {
 				this.getByUrls(u, i, cfg)
 			}
@@ -433,6 +440,8 @@ var bus = new Vue({
 		account:function(v){
 		  if(v!=='请登录'){
 		  	this.getCannotApplyMarket()
+		  	// this.checkFilled(this.cfgEssential)
+		  	// this.checkFilled(this.cfgOptional)
 		  }
 		},
 		'cfgEssential.undoneRequest': function(val) {

@@ -92,7 +92,7 @@ export default {
     },
     goApply(){
       let a=this.applyRecord,url
-      if(a.status===3||a.status===1){
+      if(a.status===3||a.status===1){//已申请成功，再次申请
         publicFun.goPage('/market_list/market_detail/market_'+this.marketInfo.id)
       }else{
         url=publicFun.urlConcat('/apply_borrow_market',this.$route.query)

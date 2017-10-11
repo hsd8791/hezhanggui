@@ -30,6 +30,7 @@ import market_mine from '../components/lend_market_mine.vue'
 import market_applymulti from '../components/lend_market_applymulti.vue'
 import market_detail from '../components/lend_market_detail.vue'
 import market_list from '../components/lend_market_list.vue'
+import market_bidding from '../components/lend_market_bidding.vue'
 import lend_market_applied_remind from '../components/lend_market_applied_remind.vue'
 import paidServiceHistory from '../components/paid_service_history.vue'
 import paidServiceRslt from '../components/paid_service_rslt.vue'
@@ -132,6 +133,7 @@ indexRoutes = indexRoutes.concat(
 
 marketRoutes = marketRoutes.concat(
 	newRoute(['*/market_mine', '/market_mine', ], 'market_mine', market_mine),
+	newRoute(['*/market_bidding', '/market_bidding', ], 'market_bidding', market_bidding),
 	newRoute(['*/market_applymulti', '/market_applymulti', ], 'market_applymulti', market_applymulti),
 	newRoute(['*/market_detail/:id', '/market_detail', ], 'market_detail', market_detail),
 	newRoute(['*/market_list', '/market_list', ], 'market_list', market_list,{
