@@ -27,7 +27,7 @@
 
 		</div>
 		<div class="amount-emphasis" >￥{{amount | amountParser}}</div>
-		<el-checkbox v-model='clause'>点击提交代表同意提现条款balabala...</el-checkbox>
+		<el-checkbox v-model='clause'>点击提交代表同意提现条款</el-checkbox>
 		<transition>
 			<el-button type='success' :disabled='!(allValid&&clause)' class='submit' v-if='editing' @click='confirm'>提交</el-button>
 			<!-- <el-button type='warning'  class='submit' v-if='!editing' @click='edit'>修改</el-button> -->
