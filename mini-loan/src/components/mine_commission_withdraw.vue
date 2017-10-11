@@ -39,6 +39,7 @@
 <script>
 	// import '../css/input.css'
 	import publicFun from '../js/public.js'
+	import bus from '../bus.js'
 	// import remind from '../components/tmpts/remind.vue'
 	export default {
 		data() {
@@ -49,9 +50,9 @@
 				editing:true,
 				clause:true,
 				amount:'10.00',
-				zhifubao:'1111111',
-				name:'huang',
-				phone:'12345678901',
+				zhifubao:'',
+				name:'',
+				phone:'',
 				url:'brokerage/applyExtra',
 				formData:{
 				},
@@ -173,6 +174,7 @@
 			},
 		},
 		created(){
+			this.phone=bus.account
 		}
 		,
 		events: {},

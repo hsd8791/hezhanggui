@@ -20,8 +20,8 @@
 				<!-- </p> -->
 			</div>
 				<div class="record-container" v-for='item in records' v-if='item.name!=="小禾微贷"' @click='viewDetail(item)'>
-				<!-- <div class="record-container" v-for='item in records' v-if='true' @click='viewDetail(item)'> -->
-				<!-- <div class="record-container" v-for='item in records' v-if='crrtStatus===-1||item.status===crrtStatus'> -->
+					<!-- <div class="record-container" v-for='item in records' v-if='true' @click='viewDetail(item)'> -->
+					<!-- <div class="record-container" v-for='item in records' v-if='crrtStatus===-1||item.status===crrtStatus'> -->
 					<div class="avator">
 						<i class="icon-database icon-avator"></i>
 					</div>
