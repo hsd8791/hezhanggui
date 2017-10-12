@@ -4,6 +4,7 @@
       <h1 class="title">
         <app-back></app-back>
         排名购买
+        <span class="edit-input"  @click='' >购买记录</span>
       </h1>
     </div>
     <div class="input qty-container " v-show='choosingQty' @click='choosingQty=false'>
@@ -26,6 +27,7 @@
         <!-- <div class="prdct-rmb">售价:{{prdct.moneyFee | moneyParser}}元</div> -->
       </div>
     </div>
+    <remind :remind='remind'></remind>
   </div>
 </template>
 
@@ -77,6 +79,7 @@ export default {
         pos:prdct.pos,
         days:this.buyQty,
       })
+      this.choosingQty=false
       publicFun.get(url,this,()=>{
         console.log('order',this.response.body)
         let payId=this.response.body.data.payId
@@ -158,6 +161,7 @@ export default {
     border:1px solid transparent;
     border-radius: 0.15rem;
     padding:0.1rem;
+    padding-bottom: 0.2rem;
     .qty-title{
       /*border:1px solid red;*/
       font-size: 0.16rem;
@@ -178,7 +182,7 @@ export default {
     }
     .input-label{
       display: inline;
-      font-size: 0.14rem;
+      font-size: 0.2rem;
     }
   }
 </style>
@@ -193,22 +197,22 @@ export default {
       }
     }
     .el-input-number{
-      width: 0.8rem;
+      width: 1.4rem;
       .el-input__inner{
-        height: 0.24rem;
+        height: 0.44rem;
         padding-right: 0.6rem;
-        padding-left:0.1rem;
-        font-size: 0.14rem;
+        padding-left:0.2rem;
+        font-size: 0.18rem;
 
       }
     }
     
     .el-input-number__decrease,.el-input-number__increase{
-      width:0.24rem;
-      line-height:0.24rem;
+      width:0.44rem;
+      line-height:0.44rem;
     }
     .el-input-number__decrease{
-      right:0.25rem;
+      right:0.45rem;
     }
   }
 </style>

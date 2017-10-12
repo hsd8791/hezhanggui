@@ -5,9 +5,13 @@
           贷款超市列表
           <span class='edit-input-left' @click='toggleChoose'>{{multipleMsg}}</span>
           <span class='edit-input' @click='goP("/market_mine")'>我的超市</span>
-        </h1>
+        </h1>   
+        
       </div>
-    <app-record-list :cfg='config' v-record='config.name' class='market-list'>
+      <div class="link-bidding" @click='goBidding'>
+        戳我，开始赚更多更多钱！
+      </div>
+    <app-record-list :top='0.8' :cfg='config' v-record='config.name' class='market-list'>
       <!-- <div v-for='info in list' @click='goP("/market_detail?id="+info.id)'> -->
 
       <div v-for='info in list' @click='goApply(info)' class="market-container" :key='info.id'>
@@ -167,6 +171,9 @@ export default {
       }
       console.log('bus.config',bus.cfgEssential)
     },
+    goBidding(){
+      publicFun.goPage(this.$route.path+'/market_bidding')
+    },
     goP(p){
       publicFun.goPage(this.$route.path+p)
     },
@@ -225,6 +232,11 @@ export default {
       this.multipleMsg='多选'
     }
   },
+  computed:{
+    isMarket(){
+      return bus.isMarket
+    },
+  },
   created(){
     // 每次重新赋值，后续需优化
     bus.$on(this.config.name,(val)=>{
@@ -252,7 +264,19 @@ export default {
   font-size: 0.13rem;
   color:#ccc;
 }
-
+@keyframes blink{
+  0% {background:#FF2800}
+  40%{background: #DBEF00}
+  100%{background: #FF2800}
+}
+.link-bidding{
+  animation: blink 0.3s infinite linear;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  font-size: 0.2rem;
+  background: #FF2800;
+  color:#fff;
+}
 </style>
 <style type="text/css" lang='scss'>
   
@@ -387,6 +411,7 @@ export default {
       border:1px solid #fff;
     }
   }
+
 </style>
 <style type="text/css" lang='scss'>
 #marketListVue{

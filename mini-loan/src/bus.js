@@ -23,6 +23,7 @@ var bus = new Vue({
 			crrtPage: 0,
 			ttlPage: null,
 		},
+		isMarket:false,
 		cannotApplyMarket:{},
 		loanAmount: null,
 		remindSimple: {
@@ -412,6 +413,17 @@ var bus = new Vue({
 			cfg.test = 'test'
 				// return flag
 		},
+		checkIsMarket() {
+		  publicFun.default.get('lendSupermaket/myInfo', this, () => {
+		    console.log('res my market info', this.response.body)
+		    var data = this.response.body.data
+		    // this.marketInfo = data
+		    // this.owner = data.owner
+		    if(data.owner&&data.logo){
+		    	this.isMarket=true
+		    }
+		  })
+		},
 	},
 	computed: {
 		relativeUrlTest() {
@@ -440,6 +452,7 @@ var bus = new Vue({
 		account:function(v){
 		  if(v!=='请登录'){
 		  	this.getCannotApplyMarket()
+		  	this.checkIsMarket()
 		  	// this.checkFilled(this.cfgEssential)
 		  	// this.checkFilled(this.cfgOptional)
 		  }

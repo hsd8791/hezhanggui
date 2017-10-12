@@ -5,7 +5,7 @@
       佣金明细
     </h1> -->
     <div v-loading='loading' element-loading-text='请稍后'></div>
-    <div class="list-container" v-scroll-load='{method:getmore,listSelector:".list-container-inner"}' >
+    <div class="list-container" :style="{marginTop:top+'rem'}"  v-scroll-load='{method:getmore,listSelector:".list-container-inner"}' >
       <div class="list-container-inner" v-pull-refresh='{method:getNew}' v-inner-scroll>
         <div class="list-top" v-if='records.length>0'>——释放刷新——</div>
         <div class="list-top" v-if='records.length===0&&!loading'>无数据</div>
@@ -52,7 +52,14 @@
       },
     }
   },
-  props:['cfg'],
+  props:{
+    cfg:{
+    
+    },
+    top:{
+      default:0.4
+    },
+  },
   created(){
   	// this.url=this.config.url
     this.getNew()
