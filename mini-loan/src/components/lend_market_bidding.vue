@@ -98,6 +98,7 @@ export default {
         if(tick===0){
           r.remindOpts=[{msg:'确定',disabled:false,callback:()=>{
             this.ruleIsShow=false
+            r.isShow=false
           }}]
           clearInterval(this.ruleReadingInterval)
         }
