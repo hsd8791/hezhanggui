@@ -28,6 +28,14 @@
       </div>
     </div>
     <remind :remind='remind'></remind>
+    <remind :remind='remindRule'>
+      <div v-if='ruleIsShow'>
+        <p class='rule-text rule-title'>规则说明:</p>
+        <p class='rule-text'>1.本产品一旦购买成功即不支持退款，请悉知。</p>
+        <p class='rule-text'>2.一个广告位在相同时间内，最多只有一个商家能购买成功，系统会自动退款未成功的订单，您可在购买记录中查看购买结果，所以先买先得，不要犹豫啦，赶快购买吧。</p>
+        <p class='rule-text'>3.系统将在每日凌晨2点完成商家广告位入驻，次日凌晨1:59分下架，并且重新根据当日入驻商家重新完成排序。</p>
+      </div>
+    </remind>
   </div>
 </template>
 
@@ -37,10 +45,12 @@ import bus from '../bus.js'
 export default {
   data() {
     return {
+      ruleReadingInterval:null,
       urls:{
         ad:'lendSupermaket/ad',
         order:'order/createSupermaketAdOrder',
       },
+      ruleIsShow:false,
       choosingQty:false,
       buyQty:1,
       adList:[],
@@ -56,11 +66,42 @@ export default {
         {msg:'确定',},
         ],
       },
+      remindRule:{
+        isShow:false,
+        remindMsg:'remind',
+        self_:this,
+        remindOpts:[
+        {msg:'确定',},
+        ],
+      },
     }
   },
+  destroyed(){
+    clearInterval(this.ruleReadingInterval)
+  },
   methods:{
-    handleChange(){
+
+    showRule(){
+      let r=this.remindRule
+      this.ruleIsShow=true
+      r.remindMsg = ''
+      r.isShow=true
+      let tick=5
+      r.remindOpts=[{msg:'确定('+tick+'s)',disabled:true,callback:()=>{
+        this.ruleIsShow=false
+      }}]
+
       
+      this.ruleReadingInterval=setInterval(()=>{
+        tick--
+        r.remindOpts[0].msg='确定('+tick+'s)'
+        if(tick===0){
+          r.remindOpts=[{msg:'确定',disabled:false,callback:()=>{
+            this.ruleIsShow=false
+          }}]
+          clearInterval(this.ruleReadingInterval)
+        }
+      },1000)
     },
     goBiddingRecord(){
       publicFun.goPage(this.$route.path+"/bidding_record")
@@ -90,7 +131,6 @@ export default {
         let url=publicFun.urlConcat('/pay',{
           transactionId: transactionId,
           payId:payId,
-          
         })
         console.log('url',url)
         // return
@@ -107,6 +147,7 @@ export default {
     }
   },
   created(){
+    this.showRule()
     this.getAd()
   },
   events: {},
@@ -119,13 +160,15 @@ export default {
     display: flex;
     flex-wrap: wrap;
     margin:0.15rem;
+    /*background-clip: border-box;*/
     .prdct-item{
+      padding:0.05rem;
       width: 50%;
       height: 0.75rem;
       border:5px solid transparent;
       border-radius: 0.05rem;
       background: #e03b35;
-      background-clip: content-box;
+      background-clip: padding-box;
       /*margin:0.055rem;*/
       letter-spacing: -0.5px;
       color:#fff;
@@ -145,6 +188,15 @@ export default {
       }
     }
   }
+  .rule-text{
+    text-align: left;
+    margin:0.1rem 0.1rem;
+    font-size: 0.14rem;
+  }
+  .rule-title{
+    margin-top: 0.15rem;
+    font-size: 0.2rem;
+  }
   .qty-container{
     position: fixed;
     top:0;
@@ -152,6 +204,9 @@ export default {
     height: 100%;
     background: rgba(0,0,0,0.4);
     
+  }
+  .rule-text{
+
   }
   .qty-box{
     width: 2.7rem;

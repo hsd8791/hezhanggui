@@ -2,10 +2,11 @@
 	<!---->
 	<div class="cover"   v-if='remind.isShow'  >
 		<div class="remind" :class="{'remind-higher':remind.remindMsgDscrp}">
-			<div class="remind-msg">{{remind.remindMsg}}</div>
+			<slot class='remind-msg'></slot>
+			<div class="remind-msg" v-if='remind.remindMsg'>{{remind.remindMsg}}</div>
 			<div class="remind-msg-description" v-if='remind.remindMsgDscrp'>{{remind.remindMsgDscrp}}</div>
 			<div class="ctrl-box">
-				<div class="ctrl-btn"  v-for='item in remind.remindOpts'  @click.once='close(item.callback,remind.self_)'>{{item.msg}}
+				<div class="ctrl-btn" v-for='item in remind.remindOpts'  :class='{disabled:item.disabled}'  @click.once='close(item,remind.self_)'>{{item.msg}}
 					<a  class="href" v-show='item.href' :href="item.href"  @click.once='close(item.callback,remind.self_)'>
 					</a>
 				</div>
@@ -32,11 +33,14 @@
 
 		},
 		methods: {
-			close(callback, vm) {
+			close(item, vm) {
 				// this.isShow=false
 				// Bus.$emit('close_remind')
+				if(item.disabled){
+					return
+				}
 				vm.remind.isShow = false
-
+				let callback=item.callback
 				if (callback !== undefined && callback instanceof Function) {
 					callback()
 				}
@@ -122,6 +126,9 @@
 						position: absolute;
 						top: 0;
 					}
+				}
+				.disabled{
+					color:#ccc;
 				}
 				.ctrl-btn:last-child{
 					border-right-width: 0px;
