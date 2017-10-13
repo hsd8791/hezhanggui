@@ -234,6 +234,8 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-
+.market-container{
+  width: 100%;
+}
 </style>
 
