@@ -8,10 +8,10 @@
         </h1>   
         
       </div>
-      <div class="link-bidding" @click='goBidding'>
+      <div class="link-bidding" @click='goBidding' v-if='isMarket'>
         戳我，开始赚更多更多钱！
       </div>
-    <app-record-list :top='0.8' :cfg='config' v-record='config.name' class='market-list'>
+    <app-record-list :top='isMarket?0.8:0.4' :cfg='config' v-record='config.name' class='market-list'>
       <!-- <div v-for='info in list' @click='goP("/market_detail?id="+info.id)'> -->
 
       <div v-for='info in list' @click='goApply(info)' class="market-container" :key='info.id'>

@@ -4,7 +4,7 @@
       <h1 class="title">
         <app-back></app-back>
         排名购买
-        <span class="edit-input"  @click='' >购买记录</span>
+        <span class="edit-input"  @click='goBiddingRecord' >购买记录</span>
       </h1>
     </div>
     <div class="input qty-container " v-show='choosingQty' @click='choosingQty=false'>
@@ -61,6 +61,9 @@ export default {
   methods:{
     handleChange(){
       
+    },
+    goBiddingRecord(){
+      publicFun.goPage(this.$route.path+"/bidding_record")
     },
     getAd(){
       publicFun.get(this.urls.ad,this,()=>{

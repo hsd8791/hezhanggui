@@ -31,6 +31,7 @@ import market_applymulti from '../components/lend_market_applymulti.vue'
 import market_detail from '../components/lend_market_detail.vue'
 import market_list from '../components/lend_market_list.vue'
 import market_bidding from '../components/lend_market_bidding.vue'
+import bidding_record from '../components/mine_bidding_record.vue'
 import lend_market_applied_remind from '../components/lend_market_applied_remind.vue'
 import paidServiceHistory from '../components/paid_service_history.vue'
 import paidServiceRslt from '../components/paid_service_rslt.vue'
@@ -99,6 +100,7 @@ mineRoutes = mineRoutes.concat(
 	newRoute(['/mine/pwd', '*/pwd', ], 'pwd', Pwd),
 	newRoute(['/mine/charge', '*/charge', ], 'charge', charge),
 	newRoute(['/mine/myhb', '*/myhb', ], 'myhb', myhb),
+	newRoute(['/mine/bidding_record', '*/bidding_record', ], 'bidding_record', bidding_record),
 	newRoute(['*/apply_list', '*/apply_list/:uid', ], 'apply_list', applyList),
 	newRoute(['/apply_detail', '*/apply_detail', ], 'apply_detail', apply_detail),
 	newRoute('/mine', 'mine', mine),

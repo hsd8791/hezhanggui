@@ -456,6 +456,10 @@ var bus = new Vue({
 		  	// this.checkFilled(this.cfgEssential)
 		  	// this.checkFilled(this.cfgOptional)
 		  }
+		  if(v==='请登录'){
+		  	this.isMarket=false
+		  	this.cannotApplyMarket={}
+		  }
 		},
 		'cfgEssential.undoneRequest': function(val) {
 			// console.log('undoneRequest', val)
