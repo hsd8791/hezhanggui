@@ -158,17 +158,17 @@
     // console.log('route',this.$route.query.payId)
     var query=this.$route.query
     this.payId=query.payId
-    if(bus.relativeUrlTest){
-      this.$http.get('http://hzg.he577.com/test/test?payId='+this.payId).then(res=>{
-        let r=this.remind
-        r.isShow=true
-        r.remindMsg='测试支付成公'
-        r.remindOpts=[{msg:'确定',callback:()=>{
-            publicFun.goPage(-1)
-        }}]
-      })
-      return
-    }
+    // if(bus.relativeUrlTest){
+    //   this.$http.get('http://hzg.he577.com/test/test?payId='+this.payId).then(res=>{
+    //     let r=this.remind
+    //     r.isShow=true
+    //     r.remindMsg='测试支付成公'
+    //     r.remindOpts=[{msg:'确定',callback:()=>{
+    //         publicFun.goPage(-1)
+    //     }}]
+    //   })
+    //   return
+    // }
     this.successPath=query.path
     // setTimeout(()=> {
     // }, 1000);

@@ -42,6 +42,7 @@ import apply_lend from '../components/apply_lend.vue'
 import coming from '../components/coming.vue'
 import shujumohe from '../components/info_shujumohe.vue'
 import pay from '../components/order_pay.vue'
+import pay_hb from '../components/order_pay_hb.vue'
 import bankcard_bind from '../components/pay_bankcard_bind.vue'
 import promotion from '../components/promotion.vue'
 import errorPage from '../components/tmpts/error.vue'
@@ -128,6 +129,7 @@ indexRoutes = indexRoutes.concat(
 	newRoute(['/apply_borrow_market', '*/apply_borrow_market'], 'apply_borrow_market', apply_borrow_market),
 	newRoute(['/shujumohe', '*/shujumohe'], 'shujumohe', shujumohe),
 	newRoute('*/pay', 'pay', pay),
+	newRoute('*/pay_hb', 'pay_hb', pay_hb),
 	// newRoute('/test', 'test', test),
 
 

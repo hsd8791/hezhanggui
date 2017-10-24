@@ -5,6 +5,7 @@ var publicFun = require('./js/public.js')
 	// var publicFun = publicFunc.default
 var bus = new Vue({
 	data: {
+		viewedBiddingRules:false,
 		response: null,
 		detailTaskId: null,
 		phoneLender: '',

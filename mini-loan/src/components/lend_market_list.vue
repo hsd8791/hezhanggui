@@ -1,5 +1,5 @@
 <template>
-	<div id="marketListVue" v-inner-scroll >
+	<div id="marketListVue" v-inner-scroll  @click='hideFloatDetail'>
       <div class="input">
         <h1 class="title" v-loading='loading' element-loading-text='请稍后'>
           贷款超市列表
@@ -9,8 +9,10 @@
         
       </div>
       <div class="link-bidding" @click='goBidding' v-if='isMarket'>
-        戳我，开始赚更多更多钱！
+        <!-- 戳我，开始赚更多更多钱！ -->
+        提升排名
       </div>
+
     <app-record-list :top='isMarket?0.8:0.4' :cfg='config' v-record='config.name' class='market-list'>
       <!-- <div v-for='info in list' @click='goP("/market_detail?id="+info.id)'> -->
 
@@ -33,9 +35,20 @@
         </div>
         <div class="checkbox-container" @click.stop='disabledRemind(info)' v-show='choosing'>
           <el-checkbox class='checkbox' v-model='marketChoosed' :label='info.uid' @click.stop='' :disabled='info.url!==""||cannotApplyMarket[info.uid]!==undefined'></el-checkbox>
+          <i class="icon-copy detail-icon" @click.stop='viewDetail(info)' v-if='!(info.url!==""||cannotApplyMarket[info.uid]!==undefined)'></i>
         </div>
       </div>
     </app-record-list>
+    <div class="float-detail" v-if='viewingMarketInfo'>
+      <div class="detail-box">
+        <p class="float-info-line info-title" v-if='viewingMarketInfo.intro'>{{viewingMarketInfo.name}}</p>
+        <p class="float-info-line" v-if='viewingMarketInfo.intro'>{{viewingMarketInfo.intro}}</p>
+        <p class="float-info-line" v-if='viewingMarketInfo.zmxy_score'>芝麻信用分要求大于{{viewingMarketInfo.zmxy_score}}分</p>
+        <p class="float-info-line" v-if='viewingMarketInfo.zmxy_huabei'>花呗额度要求大于{{viewingMarketInfo.zmxy_huabei}}元</p>
+        <p class="float-info-line"  v-if='false'>{{viewingMarketInfo.applyConditionDesc}}</p>
+        <div class="float-detail-close" @click='hideFloatDetail'>关闭</div>
+      </div>
+    </div>
     <div class="input submit" v-if='choosing'>
       <!-- <p class="choose-qty">已选<span class="text">{{marketChoosed.length}}</span>个</p> -->
       <el-button type='success' class='submit-bttn' :disabled='!marketChoosed.length' @click='goSubmitMulti'>已选择{{marketChoosed.length}}个，前往申请</el-button>
@@ -51,6 +64,7 @@ import bus from '../bus.js'
 export default {
   data() {
     return {
+      viewingMarketInfo:null,
       cannotApplyMarket:{},
       config:{
       url:'lendSupermaket/list',
@@ -91,6 +105,14 @@ export default {
     //     console.log('res list',this.response.body)
     //   })
     // },
+
+    viewDetail(info){
+      console.log('view detail')
+      this.viewingMarketInfo=info
+    },
+    hideFloatDetail(){
+      this.viewingMarketInfo=null
+    },
     disabledRemind(info){
       console.log('click')
       let r=this.remind
@@ -281,6 +303,41 @@ export default {
 <style type="text/css" lang='scss'>
   
   #marketListVue{
+    .float-detail{
+      position: fixed;
+      top: 0;left: 0;
+      width: 100%;
+      height: 100%;
+      background:rgba(0,0,0,0.2);
+      z-index: 9999;
+      .detail-box{
+        position: relative;
+        background: #fff;
+        width: 60%;
+        padding-top:0.1rem ;
+        border-radius: 0.1rem;
+        top:50%;
+        margin: 0 auto;
+        transform:translateY(-50%);
+      }
+      .float-detail-close{
+        border:0px solid #d2d2d2;
+        border-top-width: 1px;
+        padding:0.07rem;
+        color: #0081ff;
+        font-size: 0.16rem;
+      }
+    }
+    .float-info-line{
+      line-height: 1.2;
+      text-align: left;
+      padding:0 0.2rem;
+      font-size: 0.14rem;
+      margin-bottom: 0.1rem;
+    }
+    .info-title{
+      font-weight: bold;
+    }
     .submit{
       position: fixed;
       bottom: 0;
@@ -332,6 +389,14 @@ export default {
       width: 100%;
       height: 100%;
       z-index: 2;
+    }
+    .detail-icon{
+      color:#999;
+      /*z-index: 9999;*/
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding:0.05rem;
     }
     .market-container{
 
