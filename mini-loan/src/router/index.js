@@ -31,6 +31,7 @@ import market_applymulti from '../components/lend_market_applymulti.vue'
 import market_detail from '../components/lend_market_detail.vue'
 import market_list from '../components/lend_market_list.vue'
 import market_bidding from '../components/lend_market_bidding.vue'
+import bidding_record from '../components/mine_bidding_record.vue'
 import lend_market_applied_remind from '../components/lend_market_applied_remind.vue'
 import paidServiceHistory from '../components/paid_service_history.vue'
 import paidServiceRslt from '../components/paid_service_rslt.vue'
@@ -41,6 +42,7 @@ import apply_lend from '../components/apply_lend.vue'
 import coming from '../components/coming.vue'
 import shujumohe from '../components/info_shujumohe.vue'
 import pay from '../components/order_pay.vue'
+import pay_hb from '../components/order_pay_hb.vue'
 import bankcard_bind from '../components/pay_bankcard_bind.vue'
 import promotion from '../components/promotion.vue'
 import errorPage from '../components/tmpts/error.vue'
@@ -99,6 +101,7 @@ mineRoutes = mineRoutes.concat(
 	newRoute(['/mine/pwd', '*/pwd', ], 'pwd', Pwd),
 	newRoute(['/mine/charge', '*/charge', ], 'charge', charge),
 	newRoute(['/mine/myhb', '*/myhb', ], 'myhb', myhb),
+	newRoute(['/mine/bidding_record', '*/bidding_record', ], 'bidding_record', bidding_record),
 	newRoute(['*/apply_list', '*/apply_list/:uid', ], 'apply_list', applyList),
 	newRoute(['/apply_detail', '*/apply_detail', ], 'apply_detail', apply_detail),
 	newRoute('/mine', 'mine', mine),
@@ -126,6 +129,7 @@ indexRoutes = indexRoutes.concat(
 	newRoute(['/apply_borrow_market', '*/apply_borrow_market'], 'apply_borrow_market', apply_borrow_market),
 	newRoute(['/shujumohe', '*/shujumohe'], 'shujumohe', shujumohe),
 	newRoute('*/pay', 'pay', pay),
+	newRoute('*/pay_hb', 'pay_hb', pay_hb),
 	// newRoute('/test', 'test', test),
 
 

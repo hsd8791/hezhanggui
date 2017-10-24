@@ -23,7 +23,8 @@
 					<!-- <div class="record-container" v-for='item in records' v-if='true' @click='viewDetail(item)'> -->
 					<!-- <div class="record-container" v-for='item in records' v-if='crrtStatus===-1||item.status===crrtStatus'> -->
 					<div class="avator">
-						<i class="icon-database icon-avator"></i>
+            <div class="avator-pic" :style="{backgroundImage: 'url('+item.logo+')'}" ></div>
+						<!-- <i class="icon-database icon-avator"></i> -->
 					</div>
 					<!-- <div class="loan-record" >{{item.applyId}}</div> -->
 					<div class="record-brief">
@@ -300,6 +301,24 @@
 			width: 100%;
 			overflow: visible;
 			text-align: center;
+		}
+		.avator{
+		  width:0.5rem;
+		  height:0.5rem;
+		  left:0.1rem;
+		  margin:auto 0;
+		  border:1px solid #ccc;
+		  position: absolute;
+		  top: 0;bottom: 0;
+		  .avator-pic{
+		    width:100%;
+		    height:100%;
+		    position: absolute;
+		    left: 0;
+		    background:url(#) no-repeat center center;
+		    background-size: contain;
+
+		  }
 		}
 	/*	.list-top-text{
 		}*/

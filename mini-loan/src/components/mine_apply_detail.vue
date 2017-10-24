@@ -6,6 +6,9 @@
         申请记录
       </h1>
     <div class="container" v-if='true'>
+      <div class="logo" :style="{'background-image':'url('+applyRecord.logo+')'}" v-if='applyRecord.logo'>
+        
+      </div>
       <app-info :title="'申请对象'">{{applyRecord.name}}</app-info>
       <app-info :title="'申请金额'" v-if='applyRecord.amount'>{{applyRecord.amount |moneyParser}}</app-info>
       <app-info :title="'申请时间'">{{applyRecord.creat_time|timeParser}}</app-info>
@@ -182,6 +185,16 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.logo{
+  /*border:1px solid red;*/
+  width:1rem;
+  height: 1rem;
+  position: absolute;
+  right: 0;top: 0;
+  margin:0.15rem;
+  background: url(#) no-repeat center center;
+  background-size: contain;
+}
 .container{
   padding: 0.1rem 0.15rem ;
 }

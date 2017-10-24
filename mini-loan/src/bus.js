@@ -5,6 +5,7 @@ var publicFun = require('./js/public.js')
 	// var publicFun = publicFunc.default
 var bus = new Vue({
 	data: {
+		viewedBiddingRules:false,
 		response: null,
 		detailTaskId: null,
 		phoneLender: '',
@@ -23,6 +24,7 @@ var bus = new Vue({
 			crrtPage: 0,
 			ttlPage: null,
 		},
+		isMarket:false,
 		cannotApplyMarket:{},
 		loanAmount: null,
 		remindSimple: {
@@ -412,6 +414,17 @@ var bus = new Vue({
 			cfg.test = 'test'
 				// return flag
 		},
+		checkIsMarket() {
+		  publicFun.default.get('lendSupermaket/myInfo', this, () => {
+		    console.log('res my market info', this.response.body)
+		    var data = this.response.body.data
+		    // this.marketInfo = data
+		    // this.owner = data.owner
+		    if(data.owner&&data.logo){
+		    	this.isMarket=true
+		    }
+		  })
+		},
 	},
 	computed: {
 		relativeUrlTest() {
@@ -440,8 +453,13 @@ var bus = new Vue({
 		account:function(v){
 		  if(v!=='请登录'){
 		  	this.getCannotApplyMarket()
+		  	this.checkIsMarket()
 		  	// this.checkFilled(this.cfgEssential)
 		  	// this.checkFilled(this.cfgOptional)
+		  }
+		  if(v==='请登录'){
+		  	this.isMarket=false
+		  	this.cannotApplyMarket={}
 		  }
 		},
 		'cfgEssential.undoneRequest': function(val) {

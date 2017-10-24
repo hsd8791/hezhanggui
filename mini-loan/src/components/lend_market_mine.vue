@@ -5,7 +5,7 @@
     <h1 class="title fixed-title"  >
       <app-back></app-back>
       贷款超市信息
-      <!-- <span class="edit-input" v-if='haveOwner' @click='goBidding' >赚更多钱</span> -->
+      <span class="edit-input" v-if='haveOwner' @click='goBidding' >赚更多钱</span>
     </h1>
     <div class="top-slogan">
       <!-- <div class="promotion">
