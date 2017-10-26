@@ -72,34 +72,33 @@
     //            ); 
     //   // }
     // },
-    polling(){
-      publicFun.get(this.statusUrl+this.payId,this,()=>{
-        console.log('res status pay',this.response.body)
-        var data=this.response.body.data
-        if(data.status==='success'){
-          clearInterval(T)
-          var r=this.remind
-          r.remindMsg='支付成功'
-          r.isShow=true
-          r.remindOpts=[
-          {msg:'确定',callback:()=>{
-            if(this.successPath){
-              publicFun.goPage(this.successPath)
-              return
-            }
-            publicFun.goPage(-1)
-          }}
-          ]
-          setTimeout(()=> {
-             if(this.successPath){
-               publicFun.goPage(this.successPath)
-               return
-             }
-             publicFun.goPage(-1)
-          }, 500);
-        }
-      })
-    },
+    // polling(){
+    //   publicFun.get(this.statusUrl+this.payId,this,()=>{
+    //     console.log('res status pay',this.response.body)
+    //     var data=this.response.body.data
+    //     if(data.status=='success'){
+    //       var r=this.remind
+    //       r.remindMsg='支付成功'
+    //       r.isShow=true
+    //       r.remindOpts=[
+    //       {msg:'确定',callback:()=>{
+    //         if(this.successPath){
+    //           publicFun.goPage(this.successPath)
+    //           return
+    //         }
+    //         publicFun.goPage(-1)
+    //       }}
+    //       ]
+    //       setTimeout(()=> {
+    //          if(this.successPath){
+    //            publicFun.goPage(this.successPath)
+    //            return
+    //          }
+    //          publicFun.goPage(-1)
+    //       }, 500);
+    //     }
+    //   })
+    // },
     // testPolling(){
     //   console.log('test this',this)
     // },
@@ -125,6 +124,27 @@
             publicFun.goPage(-1)
           }}]
           r.isShow=true
+        }
+        if(status=='success'){
+          var r=this.remind
+          r.remindMsg='支付成功'
+          r.isShow=true
+          r.remindOpts=[
+          {msg:'确定',callback:()=>{
+            if(this.successPath){
+              publicFun.goPage(this.successPath)
+              return
+            }
+            publicFun.goPage(-1)
+          }}
+          ]
+          setTimeout(()=> {
+             if(this.successPath){
+               publicFun.goPage(this.successPath)
+               return
+             }
+             publicFun.goPage(-1)
+          }, 500);
         }
       })
     },

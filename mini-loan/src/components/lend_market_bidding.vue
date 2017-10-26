@@ -1,6 +1,6 @@
 <template>
   <div id="marketBiddingVue">
-    <div class="input" v-loading='loading' element-loading-text='请稍后'>
+    <div class="input fixed-title" v-loading='loading' element-loading-text='请稍后'>
       <h1 class="title">
         <app-back></app-back>
         排名购买
@@ -8,37 +8,52 @@
       </h1>
     </div>
     <div class="input qty-container " v-show='choosingQty' @click='choosingQty=false'>
-      <div class="qty-box" @click.stop=''>
-      <div class="qty-title">
-        
-        <div class="input-label">选择购买天数:</div>
-        <!-- <span class='qty-input-box'> -->
-          <el-input-number v-model="buyQty" class='qty-input'   :min="1" :max="crrtMaxQty"></el-input-number>
-        <!-- </span> -->
-      </div>
-          <el-button type='success'  @click='charge'>确定</el-button>
+      <div class="qty-box" @click.stop='' >
+        <div class="qty-title">
+          <div class="input-label">选择购买天数:</div>
+            <!-- <el-input-number v-model="buyQty" class='qty-input'   :min="1" :max="crrtMaxQty"></el-input-number> -->
+        </div>
+        <el-button  class='choose-date' type='success'  v-for='(item,index) in canBuyDate' :class="{'is-disabled':index>buyQty-1}" @click='toggleChoose(index)'>{{item}}</el-button>
+        <el-button type='success'  @click='confirmCharge'>确定</el-button>
+        <i class="close-bttn icon-cancel-circle" @click='choosingQty=false'></i>
+        <div @click='' class="show-rule-box">
+            <span class=""  @click='showRuleForce' >购买规则</span>
+        </div>
       </div>
     </div>
+   
     <div class=" products-container">
-      <div :class="{'disabled':prdct.days<=0||prdct.endDate<endDate}"  class="prdct-item" v-for='prdct in adList'   @click='chooseQty(prdct)' v-if='prdct.pos<12' >
-        <div class="prdct-line origin-price" >原价：{{prdct.price*2 | hbParser}}禾币</div>
-        <div class="prdct-line">现价：{{prdct.price | hbParser}}禾币</div>
-        <div class="prdct-line">起始日期：{{prdct.startDate}}</div>
-        <div class="prdct-line" v-if='prdct.name'>当日商家：{{prdct.name}}</div>
-        <div class="prdct-line" v-if='prdct.countdown'>{{prdct.countdown==-1?"24小时内无法购买":'购买倒计时：'+timeString(prdct.countdown)}}</div>
-        <div class="prdct-line" v-if='!prdct.countdown&&prdct.endDate>=endDate'>可购买{{prdct.days}}天</div>
-        <div class="prdct-line" v-if='prdct.endDate<endDate'>当天已购买</div>
+      <div :class="{'disabled':prdct.days<=0||prdct.startDateTime<endDate||!isBuyTime}"  class="prdct-item" v-for='prdct in adList'   @click='chooseQty(prdct)' v-if='prdct.pos<12' >
+        <div class="prdct-item-inner-box">
+          <div class="prdct-line origin-price" >原价：{{prdct.price*2 | hbParser}}禾币</div>
+          <div class="prdct-line">现价：{{prdct.price | hbParser}}禾币</div>
+          <div class="prdct-line">起始日期：{{prdct.startDate}}</div>
+          <div class="prdct-line" v-if='prdct.name'>当日商家：{{prdct.name}}</div>
+          <div class="prdct-line" v-if='prdct.countdown===-1'>24小时内无法购买</div>
+          <div class="prdct-line countdown" v-if='prdct.countdown>0&&prdct.startDateTime>=endDate'>{{'购买倒计时：'+timeString(prdct.countdown)}}</div>
+          <div class="prdct-line" v-if='prdct.countdown===0&&prdct.startDateTime>=endDate'>可购买{{prdct.days}}天</div>
+          <div class="prdct-line" v-if='prdct.startDateTime<endDate'>无权购买此位置</div>
+        </div>
 
-        <!-- <div class="prdct-rmb">售价:{{prdct.moneyFee | moneyParser}}元</div> -->
       </div>
     </div>
-    <remind :remind='remind'></remind>
+    <!-- <div @click='' class="show-rule-box">
+        <span class=""  @click='showRuleForce' >购买规则</span>
+    </div> -->
+    <remind :remind='remind'>
+      <div v-if='confirmingChargeInfo'>
+        <p class='rule-text charge-info'>购买日期：{{chargeInfo.dates}}</p>
+        <p class='rule-text charge-info'>花费禾币：{{chargeInfo.price}}</p>
+        <p class='rule-text charge-info'>购买位置：{{chargeInfo.position}}号位</p>
+      </div>
+    </remind>
     <remind :remind='remindRule' v-if='!viewedRules'>
       <div v-if='ruleIsShow'>
         <p class='rule-text rule-title'>规则说明:</p>
-        <p class='rule-text'>1.本产品一旦购买成功即不支持退款，请悉知。</p>
-        <p class='rule-text'>2.一个广告位在相同时间内，最多只有一个商家能购买成功，系统会自动退款未成功的订单，您可在购买记录中查看购买结果，所以先买先得，不要犹豫啦，赶快购买吧。</p>
-        <p class='rule-text'>3.系统将在每日凌晨2点完成商家广告位入驻，次日凌晨1:59分下架，并且重新根据当日入驻商家重新完成排序。</p>
+        <p class='rule-text'>1.一次最多购买3天</p>
+        <p class='rule-text'>2.每日中午12点-24点开放广告位购买，本产品一旦购买成功即不支持退款，请悉知。</p>
+        <p class='rule-text'>3.一个广告位在相同时间内，最多只有一个商家能购买成功，系统会自动退款未成功的订单，您可在购买记录中查看购买结果，所以先买先得，不要犹豫啦，赶快购买吧。</p>
+        <p class='rule-text'>4.系统将在每日中午12点完成商家广告位入驻，次日12点下架，并且重新根据当日入驻商家重新完成排序。</p>
       </div>
     </remind>
   </div>
@@ -50,6 +65,7 @@ import bus from '../bus.js'
 export default {
   data() {
     return {
+      confirmingChargeInfo:false,
       ruleReadingInterval:null,
       urls:{
         ad:'lendSupermaket/ad',
@@ -61,6 +77,8 @@ export default {
       ruleIsShow:false,
       choosingQty:false,
       buyQty:2,
+      canBuyDate:[],
+      buyDate:[],
       adList:[],
       response:null,
       loading:false,
@@ -74,7 +92,7 @@ export default {
           {msg:'确定',},
         ],
       },
-      remindRule:{
+      remindRule:{ //可以整合进remind
         isShow:false,
         remindMsg:'remind',
         self_:this,
@@ -82,12 +100,28 @@ export default {
           {msg:'确定',},
         ],
       },
+      chargeInfo:{
+        dates:null,
+        price:null,
+        position:null,
+      },
     }
   },
   destroyed(){
     clearInterval(this.ruleReadingInterval)
   },
   methods:{
+    toggleChoose(i){
+      console.log('index',i)
+      
+      if(i===this.buyQty-1&&this.buyQty!==1){
+        this.buyQty=i
+      }else{
+        this.buyQty=i+1
+      }
+
+      
+    },
     timeString(countdown){
       let h=Math.floor(countdown/3600)
       let temp=countdown%3600
@@ -100,9 +134,12 @@ export default {
       return `${h}时${m}分`
       // return `${h}:${m}:${s}`
     },
+    showRuleForce(){
+      bus.viewedBiddingRules=false
+      this.showRule()
+    },
     showRule(){
       let r=this.remindRule
-      // let r=this.remind
       this.ruleIsShow=true
       r.remindMsg = ''
       r.isShow=true
@@ -136,23 +173,44 @@ export default {
         console.log('res ad',this.response.body.data)
         this.adList=this.response.body.data
         this.adList.forEach(item=>{
-          item.endDate=this.getTime(item.startDate)
+          item.startDateTime=this.getTime(item.startDate)//应该设成 item.startDateTime
         })
       })
     },
     getTime(time){
       let arr=time.split('-'),
       year=arr[0],month=arr[1],d=arr[2]
-      console.log('yyyy-mm-dd',year,month,d)
+      // console.log('yyyy-mm-dd',year,month,d)
       let date=new Date()
       date.setFullYear(year)
       date.setMonth(month-1)
       date.setDate(d)
       return date.getTime()
     },
+    setChooseDate(p){
+      let l=p.days
+      this.canBuyDate=[]
+      for(let i=0;i<l;i++){
+        this.canBuyDate.unshift(this.buyDate[2-i])
+      }
+      // ,date=publicFun.getTimeString(p.startDateTime,5,10)
+      
+      
+      // console.log('date',date)
+    },
     chooseQty(p){
-      console.log('p.endDate',p.endDate,this.endDate)
-      if(p.days<=0||p.endDate<this.endDate){return}
+      console.log('p.endDate',p.startDateTime)
+      if(p.days<=0||p.startDateTime<this.endDate){return}
+      if(!this.isBuyTime){
+        let r=this.remind
+        r.remindMsg='中午12点后开放购买'
+        r.remindOpts=[{msg:'确定',}]
+        r.isShow=true
+        return
+      }
+      this.buyQty=p.days
+      this.setChooseDate(p)
+      this.canBuyQty=p.days
       this.crrtMaxQty=p.days
       this.choosingQty=true
       this.choosedPrdct=p
@@ -164,9 +222,32 @@ export default {
       publicFun.get(url,this,()=>{
         console.log('res bidding record',this.response.body.data.data)
         let data=this.response.body.data.data
-        this.endDate=data[0].endDate
+        this.endDate=data[0]?data[0].endDate:0
         // this.records=this.response.body.data.data
       })
+    },
+    confirmCharge(){
+      let r=this.remind,p=this.choosedPrdct,qty=this.buyQty,datesString='',datesArr=this.canBuyDate
+      for(let i=0;i<qty;i++){
+        datesString=datesString+datesArr[i]+' '
+      }
+      this.confirmingChargeInfo=true
+      r.remindMsg='请核对以下购买信息'
+      // r.remindMsg=`请确认是否使用${p.price/100*qty}禾币购买${datesString}的排名`
+      let info=this.chargeInfo
+      info.price=(p.price/100*qty).toFixed(2)
+      info.dates=datesString
+      info.position=p.pos+1
+      r.remindOpts = [{
+        msg: '确定',
+        callback: () => {
+          this.confirmingChargeInfo=false
+          this.charge()
+        }
+      }, {
+        msg: '取消'
+      }]
+      r.isShow=true
     },
     charge(){
       let prdct=this.choosedPrdct
@@ -185,6 +266,7 @@ export default {
         let url=publicFun.urlConcat('/pay_hb',{
           transactionId: transactionId,
           payId:payId,
+          path:this.$route.path+'/bidding_record'
         })
         console.log('url',url)
         // return
@@ -201,6 +283,17 @@ export default {
     }
   },
   created(){
+    function mmddString(n){
+      let s=publicFun.getTimeString((new Date()).getTime()+86400000*n,5,10)
+      console.log('date',s)
+      return s
+    }
+    this.buyDate.push(mmddString(1))
+    this.buyDate.push(mmddString(2))
+    this.buyDate.push(mmddString(3))
+    // console.log('today',publicFun.getTimeString(new Date(),5,10))
+    // console.log('today',publicFun.getTimeString((new Date()).getTime()+86400000,5,10))
+    // console.log('today',publicFun.getTimeString((new Date()).getTime()+86400000*2,5,10))
     this.showRule()
     this.getAd()
     this.getRecord()
@@ -209,9 +302,12 @@ export default {
     viewedRules(){
       return bus.viewedBiddingRules
     },
+    isBuyTime(){
+      return (new Date()).getHours()>=12
+    },
   },
   events: {},
-  components: {}
+  components: {},
 }
 </script>
 
@@ -232,8 +328,8 @@ export default {
     .prdct-item{
       /*opacity: 1;*/
       padding:0.05rem;
-      width: 46%;
-      margin:2%;
+      width: 48%;
+      margin:1%;
       /*height: 0.75rem;*/
       border:1px solid #333;
       /*border-radius: 0.05rem;*/
@@ -242,6 +338,15 @@ export default {
       /*margin:0.055rem;*/
       letter-spacing: -0.5px;
       color:#444;
+      display: flex;
+      flex-direction: column;
+      justify-content:center;
+      .prdct-item-inner-box{
+
+      }
+      .countdown{
+        font-weight: bold;
+      }
       .prdct-hb{
         font-size: 0.16rem;
         margin:0.15rem 0 0;
@@ -273,16 +378,19 @@ export default {
   }
   .qty-container{
     position: fixed;
+
     top:0;
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.4);
+
     
   }
   .rule-text{
 
   }
   .qty-box{
+
     width: 2.7rem;
     opacity: 1;
     /*height: 2rem;*/
@@ -296,6 +404,16 @@ export default {
     padding:0.1rem;
     /*padding:1rem;*/
     padding-bottom: 0.2rem;
+    .choose-date{
+      width: 27%;
+      height: 0.34rem;
+      line-height: 0.24rem;
+      padding:0.05rem;
+      font-size: 0.14rem;
+      border:0;
+      margin:0.05rem;
+      /*margin-top:0.2rem;*/
+    }
     .qty-title{
       /*border:1px solid red;*/
       font-size: 0.16rem;
@@ -318,6 +436,19 @@ export default {
       display: inline;
       font-size: 0.2rem;
     }
+    .close-bttn{
+      position: absolute;
+      right: 0.0rem;top: 0.0rem;
+      padding:0.05rem;
+      font-size: 0.2rem;
+      color:#ccc;
+    }
+  }
+  .show-rule-box{
+    text-align: right;
+    font-size: 0.16rem;
+    margin-top: 0.15rem;
+    text-decoration: underline;
   }
 </style>
 <style lang='scss'>

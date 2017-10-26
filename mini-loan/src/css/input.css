@@ -325,10 +325,13 @@ div.el-loading-mask {
       text-align: left; }
       .record-container .record-brief .record-brief-down .record-phone, .record-container .record-brief .record-brief-down .record-description, .record-container .record-brief .record-brief-down .record-ld {
         font-size: 0.14rem;
-        line-height: 0.14rem; }
+        line-height: 0.14rem;
+        letter-spacing: -0.005rem; }
       .record-container .record-brief .record-brief-down .record-status, .record-container .record-brief .record-brief-down .record-rd {
         position: absolute;
-        right: 0.3rem; }
+        right: 0.25rem;
+        font-size: 0.13rem;
+        line-height: 0.13rem; }
   .record-container .el-icon-arrow-right {
     position: absolute;
     font-size: 0.15rem;

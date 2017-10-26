@@ -435,10 +435,14 @@ div.el-loading-mask{
 			.record-phone,.record-description,.record-ld{
 				font-size: 0.14rem;
 				line-height: 0.14rem;
+				letter-spacing: -0.005rem;
 			}
 			.record-status,.record-rd{
 				position: absolute;
-				right: 0.3rem;
+				right: 0.25rem;
+				font-size: 0.13rem;
+				line-height: 0.13rem;
+
 			}
 		}
 	}

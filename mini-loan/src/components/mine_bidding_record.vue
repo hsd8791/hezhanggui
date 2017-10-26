@@ -8,10 +8,10 @@
       </h1>
     </div>
     <app-record-list :cfg='config' v-record='config.name' >
-      <app-record v-for='item in records' :canClick=false>
-        <span slot='lt'>位置：{{item.pos}}</span>
+      <app-record v-for='item in records' :canClick=false :key='item.toString()'>
+        <span slot='lt'>位置：{{item.pos+1}}</span>
         <span slot='rt'>{{item.createTime | timeParser}}</span>
-        <span slot='ld'>{{item.startDate | dateParser}}至{{item.endDate | dateParser}}</span>
+        <span slot='ld'>生效时间:{{item.startDate | dateParser}} 12:00至{{item.endDate | dateParser}} 12:00</span>
         <span slot='rd'>{{item.isValid?'购买成功':'购买失败'}}</span>
       </app-record>
     </app-record-list>

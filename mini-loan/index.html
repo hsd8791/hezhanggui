@@ -20,7 +20,9 @@
 		}
 		body{
 			width: 100%;
+			max-width: 600px;
 			height: 100%;
+			max-height: 1000px;
 			/*overflow: scroll;*/
 			overflow: hidden;
 			position: relative;
@@ -43,7 +45,7 @@
 	<script type="text/javascript">
 		function setRem(){
 			var remDefault=document.documentElement.style.fontSize = 
-			window.innerWidth/3.75 + 'px';
+			(window.innerWidth<600?window.innerWidth:600)/3.75 + 'px';
 		}
 		// window.onload=function(){
 		// 	document.body.addEventListener('touchmove', function(event) {

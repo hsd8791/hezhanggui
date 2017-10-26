@@ -5,7 +5,7 @@
     <h1 class="title fixed-title"  >
       <app-back></app-back>
       贷款超市信息
-      <span class="edit-input" v-if='haveOwner' @click='goBidding' >赚更多钱</span>
+      <!-- <span class="edit-input" v-if='haveOwner' @click='goBidding' >提升排名</span> -->
     </h1>
     <div class="top-slogan">
       <!-- <div class="promotion">
@@ -340,6 +340,7 @@ export default {
   position: fixed;
   top: 0.4rem;
   width: 100%;
+  max-width: 600px;
   z-index: 2;
   background: #f4f4f4;
   .promotion{
@@ -389,6 +390,7 @@ export default {
     }
     .fixed-title{
       height: 0.4rem;
+      max-width: 600px;
       position: fixed;
       top: 0;left: 0;
       z-index: 2;

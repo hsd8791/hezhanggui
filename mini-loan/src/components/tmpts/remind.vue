@@ -2,9 +2,9 @@
 	<!---->
 	<div class="cover"   v-if='remind.isShow'  >
 		<div class="remind" :class="{'remind-higher':remind.remindMsgDscrp}">
-			<slot class='remind-msg'></slot>
 			<div class="remind-msg" v-if='remind.remindMsg'>{{remind.remindMsg}}</div>
 			<div class="remind-msg-description" v-if='remind.remindMsgDscrp'>{{remind.remindMsgDscrp}}</div>
+			<slot class='remind-msg'></slot>
 			<div class="ctrl-box">
 				<div class="ctrl-btn" v-for='item in remind.remindOpts'  :class='{disabled:item.disabled}'  @click.once='close(item,remind.self_)'>{{item.msg}}
 					<a  class="href" v-show='item.href' :href="item.href"  @click.once='close(item.callback,remind.self_)'>
