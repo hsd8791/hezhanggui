@@ -106,6 +106,8 @@ export default {
     test(){
       // bus.remindSimple.isShow=!bus.remindSimple.isShow
       console.log('test',bus)
+      publicFun.goUpLv()
+
       // publicFun.checkSession(this)
       // publicFun.checkSingleFilled ('credit/shujumoheSimQueryStatus','cfgEssential')
       // MtaH5.clickStat('1')

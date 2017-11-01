@@ -235,7 +235,7 @@
 									msg:'是，此号码登录',callback:()=>{
 										localStorage.userID=this.cellphone
 										publicFun.resetLocalUserInfo()
-										publicFun.goPage('/introduce/login')
+										publicFun.goPage('/mine/login')
 									}
 								},{
 									msg:'不，换个号码',callback:()=>{

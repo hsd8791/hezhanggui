@@ -163,14 +163,14 @@ publicFun.goTopLv = function() {
 	this.goPage('/' + arr[1])
 }
 
-// publicFun.goUpLv = function() {
-// 	var r = location.hash.replace("#", '')
-// 	var arr = r.split('/')
-// 	arr.pop()
-// 	var newR = arr.join('/')
-// 	console.log('newR', newR)
-// 	router.push(newR)
-// }
+publicFun.goUpLv = function() {
+	var r = location.hash.replace("#", '')
+	var arr = r.split('/')
+	arr.pop()
+	var newR = arr.join('/')
+	console.log('newR', newR)
+	router.push(newR)
+}
 
 
 publicFun.checkSession = function(vm, callback) {
@@ -434,7 +434,7 @@ publicFun.errorHandle = function(resBody, vm) {
 			}, {
 				msg: '取消',
 				callback: () => {
-					this.goPage(-1)
+					this.goUpLv()
 				}
 			}]
 			vmRemind.remindMsg = '请登录'
