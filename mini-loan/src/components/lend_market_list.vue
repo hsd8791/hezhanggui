@@ -208,7 +208,7 @@ export default {
         MtaH5Body['003']=qudao+'_'+info.id
         // MtaH5.clickStat('1',{'002':qudao})
       }
-      // console.log('MtaH5Body',MtaH5Body)
+      console.log('MtaH5Body',MtaH5Body)
       
       // MtaH5.clickStat('1',{'001':info.id})
       MtaH5.clickStat('1',MtaH5Body)

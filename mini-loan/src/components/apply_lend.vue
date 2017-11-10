@@ -158,7 +158,7 @@
     },
     configMenueShare(){
       wx.onMenuShareAppMessage({
-          title: '禾掌柜', // 分享标题
+          title: '壹号超市', // 分享标题
           desc: '点击向'+publicFun.phonePartshow(bus.account)+'借款', // 分享描述
           link: 'http://hzg.he577.com'+bus.relativeUrlTest+'/m/#/index/apply_borrow?uniqueId='+bus.uniqueId+'&share=1', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: 'http://hzg.he577.com/test/m/static/img/logo.png', // 分享图标

@@ -208,10 +208,10 @@
 					width: 33%;
 					margin:0.15rem;
 					padding:0.1rem;
-					background-color:#d6322c;
+					background-color:#0090f6;
 					color: #eee;
 					font-size: 0.16rem;
-					background: linear-gradient(90deg,#d6322c 0%,#d6322c 30%,#eda29a);
+					background: linear-gradient(90deg,#0090f6 0%,#0090f6 30%,#cdeafd);
 					border-width: 0;
 					border-radius: 0.1rem;
 				}
@@ -237,7 +237,7 @@
 					color:#a5a54c;
 				}
 				.icon-input-checked{
-					color: #09bb07;
+					color: #0090f6;
 				}
 				@keyframes spinning{
 					from {transform: rotate(0);}

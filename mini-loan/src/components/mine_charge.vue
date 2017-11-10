@@ -9,7 +9,7 @@
 				<div class="prdct-list"  v-for='prdct in products' @click='charge(prdct.id)'>
 						<!-- {{prdct.title}} -->
 					<!-- <i class="el-icon-arrow-right"></i> -->
-					<div class="prdct-hb">{{prdct.hbFee | hbParser}}禾币</div>
+					<div class="prdct-hb">{{prdct.hbFee | hbParser}}钻石</div>
 					<div class="prdct-rmb">售价:{{prdct.moneyFee | moneyParser}}元</div>
 				</div>
 			</div>
@@ -88,11 +88,11 @@ export default {
 	.prdct-list{
 		width: 30%;
 		height: 0.75rem;
-		border:2px solid #cc2a1b;
+		border:2px solid #0090f6;
 		border-radius: 0.05rem;
 		margin:0.055rem;
 		letter-spacing: -0.5px;
-		color:#cc2a1b;
+		color:#0090f6;
 		.prdct-hb{
 			font-size: 0.16rem;
 			margin:0.15rem 0 0;
@@ -104,7 +104,7 @@ export default {
 			transform: scale(1);
 		}
 		&:active{
-			background: #cc2a1b;
+			background: #0090f6;
 			color: #fff;
 		}
 	}

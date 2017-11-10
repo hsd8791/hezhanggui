@@ -60,7 +60,7 @@
 				{title:'密码修改',link:'/pwd'},
 				{title:'佣金',link:'/commission'},
 				{title:'充值',link:'/charge'},
-				{title:'我的禾币',link:'/myhb'},
+				{title:'我的钻石',link:'/myhb'},
 				{title:'登出',methodName:'logout'},
 				],
 
@@ -132,7 +132,7 @@
 		.banner{
 			width: 100%;
 			height: 1.52rem;
-			background: #cc2a1b;
+			background: #0090f6;
 			padding-top:0.2rem;
 			color:#fff;
 			.avator{

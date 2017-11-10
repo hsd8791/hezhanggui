@@ -23,7 +23,7 @@
 				</el-button>
 			</a>
 				
-			<app-info :title='"禾掌柜后台管理地址："' class='backend-container'>
+			<app-info :title='"壹号超市后台管理地址："' class='backend-container'>
 				<a href="http://www.he577.com">http://www.he577.com</a>
 			</app-info>
 

@@ -29,7 +29,7 @@ import contact from './contacts.vue'
 import publicFun from './js/public.js'
 import bus from './bus.js'
 import './css/icons.css'
-import './css/input.css'
+import './css/input.scss'
 import remindSimple from './components/tmpts/simple_remind.vue'
 // import './libs/font-awesome.min.css'
 export default {
@@ -279,7 +279,7 @@ export default {
   $navColor:#8f8e94;
   $navHeight:0.5rem;
   /*$activeColor:#cd331c;*/
-  $activeColor:#cc2a1b;
+  $activeColor:#0090f6;
   /*$navBackground:#eee;*/
   $navBackground:#fcf9fe;
   /*$itemNameColor:#8f8e94;*/

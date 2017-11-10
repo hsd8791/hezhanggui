@@ -247,8 +247,10 @@
 	.logo-container{
 		width: 100%;
 		height: 2.45rem;
-		background: url(../assets/img/logo.png) center center no-repeat;
-		background-size: 80%;
+		/*background: url(../assets/img/logo.png) 15% center no-repeat;*/
+		/*background-size: 90%;*/
+		background: url(../assets/img/logo.png) 70% center no-repeat;
+		background-size: 110%;
 		.logo{
 			width: 100%;
 		}
@@ -294,15 +296,15 @@
 			width: 100%;
 		}
 		.active{
-			border-bottom-color: #d6322c;
+			border-bottom-color: #0090f6;
 			border-bottom-width: 0.04rem;
 		}
 	}
 	.submit{
 		/*transition: 0.2s;*/
 		width: 80%;
-		background-color:#d6322c;
-		background: linear-gradient(90deg,#d6322c 0%,#d6322c 30%,#eda29a);
+		background-color:#0090f6;
+		background: linear-gradient(90deg,#0090f6 0%,#0090f6 30%,#cdeafd);
 		border-width: 0;
 		border-radius: 0.1rem;
     /*border-color: #ff6231;*/

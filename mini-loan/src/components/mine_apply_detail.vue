@@ -27,7 +27,7 @@
       <app-info :title='"审核意见"' v-if='applyRecord.status!==0&&applyRecord.remark'>  {{applyRecord.remark}}</app-info>
       <app-info :title="'联系方式'" v-if='marketInfo'>
         <span v-if='marketInfo.tel'><a :href="'tel:'+marketInfo.tel">{{marketInfo.tel}}</a></span>
-        <span v-if='!marketInfo.tel'>请通过右侧联系方式联系禾掌柜工作人员</span>
+        <span v-if='!marketInfo.tel'>请通过右侧联系方式联系壹号超市工作人员</span>
       </app-info>
     </div>
     <el-button type='success' @click='goApply' v-if='canApply'>

@@ -111,8 +111,8 @@ export default {
         },
         wxDefaultConfig(){
             wx.onMenuShareAppMessage({
-                title: '禾掌柜', // 分享标题
-                desc: '禾掌柜-用户授信贷款管理', // 分享描述
+                title: '壹号超市', // 分享标题
+                desc: '壹号超市-用户授信贷款管理', // 分享描述
                 link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                 imgUrl: '', // 分享图标
                 type: '', // 分享类型,music、video或link，不填默认为link

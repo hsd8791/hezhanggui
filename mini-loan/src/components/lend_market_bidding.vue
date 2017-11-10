@@ -25,8 +25,8 @@
     <div class=" products-container">
       <div :class="{'disabled':prdct.days<=0||prdct.startDateTime<endDate||!isBuyTime}"  class="prdct-item" v-for='prdct in adList'   @click='chooseQty(prdct)' v-if='prdct.pos<12' >
         <div class="prdct-item-inner-box">
-          <div class="prdct-line origin-price" >原价：{{prdct.price*2 | hbParser}}禾币</div>
-          <div class="prdct-line">现价：{{prdct.price | hbParser}}禾币</div>
+          <div class="prdct-line origin-price" >原价：{{prdct.price*2 | hbParser}}钻石</div>
+          <div class="prdct-line">现价：{{prdct.price | hbParser}}钻石</div>
           <div class="prdct-line">起始日期：{{prdct.startDate}}</div>
           <div class="prdct-line" v-if='prdct.name'>当日商家：{{prdct.name}}</div>
           <div class="prdct-line" v-if='prdct.countdown===-1'>24小时内无法购买</div>
@@ -43,7 +43,7 @@
     <remind :remind='remind'>
       <div v-if='confirmingChargeInfo'>
         <p class='rule-text charge-info'>购买日期：{{chargeInfo.dates}}</p>
-        <p class='rule-text charge-info'>花费禾币：{{chargeInfo.price}}</p>
+        <p class='rule-text charge-info'>花费钻石：{{chargeInfo.price}}</p>
         <p class='rule-text charge-info'>购买位置：{{chargeInfo.position}}号位</p>
       </div>
     </remind>
@@ -233,7 +233,7 @@ export default {
       }
       this.confirmingChargeInfo=true
       r.remindMsg='请核对以下购买信息'
-      // r.remindMsg=`请确认是否使用${p.price/100*qty}禾币购买${datesString}的排名`
+      // r.remindMsg=`请确认是否使用${p.price/100*qty}钻石购买${datesString}的排名`
       let info=this.chargeInfo
       info.price=(p.price/100*qty).toFixed(2)
       info.dates=datesString

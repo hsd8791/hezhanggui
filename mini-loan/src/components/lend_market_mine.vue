@@ -9,7 +9,7 @@
     </h1>
     <div class="top-slogan">
       <!-- <div class="promotion">
-        入驻贷款超市即送50禾币！
+        入驻贷款超市即送50钻石！
       </div> -->
       <div class="contact-container">
         <p class="contact">获客合作电话/微信：<a href="tel:18622272224">18622272224</a></p>

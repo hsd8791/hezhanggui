@@ -3,7 +3,7 @@
   <div class="input">
     <h1 class="title">提示</h1>
   </div>
-		<p class="text">关注【禾掌柜】微信公众号，</p>
+		<p class="text">关注【壹号超市】微信公众号，</p>
     <p class="text">还能领取1000~50000元额度。</p>
     <p class="text">
       更多贷款请到贷款超市申请
@@ -11,7 +11,8 @@
         【点这里进入贷款超市】
       </span>
     </p>
-		<img src="../assets/img/hzg_qrcode.jpg" class="qrcode">
+    <!-- <img src="../assets/img/hzg_qrcode.jpg" class="qrcode"> -->
+		<img src="../assets/img/yhcs_qrcode.jpg" class="qrcode">
     <div class="input">
       <el-button type='success' @click='back'>确定</el-button>
     </div>

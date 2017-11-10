@@ -55,7 +55,7 @@ export default {
     },
     configMenueShare(){
       wx.onMenuShareAppMessage({
-          title: '禾掌柜推广链接', // 分享标题
+          title: '壹号超市推广链接', // 分享标题
           desc: '来自'+publicFun.phonePartshow(bus.account)+'的邀请', // 分享描述
           link: 'http://hzg.he577.com'+bus.relativeUrlTest+'/m/#/index/login_code?signup=1&uniqueId='+bus.uniqueId, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: 'http://hzg.he577.com/test/m/static/img/logo.png', // 分享图标
