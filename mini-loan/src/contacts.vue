@@ -40,7 +40,7 @@
 			</div>
 		</div>
 		<div id="qrcode" v-show="qrcode > 0 " @click="baibai()">
-			<img @click.stop='' v-show="qrcode == 1" src="./assets/img/wechatMe.jpeg" alt="">
+			<img @click.stop='' v-show="qrcode == 1" src="./assets/img/yhcs_qrcode.jpg" alt="">
 			<img @click.stop='' v-show="qrcode == 2" src="./assets/img/qqMe.png" alt="">
 			<!-- <img @click.stop='' v-show="qrcode == 3" src="./assets/img/zfbMe.jpeg" alt="">
 			<img @click.stop='' v-show="qrcode == 4" src="./assets/img/jdbMe.jpeg" alt=""> -->

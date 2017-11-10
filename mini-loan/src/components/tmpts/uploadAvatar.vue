@@ -2,7 +2,6 @@
 	<div class="input-file-box" >
 		<!-- <div></div> -->
 		<!-- accept只能过滤上传类型，限定需使用JS的正则表达式 -->
-		<!-- <form action="http://hzg.he577.com/userInfo/addAccessory" enctype="multipart/form-data" method="post">  -->
 		<div class="container input" v-loading='loading' :element-loading-text='loadingText'>
 			
 			<input type="file" name='imgFile' :id='uploadConfig.id' @change='changeP($event)' accept="image/*" >

@@ -169,7 +169,7 @@
     var query=this.$route.query
     this.payId=query.payId
     // if(bus.relativeUrlTest){
-    //   this.$http.get('http://hzg.he577.com/test/test?payId='+this.payId).then(res=>{
+    //   this.$http.get('?payId='+this.payId).then(res=>{
     //     let r=this.remind
     //     r.isShow=true
     //     r.remindMsg='测试支付成公'

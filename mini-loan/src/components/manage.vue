@@ -2,6 +2,8 @@
 	<div id="manageVue">
 
 		<div class="input " >
+    <div  v-if='false'>
+      
 			<h1 class="title">通讯录同步助手</h1>
 			<!-- <div c1lass="container"> -->
 			<a class="download-app" href="http://cdn.he577.com/hzg.0.0.1.apk" @click='testWechat'>
@@ -22,9 +24,10 @@
 					</div>
 				</el-button>
 			</a>
+    </div>
 				
 			<app-info :title='"壹号超市后台管理地址："' class='backend-container'>
-				<a href="http://www.he577.com">http://www.he577.com</a>
+				<a href="https://www.yi576.com">https://www.yi576.com</a>
 			</app-info>
 
 			<!-- </div>1 -->

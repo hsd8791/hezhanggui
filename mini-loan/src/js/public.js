@@ -553,6 +553,9 @@ publicFun.checkSingleFilled = function(url, cfgName) {
 
 }
 publicFun.getTimeString = function(AsSetValue, AiStart, AiEnd) {
+	function fToTwo(aNum) {
+		return aNum >= 10 ? aNum : "0" + aNum;
+	};
 	if (AiStart === undefined) {
 		AiStart = 0
 	}
@@ -644,44 +647,45 @@ publicFun.wechatAuth = function(vm) {
 }
 
 publicFun.wxApiConfig = function(vm, callback) {
+	return
 	var indexUrl = encodeURIComponent(location.href.split('#')[0])
 		// var indexUrl = encodeURI(location.href)
-	publicFun.get('http://hzg.he577.com/wechat/jsconfig' + '?url=' + indexUrl, vm, () => {
-		// publicFun.get('wechat/jsconfig' + '?url=' + indexUrl, vm, () => {
-		console.log('wechat API', vm.response.body)
-		var data = vm.response.body.data
-		wx.config({
-			debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-			appId: data.appId, // 必填，公众号的唯一标识
-			timestamp: data.timestamp, // 必填，生成签名的时间戳
-			nonceStr: data.nonceStr, // 必填，生成签名的随机串
-			signature: data.signature, // 必填，签名，见附录1
-			jsApiList: ['onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-		})
-		var r = vm.remind
-		wx.ready(function() {
-			console.warn('wx config success')
-			bus.wxConfiged = true
-				// r.remindMsg='已配置'
-				// r.remindMsgDscrp=indexUrl
-				// r.isShow=true
-				// if(callback!==undefined && callback instanceof Function){
-				// 	callback()
-				// }
+	// publicFun.get('wx config url' + '?url=' + indexUrl, vm, () => {
+	// 	// publicFun.get('wechat/jsconfig' + '?url=' + indexUrl, vm, () => {
+	// 	console.log('wechat API', vm.response.body)
+	// 	var data = vm.response.body.data
+	// 	wx.config({
+	// 		debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	// 		appId: data.appId, // 必填，公众号的唯一标识
+	// 		timestamp: data.timestamp, // 必填，生成签名的时间戳
+	// 		nonceStr: data.nonceStr, // 必填，生成签名的随机串
+	// 		signature: data.signature, // 必填，签名，见附录1
+	// 		jsApiList: ['onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	// 	})
+	// 	var r = vm.remind
+	// 	wx.ready(function() {
+	// 		console.warn('wx config success')
+	// 		bus.wxConfiged = true
+	// 			// r.remindMsg='已配置'
+	// 			// r.remindMsgDscrp=indexUrl
+	// 			// r.isShow=true
+	// 			// if(callback!==undefined && callback instanceof Function){
+	// 			// 	callback()
+	// 			// }
 
-		});
-		wx.error((res) => {
-			// alert(res)
-			// var remind = vm.remind
-			// remind.remindMsg = '分享操作无法完成'
-			// remind.remindMsg = indexUrl
-			// remind.remindMsgDscrp = data
-			// remind.remindOpts = [{
-			// msg: '确定'
-			// }]
-			// remind.isShow = true
-		});
-	})
+	// 	});
+	// 	wx.error((res) => {
+	// 		// alert(res)
+	// 		// var remind = vm.remind
+	// 		// remind.remindMsg = '分享操作无法完成'
+	// 		// remind.remindMsg = indexUrl
+	// 		// remind.remindMsgDscrp = data
+	// 		// remind.remindOpts = [{
+	// 		// msg: '确定'
+	// 		// }]
+	// 		// remind.isShow = true
+	// 	});
+	// })
 }
 
 publicFun.phonePartshow = function(p) {
@@ -697,6 +701,7 @@ publicFun.phonePartshow = function(p) {
 function fToTwo(aNum) {
 	return aNum >= 10 ? aNum : "0" + aNum;
 };
+
 publicFun.toTwo=fToTwo
 //yyyy-mm-dd hh:mm:ss ----(0,19)
 //yy-mm-dd hh:mm:ss ----(2,19)

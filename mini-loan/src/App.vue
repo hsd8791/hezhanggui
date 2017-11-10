@@ -208,7 +208,7 @@ export default {
       localStorage.qudao = way
     }
     // setTimeout(()=> {
-    publicFun.wxApiConfig(this)
+    // publicFun.wxApiConfig(this)
       // }, 5000);
     this.busDebug = bus.relativeUrlTest
     bus.$on('account_change', (ac) => {

@@ -90,10 +90,8 @@
 					user_mobile:this.phone,
 					// cb:encodeURI('http://localhost:8888/m/#/shujumohe'),
 					// cb:location.href,
-					cb:'http://hzg.he577.com/m/#/index/shujumohe',
-					// cb:'http://hzg.he577.com/m/#'+this.$route.path,
+					cb:'https://www.yi576.com/m/#/index/shujumohe',
 					// v:Math.random().toFixed(5),//防止location.href 失效
-					// cb:encodeURIComponent('http://hzg.he577.com/callback/shujumohe/createSimQuery?self_task_id='+this.taskId+'&phone='+this.phone),
 				}
 
 

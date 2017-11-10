@@ -57,8 +57,8 @@ export default {
       wx.onMenuShareAppMessage({
           title: '壹号超市推广链接', // 分享标题
           desc: '来自'+publicFun.phonePartshow(bus.account)+'的邀请', // 分享描述
-          link: 'http://hzg.he577.com'+bus.relativeUrlTest+'/m/#/index/login_code?signup=1&uniqueId='+bus.uniqueId, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: 'http://hzg.he577.com/test/m/static/img/logo.png', // 分享图标
+          link: 'https://www.yi576.com'+bus.relativeUrlTest+'/m/#/index/login_code?signup=1&uniqueId='+bus.uniqueId, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: 'https://www.yi576.com/m/logo.png', // 分享图标
           type: '', // 分享类型,music、video或link，不填默认为link
           dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
           success: ()=> { 

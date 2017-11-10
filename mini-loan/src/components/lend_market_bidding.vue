@@ -13,7 +13,7 @@
           <div class="input-label">选择购买天数:</div>
             <!-- <el-input-number v-model="buyQty" class='qty-input'   :min="1" :max="crrtMaxQty"></el-input-number> -->
         </div>
-        <el-button  class='choose-date' type='success'  v-for='(item,index) in canBuyDate' :class="{'is-disabled':index>buyQty-1}" @click='toggleChoose(index)'>{{item}}</el-button>
+        <el-button  class='choose-date' type='success'  v-for='(item,index) in canBuyDate' :class="{'is-disabled':index>buyQty-1}" @click='toggleChoose(index)':key='index'>{{item}}</el-button>
         <el-button type='success'  @click='confirmCharge'>确定</el-button>
         <i class="close-bttn icon-cancel-circle" @click='choosingQty=false'></i>
         <div @click='' class="show-rule-box">
