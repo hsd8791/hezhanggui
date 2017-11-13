@@ -1,20 +1,20 @@
 <template>
 	<div id="manageVue">
 
-		<div class="input " >
-    <div  v-if='false'>
+    <div class="input " >
       
-			<h1 class="title">通讯录同步助手</h1>
-			<!-- <div c1lass="container"> -->
-			<a class="download-app" href="http://cdn.he577.com/hzg.0.0.1.apk" @click='testWechat'>
-			<el-button type='success' id='androidAppDownload'>
-				<i class="icon-android platfor-icon"></i>
-				<div class="download-text">
-					<p>下载安卓</p>
-					<p>同步助手</p>
-				</div>
-			</el-button>
-			</a>
+      <h1 class="title">通讯录同步助手</h1>
+      <!-- <div c1lass="container"> -->
+      <a class="download-app" href="https://cdn.yi576.com/yfz.0.0.1.apk" @click='testWechat'>
+      <el-button type='success' id='androidAppDownload'>
+        <i class="icon-android platfor-icon"></i>
+        <div class="download-text">
+          <p>下载安卓</p>
+          <p>同步助手</p>
+        </div>
+      </el-button>
+      </a>
+    <div  v-if='false'>
 			<a class="download-app" href="https://itunes.apple.com/cn/app/%E7%A6%BE%E6%8E%8C%E6%9F%9C%E5%90%8C%E6%AD%A5%E5%8A%A9%E6%89%8B/id1282215244?mt=8" @click='testWechat' >
 				<el-button type='success' id='iosAppDownload'>
 					<i class="icon-apple platfor-icon"></i>

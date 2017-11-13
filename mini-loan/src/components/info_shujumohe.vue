@@ -84,7 +84,7 @@
 		methods: {
 			submit(){
 				var postBody = {
-					box_token:'BB2D93B9B972461A989EB491C1C3EE23',
+					box_token:'738AC6E28F754109A08990BC9401ED2F',
 					real_name:this.real_name,
 					identity_code:this.identity_code,
 					user_mobile:this.phone,

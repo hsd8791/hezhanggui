@@ -79,7 +79,7 @@ export default {
   top: 0.4rem;
   width: 100%;
   z-index: 99999;
-  background: #e0635c;
+  background: #0090f6;
   /*transform: scaleY(1);*/
   transform-origin: top;
   transition: 1s linear;

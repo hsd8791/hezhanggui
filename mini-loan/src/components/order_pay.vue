@@ -126,9 +126,9 @@
         title:'选择支付方式',
         self_:this,
         chooseOpts:[
-        {type:'微信支付',callback:()=>{
-          this.wechatPay()
-        }},
+        // {type:'微信支付',callback:()=>{
+        //   this.wechatPay()
+        // }},
         {type:'快捷支付',callback:()=>{
           this.cardPay()
         }},

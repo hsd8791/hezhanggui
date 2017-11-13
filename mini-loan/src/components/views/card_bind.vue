@@ -65,7 +65,7 @@ export default {
   	},
     nameRemind(){
       let r=this.remind
-      r.remindMsg='只能绑定本人的卡号用于支付和接受放款，如姓名有误请到认证信息中修改。'
+      r.remindMsg='只能绑定本人的卡号用于支付和收款，如姓名有误请到认证信息中修改。'
       r.remindOpts=[{msg:'我知道了'}]
       r.isShow=true
     },
