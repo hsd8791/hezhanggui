@@ -13,11 +13,13 @@
           <div class="input-label">选择购买天数:</div>
             <!-- <el-input-number v-model="buyQty" class='qty-input'   :min="1" :max="crrtMaxQty"></el-input-number> -->
         </div>
-        <el-button  class='choose-date' type='success'  v-for='(item,index) in canBuyDate' :class="{'is-disabled':index>buyQty-1}" @click='toggleChoose(index)'>{{item}}</el-button>
+        <div class="choose-container">
+          <el-button  class='choose-date' type='success'  v-for='(item,index) in canBuyDate' :class="{'is-disabled':index>buyQty-1}" @click='toggleChoose(index)'>{{item}}</el-button>
+        </div>
         <el-button type='success'  @click='confirmCharge'>确定</el-button>
         <i class="close-bttn icon-cancel-circle" @click='choosingQty=false'></i>
         <div @click='' class="show-rule-box">
-            <span class=""  @click='showRuleForce' >购买规则</span>
+            <span class=""  @click='showRuleForce'>购买规则</span>
         </div>
       </div>
     </div>
@@ -50,7 +52,7 @@
     <remind :remind='remindRule' v-if='!viewedRules'>
       <div v-if='ruleIsShow'>
         <p class='rule-text rule-title'>规则说明:</p>
-        <p class='rule-text'>1.一次最多购买3天</p>
+        <p class='rule-text'>1.一次最多购买7天</p>
         <p class='rule-text'>2.每日中午12点-24点开放广告位购买，本产品一旦购买成功即不支持退款，请悉知。</p>
         <p class='rule-text'>3.一个广告位在相同时间内，最多只有一个商家能购买成功，系统会自动退款未成功的订单，您可在购买记录中查看购买结果，所以先买先得，不要犹豫啦，赶快购买吧。</p>
         <p class='rule-text'>4.系统将在每日中午12点完成商家广告位入驻，次日12点下架，并且重新根据当日入驻商家重新完成排序。</p>
@@ -65,6 +67,7 @@ import bus from '../bus.js'
 export default {
   data() {
     return {
+      ttlCanBuyQty:7,
       confirmingChargeInfo:false,
       ruleReadingInterval:null,
       urls:{
@@ -191,11 +194,9 @@ export default {
       let l=p.days
       this.canBuyDate=[]
       for(let i=0;i<l;i++){
-        this.canBuyDate.unshift(this.buyDate[2-i])
+        this.canBuyDate.unshift(this.buyDate[this.ttlCanBuyQty-1-i])
       }
       // ,date=publicFun.getTimeString(p.startDateTime,5,10)
-      
-      
       // console.log('date',date)
     },
     chooseQty(p){
@@ -288,9 +289,10 @@ export default {
       console.log('date',s)
       return s
     }
-    this.buyDate.push(mmddString(1))
-    this.buyDate.push(mmddString(2))
-    this.buyDate.push(mmddString(3))
+    for(let i=1;i<=this.ttlCanBuyQty;i++){
+      this.buyDate.push(mmddString(i))
+    }
+    
     // console.log('today',publicFun.getTimeString(new Date(),5,10))
     // console.log('today',publicFun.getTimeString((new Date()).getTime()+86400000,5,10))
     // console.log('today',publicFun.getTimeString((new Date()).getTime()+86400000*2,5,10))
@@ -312,6 +314,25 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+  .choose-container{
+    display: flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    button.choose-date{
+      margin:0.05rem;
+    }
+    .choose-date{
+      width: 27%;
+      height: 0.34rem;
+      line-height: 0.24rem;
+      padding:0.05rem;
+      font-size: 0.14rem;
+      border:0;
+      margin:0.05rem;
+
+      /*margin-top:0.2rem;*/
+    }
+  }
   .products-container{
     display: flex;
     flex-wrap: wrap;
@@ -404,16 +425,7 @@ export default {
     padding:0.1rem;
     /*padding:1rem;*/
     padding-bottom: 0.2rem;
-    .choose-date{
-      width: 27%;
-      height: 0.34rem;
-      line-height: 0.24rem;
-      padding:0.05rem;
-      font-size: 0.14rem;
-      border:0;
-      margin:0.05rem;
-      /*margin-top:0.2rem;*/
-    }
+    
     .qty-title{
       /*border:1px solid red;*/
       font-size: 0.16rem;
