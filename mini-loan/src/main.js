@@ -30,7 +30,6 @@ if(/test\/m/.test(location.href)){
 }else{
 	Vue.http.options.root = 'http://hzg.he577.com';
 }
-// 
 Vue.directive('scroll-load', {
 	bind: function(el, binding, vnode) {
 		console.log('vnode', vnode)

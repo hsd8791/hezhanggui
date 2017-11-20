@@ -29,7 +29,7 @@ import contact from './contacts.vue'
 import publicFun from './js/public.js'
 import bus from './bus.js'
 import './css/icons.css'
-import './css/input.css'
+import './css/input.scss'
 import remindSimple from './components/tmpts/simple_remind.vue'
 // import './libs/font-awesome.min.css'
 export default {

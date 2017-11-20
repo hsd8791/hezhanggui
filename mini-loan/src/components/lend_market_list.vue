@@ -16,22 +16,38 @@
     <app-record-list :top='isMarket?0.8:0.4' :cfg='config' v-record='config.name' class='market-list'>
       <!-- <div v-for='info in list' @click='goP("/market_detail?id="+info.id)'> -->
 
-      <div v-for='info in list' @click='goApply(info)' class="market-container" :key='info.id'>
-        <div class="inner-container" :class="{'inner-container-small':choosing}">
+      <div v-for='info in list' @click='goApply(info)' class="market-container"  :key='info.id'>
+        <div class="inner-container" :style="{'background-color':info.ad_pos!==-1?'transparent':'transparent'}" :class="{'inner-container-small':choosing}">
           
-          <div class="avator">
-            <div class="avator-pic" :style="{backgroundImage: 'url('+info.logo+')'}" ></div>
+          <div class="avator"  >
+
+            <div class="avator-pic" :style="{backgroundImage: 'url('+info.logo+')'}" :class="{'vip-avator':info.ad_pos!==-1}"  ></div>
+            <!-- <div :class="{'vip-avatar':info.ad_pos!==-1}"></div> -->
           </div>
           <div class="info-container">
+            <div class="info-name">
+              {{info.name}}
+              <!-- <span class="vip-container" v-if='info.ad_pos!==-1'>
+                <div class="vip-icon">
+                  v
+                </div>
+              </span> -->
+            </div>
+            <!-- <div class="info-expire">期限{{info.loan_time_desc}}天</div> -->
             <div class="info-applied">申请数：{{info.view_num}}</div>
             <div class="info-fee">{{info.loan_amount_desc}}元</div>
-            <div class="info-expire">期限{{info.loan_time_desc}}天</div>
           </div>
-          <div class="new-remind" v-if='isNew(info.create_time)'>
+          <div class="new-remind" v-if='isNew(info.create_time)&&info.ad_pos===-1'>
             <div class="inner">
               new!
             </div>
           </div>
+          <div class="new-remind " v-if='info.ad_pos!==-1'>
+            <div class="inner vip-remind">
+              推荐!
+            </div>
+          </div>
+          <!-- <div class="recommend" v-if='info.ad_pos!==-1'>{{info.ad_pos<=1?'力':''}}荐!</div> -->
         </div>
         <div class="checkbox-container" @click.stop='disabledRemind(info)' v-show='choosing'>
           <el-checkbox class='checkbox' v-model='marketChoosed' :label='info.uid' @click.stop='' :disabled='info.url!==""||cannotApplyMarket[info.uid]!==undefined'></el-checkbox>
@@ -280,26 +296,7 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
 
-.apply-count{
-  font-size: 0.13rem;
-  color:#ccc;
-}
-@keyframes blink{
-  0% {background:#FF2800}
-  40%{background: #DBEF00}
-  100%{background: #FF2800}
-}
-.link-bidding{
-  animation: blink 0.3s infinite linear;
-  height: 0.4rem;
-  line-height: 0.4rem;
-  font-size: 0.2rem;
-  background: #FF2800;
-  color:#fff;
-}
-</style>
 <style type="text/css" lang='scss'>
   
   #marketListVue{
@@ -382,6 +379,7 @@ export default {
       transform-origin: right;
       transition: .15s;
     }
+
     .inner-container-small{
       transform: scale(0.9);
     }
@@ -395,7 +393,7 @@ export default {
       /*z-index: 9999;*/
       position: absolute;
       right: 0;
-      top: 0;
+      bottom: 0;
       padding:0.05rem;
     }
     .market-container{
@@ -406,6 +404,15 @@ export default {
       height: 0.8rem;
       position: relative;
       background: #f4f4f4;
+      .recommend{
+        position: absolute;
+        right: -0rem;
+        top: 0;bottom: 0;
+        margin:auto;
+        padding-top: 0.02rem;
+        height: 0.14rem;
+        color:#F99200;
+      }
       .avator{
         width:0.5rem;
         height:0.5rem;
@@ -414,6 +421,9 @@ export default {
         border:1px solid #ccc;
         position: absolute;
         top: 0;bottom: 0;
+        overflow: visible;
+        
+
         .avator-pic{
           width:100%;
           height:100%;
@@ -423,7 +433,18 @@ export default {
           background-size: contain;
 
         }
+
       }
+      .vip-avatar{
+        width: 0.75rem;
+        height: 0.75rem;
+        border: 0.2rem solid transparent;
+        position: absolute;
+        left:-0.125rem;
+        top:-0.125rem;
+        border-image: 28%  url(../assets/img/avatar_border.png) stretch;
+      }
+
       .info-container{
         width: 65%;
         padding:0.12rem 0;
@@ -433,27 +454,28 @@ export default {
         top: 0;
         text-align: left;
         font-size: 0.13rem;
-        .info-fee,.info-expire,.info-applied{
+        .info-fee,.info-applied,.info-name{
 
         }
         .info-fee{
           color:#F44343;
           font-size: 0.14rem;
         }
-        .info-expire{
+        .info-applied{
           color:#888;
         }
-        .info-applied{
+        .info-name{
           color:#666;
+
         }
       }
-      .new-remind{
+      /*.new-remind{
         transform: rotate(45deg);
         border:1px solid red;
         position: absolute;
-        width: 0.6rem;
+        width: 0.8rem;
         height: 0.6rem;
-        right: -0.3rem;top: -0.3rem;
+        right: -0.35rem;top: -0.35rem;
         .inner{
           width: 100%;
           height: 0.2rem;
@@ -465,7 +487,7 @@ export default {
           bottom: 0;
 
         }
-      }
+      }*/
     }
     .list-container{
       .list-container-inner{
@@ -476,6 +498,62 @@ export default {
       border:1px solid #fff;
     }
   }
+
+</style>
+<style lang='scss' scoped>
+
+.apply-count{
+  font-size: 0.13rem;
+  color:#ccc;
+}
+@keyframes blink{
+  0% {background:#FF2800}
+  40%{background: #DBEF00}
+  100%{background: #FF2800}
+}
+@keyframes blinkText{
+  0% {color:#FF2800}
+  40%{color: #DBEF00}
+  100%{color: #FF2800}
+}
+.vip-remind{
+  animation: blink 0.3s infinite linear;
+}
+.vip-container{
+  /*border:1px solid red;*/
+  height: 0.13rem;
+  position: relative;
+}
+.vip-icon{
+  display: inline-block;
+  position: absolute;
+  top: 0;bottom: 0;
+  margin:auto 0;
+  /*display: none;*/
+  background: #e2ad32;
+  border-radius: 50%;
+  width: 0.14rem;
+  height: 0.14rem;
+  text-align: center;
+  line-height: 1;
+  font-size: 0.13rem;
+  color: #DEED73;
+  margin-left: 0.05rem;
+  animation: blink 0.3s infinite linear;
+}
+.link-bidding{
+  animation: blink 0.3s infinite linear;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  font-size: 0.2rem;
+  background: #FF2800;
+  color:#fff;
+}
+.market-container{
+  .recommend{
+    animation: blinkText 0.3s infinite linear;
+  }
+}
 
 </style>
 <style type="text/css" lang='scss'>
