@@ -141,6 +141,9 @@ export default {
     },
     canApply(){
       let t=this,a=this.applyRecord
+      if(this.marketInfo&&this.marketInfo.status===0){
+        return false
+      }
       if(!a){
         return true
       }else{

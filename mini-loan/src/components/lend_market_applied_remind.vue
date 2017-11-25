@@ -34,7 +34,7 @@ export default {
         //   i++
         // }
         // var newR=arr.join('/')
-        publicFun.goPage('/mine/apply_list')
+        publicFun.goPage('/mine/apply_list/lendingUid_0')
       },
       goMarket(){
         publicFun.goPage('/market_list')

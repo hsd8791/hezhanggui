@@ -197,6 +197,9 @@
 				if(status!==-1&&status!==undefined){
 					body.status=status// -1:all 0:audit 1:ac 2: refuse
 				}
+				if(body.lendingUid=='detail'){
+					console.error('lendApply/borrowLoanRecords error detail')
+				}
 				var url=publicFun.urlConcat(this.url,body)
 				console.log('url',url)
 				publicFun.get(url,this,()=>{
