@@ -136,6 +136,15 @@ export default {
       }
     },
     toggleChoose(){
+      if(!bus.cfgEssential.allFilled){
+        let r=this.remind
+        r.remindMsg='请至首页完成认证'
+        r.remindOpts=[{msg:'确定',callback:()=>{
+          publicFun.goPage('/index')
+        }}]
+        r.isShow=true
+        return
+      }
       console.log('this vm',this.$root)
       let b = this.choosing
       if(b){
