@@ -164,7 +164,7 @@
 				var input = $event.target.parentElement.parentElement.getElementsByTagName('input')[0]
 				console.log('input.files[0].size', input.files[0].size)
 				console.log('input.files[0].size', input.files[0].type)
-				if (input.files[0].size > 3 * 1024 * 1024 - 10) {
+				if (input.files[0].size > 5 * 1024 * 1024 - 10) {
 					var r = this.remind
 					r.remindMsg = '大小不得超过3M'
 					r.isShow = true

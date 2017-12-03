@@ -12,7 +12,7 @@
         入驻贷款超市即送50钻石！
       </div> -->
       <div class="contact-container">
-        <p class="contact">获客合作电话/微信：<a href="tel:13599517621">13599517621</a></p>
+        <p class="contact">获客合作电话/微信：<a href="tel:13685927456">13685927456</a></p>
       </div>
     </div>
     <div  class="inner" >
