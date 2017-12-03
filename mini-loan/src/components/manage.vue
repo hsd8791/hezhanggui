@@ -14,7 +14,7 @@
         </div>
       </el-button>
       </a>
-    <div  v-if='false'>
+    <div  v-if='1'>
 			<a class="download-app" href="https://itunes.apple.com/cn/app/%E5%A4%A7%E6%A2%A6%E5%90%8C%E6%AD%A5%E5%8A%A9%E6%89%8B/id1282215244?mt=8" @click='testWechat' >
 				<el-button type='success' id='iosAppDownload'>
 					<i class="icon-apple platfor-icon"></i>
