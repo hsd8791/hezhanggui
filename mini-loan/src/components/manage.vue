@@ -13,7 +13,7 @@
 				</div>
 			</el-button>
 			</a>
-			<a class="download-app" href="https://itunes.apple.com/cn/app/%E7%A6%BE%E6%8E%8C%E6%9F%9C%E5%90%8C%E6%AD%A5%E5%8A%A9%E6%89%8B/id1282215244?mt=8" @click='downloadIos' >
+			<a class="download-app"  @click='downloadIos' >
 				<el-button type='success' id='iosAppDownload'>
 					<i class="icon-apple platfor-icon"></i>
 					<div class="download-text">
@@ -63,12 +63,8 @@ import publicFun from '../js/public.js'
   			r.isShow=true
   		}
   	},
+
     downloadIos(){
-      if(!this.testWechat()){
-        this.remindPlatformChoose()
-      }
-    },
-    remindPlatformChoose(){
       let r=this.remind
       r.remindMsg='重要提示'
       r.remindMsgDscrp='进入App后平台请填写【禾掌柜】'
