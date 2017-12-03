@@ -14,8 +14,7 @@
         </div>
       </el-button>
       </a>
-    <div  v-if='1'>
-			<a class="download-app" href="https://itunes.apple.com/cn/app/%E5%A4%A7%E6%A2%A6%E5%90%8C%E6%AD%A5%E5%8A%A9%E6%89%8B/id1282215244?mt=8" @click='testWechat' >
+			<a class="download-app" href="https://itunes.apple.com/cn/app/%E5%A4%A7%E6%A2%A6%E5%90%8C%E6%AD%A5%E5%8A%A9%E6%89%8B/id1282215244?mt=8" @click='downloadIos' >
 				<el-button type='success' id='iosAppDownload'>
 					<i class="icon-apple platfor-icon"></i>
 					<div class="download-text">
@@ -24,7 +23,6 @@
 					</div>
 				</el-button>
 			</a>
-    </div>
 				
 			<app-info :title='"壹号超市后台管理地址："' class='backend-container'>
 				<a href="https://www.yi576.com">https://www.yi576.com</a>
@@ -66,6 +64,20 @@ import publicFun from '../js/public.js'
   			r.isShow=true
   		}
   	},
+    downloadIos(){
+      if(!this.testWechat()){
+        this.remindPlatformChoose()
+      }
+    },
+    remindPlatformChoose(){
+      let r=this.remind
+      r.remindMsg='重要提示'
+      r.remindMsgDscrp='进入App后平台请填写【壹号超市】'
+      r.remindOpts=[{msg:'确认',callback:()=>{
+
+      },href:'https://itunes.apple.com/cn/app/%E5%A4%A7%E6%A2%A6%E5%90%8C%E6%AD%A5%E5%8A%A9%E6%89%8B/id1282215244?mt=8'}]
+      r.isShow=true
+    }
   },
   events: {},
   components: {}
