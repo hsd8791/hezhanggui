@@ -1,27 +1,16 @@
 <template>
-	<div id="indexVue">
-		<!-- <h3 class="title">操作</h3> -->
-		<div class="ctrl-container">
-			<!-- <div class="row"> -->
+<div id="indexVue">
+		<!-- <div class="ctrl-container">
 				<div class="ctrl-bttn" @click='goP("/apply_borrow")'>
-					<!-- <div class="item-icon"><i class="icon-database"></i></div> -->
 					<div class="item-name">我要申请</div>
 				</div>
 				<div class="ctrl-bttn" @click='goP("/apply_lend")'>
-					<!-- <div class="item-icon"><i class="icon-banknote"></i></div> -->
 					<div class="item-name">分享好友</div>
 				</div>
 				<div class="ctrl-bttn" @click='goP("/promotion")'>
-					<!-- <div class="item-icon"><i class="icon-banknote"></i></div> -->
 					<div class="item-name">我要推广</div>
 				</div>
-				<!-- <div class="ctrl-bttn" @click='goP("/")'> -->
-					<!-- <div class="item-icon"><i class="icon-address-book"></i></div> -->
-					<!-- <div class="item-name">基本信息</div> -->
-				<!-- </div> -->
-
-			<!-- </div> -->
-		</div>
+		</div> -->
 		<h3 class='title first-title'>必填认证认证信息</h3>
 		<div class="container">
 			<div class="row" v-for='row in essentialCell'>
@@ -42,11 +31,14 @@
 				</div>
 			</div>
 		</div>
-		
+		<div class="ctrl-container">
+			<div class="ctrl-bttn ctrl-bttn-temp" @click='goP("/promotion")'>
+				<div class="item-name">我要推广</div>
+			</div>
 		</div>
-	</div>
-
 </div>
+
+
 </template>
 
 <script>
@@ -201,6 +193,7 @@
 			}
 			.ctrl-container{
 				display: flex;
+				justify-content:center;
 				/**{
 					border:1px solid red;
 				}*/
@@ -214,6 +207,9 @@
 					background: linear-gradient(90deg,#d6322c 0%,#d6322c 30%,#eda29a);
 					border-width: 0;
 					border-radius: 0.1rem;
+				}
+				.ctrl-bttn-temp{
+					width: 90%;
 				}
 			}
 			.cell{
