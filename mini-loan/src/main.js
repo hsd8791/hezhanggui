@@ -11,6 +11,8 @@ import publicFun from './js/public.js'
 import remind from './components/tmpts/remind.vue'
 import back from './components/tmpts/route_back.vue'
 import record from './components/tmpts/record.vue'
+import choose from './components/tmpts/choose_remind.vue'
+import bindCard from './components/views/card_bind.vue'
 import list from './components/tmpts/record_list.vue'
 import appInfo from './components/tmpts/info.vue'
 import fillStatusEssential from './components/views/fill_status_essential.vue'
@@ -21,14 +23,16 @@ Vue.component('app-back', back)
 Vue.component('app-info', appInfo)
 Vue.component('app-record', record)
 Vue.component('app-record-list', list)
+Vue.component('app-choose', choose)
+Vue.component('app-bind-card',bindCard)
 Vue.component('fill-status-essential', fillStatusEssential)
 Vue.config.productionTip = false
 Vue.http.options.credentials = true;
 Vue.http.options.emulateJSON = true;
 if(/test\/m/.test(location.href)){
-	Vue.http.options.root = 'https://www.ho163.com/api';
+	Vue.http.options.root = 'http://www.ho577.com/api';
 }else{
-	Vue.http.options.root = 'https://www.ho163.com/api';
+	Vue.http.options.root = 'http://www.ho577.com/api';
 }
 Vue.directive('scroll-load', {
 	bind: function(el, binding, vnode) {
