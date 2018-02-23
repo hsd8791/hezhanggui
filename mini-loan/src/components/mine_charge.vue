@@ -5,21 +5,21 @@
 		<div class="input" >
 			
 			<h1 class="title"><app-back></app-back>充值中心 </h1>
-			<div class="remind-box">
+<!-- 			<div class="remind-box">
 				<p class="remind">
 					请使用电脑端后台管理系统
 				</p>
 				<p class="remind">
 					进行充值并使用！
 				</p>
-			</div>
-			<!-- <div class="charge-phone">充值账户：{{phone}}</div>
+			</div> -->
+			<div class="charge-phone">充值账户：{{phone}}</div>
 			<div class=" products-container">
 				<div class="prdct-list"  v-for='prdct in products' @click='charge(prdct.id)'>
 					<div class="prdct-hb">{{prdct.hbFee | hbParser}}金币</div>
 					<div class="prdct-rmb">售价:{{prdct.moneyFee | moneyParser}}元</div>
 				</div>
-			</div> -->
+			</div>
 		</div>
 		<remind :remind='remind'></remind>
 	</div>
