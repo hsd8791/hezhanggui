@@ -1,18 +1,25 @@
 <template>
 	<div id="mineChargeVue" >
 		<!-- .input .container .unordered-list .el-icon-arrow-right -->
-		<div class="input">
+
+		<div class="input" >
 			
 			<h1 class="title"><app-back></app-back>充值中心 </h1>
-			<div class="charge-phone">充值账户：{{phone}}</div>
+			<div class="remind-box">
+				<p class="remind">
+					请使用电脑端后台管理系统
+				</p>
+				<p class="remind">
+					进行充值并使用！
+				</p>
+			</div>
+			<!-- <div class="charge-phone">充值账户：{{phone}}</div>
 			<div class=" products-container">
 				<div class="prdct-list"  v-for='prdct in products' @click='charge(prdct.id)'>
-						<!-- {{prdct.title}} -->
-					<!-- <i class="el-icon-arrow-right"></i> -->
-					<div class="prdct-hb">{{prdct.hbFee | hbParser}}禾币</div>
+					<div class="prdct-hb">{{prdct.hbFee | hbParser}}金币</div>
 					<div class="prdct-rmb">售价:{{prdct.moneyFee | moneyParser}}元</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<remind :remind='remind'></remind>
 	</div>
@@ -81,6 +88,13 @@ export default {
 </script>
 
 <style lang='scss' scoped> 
+.remind{
+	font-size: 0.24rem;
+	margin:0.1rem;
+}
+.remind-box{
+	padding-top: 1rem;
+}
 .products-container{
 	display: flex;
 	flex-wrap: wrap;
@@ -88,11 +102,11 @@ export default {
 	.prdct-list{
 		width: 30%;
 		height: 0.75rem;
-		border:2px solid #cc2a1b;
+		border:2px solid #0463db;
 		border-radius: 0.05rem;
 		margin:0.055rem;
 		letter-spacing: -0.5px;
-		color:#cc2a1b;
+		color:#0463db;
 		.prdct-hb{
 			font-size: 0.16rem;
 			margin:0.15rem 0 0;
@@ -104,7 +118,7 @@ export default {
 			transform: scale(1);
 		}
 		&:active{
-			background: #cc2a1b;
+			background: #0463db;
 			color: #fff;
 		}
 	}

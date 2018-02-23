@@ -2,7 +2,7 @@
 	<div id="marketListVue" v-inner-scroll  @click='hideFloatDetail'>
       <div class="input">
         <h1 class="title" v-loading='loading' element-loading-text='请稍后'>
-          贷款超市列表
+          放米超市列表
           <span class='edit-input-left' @click='toggleChoose'>{{multipleMsg}}</span>
           <span class='edit-input' @click='goP("/market_mine")'>我的超市</span>
         </h1>   
@@ -133,7 +133,7 @@ export default {
       console.log('click')
       let r=this.remind
       if(info.url!==''){
-        r.remindMsg='该贷款超市需单独操作' 
+        r.remindMsg='该放米超市需单独操作' 
         r.remindOpts=[{msg:'确定'}]
         r.isShow=true
         return

@@ -19,7 +19,7 @@
         </app-record> -->
         <!-- slot for app-record -->
         <slot></slot>
-        <div class="list-bottom" v-if='allGet'>————我是有底线的————</div>
+        <div class="list-bottom" v-if='allGet&&records.length!==0'>————我是有底线的————</div>
       </div>
     </div>
     <remind :remind='remind'></remind>

@@ -79,7 +79,10 @@
 				publicFun.goPage(p)
 			},
 			authorize(){
-				publicFun.get(this.urls.auth,this,()=>{
+				let url=publicFun.urlConcat(this.urls.auth,{
+					platform:'hzg',
+				})
+				publicFun.get(url,this,()=>{
 					console.log('res',this.response.body.data.url)
 					window.location.href=this.response.body.data.url
 				})

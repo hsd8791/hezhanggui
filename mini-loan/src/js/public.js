@@ -616,6 +616,7 @@ publicFun.isWeiXin = function() {
 
 publicFun.wechatAuth = function(vm) {
 	// console.log('authorize wechat')
+	return
 	var back = location.href
 	var i = back.match('/login')
 	if (i) {
@@ -644,6 +645,7 @@ publicFun.wechatAuth = function(vm) {
 }
 
 publicFun.wxApiConfig = function(vm, callback) {
+	return
 	var indexUrl = encodeURIComponent(location.href.split('#')[0])
 		// var indexUrl = encodeURI(location.href)
 	publicFun.get('http://hzg.he577.com/wechat/jsconfig' + '?url=' + indexUrl, vm, () => {

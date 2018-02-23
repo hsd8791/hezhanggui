@@ -4,9 +4,9 @@
 		<div class="checkFill"></div>
 		<div class="container phone-lender">
 			<div class="wraper"  v-if='!getById'>
-				<label class="label" >放贷人手机：</label> 
+				<label class="label" >放米人手机：</label> 
 				
-				<el-input :disabled='false' type='tel' placeholder='放贷人注册手机号' v-model='phoneLender ' @blur.once='blured'  :class='{"valid-border":phoneLenderValid,"error-border":!phoneLenderValid}'></el-input>
+				<el-input :disabled='false' type='tel' placeholder='放米人注册手机号' v-model='phoneLender ' @blur.once='blured'  :class='{"valid-border":phoneLenderValid,"error-border":!phoneLenderValid}'></el-input>
 				
 				<i :class="{'el-icon-check':phoneLenderValid,'el-icon-close':!phoneLenderValid}"></i>
 			</div>
@@ -19,11 +19,11 @@
 		<el-button type='success' class="confirm" @click='deleteLender'  v-if='getById&&!getByMarket'>向其他人申请</el-button>
 		<el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(allValid)' v-if='canApply&&!applyRecord'>点击申请</el-button>
 		<div class="info-user" v-if='!getByMarket'>
-			<h3 class="subtitle">放贷人信息</h3>
+			<h3 class="subtitle">放米人信息</h3>
 			<div class="info-lender">
-				<p v-if='lenderInfo.phone'>放贷人姓名：{{lenderInfo.name}}</p>
-				<p v-if='lenderInfo.phone'>放贷人手机号：{{lenderInfo.phone | phonePartshow}}</p>
-				<p v-if='lenderInfo.phone'>请核实放贷人姓名后提交申请</p>
+				<p v-if='lenderInfo.phone'>放米人姓名：{{lenderInfo.name}}</p>
+				<p v-if='lenderInfo.phone'>放米人手机号：{{lenderInfo.phone | phonePartshow}}</p>
+				<p v-if='lenderInfo.phone'>请核实放米人姓名后提交申请</p>
 				<p v-if='lenderInfoAlert' style='color:red'>{{lenderInfoAlert}}</p>
 			</div>
 		</div>
@@ -102,7 +102,7 @@
 					// fromIndex:null,
 					amountHolder:'填写申请金额',
 					getById: false, //判定是否由uniqueId 传入获取lenderPhone
-					getByMarket: false, //判定是否由贷款超市进入 
+					getByMarket: false, //判定是否由放米超市进入 
 					lenderValid: false,
 					// canApply:false,
 					// firstEnter: true,

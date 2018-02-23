@@ -119,7 +119,7 @@
         let status=this.response.body.data.status
         if(status==='notpay'){
           let r=this.remind
-          r.remindMsg='禾币不足'
+          r.remindMsg='金币不足'
           r.remindOpts=[{msg:'确定',callback:()=>{
             publicFun.goPage(-1)
           }}]

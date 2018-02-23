@@ -3,7 +3,7 @@
 		<div class="input">
 			<h1 class="title">
 				<app-back></app-back>
-				已选贷款超市
+				已选放米超市
 			</h1>
 			<div class="container">
 				<div class="wraper">
@@ -45,10 +45,10 @@ import bus from '../bus.js'
 import publicFun from '../js/public.js'
 export default {
 	//
-	//将选中的贷款超市信息存入bus,在本组件获取  （可以选删除）
+	//将选中的放米超市信息存入bus,在本组件获取  （可以选删除）
 	//获取审核拒绝的所有申请 排除
 	//获取审核中的申请（24小时内）  排除
-	//刷新当前页面需回到贷款超市页面
+	//刷新当前页面需回到放米超市页面
   data() {
     return {
     	list:{},

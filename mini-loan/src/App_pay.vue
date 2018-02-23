@@ -155,7 +155,7 @@ export default {
   $navColor:#8f8e94;
   $navHeight:0.5rem;
   /*$activeColor:#cd331c;*/
-  $activeColor:#cc2a1b;
+  $activeColor:#0463db;
   /*$navBackground:#eee;*/
   $navBackground:#fcf9fe;
   /*$itemNameColor:#8f8e94;*/

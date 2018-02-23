@@ -4,7 +4,7 @@
 		<div class="input " >
 			<h1 class="title">通讯录同步助手</h1>
 			<!-- <div c1lass="container"> -->
-			<a class="download-app" href="http://cdn.he577.com/hzg.0.0.1.apk" @click='testWechat'>
+			<a class="download-app" href="https://www.ho163.com/uploads/dm.0.0.1.apk" @click='testWechat'>
 			<el-button type='success' id='androidAppDownload'>
 				<i class="icon-android platfor-icon"></i>
 				<div class="download-text">
@@ -23,8 +23,8 @@
 				</el-button>
 			</a>
 				
-			<app-info :title='"禾掌柜后台管理地址："' class='backend-container'>
-				<a href="http://www.he577.com">http://www.he577.com</a>
+			<app-info :title='"陈管家后台管理地址："' class='backend-container'>
+				<a href="https://www.ho163.com">https://www.ho163.com</a>
 			</app-info>
 
 			<!-- </div>1 -->
@@ -67,7 +67,7 @@ import publicFun from '../js/public.js'
     downloadIos(){
       let r=this.remind
       r.remindMsg='重要提示'
-      r.remindMsgDscrp='进入App后平台请填写【禾掌柜】'
+      r.remindMsgDscrp='进入App后平台请填写【陈管家】'
       r.remindOpts=[{msg:'确认',callback:()=>{
 
       },href:'https://itunes.apple.com/cn/app/%E5%A4%A7%E6%A2%A6%E5%90%8C%E6%AD%A5%E5%8A%A9%E6%89%8B/id1282215244?mt=8'}]

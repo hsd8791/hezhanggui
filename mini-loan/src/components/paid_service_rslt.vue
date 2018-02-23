@@ -62,7 +62,7 @@
 					</div>
 				</div>
 				<div class="part-container risk-part" v-if='!tongdunRslt.waiting'>
-					<h3 class="part-title">贷款风险情况</h3>
+					<h3 class="part-title">放米风险情况</h3>
 					<div class="group-container" v-if='tongdunGroups.indexOf("个人基本信息核查")!==-1' >
 						<h4 class="group-title">个人基本信息核查</h4>
 						<div class="group-rslt">

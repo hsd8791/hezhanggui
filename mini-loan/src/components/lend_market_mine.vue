@@ -4,12 +4,12 @@
 
     <h1 class="title fixed-title"  >
       <app-back></app-back>
-      贷款超市信息
+      放米超市信息
       <!-- <span class="edit-input" v-if='haveOwner' @click='goBidding' >提升排名</span> -->
     </h1>
     <div class="top-slogan">
       <!-- <div class="promotion">
-        入驻贷款超市即送50禾币！
+        入驻放米超市即送50金币！
       </div> -->
       <div class="contact-container">
         <p class="contact">获客合作电话/微信：<a href="tel:18622272224">18622272224</a></p>
@@ -20,13 +20,13 @@
       
     <div class="container container-owner" >
       <div class="wraper">
-        <label>放贷人：</label> 
-        <el-input :disabled='haveOwner' placeholder='请输入放贷人真实姓名' v-model='owner' @blur.once='blured'  :class='{"valid-border":ownerValid,"error-border":!ownerValid}'></el-input>
+        <label>放米人：</label> 
+        <el-input :disabled='haveOwner' placeholder='请输入放米人真实姓名' v-model='owner' @blur.once='blured'  :class='{"valid-border":ownerValid,"error-border":!ownerValid}'></el-input>
       </div>
-      <el-button type='success' class='submit-bttn' @click='submitOwner'v-if='!haveOwner' :disabled='!ownerValid'>成为实名放贷人</el-button>
+      <el-button type='success' class='submit-bttn' @click='submitOwner'v-if='!haveOwner' :disabled='!ownerValid'>成为实名放米人</el-button>
     </div>
     <div class="container-avatar" v-if='haveOwner'>
-      <h2 class="sub-title">贷款超市LOGO</h2>
+      <h2 class="sub-title">放米超市LOGO</h2>
       <pic-load :uploadConfig='uploadConfig'></pic-load>
     </div>
     <h2 class="sub-title" v-if='haveOwner'>
@@ -55,12 +55,12 @@
         <i :class="{'el-icon-check':ageValid,'el-icon-close':!ageValid}"></i>
       </div>
       <div class="wraper">
-        <label>放款金额：</label> 
+        <label>放米金额：</label> 
         <el-input :disabled='!editing' placeholder='例：500-2000' v-model='marketInfo.loanAmountDesc' @blur.once='blured'  :class='{"valid-border":loanAmountValid,"error-border":!loanAmountValid}'></el-input>
         <i :class="{'el-icon-check':loanAmountValid,'el-icon-close':!loanAmountValid}"></i>
       </div>
       <div class="wraper">
-        <label>放款期限：</label> 
+        <label>放米期限：</label> 
         <el-input :disabled='!editing' placeholder='例：7-14 （单位：天）' v-model='marketInfo.loanTimeDesc' @blur.once='blured'  :class='{"valid-border":loanTimeValid,"error-border":!loanTimeValid}'></el-input>
         <i :class="{'el-icon-check':loanTimeValid,'el-icon-close':!loanTimeValid}"></i>
       </div>
@@ -75,8 +75,8 @@
         <i :class="{'el-icon-check':zmxyHuabeiValid,'el-icon-close':!zmxyHuabeiValid}"></i>
       </div>
       <div class="wraper" v-if='false'>
-        <label>放款利率：</label> 
-        <el-input :disabled='!editing' placeholder='请输入放款利率 %' v-model='marketInfo.interestPercent' @blur.once='blured'  :class='{"valid-border":interestPercentValid,"error-border":!interestPercentValid}'></el-input>
+        <label>放米利率：</label> 
+        <el-input :disabled='!editing' placeholder='请输入放米利率 %' v-model='marketInfo.interestPercent' @blur.once='blured'  :class='{"valid-border":interestPercentValid,"error-border":!interestPercentValid}'></el-input>
         <i :class="{'el-icon-check':interestPercentValid,'el-icon-close':!interestPercentValid}"></i>
       </div>
       <div class="wraper" v-if='false'>
@@ -87,7 +87,7 @@
 
       <!-- <el-checkbox v-model="platform.jiedaibao">借贷宝</el-checkbox> -->
       <div class="wraper">
-        <label>放款平台:</label> 
+        <label>放米平台:</label> 
         <div class="container-check-box">
           <el-checkbox class='check-box' :disabled='!editing' v-model="platform.jiedaibao">借贷宝</el-checkbox>
           <el-checkbox class='check-box' :disabled='!editing' v-model="platform.jinjiedao">今借到</el-checkbox>

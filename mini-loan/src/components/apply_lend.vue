@@ -1,18 +1,18 @@
 <template>
 	<div id="applyLendVue" class="input" v-loading='loading' element-loading-text='请稍后'>
-		<h1 class="title"><app-back></app-back>开始放贷</h1>
+		<h1 class="title"><app-back></app-back>开始放米</h1>
       <el-button type='success'  @click='share("borrower")'>点击分享给借款人</el-button>
 
 <!--     <div class="container container-owner" >
       <div class="wraper">
-        <label>放贷人：</label> 
-        <el-input :disabled='!editing' placeholder='请输入放贷人真实姓名' v-model='owner' @blur.once='blured'  :class='{"valid-border":ownerValid,"error-border":!ownerValid}'></el-input>
+        <label>放米人：</label> 
+        <el-input :disabled='!editing' placeholder='请输入放米人真实姓名' v-model='owner' @blur.once='blured'  :class='{"valid-border":ownerValid,"error-border":!ownerValid}'></el-input>
         <i :class="{'el-icon-check':ownerValid,'el-icon-close':!ownerValid}"></i>
       </div>
-      <el-button type='success' @click='submitOwner'v-if='!haveOwner' :disabled='!ownerValid'>成为实名放贷人</el-button>
+      <el-button type='success' @click='submitOwner'v-if='!haveOwner' :disabled='!ownerValid'>成为实名放米人</el-button>
     </div>
     <div v-if='(haveOwner)'>
-      <el-button type='success'  @click='goP("/market_mine")' v-if='!(myInfo.logo&&myInfo.name)'> 申请贷款超市</el-button>
+      <el-button type='success'  @click='goP("/market_mine")' v-if='!(myInfo.logo&&myInfo.name)'> 申请放米超市</el-button>
     </div> -->
     <div @click='goP("/market_mine")' v-if='haveOwner&&myInfo.logo&&myInfo.name'  >
     <!-- <div @click='goP("/market_mine")' v-if='false'  > -->
@@ -158,7 +158,7 @@
     },
     configMenueShare(){
       wx.onMenuShareAppMessage({
-          title: '禾掌柜', // 分享标题
+          title: '陈管家', // 分享标题
           desc: '点击向'+publicFun.phonePartshow(bus.account)+'借款', // 分享描述
           link: 'http://hzg.he577.com'+bus.relativeUrlTest+'/m/#/index/apply_borrow?uniqueId='+bus.uniqueId+'&share=1', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: 'http://hzg.he577.com/test/m/static/img/logo.png', // 分享图标
@@ -214,12 +214,12 @@
   created(){
     this.getInfo()
     // this.path=this.$route.path
-    var wxInterval=setInterval(()=>{
-      if(bus.wxConfiged){
-        clearInterval(wxInterval)
-        this.configMenueShare()
-      }
-    })
+    // var wxInterval=setInterval(()=>{
+    //   if(bus.wxConfiged){
+    //     clearInterval(wxInterval)
+    //     // this.configMenueShare()
+    //   }
+    // })
     publicFun.checkSession(this)
     bus.$on('close_share_cover',()=>{
       this.shareCoverShow='none'

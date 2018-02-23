@@ -139,9 +139,11 @@
 				var queryBody = {	phone:this.cellphone},subDomain
 				if(!this.pwdLogin){
 					queryBody.code=this.verifyCode
+					queryBody.platform='hgj'
 					subDomain='/loginByCode'
 				}else{
 					queryBody.password=this.pwd
+					queryBody.platform='hgj'
 					subDomain='/loginByPwd'
 				}
 				var url = publicFun.urlConcat('account'+subDomain,queryBody)
@@ -238,9 +240,12 @@
 
 <style lang='scss' scoped>
 #loginVue{
+	height: 100%;
+	background: #fff;
 	.container{
 		/*margin-top: 2rem;*/
 		/*margin-left:0.5rem;*/
+		border:1px solid #ccc;
 		margin:auto auto;
 		width: 80%;
 	}
@@ -248,7 +253,7 @@
 		width: 100%;
 		height: 2.45rem;
 		background: url(../assets/img/logo.png) center center no-repeat;
-		background-size: 80%;
+		background-size: 50%;
 		.logo{
 			width: 100%;
 		}
@@ -294,15 +299,15 @@
 			width: 100%;
 		}
 		.active{
-			border-bottom-color: #d6322c;
+			border-bottom-color: #0463db;
 			border-bottom-width: 0.04rem;
 		}
 	}
 	.submit{
 		/*transition: 0.2s;*/
 		width: 80%;
-		background-color:#d6322c;
-		background: linear-gradient(90deg,#d6322c 0%,#d6322c 30%,#eda29a);
+		background-color:#0463db;
+		background: linear-gradient(90deg,#0463db 0%,#0463db 30%,#95bef1);
 		border-width: 0;
 		border-radius: 0.1rem;
     /*border-color: #ff6231;*/

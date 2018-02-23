@@ -3,14 +3,14 @@
 	<div class="input">
 		<h1 class="title">
 				<app-back></app-back>
-				我的禾币
+				我的金币
 		</h1>
 	</div>
 		<div class="hb-container">
-		剩余禾币：￥{{hb.hb |moneyParser}}
+		剩余金币：￥{{hb.hb |moneyParser}}
 		</div>
 		<div class="hb-container">
-		冻结禾币：￥{{hb.freezeHb |moneyParser}}
+		冻结金币：￥{{hb.freezeHb |moneyParser}}
 		</div>
 	</div>
 </template>

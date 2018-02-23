@@ -1,9 +1,8 @@
 <template>
-	<div id="contactsVue">
+	<div id="contactsVue" v-if='0'>
 		<div class="bar">
 			
 			<ul :class="{'active':isOpen}">
-
 				<li @click="doit(1)">
 					<a href="javascript:void(0)">
 						<img src="./assets/img/qq.png" alt="">

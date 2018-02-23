@@ -3,12 +3,12 @@
   <div class="input">
     <h1 class="title">提示</h1>
   </div>
-		<p class="text">关注【禾掌柜】微信公众号，</p>
+		<p class="text">关注【陈管家】微信公众号，</p>
     <p class="text">还能领取1000~50000元额度。</p>
     <p class="text">
-      更多贷款请到贷款超市申请
+      更多放米请到放米超市申请
       <span class="link" @click='goMarket'>
-        【点这里进入贷款超市】
+        【点这里进入放米超市】
       </span>
     </p>
 		<img src="../assets/img/hzg_qrcode.jpg" class="qrcode">

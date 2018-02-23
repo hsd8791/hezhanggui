@@ -201,10 +201,10 @@
 					width: 33%;
 					margin:0.15rem;
 					padding:0.1rem;
-					background-color:#d6322c;
+					background-color:#0463db;
+		      background: linear-gradient(90deg,#0463db 0%,#0463db 30%,#95bef1);
 					color: #eee;
 					font-size: 0.16rem;
-					background: linear-gradient(90deg,#d6322c 0%,#d6322c 30%,#eda29a);
 					border-width: 0;
 					border-radius: 0.1rem;
 				}

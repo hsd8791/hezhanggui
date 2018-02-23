@@ -111,6 +111,7 @@
 				var url=publicFun.urlConcat(this.urlGetVerifyCode,{
 					phone:this.cellphone,
 					code:this.picCode,
+					platform:'hzg',
 				})
 				publicFun.get(url,this,()=>{
 					console.log('get code response',this.response)
@@ -284,9 +285,12 @@
 
 <style lang='scss' scoped>
 #loginVue{
+	height: 100%;
+	background: #fff;
 	.container{
 		/*margin-top: 2rem;*/
 		/*margin-left:0.5rem;*/
+		border:1px solid #ccc;
 		margin:auto auto;
 		width: 80%;
 	}
@@ -294,7 +298,7 @@
 		width: 100%;
 		height: 2.45rem;
 		background: url(../assets/img/logo.png) center center no-repeat;
-		background-size: 80%;
+		background-size: 50%;
 		.logo{
 			width: 100%;
 		}
@@ -351,15 +355,15 @@
 			width: 100%;
 		}
 		.active{
-			border-bottom-color: #d6322c;
+			border-bottom-color: #0463db;
 			border-bottom-width: 0.04rem;
 		}
 	}
 	.submit{
 		/*transition: 0.2s;*/
 		width: 80%;
-		background-color:#d6322c;
-		background: linear-gradient(90deg,#d6322c 0%,#d6322c 30%,#eda29a);
+		background-color:#0463db;
+		background: linear-gradient(90deg,#0463db 0%,#0463db 30%,#95bef1);
 		border-width: 0;
 		border-radius: 0.1rem;
     /*border-color: #ff6231;*/
