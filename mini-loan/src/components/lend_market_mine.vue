@@ -49,27 +49,27 @@
         <el-input :disabled='!editing' placeholder='请输入客服电话' v-model='marketInfo.tel' type='tel' @blur.once='blured'  :class='{"valid-border":telValid,"error-border":!telValid}'></el-input>
         <i :class="{'el-icon-check':telValid,'el-icon-close':!telValid}"></i>
       </div>
-      <div class="wraper">
+      <div class="wraper" v-if='false'>
         <label>年龄要求：</label> 
         <el-input :disabled='!editing' placeholder='例：22-34' v-model='marketInfo.age' @blur.once='blured'  :class='{"valid-border":ageValid,"error-border":!ageValid}'></el-input>
         <i :class="{'el-icon-check':ageValid,'el-icon-close':!ageValid}"></i>
       </div>
-      <div class="wraper">
+      <div class="wraper" v-if='false'>
         <label>放米金额：</label> 
         <el-input :disabled='!editing' placeholder='例：500-2000' v-model='marketInfo.loanAmountDesc' @blur.once='blured'  :class='{"valid-border":loanAmountValid,"error-border":!loanAmountValid}'></el-input>
         <i :class="{'el-icon-check':loanAmountValid,'el-icon-close':!loanAmountValid}"></i>
       </div>
-      <div class="wraper">
+      <div class="wraper" v-if='false'>
         <label>放米期限：</label> 
         <el-input :disabled='!editing' placeholder='例：7-14 （单位：天）' v-model='marketInfo.loanTimeDesc' @blur.once='blured'  :class='{"valid-border":loanTimeValid,"error-border":!loanTimeValid}'></el-input>
         <i :class="{'el-icon-check':loanTimeValid,'el-icon-close':!loanTimeValid}"></i>
       </div>
-      <div class="wraper">
+      <div class="wraper" v-if='false'>
         <label>芝麻分：</label> 
         <el-input :disabled='!editing' placeholder='最低芝麻信用分要求' v-model='marketInfo.zmxyScore' @blur.once='blured'  :class='{"valid-border":zmxyScoreValid,"error-border":!zmxyScoreValid}'></el-input>
         <i :class="{'el-icon-check':zmxyScoreValid,'el-icon-close':!zmxyScoreValid}"></i>
       </div>
-      <div class="wraper">
+      <div class="wraper" v-if='false'>
         <label>花呗要求：</label> 
         <el-input :disabled='!editing' placeholder='最低花呗额度要求 （单位：元）' v-model='marketInfo.zmxyHuabei' @blur.once='blured'  :class='{"valid-border":zmxyHuabeiValid,"error-border":!zmxyHuabeiValid}'></el-input>
         <i :class="{'el-icon-check':zmxyHuabeiValid,'el-icon-close':!zmxyHuabeiValid}"></i>
@@ -86,7 +86,7 @@
       </div>
 
       <!-- <el-checkbox v-model="platform.jiedaibao">借贷宝</el-checkbox> -->
-      <div class="wraper">
+      <div class="wraper" v-if='false'>
         <label>放米平台:</label> 
         <div class="container-check-box">
           <el-checkbox class='check-box' :disabled='!editing' v-model="platform.jiedaibao">借贷宝</el-checkbox>
@@ -308,13 +308,13 @@ export default {
         return t.nameValid &&
           t.introValid &&
           t.telValid&&
-          t.ageValid &&
+          // t.ageValid &&
           t.applyConditionDescValid &&
-          t.loanAmountValid &&
-          t.loanTimeValid &&
-          t.zmxyHuabeiValid &&
-          t.zmxyScoreValid &&
-          publicFun.notAllNull(t.platform)&&
+          // t.loanAmountValid &&
+          // t.loanTimeValid &&
+          // t.zmxyHuabeiValid &&
+          // t.zmxyScoreValid &&
+          // publicFun.notAllNull(t.platform)&&
           // t.interestPercentValid&&
           // t.servicePercentValid &&
           true

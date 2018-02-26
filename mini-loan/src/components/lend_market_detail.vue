@@ -7,13 +7,13 @@
         <span  class="edit-input" @click='viewApplyRecord'>申请记录</span>
       </h1>  
     </div>
-    <div class="basic-info basic-title" v-if='info.name'>
+    <div class="basic-info basic-title" v-if='info.name&&false'>
       <div class="basic-title-cell">金额</div>
       <div class="basic-title-cell">年龄</div>
       <div class="basic-title-cell">期限</div>
       <!-- <div class="basic-title-cell">费用</div> -->
     </div>
-    <div class="basic-info" v-if='info.name'>
+    <div class="basic-info" v-if='info.name&&false'>
       <div class="basic-info-cell">{{info.loanAmountDesc}}元</div>
       <div class="basic-info-cell">{{info.age}}周岁</div>
       <div class="basic-info-cell">{{info.loanTimeDesc}}天</div>
@@ -23,14 +23,14 @@
       <!-- </div> -->
     </div>
     <div class="info-container" v-if='info.name'>
-      <app-info :title='"放米简介"'>{{info.intro}}</app-info>
+      <app-info :title='"放米简介"' >{{info.intro}}</app-info>
       <app-info :title='"必需材料"'>身份认证 手机认证 芝麻信用</app-info>
       <app-info :title='"申请条件"'>
           <p class="info-detail-line" v-if='info.zmxyScore'>芝麻信用分要求大于{{info.zmxyScore}}分</p>
           <p class="info-detail-line" v-if='info.zmxyHuabei'>花呗额度要求大于{{info.zmxyHuabei}}元</p>
           <p class="info-detail-line"  v-if='false'>{{info.applyConditionDesc}}</p>
       </app-info>
-      <app-info :title='"放米平台"'>
+      <app-info :title='"放米平台"' v-if='false'>
         <span v-if='platform.jiedaibao' class="platform">借贷宝</span>
         <span v-if='platform.jinjiedao' class="platform">今借到</span>
         <span v-if='platform.wuyoujietiao' class="platform">无忧借条</span>
