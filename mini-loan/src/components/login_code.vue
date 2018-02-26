@@ -28,7 +28,7 @@
 				<!-- <i :class="{'el-icon-check':verifyCodeValid,'el-icon-close':!verifyCodeValid}"></i> -->
 			</div>
 		</div>
-
+		<p class="clause-remind">点击注册代表同意<span @click='viewClause'>用户协议</span></p>
 		<el-button class='submit' type="success" :disabled='!((allValid&&verifyCodeValid&&!pwdLogin)||(allValid&&pwdValid&&pwdLogin))' @click='login'>{{action=='signup'?'注册':'确认'}}</el-button>
 		<div class='ctrl-container' v-if='action=="signup"'>
 			<span class="login-link" @click='goLogin'>
@@ -88,6 +88,11 @@
 			}
 		},
 		methods: {
+			viewClause(){
+				// console.log('this.$route',this.$route)
+				// return
+			  publicFun.goPage(this.$route.path+'/signup_clause')
+			},
 			signup(){
 			
 			},
@@ -293,6 +298,15 @@
 		border:1px solid #ccc;
 		margin:auto auto;
 		width: 80%;
+	}
+	.clause-remind{
+		color:#666;
+		font-size: 0.14rem;
+			margin-top: 0.1rem;
+		span{
+			color:#37A5E7;
+			font-weight: bold;
+		}
 	}
 	.logo-container{
 		width: 100%;

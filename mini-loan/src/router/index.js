@@ -45,7 +45,9 @@ import pay from '../components/order_pay.vue'
 import pay_hb from '../components/order_pay_hb.vue'
 import bankcard_bind from '../components/pay_bankcard_bind.vue'
 import promotion from '../components/promotion.vue'
+import signup_clause from '../components/signup_clause.vue'
 import errorPage from '../components/tmpts/error.vue'
+
 // import test from '../components/test.vue'
 // import Relatives from '../components/info_relatives.vue'
 // import AddInfo from '../components/info_add_info.vue'
@@ -97,6 +99,7 @@ var newRoute = function(paths, name, component, options) {
 mineRoutes = mineRoutes.concat(
 	newRoute(['*/login_code', '/login_code', ], 'login&pwd&signup via code', login_code),
 	newRoute(['/login', '*/login', ], 'login via pwd', login),
+	newRoute(['/signup_clause', '*/signup_clause', ], 'signup_clause', signup_clause),
 	newRoute(['/signup', '*/signup', ], 'signup', Signup),
 	newRoute(['/mine/pwd', '*/pwd', ], 'pwd', Pwd),
 	newRoute(['/mine/charge', '*/charge', ], 'charge', charge),

@@ -23,9 +23,9 @@
 				</el-button>
 			</a>
 				
-			<app-info :title='"陈管家后台管理地址："' class='backend-container'>
-				<a href="https://www.ho163.com">https://www.ho163.com</a>
-			</app-info>
+			<!-- <app-info :title='"陈管家后台管理地址："' class='backend-container'> -->
+				<!-- <a href="https://www.ho163.com">https://www.ho163.com</a> -->
+			<!-- </app-info> -->
 
 			<!-- </div>1 -->
 		</div>
