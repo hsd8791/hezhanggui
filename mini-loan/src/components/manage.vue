@@ -23,7 +23,7 @@
 				</el-button>
 			</a>
 				
-			<app-info :title='"陈管家后台管理地址："' class='backend-container'>
+			<app-info :title='"陈管家后台管理地址："' class='backend-container' v-if='isMarket'>
 				<a href="https://www.ho163.com">https://www.ho163.com</a>
 			</app-info>
 
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import bus from './../bus.js'
 import publicFun from '../js/public.js'
 	export default {
 		data() {
@@ -73,6 +74,11 @@ import publicFun from '../js/public.js'
       },href:'https://itunes.apple.com/cn/app/%E5%A4%A7%E6%A2%A6%E5%90%8C%E6%AD%A5%E5%8A%A9%E6%89%8B/id1282215244?mt=8'}]
       r.isShow=true
     }
+  },
+  computed:{
+    isMarket(){
+      return bus.isMarket
+    },
   },
   events: {},
   components: {}
