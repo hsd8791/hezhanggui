@@ -16,7 +16,7 @@
     <app-record-list :top='isMarket?0.8:0.4' :cfg='config' v-record='config.name' class='market-list'>
       <!-- <div v-for='info in list' @click='goP("/market_detail?id="+info.id)'> -->
 
-      <div v-for='info in list' @click='goApply(info)' class="market-container"  :key='info.id'>
+      <div v-for='info in list' @click='goApply(info)' class="market-container"  :key='info.id' >
         <div class="inner-container" :style="{'background-color':info.ad_pos!==-1?'transparent':'transparent'}" :class="{'inner-container-small':choosing}">
           
           <div class="avator"  >
@@ -35,7 +35,7 @@
             </div>
             <!-- <div class="info-expire">期限{{info.loan_time_desc}}天</div> -->
             <div class="info-applied">申请数：{{info.view_num}}</div>
-            <div class="info-fee">{{info.loan_amount_desc}}元</div>
+            <!-- <div class="info-fee">{{info.loan_amount_desc}}元</div> -->
           </div>
           <div class="new-remind" v-if='isNew(info.create_time)&&info.ad_pos===-1'>
             <div class="inner">
@@ -467,6 +467,7 @@ export default {
         .info-fee,.info-applied,.info-name{
 
         }
+
         .info-fee{
           color:#F44343;
           font-size: 0.14rem;
@@ -476,7 +477,7 @@ export default {
         }
         .info-name{
           color:#666;
-
+          margin: 0.05rem 0;
         }
       }
       /*.new-remind{
