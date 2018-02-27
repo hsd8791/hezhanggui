@@ -26,7 +26,9 @@
 			<app-info :title='"陈管家后台管理地址："' class='backend-container' v-if='isMarket'>
 				<a href="https://www.ho163.com">https://www.ho163.com</a>
 			</app-info>
-
+      <app-info :title='"陈管家催收管理地址："' class='backend-container' v-if='isMarket'>
+        <a href="https://www.ho163.com">http://www.ho163.com/cuishou</a>
+      </app-info>
 			<!-- </div>1 -->
 		</div>
 	<remind :remind='remind'></remind>
