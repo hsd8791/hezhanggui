@@ -26,9 +26,16 @@
 			<app-info :title='"陈管家后台管理地址："' class='backend-container' v-if='isMarket'>
 				<a href="https://www.ho163.com">https://www.ho163.com</a>
 			</app-info>
+
       <app-info :title='"陈管家催收管理地址："' class='backend-container' v-if='isMarket'>
-        <a href="https://www.ho163.com">http://www.ho163.com/cuishou</a>
+        <a href="https://www.ho163.com" class="link">http://www.ho163.com/cuishou</a>
+        <p style="font-size: 0.12rem">&nbsp;</p>
+        <p class="cuishou-dscrp">
+          开通账号前往<a href="https://www.ho163.com">www.ho163.com </a>
+        </p>
+        <p class="cuishou-dscrp">子账号系统管理->新增账号，类型选择"催收账户"。免费试用至3月31日24点。</p>
       </app-info>
+
 			<!-- </div>1 -->
 		</div>
 	<remind :remind='remind'></remind>
@@ -110,17 +117,23 @@ import publicFun from '../js/public.js'
 		white-space: wrap;
 	}
 	#androidAppDownload{
-		margin-top: 0.8rem;
+		margin-top: 0.4rem;
 	}
 	#iosAppDownload{
 		margin-bottom:0.3rem;
 	}
 	.backend-container{
-		padding:0.2rem 0.4rem;
+		padding:0.05rem 0.4rem;
+    
 	}
+  .cuishou-dscrp{
+    /*margin-top: 0.1rem;*/
+    font-size: 0.14rem;
+  }
 </style>
 
 <style lang='scss'>
+
 	#manageVue{
 		.el-button{
 			position: relative;
