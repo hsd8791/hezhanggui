@@ -102,7 +102,7 @@
         <el-input type='textarea' :rows='4' placeholder='申请条件描述' v-model='marketInfo.applyConditionDesc' @blur.once='blured'  :class='{"valid-border":applyConditionDescValid,"error-border":!applyConditionDescValid}'></el-input>
         <!-- <i :class="{'el-icon-check':applyConditionDescValid,'el-icon-close':!applyConditionDescValid}"></i> -->
       </div>
-
+      <p class="clause-remind">点击提交代表同意<span @click='viewClause'>商家入驻协议</span></p>
       <el-button type='success' class='submit-bttn' @click='submitInfo' v-if='editing' :disabled='!allValid'>提交</el-button>
     </div>
     </div>
@@ -179,6 +179,11 @@ export default {
       }
     },
     methods: {
+      viewClause(){
+        // console.log('this.$route',this.$route)
+        // return
+        publicFun.goPage(this.$route.path+'/market_clause')
+      },
       goBidding(){
         publicFun.goPage(this.$route.path+'/market_bidding')
       },
@@ -336,6 +341,15 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+  .clause-remind{
+    color:#666;
+    font-size: 0.14rem;
+      margin-top: 0.1rem;
+    span{
+      color:#37A5E7;
+      font-weight: bold;
+    }
+  }
 .top-slogan{
   position: fixed;
   top: 0.4rem;
