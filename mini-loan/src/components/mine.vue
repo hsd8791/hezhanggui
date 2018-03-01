@@ -58,6 +58,7 @@
 				{title:'申请记录',link:'/apply_list/lendingUid_0'},//
 				{title:'我的伙伴',link:'/partner'},
 				{title:'密码修改',link:'/pwd'},
+        {title:'获客合作电话',link:'/contacts'},
 				{title:'佣金',link:'/commission'},
 				{title:'充值',link:'/charge'},
 				{title:'我的金币',link:'/myhb'},

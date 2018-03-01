@@ -46,6 +46,7 @@ import pay_hb from '../components/order_pay_hb.vue'
 import bankcard_bind from '../components/pay_bankcard_bind.vue'
 import promotion from '../components/promotion.vue'
 import errorPage from '../components/tmpts/error.vue'
+import contacts from '../components/contacts.vue'
 // import test from '../components/test.vue'
 // import Relatives from '../components/info_relatives.vue'
 // import AddInfo from '../components/info_add_info.vue'
@@ -104,6 +105,7 @@ mineRoutes = mineRoutes.concat(
 	newRoute(['/mine/bidding_record', '*/bidding_record', ], 'bidding_record', bidding_record),
 	newRoute(['*/apply_list', '*/apply_list/:uid', ], 'apply_list', applyList),
 	newRoute(['/apply_detail', '*/apply_detail', ], 'apply_detail', apply_detail),
+	newRoute('*/contacts', 'contacts', contacts),
 	newRoute('/mine', 'mine', mine),
 )
 
