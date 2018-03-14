@@ -3,7 +3,7 @@
       <div class="input">
         <h1 class="title" v-loading='loading' element-loading-text='请稍后'>
           放米超市列表
-          <span class='edit-input-left' @click='toggleChoose'>{{multipleMsg}}</span>
+          <span class='edit-input-left' @click='toggleChoose'>{{multipleMsg}}</span><span class='edit-input-left edit-input-left2' @click='selectAll' v-if='choosing'>{{allSelectMsg}}</span>
           <span class='edit-input' @click='goP("/market_mine")'>我的超市</span>
         </h1>   
         
@@ -16,7 +16,7 @@
     <app-record-list :top='isMarket?0.8:0.4' :cfg='config' v-record='config.name' class='market-list'>
       <!-- <div v-for='info in list' @click='goP("/market_detail?id="+info.id)'> -->
 
-      <div v-for='info in list' @click='goApply(info)' class="market-container"  :key='info.id'>
+      <div v-for='info in list' @click='goApply(info)' class="market-container"  :key='info.id' >
         <div class="inner-container" :style="{'background-color':info.ad_pos!==-1?'transparent':'transparent'}" :class="{'inner-container-small':choosing}">
           
           <div class="avator"  >
@@ -49,8 +49,8 @@
           </div>
           <!-- <div class="recommend" v-if='info.ad_pos!==-1'>{{info.ad_pos<=1?'力':''}}荐!</div> -->
         </div>
-        <div class="checkbox-container" @click.stop='disabledRemind(info)' v-show='choosing'>
-          <el-checkbox class='checkbox' v-model='marketChoosed' :label='info.uid' @click.stop='' :disabled='info.url!==""||cannotApplyMarket[info.uid]!==undefined'></el-checkbox>
+        <div class="checkbox-container" @click.stop='disabledRemind(info)' v-show='choosing' >
+          <el-checkbox class='checkbox' :ref='"market_"+info.uid' v-model='marketChoosed' :label='info.uid' @click.stop='' :disabled='info.url!==""||cannotApplyMarket[info.uid]!==undefined'></el-checkbox>
           <i class="icon-copy detail-icon" @click.stop='viewDetail(info)' v-if='!(info.url!==""||cannotApplyMarket[info.uid]!==undefined)'></i>
         </div>
       </div>
@@ -88,6 +88,7 @@ export default {
       limit:16,
       },
       multipleMsg:'多选',
+      allSelectMsg:'全选',
       marketChoosed:[],
       choosing:false,
       // marketId arr
@@ -121,7 +122,35 @@ export default {
     //     console.log('res list',this.response.body)
     //   })
     // },
+    selectAll(){
+      // console.log('refs',this.$refs)
+      let refs=this.$refs
+      let listObj=this.listObj
+      // refs.market_20[0].$el.click()
+      let i=0
+      let arr=new Array(this.marketChoosed)
+      let chooedIdArr=arr[0]
+      for(let x in refs){
+        // console.log('x',x)
+        let id=Number(x.slice(7,))
+        // console.log('id',id,arr[0])
+        // console.log('id',this.marketChoosed.indexOf(id))
+        i++
+        if(chooedIdArr.indexOf(id)===-1&&listObj[id].url===""){
+          setTimeout(()=> {
+                // console.log('refs[x]',refs[x])
+                refs[x][0].$el.click()
+          }, 1*i);
+        }
 
+        // console.log('refs[x]',refs[x])
+      }
+      // let list
+      // this.marketChoosed=this.list.map(item=>{
+      //   return item.id
+      // })
+      // this.marketChoosed=list
+    },
     viewDetail(info){
       console.log('view detail')
       this.viewingMarketInfo=info
@@ -130,7 +159,7 @@ export default {
       this.viewingMarketInfo=null
     },
     disabledRemind(info){
-      console.log('click')
+      // console.log('click')
       let r=this.remind
       if(info.url!==''){
         r.remindMsg='该放米超市需单独操作' 
@@ -217,7 +246,7 @@ export default {
         }]
         r.isShow=true
       }
-      console.log('bus.config',bus.cfgEssential)
+      // console.log('bus.config',bus.cfgEssential)
     },
     goBidding(){
       publicFun.goPage(this.$route.path+'/market_bidding')
@@ -286,6 +315,9 @@ export default {
     },
   },
   created(){
+    setTimeout(()=> {
+      this.list[2].url='http://www.baidu.com'
+    }, 2000);
     // 每次重新赋值，后续需优化
     bus.$on(this.config.name,(val)=>{
       // console.log('event name',this.config.name)
@@ -308,8 +340,10 @@ export default {
 
 
 <style type="text/css" lang='scss'>
-  
   #marketListVue{
+    .edit-input-left2{
+      left:0.5rem;
+    }
     .float-detail{
       position: fixed;
       top: 0;left: 0;
