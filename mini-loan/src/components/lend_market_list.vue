@@ -315,9 +315,9 @@ export default {
     },
   },
   created(){
-    setTimeout(()=> {
-      this.list[2].url='http://www.baidu.com'
-    }, 2000);
+    // setTimeout(()=> {
+    //   this.list[2].url='http://www.baidu.com'
+    // }, 2000);
     // 每次重新赋值，后续需优化
     bus.$on(this.config.name,(val)=>{
       // console.log('event name',this.config.name)
