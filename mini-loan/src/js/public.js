@@ -424,6 +424,15 @@ publicFun.errorHandle = function(resBody, vm) {
 			msg: '确定'
 		}]
 		vmRemind.remindMsg = resBody.msg
+		if(err===20001&&resBody.msg=="id should be of type int"){
+			vmRemind.remindMsg = '系统异常'
+			vmRemind.remindOpts = [{
+				msg: '确定'
+			}]
+			vmRemind.remindOpts[0].callback = function() {
+				publicFun.goPage('/market_list')
+			}
+		}
 		if (err === 20002) {
 			console.log('20002')
 			vmRemind.remindOpts = [{

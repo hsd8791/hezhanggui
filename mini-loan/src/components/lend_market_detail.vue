@@ -100,8 +100,13 @@
   },
   methods:{
     getMarketInfo(){
+      var id=this.$route.params.id.split('_')[1]
+      // if(id=="detail"){
+      //   console.error("id",id)
+      //   return
+      // }
       var url=publicFun.urlConcat(this.urlMarketInfo,{
-        id:this.$route.params.id.split('_')[1]
+        id,
       })
       publicFun.get(url,this,()=>{
         console.log('market detail',this.response.body)
@@ -138,6 +143,7 @@
     },
   },
   created(){
+    console.log('%c blue','color:red',this.$route.params.id)
     this.getMarketInfo()
     // this.getApplyInfo()
   },

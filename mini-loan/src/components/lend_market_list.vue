@@ -182,6 +182,7 @@ export default {
     },
     toggleChoose(){
       console.log('bus.cfgEssential.allFilled',bus.cfgEssential.allFilled)
+      
       if(!bus.cfgEssential.allFilled){
         let r=this.remind
         r.remindMsg='请至首页完成认证'

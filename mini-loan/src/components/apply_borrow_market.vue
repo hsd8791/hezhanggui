@@ -157,7 +157,7 @@ export default {
   	getMarketInfo(){
   		var array=this.$route.path.split('/')
   		,id=array[array.length-2].split('_')[1]
-  		// console.log('array',array,id)
+  		console.error('array',array,id)
   		// return
   	  var url=publicFun.urlConcat(this.urls.market,{
   	    id:id

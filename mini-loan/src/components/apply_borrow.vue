@@ -119,7 +119,6 @@
 					uniqueIdLender: null,
 					urlPhone: 'lendApply/phoneInfo?phone=',
 					urlUniqueId: 'userInfo/userInfo?uniqueId=',
-      		urlMarket:'lendSupermaket/supermaketInfo',
 					urlApply: 'lendApply/lendApply',
 					urlApplyRecord:'lendApply/borrowLoanRecords',
 					remind: {
@@ -192,20 +191,7 @@
 					r.isShow = true
 
 				},
-				getMarketInfo(){
-					var array=this.$route.path.split('/')
-					,id=array[array.length-2].split('_')[1]
-					// console.log('array',array,id)
-					// return
-				  var url=publicFun.urlConcat(this.urlMarket,{
-				    id:id
-				  })
-				  publicFun.get(url,this,()=>{
-				    console.log('market detail',this.response.body)
-				    this.marketInfo=this.response.body.data
-				    // this.phoneLender=this.marketInfo.phone
-				  })
-				},
+
 				getLenderInfo(url) {
 					// console.log('getLenderInfo url',url)
 					publicFun.get(url, this, () => {
