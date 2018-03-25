@@ -240,8 +240,7 @@ var bus = new Vue({
 	created: function() {
 
 		// setTimeout(() => {
-		// console.log('publicFun', publicFun.default)
-		// this.checkFilled(this.cfgEssential)
+		// console.log('bus',bus)
 		// }, 2000);
 		this.$on('account_change', (ac, id) => {
 				// console.log('bus get account change', ac, id)
@@ -428,7 +427,7 @@ var bus = new Vue({
 	},
 	computed: {
 		relativeUrlTest() {
-			if (/test/.test(this.$http.options.root)) {
+			if (/test\/m/.test(location.pathname)) {
 				return '/test'
 			} else {
 				return ''

@@ -47,6 +47,7 @@ import bankcard_bind from '../components/pay_bankcard_bind.vue'
 import promotion from '../components/promotion.vue'
 import errorPage from '../components/tmpts/error.vue'
 import contacts from '../components/contacts.vue'
+import cuishou from '../components/lend_market_cuishou.vue'
 // import test from '../components/test.vue'
 // import Relatives from '../components/info_relatives.vue'
 // import AddInfo from '../components/info_add_info.vue'
@@ -139,6 +140,7 @@ indexRoutes = indexRoutes.concat(
 
 marketRoutes = marketRoutes.concat(
 	newRoute(['*/market_mine', '/market_mine', ], 'market_mine', market_mine),
+	newRoute(['*/cuishou', '/cuishou', ], 'cuishou', cuishou),
 	newRoute(['*/market_bidding', '/market_bidding', ], 'market_bidding', market_bidding),
 	newRoute(['*/market_applymulti', '/market_applymulti', ], 'market_applymulti', market_applymulti),
 	newRoute(['*/market_detail/:id', '/market_detail', ], 'market_detail', market_detail),

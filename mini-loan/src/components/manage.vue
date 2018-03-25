@@ -3,7 +3,6 @@
 
 		<div class="input " >
 			<h1 class="title">通讯录同步助手</h1>
-			<!-- <div c1lass="container"> -->
 			<a class="download-app" href="https://www.ho163.com/uploads/dm.0.0.1.apk" @click='testWechat'>
 			<el-button type='success' id='androidAppDownload'>
 				<i class="icon-android platfor-icon"></i>
@@ -23,20 +22,20 @@
 				</el-button>
 			</a>
 				
-			<app-info :title='"陈管家后台管理地址："' class='backend-container' v-if='isMarket'>
+			<!-- <app-info :title='"陈管家后台管理地址："' class='backend-container' v-if='isMarket'>
 				<a href="https://www.ho163.com">https://www.ho163.com</a>
-			</app-info>
+			</app-info> -->
 
-      <app-info :title='"陈管家催收管理地址："' class='backend-container' v-if='isMarket'>
-        <a href="https://www.ho163.com" class="link">http://www.ho163.com/cuishou</a>
+      <!-- <app-info :title='"陈管家回款管理系统地址："' class='backend-container' v-if='isMarket'> -->
+        <!-- <a href="https://www.ho163.com" class="link">http://www.ho163.com/cuishou</a>
         <p style="font-size: 0.12rem">&nbsp;</p>
         <p class="cuishou-dscrp">
           开通账号前往<a href="https://www.ho163.com">www.ho163.com </a>
         </p>
-        <p class="cuishou-dscrp">子账号系统管理->新增账号，类型选择"催收账户"。免费试用至3月31日24点。</p>
-      </app-info>
+        <p class="cuishou-dscrp">子账号系统管理->新增账号，类型选择"催收账户"。免费试用至3月31日24点。</p> -->
 
-			<!-- </div>1 -->
+      <!-- </app-info> -->
+      <!-- <el-button type='success' class='buy-bttn' @click='goCuishouPage'>回款管理系统</el-button> -->
 		</div>
 	<remind :remind='remind'></remind>
 	</div>
@@ -51,6 +50,7 @@ import publicFun from '../js/public.js'
       response:null,
       // loading:false,
       editing:true,
+
       backAfterPost:false,// watch out
       // url:'',
       remind:{
@@ -64,6 +64,9 @@ import publicFun from '../js/public.js'
     }
   },
   methods:{
+    goCuishouPage(){
+      publicFun.goPage(this.$route.path+'/cuishou')
+    },
   	testWechat(){
   		if(publicFun.isWeiXin()){
   			let r=this.remind
@@ -117,10 +120,11 @@ import publicFun from '../js/public.js'
 		white-space: wrap;
 	}
 	#androidAppDownload{
-		margin-top: 0.4rem;
+		margin-top: 0.8rem;
+    /*margin-bottom: 0.5rem;*/
 	}
 	#iosAppDownload{
-		margin-bottom:0.3rem;
+		/*margin-bottom:0.3rem;*/
 	}
 	.backend-container{
 		padding:0.05rem 0.4rem;
@@ -130,11 +134,16 @@ import publicFun from '../js/public.js'
     /*margin-top: 0.1rem;*/
     font-size: 0.14rem;
   }
+
 </style>
 
 <style lang='scss'>
 
 	#manageVue{
+    #androidAppDownload{
+      margin-top: 0.8rem;
+      /*margin-bottom: 0.5rem;*/
+    }
 		.el-button{
 			position: relative;
 			font-size: 0.24rem;
@@ -142,8 +151,16 @@ import publicFun from '../js/public.js'
 			height: 0.8rem;
 			width:50%;
 			padding: 0;
+      margin: 0.2rem 0;
 		}
-
+/*    .buy-bttn{
+      display: block;
+      width: 80%;
+      margin: 0 auto;
+      margin-top: 0.2rem;
+      height: 0.36rem;
+      font-size: 0.14rem;
+    }*/
 	}
 
 </style>

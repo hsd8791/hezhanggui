@@ -9,13 +9,7 @@
 			   <div class="avator-pic" :style="{backgroundImage: 'url('+marketInfo.logo+')'}" slot='avator'></div>
 			   <span slot='lt' style="letter-spacing: -0.01rem;">
 			     {{marketInfo.name}}
-			   <!--   <i class="icon-cool market-star"></i>
-			     <i class="icon-cool market-star"></i>
-			     <i class="icon-cool market-star"></i>
-			     <i class="icon-cool market-star"></i>
-			     <i class="icon-cool market-star"></i> -->
 			   </span>
-			   <!-- <span slot='rt'>{{}}</span> -->
 			   <span slot='rd'>
 			     <!-- <span class="required-info-box">
 			       <span class='required-text'>身份验证</span>
@@ -36,15 +30,11 @@
 			<div class="container phone-lender">
 				<div class="wraper">
 					<label>借款金额：</label> 
-					<!-- :disabled='!!applyRecord&&!longApplied' -->
 					<el-input  type='number' :placeholder='amountHolder' v-model='amount' @blur.once='blured'  :class='{"valid-border":amountValid,"error-border":!amountValid}'></el-input>
 					<i :class="{'el-icon-check':amountValid,'el-icon-close':!amountValid}"></i>
 				</div>
 			</div>
-<!-- 			<el-button type='success' @click='apllyBorrow' v-if='(applyRecord&&applyRecord.status===2)||longApplied'>
-			  重新申请
-			</el-button> -->
-			<el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(allValid&&canApply)'>{{submitText}}</el-button>
+			<el-button type='success' class="confirm" @click='apllyBorrow' :disabled='!(allValid&&canApply)&&false'>{{submitText}}</el-button>
 
 		</div>
 
@@ -157,7 +147,7 @@ export default {
   	getMarketInfo(){
   		var array=this.$route.path.split('/')
   		,id=array[array.length-2].split('_')[1]
-  		console.error('array',array,id)
+  		// console.error('array',array,id)
   		// return
   	  var url=publicFun.urlConcat(this.urls.market,{
   	    id:id
@@ -211,9 +201,12 @@ export default {
   				var urlApply = publicFun.urlConcat(this.urls.apply, postBody)
   				publicFun.post(urlApply, {}, this, () => {
   					var r=this.remind
+            console.log('%c res','color:red',this.response)
   					r.remindOpts=[{msg:'确定',callback:()=>{
   						// publicFun.goPage(-1)
-  						publicFun.goPage(this.$route.path + '/lend_market_applied_remind')
+              if(this.response.body.error===20000){
+  						  publicFun.goPage(this.$route.path + '/lend_market_applied_remind')
+              } 
   					}}]
   				}, () => {})
   			}
