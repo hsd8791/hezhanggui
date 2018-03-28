@@ -52,7 +52,7 @@
     <remind :remind='remindRule' v-if='!viewedRules'>
       <div v-if='ruleIsShow'>
         <p class='rule-text rule-title'>规则说明:</p>
-        <p class='rule-text'>1.一次最多购买7天</p>
+        <p class='rule-text'>1.一次最多购买3天</p>
         <p class='rule-text'>2.每日中午12点-24点开放广告位购买，本产品一旦购买成功即不支持退款，请悉知。</p>
         <p class='rule-text'>3.一个广告位在相同时间内，最多只有一个商家能购买成功，系统会自动退款未成功的订单，您可在购买记录中查看购买结果，所以先买先得，不要犹豫啦，赶快购买吧。</p>
         <p class='rule-text'>4.系统将在每日中午12点完成商家广告位入驻，次日12点下架，并且重新根据当日入驻商家重新完成排序。</p>

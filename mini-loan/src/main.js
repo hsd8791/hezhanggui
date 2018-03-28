@@ -30,7 +30,7 @@ if(/test\/m/.test(location.href)){
 }else{
 	Vue.http.options.root = 'https://www.ho163.com/api';
 }
-	Vue.http.options.root = "http://hzg.he577.com/test";
+	// Vue.http.options.root = "http://hzg.he577.com/test";
 Vue.directive('scroll-load', {
 	bind: function(el, binding, vnode) {
 		console.log('vnode', vnode)
