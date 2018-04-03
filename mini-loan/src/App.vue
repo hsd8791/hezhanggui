@@ -105,7 +105,7 @@ export default {
     },
     test(){
       // bus.remindSimple.isShow=!bus.remindSimple.isShow
-      console.log('test',bus)
+      console.log('bus',bus)
       publicFun.goUpLv()
 
       // publicFun.checkSession(this)

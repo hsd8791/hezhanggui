@@ -9,29 +9,19 @@
         
       </div>
       <div class="link-bidding" @click='goBidding' v-if='isMarket'>
-        <!-- 戳我，开始赚更多更多钱！ -->
         提升排名
       </div>
 
     <app-record-list :top='isMarket?0.8:0.4' :cfg='config' v-record='config.name' class='market-list'>
       <!-- <div v-for='info in list' @click='goP("/market_detail?id="+info.id)'> -->
-
       <div v-for='info in list' @click='goApply(info)' class="market-container"  :key='info.id' >
         <div class="inner-container" :style="{'background-color':info.ad_pos!==-1?'transparent':'transparent'}" :class="{'inner-container-small':choosing}">
-          
           <div class="avator"  >
-
             <div class="avator-pic" :style="{backgroundImage: 'url('+info.logo+')'}" :class="{'vip-avator':info.ad_pos!==-1}"  ></div>
-            <!-- <div :class="{'vip-avatar':info.ad_pos!==-1}"></div> -->
           </div>
           <div class="info-container">
             <div class="info-name">
               {{info.name}}
-              <!-- <span class="vip-container" v-if='info.ad_pos!==-1'>
-                <div class="vip-icon">
-                  v
-                </div>
-              </span> -->
             </div>
             <!-- <div class="info-expire">期限{{info.loan_time_desc}}天</div> -->
             <div class="info-applied">申请数：{{info.view_num}}</div>
@@ -47,7 +37,6 @@
               推荐!
             </div>
           </div>
-          <!-- <div class="recommend" v-if='info.ad_pos!==-1'>{{info.ad_pos<=1?'力':''}}荐!</div> -->
         </div>
         <div class="checkbox-container" @click.stop='disabledRemind(info)' v-show='choosing' >
           <el-checkbox class='checkbox' :ref='"market_"+info.uid' v-model='marketChoosed' :label='info.uid' @click.stop='' :disabled='info.url!==""||cannotApplyMarket[info.uid]!==undefined'></el-checkbox>
@@ -87,7 +76,7 @@ export default {
       name:'market_list',
       limit:16,
       },
-      multipleMsg:'多选',
+      // multipleMsg:'多选',
       allSelectMsg:'全选',
       marketChoosed:[],
       choosing:false,
@@ -180,44 +169,35 @@ export default {
         r.isShow=true
       }
     },
-    toggleChoose(){
-      console.log('bus.cfgEssential.allFilled',bus.cfgEssential.allFilled)
-      
-      if(!bus.cfgEssential.allFilled){
-        let r=this.remind
-        r.remindMsg='请至首页完成认证'
-        r.remindOpts=[{msg:'确定',callback:()=>{
-          publicFun.goPage('/index')
-        }}]
-        r.isShow=true
-        return
-      }
-      console.log('this vm',this.$root)
+    openChoosing(){
+      publicFun.checkSession(this,()=>{
+        this.cannotApplyMarket = bus.cannotApplyMarket
+        // this.multipleMsg = '取消'
+        this.choosing = true
+      })
+    },
+    toggleChoose(choosing){
+
       let b = this.choosing
       if(b){
-        this.multipleMsg = '多选'
-        this.choosing = !b
+        this.choosing = false
       }else{
-        publicFun.checkSession(this,()=>{
-          this.cannotApplyMarket = bus.cannotApplyMarket
-          this.multipleMsg = '取消'
-          this.choosing = !b
-        })
+        if(!bus.cfgEssential.allFilled){
+          let r=this.remind
+          r.remindMsg='请至首页完成认证'
+          r.remindOpts=[{msg:'确定',callback:()=>{
+            publicFun.goPage('/index')
+          }}]
+          r.isShow=true
+          return
+        }
+        this.openChoosing()
+        // publicFun.checkSession(this,()=>{
+        //   this.cannotApplyMarket = bus.cannotApplyMarket
+        //   // this.multipleMsg = '取消'
+        //   this.choosing = !b
+        // })
       }
-     
-      // this.$root.checkSession({
-      //   forceLogin: true,
-      //   callback: () => {
-      //     let b = this.choosing
-      //     this.cannotApplyMarket = bus.cannotApplyMarket
-      //     if (b) {
-      //       this.multipleMsg = '多选'
-      //     } else {
-      //       this.multipleMsg = '取消'
-      //     }
-      //     this.choosing = !b
-      //   }
-      // }) 
     },
     goSubmitMulti(){
 
@@ -253,9 +233,13 @@ export default {
       publicFun.goPage(this.$route.path+'/market_bidding')
     },
     goP(p){
+
       publicFun.goPage(this.$route.path+p)
     },
     goApply(info){
+      if(this.choosing){
+        return
+      }
       //001 market_id  002 qudao if have
       let qudao = sessionStorage.getItem('salesWay')
       let MtaH5Body = {'001':info.id}
@@ -307,15 +291,60 @@ export default {
     }
     if(!this.marketChoosed.length){
       this.choosing=false
-      this.multipleMsg='多选'
+      // this.multipleMsg='多选'
     }
   },
   computed:{
+    multipleMsg(){
+      return this.choosing?'取消':'多选'
+    },
     isMarket(){
       return bus.isMarket
     },
+    isLoged(){
+      return bus.account!=='请登录'
+    },
+    essentialFillChecked(){
+      return bus.cfgEssential.undoneRequest===0
+    },
+    canToggleMultipleChoose(){
+      let canToggle=this.isLoged&&this.essentialFillChecked
+      return canToggle
+    },
+    autoStartChoose(){
+      return this.$route.query.multipleSelecting==1
+    },
+  },
+  mounted(){
+      // console.log('this.$route.query',this.$route.query)
+    // this.$nextTick(()=>{
+    //   if(this.$route.query.multipleSelecting==1){
+    //     console.log('%c hhh','color:red',)
+    //     if(bus.account!=='请登录'){
+    //       this.toggleChoose()
+    //     }else{
+    //       console.log('%c fuck','color:red',)
+    //     }
+    //   }
+    // })
+
+  },
+  activated(){
+      console.log('%c canToggleMultipleChoose?','color:red',this.canToggleMultipleChoose)
+    if(this.canToggleMultipleChoose&&this.autoStartChoose){
+      this.openChoosing()
+    }
+  },
+  watch:{
+    canToggleMultipleChoose(v){
+      if(v&&this.autoStartChoose){
+        console.log('this',this)
+        this.openChoosing()
+      }
+    },
   },
   created(){
+
     // setTimeout(()=> {
     //   this.list[2].url='http://www.baidu.com'
     // }, 2000);
@@ -408,7 +437,7 @@ export default {
     .checkbox{
       position: absolute;
       left: 0;right: 0;
-      top: 0;bottom: 0;
+      top: -1px;bottom: 0;
       /*margin:auto ;*/
       height:0.8rem;
       width: 100%;

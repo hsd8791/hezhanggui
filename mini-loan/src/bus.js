@@ -80,7 +80,7 @@ var bus = new Vue({
 		cfgEssential: {
 			allFilled: false,
 			testing: false,
-			ttlRequest: 6, // qty of requset
+			ttlRequest: 7, // qty of requset
 			undoneRequest: null, //记录未完成的请求判断，全部完成后判断是否可以提交
 			fillStatus: [{ //identity
 				status: -1,
@@ -148,7 +148,25 @@ var bus = new Vue({
 				// checkMethod: function(data) {
 				// console.warn('debt data', data)
 				// }
-			}, ],
+			}, { //upload
+				status: -1,
+				url: '/upload',
+				label: '身份证上传',
+				getUrl: 'userInfo/addAccessory',
+				icon: 'icon-upload',
+				checkMethod: function(data) {
+					// console.log('data', data)
+					// console.log('test upload')
+					this.status = 0
+					if (!data) {
+						// this.status = 0
+						return
+					}
+					if (data.idcardUrl && data.idcardUrl2 && data.idcardUrl3) {
+						this.status = 1
+					}
+				}
+			},],
 			fillStatus2: [{ //contact_way
 				status: -1,
 				status2: -1,
@@ -169,29 +187,11 @@ var bus = new Vue({
 			}, ],
 		},
 		cfgOptional: {
-			ttlRequest: 4,
+			ttlRequest: 3,
 			testing: false,
 			allFilled: false,
 			undoneRequest: null, //记录未完成的请求判断，全部完成后判断是否可以提交
-			fillStatus: [{ //upload
-				status: -1,
-				url: '/upload',
-				label: '身份证上传',
-				getUrl: 'userInfo/addAccessory',
-				icon: 'icon-upload',
-				checkMethod: function(data) {
-					// console.log('data', data)
-					// console.log('test upload')
-					this.status = 0
-					if (!data) {
-						// this.status = 0
-						return
-					}
-					if (data.idcardUrl && data.idcardUrl2 && data.idcardUrl3) {
-						this.status = 1
-					}
-				}
-			}, { //job_info
+			fillStatus: [ { //job_info
 				status: -1,
 				url: '/job_info',
 				label: '工作信息',
@@ -426,6 +426,23 @@ var bus = new Vue({
 		},
 	},
 	computed: {
+		identifyUrls(){
+		  let urls={}
+		  let fillStatuses=[]
+		  fillStatuses=fillStatuses.concat(
+		  	this.cfgEssential.fillStatus,
+		  	this.cfgEssential.fillStatus2,
+		  	this.cfgOptional.fillStatus,
+		  	this.cfgOptional.fillStatus2,
+		  	)
+		  console.log('%c fillStatuses','color:red',fillStatuses)
+			let length = fillStatuses.length
+			for (let i = 0; i < length; i++) {
+				urls[fillStatuses[i].getUrl] = true
+				urls[fillStatuses[i].getUrl2] = true
+			}
+		  return urls
+		},
 		relativeUrlTest() {
 			if (/test\/m/.test(location.pathname)) {
 				return '/test'

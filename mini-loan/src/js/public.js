@@ -485,7 +485,13 @@ publicFun.errorHandle = function(resBody, vm) {
 	// console.log('err res', resBody)
 }
 
-
+publicFun.isIdentifyUrl = function(url){
+	if (bus.identifyUrls[url]) {
+		return true
+	} else {
+		return false
+	}
+}
 publicFun.postRes = function(res, vm, url) {
 	vm.loading = false
 	vm.response = res
@@ -503,8 +509,10 @@ publicFun.postRes = function(res, vm, url) {
 	} else {
 		// publicFun.checkSingleFilled(url,'cfgEssential')
 		// publicFun.checkSingleFilled(url,'cfgOptional')
-		bus.checkFilled(bus.cfgEssential)
-		bus.checkFilled(bus.cfgOptional)
+		if(this.isIdentifyUrl(url)){
+			bus.checkFilled(bus.cfgEssential)
+			bus.checkFilled(bus.cfgOptional)
+		}
 			// vm.remind.remindMsg = '提交成功'
 			// vm.remind.remindOpts = [{
 			// 	msg: '确定',

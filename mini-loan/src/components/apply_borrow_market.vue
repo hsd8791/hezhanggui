@@ -131,7 +131,7 @@ export default {
   	  }else{
   	    return false
   	  }
-  	}
+  	},
   },
   created(){
   	this.marketInfo=bus.marketDetailViewing
@@ -144,31 +144,53 @@ export default {
   	}
   },
   methods:{
-  	getMarketInfo(){
-  		var array=this.$route.path.split('/')
-  		,id=array[array.length-2].split('_')[1]
-  		// console.error('array',array,id)
-  		// return
-  	  var url=publicFun.urlConcat(this.urls.market,{
-  	    id:id
-  	  })
-  	  publicFun.get(url,this,()=>{
-  	    console.log('market detail',this.response.body)
-  	    this.marketInfo=this.response.body.data
-  	    this.getApplyRecord()
-  	    // this.phoneLender=this.marketInfo.phone
-  	  })
-  	},
-  	getApplyRecord(){
-  	  var url = publicFun.urlConcat(this.urls.applyRecord,{
-  	    lendingUid:this.marketInfo.uid,
-  	    limit:1,
-  	  })
-  	  publicFun.get(url,this,()=>{
-  	    console.log('apply res',this.response.body)
-  	    this.applyRecord=this.response.body.data.data[0]||null
-  	  })
-  	},
+    getMarketInfo() {
+      var array = this.$route.path.split('/'),
+        id = array[array.length - 2].split('_')[1]
+      var url = publicFun.urlConcat(this.urls.market, {
+        id: id
+      })
+      publicFun.get(url, this, () => {
+        console.log('market detail', this.response.body)
+        this.marketInfo = this.response.body.data
+        this.getApplyRecord()
+      })
+    },
+    getApplyRecord() {
+      var url = publicFun.urlConcat(this.urls.applyRecord, {
+        lendingUid: this.marketInfo.uid,
+        limit: 1,
+      })
+      publicFun.get(url, this, () => {
+        this.applyRecord = this.response.body.data.data[0] || null
+      })
+    },
+    goToMultiSelection(){
+      // console.log('')
+      const url=publicFun.urlConcat('/market_list',{
+        multipleSelecting:1
+      })
+      publicFun.goPage(url)
+      console.log('%c go to multiple apply','color:red',)
+    },
+    submitOnSuccess() {
+      var r = this.remind
+      r.remindMsg = '提交成功'
+      r.remindMsgDscrp = '您还有未领取的额度，是否多选申请领取'
+      r.remindOpts = [{
+        msg: '确定',
+        callback: () => {
+          r.remindMsgDscrp=null
+          this.goToMultiSelection()
+        }
+      }, {
+        msg: '取消',
+        callback() {
+          publicFun.goPage(this.$route.path + '/lend_market_applied_remind')
+        },
+      }]
+      r.isShow=true
+    },
 
   	apllyBorrow() {
   		var r=this.remind
@@ -200,14 +222,16 @@ export default {
   				}
   				var urlApply = publicFun.urlConcat(this.urls.apply, postBody)
   				publicFun.post(urlApply, {}, this, () => {
-  					var r=this.remind
-            console.log('%c res','color:red',this.response)
-  					r.remindOpts=[{msg:'确定',callback:()=>{
-  						// publicFun.goPage(-1)
-              if(this.response.body.error===20000){
-  						  publicFun.goPage(this.$route.path + '/lend_market_applied_remind')
-              } 
-  					}}]
+            // console.log('this.response.body.error',this.response.body.error)
+            if(this.response.body.error==0){
+              // console.log('%c go multiple apply','color:red',)
+              bus.cannotApplyMarket[this.marketInfo.uid]=0
+              this.submitOnSuccess()
+              return
+            }else{
+              // this.submitOnSuccess()
+            }
+  					
   				}, () => {})
   			}
   		}, {
