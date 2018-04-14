@@ -5,6 +5,7 @@ var publicFun = require('./js/public.js')
 	// var publicFun = publicFunc.default
 var bus = new Vue({
 	data: {
+		fakeMarketsId:[115,6,7],//柒之家 小米仓， 魔力之家，
 		viewedBiddingRules:false,
 		response: null,
 		detailTaskId: null,
@@ -30,6 +31,7 @@ var bus = new Vue({
 		remindSimple: {
 			isShow: false,
 			remindMsg: '',
+			duration:250,
 			cbEnter: () => {
 				// console.log('enter callback run')
 			},
@@ -303,8 +305,14 @@ var bus = new Vue({
 			if(this.account==='请登录'){
 				return
 			}
+			this.getFakeMarket()
 			this.getAppliedMarket(0)
 			this.getAppliedMarket(4)
+		},
+		getFakeMarket(){
+			this.fakeMarketsId.forEach(id=>{
+				this.cannotApplyMarket[id+'']=999
+			})
 		},
 		getAppliedMarket(auditingStatus) {
 			let cfg={

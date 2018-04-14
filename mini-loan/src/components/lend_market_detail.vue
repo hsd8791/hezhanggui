@@ -127,6 +127,11 @@
       })
     },
     goApply(){
+      let isFakeMarket = bus.fakeMarketsId.indexOf(this.info.uid)!==-1
+      if(isFakeMarket){
+        publicFun.toast('暂不接单,请至其他家申请',1000)
+        return
+      }
       var url=publicFun.urlConcat('/apply_borrow_market',{
         // phone:this.info.phone
       })
@@ -148,6 +153,7 @@
     // this.getApplyInfo()
   },
   computed:{
+
     haveRecord(){
       return Boolean(this.applyRecord)
     },

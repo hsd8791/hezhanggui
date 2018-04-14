@@ -56,7 +56,9 @@ export default {
     afterEnter(){
       setTimeout(()=> {
         this.cbEnter()
-      }, 200);
+        bus.remindSimple.isShow=false
+        bus.remindSimple.duration=250
+      }, bus.remindSimple.duration||250);
     },
   },
 

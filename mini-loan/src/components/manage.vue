@@ -22,11 +22,11 @@
 				</el-button>
 			</a>
 				
-			<!-- <app-info :title='"陈管家后台管理地址："' class='backend-container' v-if='isMarket'>
-				<a href="https://www.ho163.com">https://www.ho163.com</a>
-			</app-info> -->
+			<!-- <app-info :title='"陈管家后台管理地址："' class='backend-container' v-if='isMarket'> -->
+				<!-- <a href="https://www.ho163.com">https://www.ho163.com</a> -->
+			<!-- </app-info> -->
 
-      <app-info :title='"陈管家回款管理系统地址："' class='backend-container' v-if='isMarket'>
+<!--       <app-info :title='"陈管家回款管理系统地址："' class='backend-container' v-if='isMarket'>
         <a href="https://www.ho163.com" class="link">http://www.ho163.com/cuishou</a>
         <p style="font-size: 0.12rem">&nbsp;</p>
         <p class="cuishou-dscrp">
@@ -34,8 +34,8 @@
         </p>
         <p class="cuishou-dscrp">子账号系统管理->新增账号，类型选择"催收账户"。免费试用至3月31日24点。</p>
 
-      </app-info>
-      <!-- <el-button type='success' class='buy-bttn' @click='goCuishouPage'>回款管理系统</el-button> -->
+      </app-info> -->
+      <el-button type='success' v-if='isMarket'  class='buy-bttn' @click='goCuishouPage'>回款管理系统</el-button>
 		</div>
 	<remind :remind='remind'></remind>
 	</div>

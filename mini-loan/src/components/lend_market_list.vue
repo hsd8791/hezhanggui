@@ -141,13 +141,13 @@ export default {
       // this.marketChoosed=list
     },
     viewDetail(info){
-      console.log('view detail')
       this.viewingMarketInfo=info
     },
     hideFloatDetail(){
       this.viewingMarketInfo=null
     },
     disabledRemind(info){
+      console.log('info.uid',info.uid)
       // console.log('click')
       let r=this.remind
       if(info.url!==''){
@@ -165,6 +165,11 @@ export default {
       }
       if(this.cannotApplyMarket[info.uid]===4){
         r.remindMsg='无法向该超市发起申请' 
+        r.remindOpts=[{msg:'确定'}]
+        r.isShow=true
+      }
+      if(this.cannotApplyMarket[info.uid]===999){
+        r.remindMsg='暂不开放'
         r.remindOpts=[{msg:'确定'}]
         r.isShow=true
       }
@@ -233,10 +238,11 @@ export default {
       publicFun.goPage(this.$route.path+'/market_bidding')
     },
     goP(p){
-
       publicFun.goPage(this.$route.path+p)
     },
     goApply(info){
+      // console.log('info',info)
+
       if(this.choosing){
         return
       }

@@ -26,7 +26,7 @@ Vue.config.productionTip = false
 Vue.http.options.credentials = true;
 Vue.http.options.emulateJSON = true;
 if(/test\/m/.test(location.href)){
-	Vue.http.options.root = 'https://www.ho163.com/api';
+	Vue.http.options.root = "http://hzg.he577.com/test";
 }else{
 	Vue.http.options.root = 'https://www.ho163.com/api';
 }

@@ -15,9 +15,9 @@
         <span class="link" @click='buyCuishou'>立即免费试用</span>
       </p>
       <p class="descrip">包月费用：
-        <span class='original-price'>{{info.fee/(info.discount*0.01)|money}}金币</span> 
+        <span class='original-price'>{{info.fee|money}}金币</span> 
         <span v-if='!info.endDate'>{{0|money}}金币</span>
-        <span v-if='info.endDate'>{{info.fee|money}}金币</span>
+        <span v-if='info.endDate'>{{info.fee*(info.discount*0.01)|money}}金币</span>
       </p>
       <!-- <p class="descrip">包月费用：{{info.fee*info.discount*0.01|money}}金币 折后价</p> -->
       <!-- <p class="descrip" v-if='info.endDate||true'>

@@ -532,6 +532,15 @@ publicFun.postRes = function(res, vm, url) {
 		}
 	}
 }
+publicFun.toast=function(msg,duration){
+	let r = bus.remindSimple
+	r.remindMsg = msg
+	r.duration = duration
+	r.isShow = true
+	r.cbLeave = () => {
+	}
+	r.cbEnter = null
+}
 publicFun.checkSingleFilled = function(url, cfgName) {
 	/*
 	 * 每一个info组件post成功后，
