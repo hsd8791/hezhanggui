@@ -5,7 +5,7 @@ var publicFun = require('./js/public.js')
 	// var publicFun = publicFunc.default
 var bus = new Vue({
 	data: {
-		fakeMarketsId:[115,6,7],//柒之家 小米仓， 魔力之家，
+		fakeMarketsId:[115,6,7,35523],//柒之家 小米仓， 魔力之家，小树之家
 		viewedBiddingRules:false,
 		response: null,
 		detailTaskId: null,
