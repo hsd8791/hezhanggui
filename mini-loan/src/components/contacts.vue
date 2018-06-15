@@ -1,7 +1,7 @@
 <template>
   <div class="container input">
     <h1 class="title"><app-back></app-back>联系方式</h1>
-    <p class="contact">获客合作电话/微信：<a href="tel:18622272224">18622272224</a></p>
+    <p class="contact">获客合作电话/微信：<a href="tel:16657272304">16657272304</a></p>
   </div>
 </template>
 
